@@ -1,0 +1,212 @@
+[
+	{
+		"id": "4-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "According to the rules regarding the playing field, what is the recommended surface?",
+		"choices": [
+			"Artificial turf",
+			"Well trimmed grass",
+			"Sand",
+			"Packed dirt"
+		],
+		"answerIndex": 1,
+		"explanation": "Under rule 4.A, the playing field should be essentially flat, free of obstructions, and afford reasonable player safety, with well trimmed grass being the recommended surface.",
+		"ruleRefs": [
+			"4.A"
+		],
+		"sectionSlug": "4",
+		"difficulty": 1
+	},
+	{
+		"id": "4-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a point, a receiver leaps to catch a pass and lands with their first point of contact on a discarded water bottle lying flat on the playing field. How is the water bottle treated under the rules?",
+		"choices": [
+			"It is considered part of the ground.",
+			"It is considered an obstruction and a do-over is called.",
+			"It is considered an out-of-bounds area.",
+			"It is considered part of the player's equipment."
+		],
+		"answerIndex": 0,
+		"explanation": "According to rule 4.A.1, grass and items on the ground are considered part of the ground.",
+		"ruleRefs": [
+			"4.A.1"
+		],
+		"sectionSlug": "4",
+		"difficulty": 2
+	},
+	{
+		"id": "4-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Where are the dimensions of the standard field of play specified in the rules?",
+		"choices": [
+			"In a separate appendix on field maintenance",
+			"In the accompanying diagram (see A)",
+			"In the central zone rules",
+			"In the equipment line guidelines"
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 4.B states that the standard field of play has dimensions as shown on the accompanying diagram (see A).",
+		"ruleRefs": [
+			"4.B"
+		],
+		"sectionSlug": "4",
+		"difficulty": 1
+	},
+	{
+		"id": "4-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player catches the disc and lands with their first point of contact exactly on the sideline. According to the rules defining the playing field boundaries, what is the status of the sideline itself?",
+		"choices": [
+			"The sideline is part of the playing field.",
+			"The sideline is part of the playing field only if the player's momentum carries them forward.",
+			"The sideline is not part of the playing field.",
+			"The sideline is part of the playing field unless marked by cones."
+		],
+		"answerIndex": 2,
+		"explanation": "Under rule 4.C, the perimeter lines (which include the two sidelines and two backlines) are not part of the playing field.",
+		"ruleRefs": [
+			"4.C"
+		],
+		"sectionSlug": "4",
+		"difficulty": 2
+	},
+	{
+		"id": "4-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Which lines specifically bound the two end zones on the playing field?",
+		"choices": [
+			"The goal lines, the team lines, and the backlines",
+			"Each backline, the sidelines, and the nearest goal line",
+			"The sidelines, the midfield line, and the backlines",
+			"The equipment lines, the goal lines, and the sidelines"
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 4.D specifies that the two areas bounded by each backline, the sidelines, and the nearest goal line are the end zones.",
+		"ruleRefs": [
+			"4.D"
+		],
+		"sectionSlug": "4",
+		"difficulty": 1
+	},
+	{
+		"id": "4-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "How is the central zone of the playing field defined?",
+		"choices": [
+			"The area between the two brick marks.",
+			"The playing field excluding the end zones.",
+			"The playing field including the end zones but excluding the perimeter lines.",
+			"The area extending five yards outward from the sidelines."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 4.E defines the central zone as the playing field excluding the end zones.",
+		"ruleRefs": [
+			"4.E"
+		],
+		"sectionSlug": "4",
+		"difficulty": 1
+	},
+	{
+		"id": "4-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player catches a pass and lands with their first point of contact exactly on the goal line. Based on the rules regarding field zones, where is the player considered to be?",
+		"choices": [
+			"In the end zone, because the goal line is part of the end zone.",
+			"In the central zone, because the goal line is part of the central zone.",
+			"Out of bounds, because the goal line is a perimeter line.",
+			"In the end zone, because the goal line belongs to the attacking team's zone."
+		],
+		"answerIndex": 1,
+		"explanation": "Under rule 4.F, the goal lines separate the central zone from the end zones and are part of the central zone. Therefore, landing on the goal line means the player is in the central zone.",
+		"ruleRefs": [
+			"4.F"
+		],
+		"sectionSlug": "4",
+		"difficulty": 2
+	},
+	{
+		"id": "4-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Where are the reverse brick marks located on the playing field?",
+		"choices": [
+			"In the central zone a set distance from each goal line.",
+			"Midway between the goal lines and midway between the sidelines.",
+			"In each end zone midway between the goal line and backline and midway between the sidelines.",
+			"On the perimeter lines midway between the front and back of the end zone."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 4.G states that reverse brick marks are located in each end zone midway between the goal line and backline and midway between the sidelines.",
+		"ruleRefs": [
+			"4.G"
+		],
+		"sectionSlug": "4",
+		"difficulty": 3
+	},
+	{
+		"id": "4-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "4",
+		"prompt": "When setting up a standard ultimate field, what objects must be used to mark the corners of the central zone and the end zones?",
+		"choices": [
+			"Brightly colored, flexible cones or pylons.",
+			"Painted circles with a minimum diameter of 12 inches.",
+			"Rigid plastic flags standing at least two feet tall.",
+			"Flat rubber discs placed entirely within the playing field."
+		],
+		"answerIndex": 0,
+		"explanation": "According to rule 4.H, the corners of the central zone and the end zones are marked by brightly colored, flexible cones or pylons.",
+		"ruleRefs": [
+			"4.H"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "4-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "4",
+		"prompt": "Which of the following describes the recommended \"team lines\" established outside the playing field?",
+		"choices": [
+			"They are parallel to the sidelines, and competitors and coaches should remain behind them.",
+			"They completely surround the playing field to keep spectators and gear at a safe distance.",
+			"They are drawn midway between the goal line and backline to indicate designated substitution zones.",
+			"They connect the brick marks to the sidelines to outline the active coaching areas."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 4.I.2 recommends establishing team lines outside the playing field, parallel to the sidelines, behind which competitors and coaches should remain to allow play adjacent to the field.",
+		"ruleRefs": [
+			"4.I",
+			"4.I.2"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "4-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "4",
+		"prompt": "A cutter sprinting near the sideline is physically obstructed by a substitute player standing two yards outside the playing field. Who is permitted to call this violation?",
+		"choices": [
+			"Only the obstructed cutter or the thrower in possession of the disc.",
+			"Any player on the field, regardless of whether they were obstructed.",
+			"Only the thrower in possession of the disc.",
+			"Only a team captain or the designated spirit captain."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 4.J, if play is obstructed by sideline players or objects within five yards of the playing field, the violation may be called by any player that is physically obstructed or by the thrower in possession of the disc.",
+		"ruleRefs": [
+			"4.J"
+		],
+		"difficulty": 2
+	}
+]

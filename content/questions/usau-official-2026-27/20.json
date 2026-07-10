@@ -1,0 +1,364 @@
+[
+	{
+		"id": "20-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player makes a wild, uncontrolled dive that poses a significant risk of injury to an opponent, but the disc was already caught by someone else on the other side of the field. What is the correct ruling regarding the dangerous play?",
+		"choices": [
+			"It is considered a dangerous play and is treated as a foul, because the rule addresses the behavior itself regardless of its effect on the outcome of a play.",
+			"It is not a dangerous play because the action did not affect the outcome of the play.",
+			"It is a dangerous play but play does not stop since the disc was already caught.",
+			"It is considered a violation rather than a foul since it was away from the play."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.B, the Dangerous Play Rule addresses the behavior itself, not the effect of the behavior on the outcome of a play. Actions posing significant risk are treated as a foul, and play stops.",
+		"ruleRefs": [
+			"20.B"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Which of the following best describes the responsibility of players regarding contact on the ultimate field?",
+		"choices": [
+			"It is the responsibility of all players to avoid initiating contact in every way possible.",
+			"Only the defensive players are responsible for avoiding contact with offensive players.",
+			"Players must avoid contact only when the disc is in the air.",
+			"Contact is entirely acceptable as long as it does not affect the play."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.A explicitly states that it is the responsibility of all players to avoid initiating contact in every way possible.",
+		"ruleRefs": [
+			"20.A"
+		],
+		"sectionSlug": "20",
+		"difficulty": 1
+	},
+	{
+		"id": "20-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player catches the disc and establishes possession. A defender then accidentally bumps the offensive player's arm, causing them to drop the disc. What is the correct call?",
+		"choices": [
+			"It is a strip, which is a subset of fouls and is treated the same way.",
+			"It is a turnover because the defender's contact was accidental.",
+			"It is a travel because the player lost possession after establishing it.",
+			"It is a blocking foul because the defender impeded the thrower's arm."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.E.4, if a foul causes a player to lose possession of the disc, it is a strip. A strip is a subset of fouls and is treated the same way.",
+		"ruleRefs": [
+			"20.E.4"
+		],
+		"sectionSlug": "20",
+		"difficulty": 1
+	},
+	{
+		"id": "20-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player standing under a floating disc sees an opponent recklessly barreling toward them. The player jumps out of the way at the last second to avoid a severe collision, and no contact occurs. Can the player call a dangerous play?",
+		"choices": [
+			"Yes, contact is not required if there is near certainty that significant contact would have occurred had the player not taken last-moment steps to avoid it.",
+			"No, a dangerous play call always requires at least some amount of contact between the involved players.",
+			"No, because the player successfully dodged the opponent, negating any foul.",
+			"Yes, but it is treated as a violation rather than a foul since no contact occurred."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.B.1.a states that contact is not required to invoke the dangerous play rule where there is near certainty that significant contact would have occurred had the player not taken last moment steps to avoid it.",
+		"ruleRefs": [
+			"20.B.1.a"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Two players are attempting a play on a floating disc when one commits a dangerous play against the other. Meanwhile, a third player easily catches the disc far before it reaches the involved players. How may the fouled player treat this dangerous play?",
+		"choices": [
+			"The fouled player may elect to treat it as a general foul if they determine the dangerous play was unrelated to the overall play that decided the outcome of the action.",
+			"The fouled player must treat it as a receiving foul, and they are awarded possession of the disc at the spot of the foul.",
+			"The fouled player must treat it as a throwing foul because the disc was in the air.",
+			"The dangerous play is ignored because the third player caught the disc first."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.B.2.b, dangerous play when the disc is in the air is generally a receiving foul if either player is making a play. However, the calling player may elect to treat it as a general foul if they determine it was unrelated to the overall play that decided the outcome.",
+		"ruleRefs": [
+			"20.B.2.b"
+		],
+		"sectionSlug": "20",
+		"difficulty": 3
+	},
+	{
+		"id": "20-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "When is a dangerous play treated ONLY as a general foul (unless elected otherwise under 20.B.2.b)?",
+		"choices": [
+			"When it occurs when the disc is not in the air, occurs far away from the disc, or when the disc is obviously uncatchable.",
+			"When it occurs immediately after the disc is released by the thrower.",
+			"When it involves two players who are actively vying for the same unoccupied space.",
+			"When the contact is initiated by the thrower against a legally positioned marker."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.B.2.c specifies that dangerous play is treated as a general foul only if it occurs when the disc is not in the air, occurs far away from the disc, when the disc is obviously uncatchable, or when elected by the calling player.",
+		"ruleRefs": [
+			"20.B.2.c"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker sets up in an illegal straddle position. During a pivoting maneuver, the thrower's leg contacts the marker's illegally positioned leg. What is the correct ruling?",
+		"choices": [
+			"It is a foul on the marker, because the contact occurred due to the marker setting up in an illegal position during an ultimate-related maneuver.",
+			"It is a foul on the thrower, because it is the thrower's responsibility to avoid contact with a stationary marker.",
+			"It is offsetting fouls, because both players are responsible for avoiding contact.",
+			"It is not a foul; the thrower must call a marking violation instead."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.E.1.c, any contact that occurs due to the marker setting up in an illegal position during an ultimate-related maneuver (like pivoting) with the illegally positioned part of the marker is a foul on the marker.",
+		"ruleRefs": [
+			"20.E.1.c"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver catches the disc and immediately collides with a defender before establishing a pivot. The contact is not part of a windup or throwing motion. Which rule applies?",
+		"choices": [
+			"The general foul rules and responsibility to avoid contact apply, and the player initiating non-incidental contact generally commits the foul.",
+			"The defender is automatically assessed a throwing foul because they are within ten feet of the receiver.",
+			"The receiver is protected by throwing foul protections, making any contact a foul on the defender.",
+			"The contact is considered incidental because a pivot has not yet been established."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.E.1.h states that before a thrower has established a pivot, throwing foul protections are limited to the throwing motion and windups. Otherwise, general foul rules apply, and the player initiating non-incidental contact generally commits the foul.",
+		"ruleRefs": [
+			"20.E.1.h"
+		],
+		"sectionSlug": "20",
+		"difficulty": 3
+	},
+	{
+		"id": "20-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A disc is floating in the end zone. An offensive and defensive player both attempt to catch it. The defender slightly bumps the receiver's shoulder while making a play, but the contact is incidental and does not affect the receiver's ability to catch the disc, which they do. Has the defender committed a receiving foul?",
+		"choices": [
+			"No, because the contact was incidental and did not interfere with the opponent's attempt to make a play.",
+			"Yes, any contact between opponents while the disc is in the air is considered a receiving foul.",
+			"No, because receiving fouls only apply to contact initiated by the offensive player.",
+			"Yes, but the foul is automatically negated since the receiver successfully caught the disc anyway."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.E.2.a, a receiving foul occurs if a player contacts an opponent while the disc is in the air and thereby interferes with their attempt to make a play. Some amount of incidental contact is often unavoidable and is not a foul.",
+		"ruleRefs": [
+			"20.E.2.a"
+		],
+		"sectionSlug": "20",
+		"difficulty": 1
+	},
+	{
+		"id": "20-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An airborne receiver catches the disc near the goal line. While still in the air, a defender collides with them. The uncontested contact causes the receiver to land just short of the end zone, whereas they clearly would have landed inside the end zone without the foul. What is the correct outcome?",
+		"choices": [
+			"A goal is awarded to the receiver.",
+			"The receiver retains possession at the spot of the foul and must tap the disc in.",
+			"The receiver takes the disc to the closest spot on the goal line and the stall count resets.",
+			"The disc reverts to the thrower because the receiver did not land in the end zone."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 20.E.2.d, if an uncontested force-out foul results in an in-bounds player landing outside the end zone when they would have landed in the end zone without the foul, a goal is awarded.",
+		"ruleRefs": [
+			"20.E.2.d"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a point, a cutter is bumped significantly by their defender. The thrower sees the contact and immediately yells \"Foul!\" to stop play. Is this a valid foul call?",
+		"choices": [
+			"No, a foul can only be called by the fouled player.",
+			"Yes, any player on the field who witnesses a foul may call it.",
+			"No, only the team captains are permitted to call fouls on behalf of their teammates.",
+			"Yes, as long as the thrower has possession of the disc when making the call."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.C explicitly states that a foul can be called only by the fouled player, and they must announce it by loudly calling “foul” immediately after it occurs.",
+		"ruleRefs": [
+			"20.C"
+		],
+		"sectionSlug": "20",
+		"difficulty": 1
+	},
+	{
+		"id": "20-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive cutter and a defender are running side-by-side and both simultaneously try to move into the exact same unoccupied space on the field. They collide heavily, resulting in non-incidental contact. How may this situation be treated?",
+		"choices": [
+			"It may be treated as offsetting fouls.",
+			"The foul is automatically assigned to the player moving at a higher speed.",
+			"The defender is awarded the foul because the offense must yield right of way.",
+			"The offense is awarded the foul because they dictate the flow of the play."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.D, non-incidental contact resulting from adjacent opposing players vying for the same unoccupied position may be treated as offsetting fouls.",
+		"ruleRefs": [
+			"20.D"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-13",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A thrower is holding the disc, looking for an open receiver. The marker reaches out and slaps the disc while it is still firmly in the thrower's hand, causing the thrower to drop it. Can the thrower call a throwing foul?",
+		"choices": [
+			"Yes, because the disc in a thrower's possession is considered part of the thrower.",
+			"No, because contact with the disc itself is not considered contact with the thrower's body.",
+			"Yes, but only if the marker also contacted the thrower's hand or arm during the slap.",
+			"No, because defensive players are permitted to strip the disc before the throwing motion begins."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.E.1.a states that a throwing foul may be called when there is non-incidental contact between the thrower and marker, and explicitly notes that the disc in a thrower’s possession is considered part of the thrower.",
+		"ruleRefs": [
+			"20.E.1.a"
+		],
+		"sectionSlug": "20",
+		"difficulty": 1
+	},
+	{
+		"id": "20-14",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A thrower pivots and their arm contacts the extended arm of the marker. The marker's arm was held away from the midline of their body and was slightly moving to track the thrower. Who has committed the foul?",
+		"choices": [
+			"The marker, because their extended arm was contacted and was not completely stationary.",
+			"The thrower, because they initiated the contact by pivoting into the marker's arm.",
+			"The marker, but only if they were set up in an illegal marking position prior to the pivot.",
+			"Neither player, because contact during a pivot is always considered incidental contact."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 20.E.1.b, any contact between the thrower and the extended arms or legs of a marker is a foul on the marker, unless the contacted area is completely stationary and in a legal position.",
+		"ruleRefs": [
+			"20.E.1.b"
+		],
+		"sectionSlug": "20",
+		"difficulty": 2
+	},
+	{
+		"id": "20-15",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker establishes a legal marking position. The thrower then leans forward to attempt a low release and initiates non-incidental contact with the marker's torso (not their extended arms or legs). What is the correct ruling?",
+		"choices": [
+			"It is a foul on the thrower.",
+			"It is a foul on the marker for failing to give the thrower adequate space to pivot.",
+			"It is considered offsetting fouls since both players are vying for the same space.",
+			"It is an incidental contact violation, resulting in a stall count reset to one."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.E.1.d, any contact initiated by a thrower with the body (excluding arms and legs extended from the midline of the body) of a legally positioned marker is a foul on the thrower.",
+		"ruleRefs": [
+			"20.E.1.d"
+		],
+		"sectionSlug": "20",
+		"difficulty": 3
+	},
+	{
+		"id": "20-16",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A thrower releases a backhand pass. During the natural follow-through motion after the disc is released, the thrower's hand lightly brushes the marker's hip. The contact is purely incidental. Is this considered a throwing foul?",
+		"choices": [
+			"No, incidental contact occurring during the follow-through is not a foul.",
+			"Yes, any contact between a thrower and a marker is automatically a throwing foul.",
+			"Yes, but only if the thrower's hand contacts the marker's extended arms or legs.",
+			"No, because fouls can never be called on a thrower after the disc has left their hand."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 20.E.1.e specifies that although it should be avoided whenever possible, incidental contact occurring during the follow-through (after the disc is released) is not a foul.",
+		"ruleRefs": [
+			"20.E.1.e"
+		],
+		"sectionSlug": "20",
+		"difficulty": 3
+	},
+	{
+		"id": "20-17",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "20",
+		"prompt": "A receiver is standing stationary under a high, floating disc. As the receiver jumps straight up to catch it, a defender jumps from a few feet away, reaching their arm into the airspace directly above the receiver's torso. The defender makes non-incidental contact with the receiver's arms before either player touches the disc. What is the correct ruling?",
+		"choices": [
+			"It is a foul on the defender for entering the vertical space of the receiver before the outcome of the play is determined.",
+			"It is a foul on the receiver because they jumped into the defender's established line of sight.",
+			"It is offsetting fouls since both players are allowed to make a play on a floating disc.",
+			"No foul has occurred because both players have an equal right to any airspace when the disc is in the air."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 20.E.2.c (The Principle of Verticality), all players have the right to enter the airspace immediately above their torso to make a play. Because the defender entered the receiver's vertical space and caused non-incidental contact before the outcome of the play was determined, it is a foul on the defender.",
+		"ruleRefs": [
+			"20.E.2.c"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "20-18",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "20",
+		"prompt": "While the disc is in the air, a defender realizes they cannot reach it. Instead of trying to catch the disc, the defender deliberately steps sideways with the sole intent of blocking the receiver's path to the disc. The receiver collides with the defender, resulting in non-incidental contact. What is the correct ruling?",
+		"choices": [
+			"It is a foul on the receiver because the trailing player is always responsible for avoiding contact with a player in front of them.",
+			"It is a blocking foul on the defender, which is treated like a receiving foul.",
+			"It is offsetting fouls, as the defender had a right to occupy the space but the receiver initiated contact.",
+			"It is a general foul on the defender, and the disc must be returned to the thrower."
+		],
+		"answerIndex": 1,
+		"explanation": "According to 20.E.3.a, when the disc is in the air, a player may not move in a manner solely to prevent an opponent from taking an unoccupied path to the disc. The resulting non-incidental contact is a blocking foul on the defender and is treated like a receiving foul.",
+		"ruleRefs": [
+			"20.E.3.a",
+			"20.E.2"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "20-19",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "20",
+		"prompt": "A cutter is sprinting full speed while looking back at the thrower. A defender suddenly steps directly into the cutter's path from a blind spot, leaving the cutter no time or distance to stop or change direction. The cutter collides heavily into the defender. Who has committed the foul?",
+		"choices": [
+			"The cutter, because it is always the responsibility of the moving player to look where they are going and avoid stationary players.",
+			"Both players, resulting in offsetting fouls, because both players are responsible for avoiding contact in every way possible.",
+			"The thrower, because throwing the disc into an occupied area results in a dangerous play.",
+			"The defender, because they took a position that was unavoidable by a moving opponent given the time, distance, and line of sight."
+		],
+		"answerIndex": 3,
+		"explanation": "Under rule 20.E.3.b, a player may not take a position that is unavoidable by a moving opponent when considering time, distance, and line of sight. Because the defender stepped into the cutter's path in an unavoidable manner, the resulting non-incidental contact is a blocking foul on the defender.",
+		"ruleRefs": [
+			"20.E.3.b"
+		],
+		"difficulty": 2
+	}
+]

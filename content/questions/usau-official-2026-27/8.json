@@ -1,0 +1,41 @@
+[
+	{
+		"id": "8-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "8",
+		"prompt": "Two players on Team A are injured during a point and are replaced by substitutes. According to the rules for replacing injured players, how many players may Team B substitute in response?",
+		"choices": [
+			"Zero; only the team with the injured players may substitute.",
+			"Up to two players.",
+			"Exactly two players.",
+			"Any number of players, as a stoppage has occurred."
+		],
+		"answerIndex": 1,
+		"explanation": "When players are substituted due to injury, the opposing team may substitute a like number of, or fewer, players under rule 8.A.2. Since Team A substituted two players, Team B may substitute up to two players.",
+		"ruleRefs": [
+			"8.A.2"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "8-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "8",
+		"prompt": "A violation is called on the pull, resulting in a re-pull call. No players are injured, have illegal equipment, or have committed misconduct. Are teams allowed to substitute players before the re-pull?",
+		"choices": [
+			"Yes, both teams may freely substitute players before any pull or re-pull.",
+			"Yes, but only the receiving team may substitute players.",
+			"No, substitutions are never permitted following a re-pull call under any circumstances.",
+			"No, substitutions are not permitted following a re-pull call unless specific exceptions like injury apply."
+		],
+		"answerIndex": 3,
+		"explanation": "Rule 8.B states that substitutions are not permitted following a re-pull call unless they fall under the specific exceptions outlined in 8.A.2 (such as replacing injured players).",
+		"ruleRefs": [
+			"8.B",
+			"8.A.2"
+		],
+		"difficulty": 2
+	}
+]

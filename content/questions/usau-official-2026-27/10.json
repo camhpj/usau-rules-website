@@ -1,0 +1,174 @@
+[
+	{
+		"id": "10-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player walks up to a live disc on the ground, stands directly over it, and looks around at the downfield cutters for several seconds before picking it up. Which of the following is true?",
+		"choices": [
+			"This is a violation of the rule against delaying play.",
+			"This is legal as long as the stall count has not been initiated.",
+			"This is legal unless the defense has given audible warnings of ten and five seconds.",
+			"This is a travel infraction since the player has not established a pivot."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 10.A, all players must avoid any delay when restarting play. This explicitly includes standing over the disc or taking more time than reasonably necessary to put it into play.",
+		"ruleRefs": [
+			"10.A"
+		],
+		"sectionSlug": "10",
+		"difficulty": 2
+	},
+	{
+		"id": "10-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player retrieves a live disc that went out of bounds. They walk to the correct spot on the field and establish their pivot. What else must they do to put the live disc into play?",
+		"choices": [
+			"Offer the disc to the marker for a check.",
+			"Loudly announce “disc in.”",
+			"Touch the disc to the ground.",
+			"Wait for the defense to acknowledge readiness."
+		],
+		"answerIndex": 2,
+		"explanation": "According to 10.C, for a live disc to be put into play, the thrower must establish a pivot at the appropriate spot on the field, and touch the disc to the ground. A check is only used for restarting play with a dead disc.",
+		"ruleRefs": [
+			"10.C"
+		],
+		"sectionSlug": "10",
+		"difficulty": 1
+	},
+	{
+		"id": "10-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A pass is dropped and hits the ground in-bounds. Two offensive players are standing near the disc. Who is allowed to pick up the disc and become the thrower?",
+		"choices": [
+			"Only the player who was the intended receiver of the dropped pass.",
+			"Only the player closest to the disc when it came to rest.",
+			"Any member of the team becoming offense.",
+			"Only a designated handler for the offensive team."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 10.B states that if the disc is on the ground, whether in- or out-of-bounds, any member of the team becoming offense may take possession of it.",
+		"ruleRefs": [
+			"10.B"
+		],
+		"sectionSlug": "10",
+		"difficulty": 1
+	},
+	{
+		"id": "10-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A disc lands in-bounds in the central zone and comes to rest. An offensive player picks it up exactly where it lies. Where must the player establish their pivot?",
+		"choices": [
+			"At the spot of the disc.",
+			"On the nearest perimeter line.",
+			"At the spot where the previous thrower released the disc.",
+			"Anywhere within three yards of where the disc came to rest."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 10.B.2, if possession is gained at the spot where the disc is in play, the thrower must establish a pivot at the spot of the disc.",
+		"ruleRefs": [
+			"10.B.2"
+		],
+		"sectionSlug": "10",
+		"difficulty": 1
+	},
+	{
+		"id": "10-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A long huck sails out-of-bounds and comes to rest far past the perimeter line. How much time does the team becoming offense have to put the disc into play after it comes to rest?",
+		"choices": [
+			"Ten seconds",
+			"Fifteen seconds",
+			"Twenty seconds",
+			"Thirty seconds"
+		],
+		"answerIndex": 2,
+		"explanation": "According to 10.B.4, if the disc is out-of-bounds or comes to rest in the end zone, a member of the team becoming offense must put the disc into play within twenty seconds after it comes to rest.",
+		"ruleRefs": [
+			"10.B.4"
+		],
+		"sectionSlug": "10",
+		"difficulty": 2
+	},
+	{
+		"id": "10-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An in-bounds pass hits the ground in the central zone and stops. Under what conditions may a nearby defender initiate the stall count if the offense has not yet picked up the disc?",
+		"choices": [
+			"After ten seconds elapse, and only if the defender has given audible warnings of ten and five seconds.",
+			"After twenty seconds elapse, and only if the defender has given audible warnings of twenty, ten, and five seconds.",
+			"Immediately after a “delay of game” warning is issued and counted down from three to zero.",
+			"As soon as the offense takes more time than reasonably necessary to walk to the disc."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 10.B.3 states that for an in-bounds disc resting in the central zone, the offense has ten seconds to establish a pivot. A defender within ten feet can initiate the count after ten seconds only if they gave audible warnings at ten and five seconds.",
+		"ruleRefs": [
+			"10.B.3"
+		],
+		"sectionSlug": "10",
+		"difficulty": 3
+	},
+	{
+		"id": "10-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A foul is called and play stops. While the players involved resolve the call, an offensive cutter who was tightly guarded jogs ten yards further downfield to get open. Is this allowed?",
+		"choices": [
+			"Yes, players may reposition freely during a stoppage as long as they do not change the spot of the disc.",
+			"Yes, but only if the defender agrees to let them move.",
+			"No, all players must come to a stop as quickly as possible and remain at their specified locations until play restarts.",
+			"No, but the cutter may walk to a new position as long as they do not run or jog."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 10.D.1, when play stops, each player must come to a stop as quickly as possible and remain at the location specified for that stoppage until play is restarted.",
+		"ruleRefs": [
+			"10.D.1"
+		],
+		"sectionSlug": "10",
+		"difficulty": 1
+	},
+	{
+		"id": "10-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "After a stoppage, the thrower and marker prepare for a check. The marker loudly announces “3-2-1,” but the thrower throws a completed pass before the marker actually touches the disc. What is the outcome?",
+		"choices": [
+			"The pass stands and play continues normally.",
+			"The pass is considered a turnover because it was thrown before the check was completed.",
+			"The pass does not count and the thrower regains possession.",
+			"The defense chooses whether to accept the result of the play or send the disc back to the thrower."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 10.D.3 dictates that if the thrower attempts a pass before the marker touches the disc during a check, the pass (whether complete or incomplete) does not count and the thrower regains possession.",
+		"ruleRefs": [
+			"10.D.3"
+		],
+		"sectionSlug": "10",
+		"difficulty": 3
+	},
+	{
+		"id": "10-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "10",
+		"prompt": "An offensive player is standing near a live disc on the ground, unnecessarily delaying putting it into play. A nearby defender announces “delay of game” and begins counting down: “three... two...”. Right after “two”, the offensive player stops delaying and begins walking toward the disc to pick it up. What is the correct action for the defender?",
+		"choices": [
+			"Stop the countdown and wait to initiate the stall count as usual once the disc is put into play.",
+			"Continue the countdown to “zero”, announce “disc in”, and initiate the stall count.",
+			"Immediately announce “disc in” and begin the stall count since the warning was already initiated.",
+			"Call a violation and stop play because the offensive player was caught delaying."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 10.B.5.a, if the delaying behavior is stopped before the full utterance of the word “zero” during a delay of game countdown, the marker must stop the count-down. They may then only initiate the stall count as usual.",
+		"ruleRefs": [
+			"10.B.5",
+			"10.B.5.a"
+		],
+		"difficulty": 2
+	}
+]

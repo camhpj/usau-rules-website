@@ -78,9 +78,9 @@ export const ManifestSchema: z.ZodType<Manifest> = z.object({
 	title: z.string().min(1),
 	shortTitle: z.string().min(1),
 	edition: z.string().min(1),
-	sourceUrl: z.string().min(1),
+	sourceUrl: z.url(),
 	sectionScheme: z.enum(['numeric', 'alpha']),
-	fetchedAt: z.string().min(1),
+	fetchedAt: z.iso.datetime(),
 	sections: z.array(TocEntrySchema)
 });
 

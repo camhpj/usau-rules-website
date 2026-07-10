@@ -1,0 +1,59 @@
+[
+	{
+		"id": "1-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "1",
+		"prompt": "During a point, a player attempts a pass to a teammate, but the disc hits the ground before it is caught. According to the foundational description of the sport, what is the immediate result?",
+		"choices": [
+			"A turnover occurs, resulting in an immediate change of the team in possession of the disc.",
+			"The defense must check the disc in before taking possession.",
+			"Play stops and the disc is returned to the thrower.",
+			"The nearest defensive player must tap the disc to resume play."
+		],
+		"answerIndex": 0,
+		"explanation": "According to rule 1.A, any time a pass is incomplete, a turnover occurs, resulting in an immediate change of the team in possession of the disc.",
+		"ruleRefs": [
+			"1.A"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "1-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "1",
+		"prompt": "A tournament director wants to reduce the standard number of timeouts per half to keep games on schedule. Under the Event Organizer Clause, when must this change be established?",
+		"choices": [
+			"Before the competition starts.",
+			"Before the start of each individual game, with the agreement of both captains.",
+			"At any point during the event, as long as it is announced to all teams.",
+			"During the captain's meeting immediately following the first round of play."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 1.B.2, the event organizer may modify rules relating to game logistics (such as the number of timeouts) to suit the event, but any such change must be established before competition starts.",
+		"ruleRefs": [
+			"1.B.2"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "1-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "1",
+		"prompt": "If a rule covering a specific situation appears to conflict with a rule that covers the general case, how is the conflict resolved?",
+		"choices": [
+			"The specific rule overrides the general case.",
+			"The general rule overrides the specific case.",
+			"The players involved must agree on which rule to apply based on Spirit of the Game.",
+			"Play stops and the disc is returned to the thrower to replay the stall count."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 1.C establishes that while many rules are general and cover most situations, rules that cover specific situations override the general case.",
+		"ruleRefs": [
+			"1.C"
+		],
+		"difficulty": 1
+	}
+]

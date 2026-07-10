@@ -1,0 +1,97 @@
+[
+	{
+		"id": "23-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "23",
+		"prompt": "A player commits a travel infraction, but the opposing team does not notice and fails to make a call. According to the rules of etiquette, what should the player who committed the infraction do?",
+		"choices": [
+			"Keep playing as normal, since it is the opponent's responsibility to make calls.",
+			"Inform the infracted player or team of the infraction.",
+			"Stop play immediately and award the disc to the opposing team.",
+			"Wait until the end of the point to mention the infraction to the opponent's captain."
+		],
+		"answerIndex": 1,
+		"explanation": "Under rule 23.A, if an infraction is committed and not called, the player committing the infraction should inform the infracted player or team of the infraction.",
+		"ruleRefs": [
+			"23.A"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "23-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "23",
+		"prompt": "During a stoppage of play, a team is confused about which of the opponent's members are currently in the game versus standing on the sideline. If they request the opponent to clarify, how should the opponent respond?",
+		"choices": [
+			"The current players should identify themselves.",
+			"The team's captain must provide a verbal roster of the seven players on the field.",
+			"The team is not obligated to respond unless a substitution violation is formally called.",
+			"The players on the sideline must step back at least five yards from the playing field."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 23.B, on a stoppage of play, if it is unclear which of a team's members are the current players or where they are, they should identify themselves when the opposing team requests.",
+		"ruleRefs": [
+			"23.B"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "23-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "23",
+		"prompt": "Two players begin arguing over a rule interpretation while the disc is live, but neither makes a specific call. What is the proper procedure?",
+		"choices": [
+			"Play continues until a formal call is loudly announced.",
+			"The disc must be returned to the thrower with the stall count reset to one.",
+			"Play stops and is restarted with a check when the matter is resolved.",
+			"The players involved must substitute out of the game until they resolve the dispute."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 23.C states that if a dispute arises on the field, play stops. Once the matter is resolved, play is restarted with a check.",
+		"ruleRefs": [
+			"23.C"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "23-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "23",
+		"prompt": "A novice player commits an infraction because they genuinely do not know the rule. According to the etiquette guidelines, what is the recommended course of action?",
+		"choices": [
+			"Assess a foul against the novice player's team to penalize the lack of rules knowledge.",
+			"Stop play and explain the infraction to the novice player.",
+			"Play through the infraction so the flow of the game is not interrupted.",
+			"Require the novice player's captain to substitute them out of the point."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 23.D, it should be common practice to stop play and explain the infraction when a novice player commits it out of sincere ignorance of the rules.",
+		"ruleRefs": [
+			"23.D"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "23-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "23",
+		"prompt": "Ultimate relies on the assumption that players will not intentionally violate the rules. What additional expectation does the etiquette section explicitly place on players regarding rule violations?",
+		"choices": [
+			"Players must report their own violations to the tournament director.",
+			"Players are expected to make every effort to avoid violating the rules.",
+			"Players must concede any foul called against them by an opponent.",
+			"Players are expected to memorize the entire rulebook before competing."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 23.E dictates that in addition to the assumption that players will not intentionally violate the rules, they are also similarly expected to make every effort to avoid violating them.",
+		"ruleRefs": [
+			"23.E"
+		],
+		"difficulty": 1
+	}
+]

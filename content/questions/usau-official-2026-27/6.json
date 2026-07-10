@@ -1,0 +1,78 @@
+[
+	{
+		"id": "6-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "6",
+		"prompt": "A tournament uses a non-standard game total of 13 goals. What is the halftime target, and when does halftime begin?",
+		"choices": [
+			"The halftime target is 7 goals, and halftime begins when one team first reaches 7 goals.",
+			"The halftime target is 7 goals, and halftime begins when the total combined score of both teams reaches 7.",
+			"The halftime target is 6 goals, and halftime begins when one team first reaches 6 goals.",
+			"The halftime target is 8 goals, and halftime begins when one team first reaches 8 goals."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 6.C, the halftime target is the minimum number of goals necessary to reach or exceed half of the game total. Half of 13 is 6.5, making the target 7. Halftime begins when one team's score first reaches this target.",
+		"ruleRefs": [
+			"6.C"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "6-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "6",
+		"prompt": "How is the winner of a game typically determined if no time caps are reached?",
+		"choices": [
+			"A game is played until one team first reaches the predetermined game total.",
+			"A game is played until one team leads by two goals after reaching the predetermined game total.",
+			"A game is played until a predetermined amount of time has elapsed.",
+			"A game is played until both teams have had an equal number of offensive possessions."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 6.B, the game total is the predetermined number of goals to win the game, and a game is played until one team first reaches the game total.",
+		"ruleRefs": [
+			"6.B"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "6-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "6",
+		"prompt": "What immediately follows the conclusion of a standard 7-minute halftime?",
+		"choices": [
+			"The standard time between pulls begins.",
+			"The receiving team has 50 seconds to signal readiness.",
+			"The defense has 90 seconds to pull the disc.",
+			"The teams must conduct a new disc flip to determine possession."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 6.C.1 specifies that at the end of the standard 7-minute halftime, the standard time between pulls (9.K) begins.",
+		"ruleRefs": [
+			"6.C.1"
+		],
+		"difficulty": 3
+	},
+	{
+		"id": "6-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "6",
+		"prompt": "The halftime break is currently in progress, and the score is 8-6. During this break, the soft cap horn sounds. What is the new game total?",
+		"choices": [
+			"9",
+			"10",
+			"15",
+			"The soft cap does not take effect until the next scoring attempt is completed."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 6.D.1.a, if the soft cap occurs during the halftime break, the new game total is one more than the higher score. Since the higher score is 8, the new game total is 9.",
+		"ruleRefs": [
+			"6.D.1.a"
+		],
+		"difficulty": 2
+	}
+]

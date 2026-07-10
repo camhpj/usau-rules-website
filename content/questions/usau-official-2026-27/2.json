@@ -1,0 +1,196 @@
+[
+	{
+		"id": "2-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "When acting as officials in arbitration between teams, under what circumstances are players instructed to make calls?",
+		"choices": [
+			"Only where an infraction is significant enough to make a difference to the outcome of the action or where a player’s safety is at risk.",
+			"For every minor technical infraction, to ensure the game is played perfectly to the letter of the rules.",
+			"Only when the opposing team has a history of committing similar infractions.",
+			"Whenever a spectator or coach points out that an infraction has occurred."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 2.D.2, players acting as officials must make calls only where an infraction is significant enough to make a difference to the outcome of the action or where a player’s safety is at risk.",
+		"ruleRefs": [
+			"2.D",
+			"2.D.2"
+		],
+		"sectionSlug": "2",
+		"difficulty": 2
+	},
+	{
+		"id": "2-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Highly competitive play is encouraged, but it must never come at the expense of the three core tenets of Spirit of the Game. Which of the following correctly lists these three core tenets?",
+		"choices": [
+			"Mutual respect among competitors, adherence to the agreed upon rules, and the basic joy of play.",
+			"Fair play, minimizing physical contact, and resolving disputes efficiently.",
+			"Knowing the rules, avoiding intentional fouls, and communicating clearly.",
+			"Highly competitive play, objective arbitration, and equal playing time."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 2.A, the three core tenets of Spirit of the Game are mutual respect among competitors, adherence to the agreed upon rules, and the basic joy of play.",
+		"ruleRefs": [
+			"2.A"
+		],
+		"sectionSlug": "2",
+		"difficulty": 1
+	},
+	{
+		"id": "2-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "According to the rules regarding Spirit of the Game, who is responsible for knowing, administering, and adhering to the rules?",
+		"choices": [
+			"All players.",
+			"The team captains and Spirit captains.",
+			"The designated observers or game advisors.",
+			"Only the experienced players on the field."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 2.B states that all players are responsible for knowing, administering, and adhering to the rules, and this responsibility to uphold Spirit of the Game should remain paramount.",
+		"ruleRefs": [
+			"2.B"
+		],
+		"sectionSlug": "2",
+		"difficulty": 1
+	},
+	{
+		"id": "2-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Because it is assumed that no player will intentionally violate the rules, how does the rulebook generally handle inadvertent infractions?",
+		"choices": [
+			"By providing a method for resuming play in a manner that simulates what most likely would have occurred absent the infraction.",
+			"By assessing yardage penalties to discourage players from repeating the same mistake.",
+			"By requiring the offending player to substitute out of the game for at least one point.",
+			"By immediately awarding possession of the disc to the team that was fouled."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 2.C, there are no harsh penalties for inadvertent infractions. Instead, play is resumed in a manner that simulates what most likely would have occurred absent the infraction.",
+		"ruleRefs": [
+			"2.C"
+		],
+		"sectionSlug": "2",
+		"difficulty": 1
+	},
+	{
+		"id": "2-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a game, a player flagrantly and intentionally violates the rules. How should this situation be resolved?",
+		"choices": [
+			"The captains of each team should discuss the incident and determine an appropriate outcome, and are not bound by any outcome dictated by the rules.",
+			"The offending player is automatically ejected from the remainder of the game and must leave the facility.",
+			"The opposing team is awarded an automatic point, and the offending team must play down a player for the next point.",
+			"The observer must step in and declare a forfeit if the offending team does not bench the player."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 2.C.1 dictates that if a player intentionally or flagrantly violates the rules, the captains of each team should discuss the incident and determine an appropriate outcome, unconstrained by standard rulebook outcomes.",
+		"ruleRefs": [
+			"2.C.1"
+		],
+		"sectionSlug": "2",
+		"difficulty": 2
+	},
+	{
+		"id": "2-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player exhibits ejection-worthy behavior during a point. When can the team captain or coach remove this player from the game to help promote Spirit of the Game?",
+		"choices": [
+			"At the next stoppage of play during the current point, with permission of the opposing captain.",
+			"Immediately, without needing to wait for a stoppage of play or permission from anyone.",
+			"Only after the current point has been scored and before the next pull.",
+			"Only at the end of the half or the end of the game."
+		],
+		"answerIndex": 0,
+		"explanation": "While removal usually occurs between points, 2.C.2 states that in cases of ejection-worthy behavior, removal can occur at the next stoppage of play during the current point, provided there is permission from the opposing captain.",
+		"ruleRefs": [
+			"2.C.2"
+		],
+		"sectionSlug": "2",
+		"difficulty": 3
+	},
+	{
+		"id": "2-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Which of the following actions is explicitly listed in the rules as an example of supporting good Spirit?",
+		"choices": [
+			"Informing a teammate if they have made a wrong or unnecessary call.",
+			"Pointing out an opponent's rule violations loudly so the sidelines can hear.",
+			"Refusing to retract a call once it is made to maintain consistency.",
+			"Avoiding any discussion of fouls during the game to keep the pace of play fast."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 2.E.5 lists \"informing a teammate if they have made a wrong or unnecessary call, caused a foul or violation, or need a clarification of a rule\" as an example of an action to support good Spirit.",
+		"ruleRefs": [
+			"2.E",
+			"2.E.5"
+		],
+		"sectionSlug": "2",
+		"difficulty": 2
+	},
+	{
+		"id": "2-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "According to the rules, which of the following actions is considered a clear violation of Spirit of the Game and must be avoided?",
+		"choices": [
+			"Making calls in retaliation to an opponent’s calls or other actions.",
+			"Making calls about contact that could be considered a foul in order to keep players safe.",
+			"Retracting a call when you no longer believe it was necessary.",
+			"Discussing an incident with the opposing captain to determine an appropriate outcome."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 2.F.7, making calls in retaliation to an opponent’s calls or other actions is a clear violation of Spirit of the Game.",
+		"ruleRefs": [
+			"2.F",
+			"2.F.7"
+		],
+		"sectionSlug": "2",
+		"difficulty": 1
+	},
+	{
+		"id": "2-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "2",
+		"prompt": "As \"guardians of Spirit of the Game,\" teams have several explicit obligations. According to the rules, which of the following is a requirement for teams?",
+		"choices": [
+			"Provide constructive feedback to other teams about what they are doing well or how to improve their Spirit.",
+			"Assign a dedicated, non-playing Spirit Captain to mediate all on-field disputes.",
+			"Ensure that any player who commits an intentional foul is suspended for the remainder of the game.",
+			"Submit a written Spirit score to the tournament organizers immediately following the game."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 2.G, teams are considered guardians of Spirit of the Game. One of their explicit duties is to provide constructive feedback to other teams about what they are doing well and/or how to improve their adherence to Spirit of the Game.",
+		"ruleRefs": [
+			"2.G",
+			"2.G.3"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "2-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "2",
+		"prompt": "During a point, a novice player commits a marking infraction simply because they do not yet know the rule. How does the rulebook require experienced players to handle this?",
+		"choices": [
+			"They are obliged to explain the infraction to the novice player and clarify what should happen.",
+			"They must retract the call and allow play to continue since the infraction was not intentional.",
+			"They should immediately call a Spirit timeout to have both team captains review the rulebook.",
+			"They are required to ask the novice player's captain to substitute them out of the point."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 2.H explicitly states that if a novice player commits an infraction out of ignorance of the rules, experienced players are obliged to explain the infraction and clarify what should happen.",
+		"ruleRefs": [
+			"2.H"
+		],
+		"difficulty": 1
+	}
+]

@@ -1,0 +1,78 @@
+[
+	{
+		"id": "19-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "19",
+		"prompt": "A defender is trailing their offensive matchup by 10 feet when a pick occurs, causing the defender to fall 20 feet behind as play stops. How should the obstructed defender reposition relative to their matchup?",
+		"choices": [
+			"They may move to set up immediately adjacent to their matchup to negate the advantage gained.",
+			"They may move to recover the 10-foot relative position they lost because of the pick.",
+			"They must remain exactly where they were when the pick was called (20 feet behind).",
+			"They may move to any position on the field as long as it is within 10 feet of their matchup."
+		],
+		"answerIndex": 1,
+		"explanation": "According to rule 19.C, after a pick stoppage, the obstructed player is allowed to move to recover the relative position lost because of the pick. They get to catch back up to the distance they were trailing (10 feet), but do not get to set up right next to the offensive player.",
+		"ruleRefs": [
+			"19.C"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "19-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "19",
+		"prompt": "An offensive player cuts across the field and their defender is obstructed by another player. The defender's teammate, who is standing on the sideline, clearly sees the obstruction and loudly calls \"pick.\" Is this a valid call?",
+		"choices": [
+			"Yes, any player or sideline personnel who clearly sees the obstruction can call a pick.",
+			"Yes, any player on the field can call a pick, but sideline personnel cannot.",
+			"No, a pick can only be called by the thrower or the marker.",
+			"No, a pick can only be called by the obstructed player."
+		],
+		"answerIndex": 3,
+		"explanation": "Under rule 19.B, a pick can be called only by the obstructed player and must be announced immediately after it occurs. A teammate on the sideline or elsewhere on the field cannot make this call.",
+		"ruleRefs": [
+			"19.B"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "19-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "19",
+		"prompt": "A defender is guarding an offensive cutter. The cutter sprints toward a floating pass, and the defender is obstructed by another offensive player. Both the cutter being guarded and the obstructing player are actively making a play on the disc at the time of the obstruction. Is this a pick?",
+		"choices": [
+			"Yes, because the defender was forced to avoid the obstructing player.",
+			"Yes, because the obstructing player is on the same team as the cutter.",
+			"No, because the defender is not considered to be guarding a player once the disc is in the air.",
+			"No, because both the offensive player being guarded and the obstructing player are making a play on the disc."
+		],
+		"answerIndex": 3,
+		"explanation": "According to rule 19.A, it is not a pick if both the offensive player being guarded and the obstructing player are making a play on the disc at the time of the obstruction.",
+		"ruleRefs": [
+			"19.A"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "19-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "19",
+		"prompt": "Play has stopped for an unrelated foul call. Two opposing players notice that when play resumes, their current positioning will likely result in an immediate pick. What are they permitted to do?",
+		"choices": [
+			"They must remain exactly in their current locations until the disc is checked in.",
+			"They may agree to slightly adjust their locations to avoid the potential imminent pick.",
+			"The defensive player may unilaterally move up to 10 feet to avoid the pick.",
+			"The offensive player must move to the opposite side of the field to clear the area."
+		],
+		"answerIndex": 1,
+		"explanation": "Under rule 19.D, during any stoppage, opposing players may agree to slightly adjust their locations in order to avoid potential imminent picks.",
+		"ruleRefs": [
+			"19.D"
+		],
+		"difficulty": 1
+	}
+]

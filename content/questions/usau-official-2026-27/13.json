@@ -1,0 +1,116 @@
+[
+	{
+		"id": "13-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "13",
+		"prompt": "A player catches the disc near the end zone line and immediately calls \"goal\" after completing all ground contact. After discussing with their defender, they realize their first point of contact was short of the goal line and they retract the call. How does play restart?",
+		"choices": [
+			"Play restarts with a check, and the call is deemed to have been made when the pass was caught.",
+			"Play restarts with a check, and the call is deemed to have been made at the exact moment the player yelled \"goal\".",
+			"The player must drop the disc, resulting in a turnover for making an incorrect scoring call.",
+			"Play restarts immediately without a check as soon as the player acknowledges they were short of the end zone."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 13.D, after a contested or retracted goal call, play must restart with a check and the call is deemed to have been made when the pass was caught.",
+		"ruleRefs": [
+			"13.D"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "13-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "13",
+		"prompt": "An in-bounds offensive player leaps, catches a legal pass in their end zone of attack, but lands awkwardly and loses possession of the disc when they hit the ground. Is this a goal?",
+		"choices": [
+			"No, because the player must retain possession of the disc throughout all ground contact related to the catch.",
+			"Yes, because the player caught a legal pass while in-bounds in the end zone of attack.",
+			"Yes, but only if the player maintained possession for at least three seconds before hitting the ground.",
+			"No, because the player must establish a pivot foot in the end zone before a goal is awarded."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 13.A, a goal is scored only when the player catches a legal pass in the end zone of attack and retains possession of the disc throughout all ground contact related to the catch.",
+		"ruleRefs": [
+			"13.A"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "13-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "13",
+		"prompt": "An offensive player leaps and catches a pass outside their end zone of attack. During the ground contact related to the catch, they bobble and lose possession of the disc. They then re-gain possession of the disc, and their first point of ground contact for this subsequent possession is completely in the end zone. What is the result?",
+		"choices": [
+			"It is a goal.",
+			"The player must carry the disc back to the goal line to put it into play.",
+			"It is a turnover because the player bobbled the disc during ground contact.",
+			"The player must put the disc into play at the spot where they initially leaped outside the end zone."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 13.A.1 and its annotation state that if a player catches a disc outside the end zone, loses possession during ground contact, bobbles it, and regains possession with their first point of ground contact completely in the end zone, it is a goal.",
+		"ruleRefs": [
+			"13.A.1"
+		],
+		"difficulty": 3
+	},
+	{
+		"id": "13-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "13",
+		"prompt": "An offensive player receives a pass outside the end zone. Their momentum carries them forward, and they come to a stop with both feet contacting the end zone, having never established a pivot on the central zone. What must the player do?",
+		"choices": [
+			"They must carry the disc back to, and put it into play at, the closest spot on the goal line.",
+			"They are awarded a goal because they came to a stop inside the end zone of attack.",
+			"They must put the disc into play exactly where they came to a stop in the end zone.",
+			"They must throw a pass from the end zone, but it does not count as a goal."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 13.B requires that if a player comes to a stop contacting the end zone without a pivot on the central zone after receiving a pass outside the end zone, they must carry the disc back to the closest spot on the goal line to put it into play.",
+		"ruleRefs": [
+			"13.B"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "13-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "13",
+		"prompt": "A player catches the disc near the goal line and immediately throws a pass to a teammate, which is dropped. It is unclear and there are opposing viewpoints among players with best perspective as to whether the thrower's first point of ground contact was completely in the end zone when they originally caught the disc. What is the result of the play?",
+		"choices": [
+			"The result of the pass stands, resulting in a turnover.",
+			"A goal is awarded to the thrower because they unknowingly threw another pass.",
+			"The disc is returned to the thrower at the goal line, as the goal is contested.",
+			"The receiver who dropped the pass is awarded possession at the spot of the drop."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 13.C, if a player unknowingly throws a pass after a potential goal, a goal is awarded if they clearly scored. However, if it is unclear if the player scored (e.g., opposing viewpoints on the play), the result of the subsequent pass stands.",
+		"ruleRefs": [
+			"13.C"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "13-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "13",
+		"prompt": "According to Rule 13.E, what action is explicitly subject to rule 3.I.2?",
+		"choices": [
+			"The act of scoring a goal.",
+			"The act of calling a timeout.",
+			"The act of establishing a pivot foot.",
+			"The act of retracting a goal call."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 13.E explicitly states that the act of scoring a goal is subject to rule 3.I.2.",
+		"ruleRefs": [
+			"13.E"
+		],
+		"difficulty": 1
+	}
+]

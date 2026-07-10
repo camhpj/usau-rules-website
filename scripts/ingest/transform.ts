@@ -2,8 +2,10 @@ import * as cheerio from 'cheerio';
 import MiniSearch, { type Options } from 'minisearch';
 import type { GlossaryEntry, RuleNode, Section } from '../../src/lib/content/types';
 import { SEARCH_OPTIONS } from '../../src/lib/search/options';
+import { sectionSlugForRuleId } from '../../src/lib/content/rule-ids';
 
 export { SEARCH_OPTIONS } from '../../src/lib/search/options';
+export { sectionSlugForRuleId } from '../../src/lib/content/rule-ids';
 
 const normalize = (s: string) => s.replace(/\s+/g, ' ').trim();
 
@@ -20,17 +22,6 @@ function walkRules(sections: Section[], fn: (rule: RuleNode, section: Section) =
 	for (const section of sections) {
 		for (const rule of section.rules) visit(rule, section);
 	}
-}
-
-export function sectionSlugForRuleId(id: string): string | null {
-	if (id === 'preface') return 'preface';
-	const appendixAnchor = id.match(/^appendix_([a-gA-G])$/);
-	if (appendixAnchor) return `appendix-${appendixAnchor[1].toLowerCase()}`;
-	const appendixRule = id.match(/^([A-Za-z])\d/);
-	if (appendixRule) return `appendix-${appendixRule[1].toLowerCase()}`;
-	const numeric = id.match(/^(\d+)/);
-	if (numeric) return numeric[1];
-	return null;
 }
 
 /** True for ids that address a whole section (no rule-level hash needed). */

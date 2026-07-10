@@ -1,0 +1,213 @@
+[
+	{
+		"id": "18-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player establishes a pivot foot. As they pivot to throw a backhand, they drag their pivot foot several inches away from the appropriate spot before releasing the disc. What infraction has occurred?",
+		"choices": [
+			"It is a travel.",
+			"It is a foul on the thrower.",
+			"It is a turnover.",
+			"It is a legal play as long as the drag is under six inches."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 18.D.1, it is a travel if the thrower fails to establish and continually maintain a pivot at the appropriate spot on the field until the throw is released.",
+		"ruleRefs": [
+			"18.D.1"
+		],
+		"sectionSlug": "18",
+		"difficulty": 1
+	},
+	{
+		"id": "18-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver jumps to catch a long huck. Realizing they are short of the end zone, they purposefully tip the disc forward to themselves while in the air, landing inside the end zone before securing the catch. What is the ruling?",
+		"choices": [
+			"It is a travel because the player purposefully tipped the disc to themselves to advance it.",
+			"It is a legal play as long as the player did not touch the ground while tipping the disc.",
+			"It is a foul on the receiver for illegal advancement.",
+			"It is a legal play, but the disc must be returned to where it was initially contacted."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 18.D.5, it is a travel if a player purposefully bobbles the disc to oneself in order to advance the disc in any direction from where it initially was contacted.",
+		"ruleRefs": [
+			"18.D.5"
+		],
+		"sectionSlug": "18",
+		"difficulty": 2
+	},
+	{
+		"id": "18-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player catches a pass while jogging. Instead of slowing down, they continue jogging at the same speed for several steps before stopping to set a pivot. What infraction has occurred?",
+		"choices": [
+			"The player has committed a travel by not coming to a stop as quickly as possible.",
+			"The player has committed a travel only if they take more than three steps.",
+			"It is a legal play because they did not speed up or change direction.",
+			"It is a legal play as long as they set a pivot before throwing."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 18.A requires a player to come to a stop as quickly as possible and establish a pivot after catching a pass. Continuing to jog at the same speed violates this requirement and is a travel (18.D.4).",
+		"ruleRefs": [
+			"18.A",
+			"18.D.4"
+		],
+		"sectionSlug": "18",
+		"difficulty": 1
+	},
+	{
+		"id": "18-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A cutter catches the disc while sprinting towards the sideline. Without slowing down or changing direction, they release a pass to a teammate just before their third additional point of ground contact occurs. All points of contact are in the central zone. Is this a travel?",
+		"choices": [
+			"No, because a player catching the disc while running may release a pass without stopping if they do not speed up or change direction and release it before three additional points of ground contact.",
+			"Yes, because they did not attempt to stop as quickly as possible.",
+			"Yes, because they must set a pivot before releasing a pass.",
+			"No, because players are allowed up to three steps regardless of whether they speed up or change direction."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 18.B, a player catching the disc while running may release a pass without attempting to stop or set a pivot, provided they don't speed up or change direction, and release the pass before three additional points of ground contact occur.",
+		"ruleRefs": [
+			"18.B"
+		],
+		"sectionSlug": "18",
+		"difficulty": 2
+	},
+	{
+		"id": "18-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver dives for a low pass and the disc bounces off their hands. They juggle the disc twice while sliding on the ground before finally securing it. Is this a travel?",
+		"choices": [
+			"No, because a player may bobble the disc in order to gain control of it.",
+			"Yes, because a player may not bobble the disc to themselves.",
+			"Yes, because the player advanced the disc while sliding.",
+			"No, because bobbling the disc is only a travel if it occurs in the air."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 18.C, a player may bobble the disc in order to gain control of it. This is not considered a travel, unlike a purposeful bobble to advance the disc.",
+		"ruleRefs": [
+			"18.C",
+			"18.D.5"
+		],
+		"sectionSlug": "18",
+		"difficulty": 1
+	},
+	{
+		"id": "18-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A pass hits the ground and rolls towards the attacking end zone. An offensive player kicks the rolling disc forward to gain a few extra yards before picking it up. What is the ruling?",
+		"choices": [
+			"It is a travel.",
+			"It is a turnover.",
+			"It is a legal play, as the disc is not yet in possession of any player.",
+			"It is a foul on the offensive player."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 18.D.3 states that it is a travel if an offensive player advances in any direction an in-bounds disc that is rolling, sliding, or sitting on the ground.",
+		"ruleRefs": [
+			"18.D.3"
+		],
+		"sectionSlug": "18",
+		"difficulty": 1
+	},
+	{
+		"id": "18-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player catches the disc in the central zone while running toward their attacking end zone. Their first point of ground contact after the catch is in the central zone, but their second point of ground contact is inside their attacking end zone. Without slowing down, they release a pass to a teammate before their third point of ground contact. Is this a travel?",
+		"choices": [
+			"Yes, because the exception allowing a player to throw without stopping does not apply if ground contact occurs in their attacking end zone.",
+			"Yes, because a player may never throw a pass while inside the attacking end zone.",
+			"No, because they released the pass before three additional points of ground contact occurred.",
+			"No, because the player did not speed up or change direction while in possession."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 18.E.2, throwing on the run without stopping is allowed if all points of ground contact are completely in-bounds, excluding their attacking end zone. Since they stepped into their attacking end zone, they must come to a stop; failing to do so is a travel.",
+		"ruleRefs": [
+			"18.E.2"
+		],
+		"sectionSlug": "18",
+		"difficulty": 3
+	},
+	{
+		"id": "18-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The marker calls a travel on the thrower just as they release a pass. The receiver catches the pass, resulting in a completion. What is the correct resolution?",
+		"choices": [
+			"Play stops, the disc is returned to the thrower where the travel occurred, and play restarts with a check.",
+			"Play continues uninterrupted because the pass was completed.",
+			"Play stops, the receiver keeps the disc, and the stall count restarts at one.",
+			"It is a turnover because a travel was called on a completed pass."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 18.F.1.b, if a travel occurs and a pass is thrown and completed, play stops and the disc is returned to the thrower where the travel occurred. Play then restarts with a check.",
+		"ruleRefs": [
+			"18.F.1.b"
+		],
+		"sectionSlug": "18",
+		"difficulty": 1
+	},
+	{
+		"id": "18-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "18",
+		"prompt": "An offensive player retrieves a disc that went out-of-bounds. They mistakenly establish their pivot three steps out-of-bounds and throw a pass that is completed to a teammate. A travel is called on the thrower. What is the correct resolution?",
+		"choices": [
+			"The disc is checked in where the thrower threw the pass, making it live, and then the thrower walks to the correct spot on the sideline to put the disc in play.",
+			"Play stops immediately, the disc is returned to the thrower at the correct spot on the sideline, and play restarts with a check.",
+			"The travel call is ignored and play continues uninterrupted because the pass was completed.",
+			"The disc is awarded to the defense at the spot where the out-of-bounds throw was released."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 18.F.1.b.1, if a completed pass is thrown from out-of-bounds and the thrower's pivot was more than one step from the appropriate spot, a special procedure applies: the disc is first checked in where the thrower threw the pass to make it live, and then the thrower walks to the appropriate spot for their pivot to put the disc in play.",
+		"ruleRefs": [
+			"18.F.1.b.1"
+		],
+		"difficulty": 3
+	},
+	{
+		"id": "18-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "18",
+		"prompt": "A thrower establishes a pivot but then accidentally drags their pivot foot a few feet away while faking a throw. The marker calls a travel, and the thrower does not attempt a pass. How is this resolved?",
+		"choices": [
+			"Play does not stop. The marker points to where the travel occurred, and the thrower returns there without delay and must touch the disc to the ground before attempting a pass.",
+			"Play stops immediately. The thrower returns to the original pivot spot, and the marker checks the disc to restart play.",
+			"Play does not stop, but the thrower must drop the disc and the marker takes possession at the spot of the travel.",
+			"Play stops. The thrower returns to the correct spot, and the stall count is reset to one before a check restarts play."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 18.F.2.a, if a travel occurs and no pass has been attempted, play does not stop. The defense points to the correct spot, and the thrower must return there without delay and touch the disc to the ground before attempting a legal pass.",
+		"ruleRefs": [
+			"18.F.2.a"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "18-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "18",
+		"prompt": "The marker calls a travel on the thrower before any pass is attempted. The thrower disagrees with the call and wishes to contest it. What is the correct procedure?",
+		"choices": [
+			"The thrower announces \"violation\" and play stops. Upon checking the disc in, the stall count resumes at the count reached plus 1, or 6 if over 5.",
+			"The thrower announces \"contest\" but play does not stop. The marker must simply resume the stall count at the count reached plus 1, or 6 if over 5.",
+			"The thrower announces \"violation\" and play stops. Upon checking the disc in, the stall count resets to one.",
+			"The thrower must touch the disc to the ground and announce \"contest\", keeping the disc live while the stall count resumes at the count reached."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 18.F.2.c, if a thrower wishes to contest a travel call made when no pass has been attempted, they announce “violation” to stop play. Upon checking the disc in, the stall count resumes at the count reached plus 1, or 6 if over 5.",
+		"ruleRefs": [
+			"18.F.2.c"
+		],
+		"difficulty": 1
+	}
+]

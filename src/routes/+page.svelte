@@ -1,5 +1,5 @@
 <script lang="ts">
-	const RULESET = 'usau-official-2026-27';
+	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 </script>
 
 <svelte:head><title>Best Perspective — USA Ultimate official rules of ultimate.</title></svelte:head
@@ -17,7 +17,7 @@
 
 	<div class="mt-4 grid w-full max-w-3xl gap-4 text-left sm:grid-cols-2">
 		<a
-			href="/rules/{RULESET}"
+			href="/rules/{DEFAULT_RULESET_ID}"
 			class="group relative rounded-xl bg-white p-6 text-navy transition-transform hover:-translate-y-0.5"
 		>
 			<h2 class="display text-2xl">Explore the rules</h2>

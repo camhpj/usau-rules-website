@@ -3,10 +3,12 @@
 	import RuleNode from '$lib/components/rules/RuleNode.svelte';
 	import GlossaryPopover from '$lib/components/rules/GlossaryPopover.svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { hasQuestions } from '$lib/quiz/bank-index';
 	let { data } = $props();
 	const idx = $derived(data.manifest.sections.findIndex((s) => s.slug === data.section.slug));
 	const prev = $derived(data.manifest.sections[idx - 1]);
 	const next = $derived(data.manifest.sections[idx + 1]);
+	const quizzable = $derived(hasQuestions(data.manifest.id, data.section.slug));
 
 	let articleEl = $state<HTMLElement>();
 	let flashTimer: ReturnType<typeof setTimeout> | undefined;
@@ -45,6 +47,15 @@
 			{#if data.section.number}<span class="text-cardinal">{data.section.number}.</span>{/if}
 			{data.section.title}
 		</h1>
+
+		{#if quizzable}
+			<a
+				href="/quiz/mastery?section={data.section.slug}"
+				class="mt-4 inline-flex items-center gap-1.5 rounded-full border border-cardinal/50 px-4 py-1.5 text-xs font-semibold tracking-wider text-cardinal uppercase transition-colors hover:bg-cardinal hover:text-white"
+			>
+				Quiz me on this section →
+			</a>
+		{/if}
 
 		{#if data.section.html}
 			<div class="rule-html mt-6 leading-relaxed">{@html data.section.html}</div>

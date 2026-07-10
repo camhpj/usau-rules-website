@@ -1,0 +1,60 @@
+[
+	{
+		"id": "12-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "12",
+		"prompt": "An offensive team gains possession in the end zone they are attacking without scoring a goal. What must the player in possession do?",
+		"choices": [
+			"Carry the disc directly to, and put it into play at, the spot on the goal line closest to where the player stopped.",
+			"Establish a pivot at the exact spot they gained possession and put the disc into play immediately.",
+			"Walk the disc to the brick mark closest to the end zone they are attacking and check it in.",
+			"Carry the disc to the center of the goal line and put it into play."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 12.B, if a team gains or retains possession in the end zone they are attacking without scoring a goal, the player must carry the disc directly to the spot on the goal line closest to where they stopped.",
+		"ruleRefs": [
+			"12.B"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "12-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "12",
+		"prompt": "An offensive player calls an uncontested receiving foul in the end zone they are attacking. The disc is dead. How is play properly restarted?",
+		"choices": [
+			"The disc is checked into a live state where the infraction occurred, and the thrower then carries it to the closest spot on the goal line.",
+			"The player carries the disc to the closest spot on the goal line, where the disc is checked into a live state.",
+			"The player establishes a pivot where the infraction occurred and immediately puts the disc into play.",
+			"The disc is checked into a live state at the goal line closest to where the disc was originally thrown."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 12.C, if a team gains possession of a dead disc in their attacking end zone, the disc must first be checked into a live state where the infraction occurred before the thrower proceeds to the goal line as per 12.B.",
+		"ruleRefs": [
+			"12.C",
+			"12.B"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "12-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "12",
+		"prompt": "A defender intercepts a pass in the end zone they are defending. They decide to carry the disc to the closest point on the goal line instead of playing it from the spot. While walking to the goal line, they change their mind and try to establish a pivot halfway there. What is the result?",
+		"choices": [
+			"It is a travel infraction.",
+			"It is a legal play, provided they have not yet set their pivot.",
+			"It is a turnover for faking a throw before establishing a pivot.",
+			"The marker must restart the stall count, but play continues without a stoppage."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 12.A.2 states that if a player chooses the option to carry the disc to the goal line from their defending end zone, they must put it into play at the goal line. Failure to do so is a travel.",
+		"ruleRefs": [
+			"12.A.2"
+		],
+		"difficulty": 2
+	}
+]

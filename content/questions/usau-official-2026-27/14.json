@@ -1,0 +1,99 @@
+[
+	{
+		"id": "14-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "14",
+		"prompt": "A thrower accidentally drops the disc. Before it hits the ground, a defender swats at it and tips it, but the thrower manages to catch it again before it hits the ground. What is the result?",
+		"choices": [
+			"It is a turnover because the thrower lost possession.",
+			"The thrower retains possession and the stall count continues uninterrupted.",
+			"The thrower retains possession, but it is considered a new possession.",
+			"Play stops and the disc is returned to the thrower with a reset stall count."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 14.B, if the thrower regains possession of an accidentally dropped disc before it contacts the ground and after another player touches it, it is considered a new possession.",
+		"ruleRefs": [
+			"14.B"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "14-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "14",
+		"prompt": "A defender leaps to intercept a pass and cleanly catches the disc in the air. However, upon landing, the impact causes the defender to accidentally drop the disc. Who gains possession of the disc?",
+		"choices": [
+			"The original throwing team, because it is considered a double-turnover.",
+			"The original throwing team, because the defender did not survive ground contact.",
+			"The defender's team, because the pass is considered incomplete rather than intercepted.",
+			"The defender's team, but only if the defender calls a foul on the ground contact."
+		],
+		"answerIndex": 2,
+		"explanation": "According to 14.C, if a defender accidentally loses possession before or during ground contact related to the catch, the pass is considered incomplete rather than intercepted. This is not a double-turnover, and the defender's team still gains possession.",
+		"ruleRefs": [
+			"14.C"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "14-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "14",
+		"prompt": "Which of the following actions results in both a turnover and an immediate stoppage of play?",
+		"choices": [
+			"A pass is dropped by an offensive receiver and hits the ground.",
+			"A pass sails out-of-bounds without being touched.",
+			"The thrower hands the disc directly to another player.",
+			"The thrower accidentally drops the disc and it hits the ground."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 14.D and 14.D.2, the thrower handing the disc to another player is a specific action that results in a turnover and a stoppage of play. Standard incomplete passes or out-of-bounds throws do not inherently cause a stoppage.",
+		"ruleRefs": [
+			"14.D",
+			"14.D.2"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "14-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "14",
+		"prompt": "A defender intentionally pushes off of a teammate's shoulders to jump higher and successfully blocks a pass. What is the correct resolution?",
+		"choices": [
+			"The defender's team retains possession, but the disc is moved back to the thrower.",
+			"The intended receiver is awarded possession at the spot nearest the location they occupied at the time of the infraction.",
+			"The intended receiver is awarded possession at the exact spot of the block.",
+			"It is a turnover against the defense, resulting in a stoppage of play and a reset stall count for the thrower."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 14.D.4, if a defender intentionally assists a teammate's movement to block or intercept a pass, the intended receiver is awarded possession at the spot on the playing field nearest the location the intended receiver occupied at the time of the infraction.",
+		"ruleRefs": [
+			"14.D.4"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "14-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "14",
+		"prompt": "An offensive receiver throws their hat at a disc in flight. The hat hits the disc, slowing it down enough for the receiver to catch it before it hits the ground. What is the result?",
+		"choices": [
+			"The catch stands, as long as the receiver caught the disc before it touched the ground.",
+			"The play results in a turnover and a stoppage of play.",
+			"The disc is returned to the thrower and the stall count resumes where it left off.",
+			"The receiver's team retains possession, but the disc is moved back to the original thrower's spot."
+		],
+		"answerIndex": 1,
+		"explanation": "According to 14.D and 14.D.5, an offensive player using an item of equipment to assist in catching a pass (such as throwing a hat at the disc) results in a turnover and a stoppage of play.",
+		"ruleRefs": [
+			"14.D",
+			"14.D.5"
+		],
+		"difficulty": 1
+	}
+]

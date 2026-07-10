@@ -5,7 +5,9 @@ export default defineConfig({
 	timeout: 30_000,
 	use: { baseURL: 'http://127.0.0.1:8787' },
 	webServer: {
-		command: 'npm run build && npx wrangler dev --port 8787',
+		command: process.env.CI
+			? 'npx wrangler dev --port 8787'
+			: 'npm run build && npx wrangler dev --port 8787',
 		url: 'http://127.0.0.1:8787',
 		reuseExistingServer: !process.env.CI,
 		timeout: 180_000

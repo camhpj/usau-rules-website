@@ -24,8 +24,11 @@ async function fetchText(url: string): Promise<string> {
 
 for (const cfg of RULESETS) {
 	const snapshotPath = join('content/sources', `${cfg.id}.html`);
+	const dir = join('content/rulesets', cfg.id);
+	const manifestPath = join(dir, 'manifest.json');
+	const fetchedNow = refetch || !existsSync(snapshotPath); // compute BEFORE the fetch block runs
 	mkdirSync('content/sources', { recursive: true });
-	if (refetch || !existsSync(snapshotPath)) {
+	if (fetchedNow) {
 		console.log(`fetching ${cfg.sourceUrl}`);
 		writeFileSync(snapshotPath, await fetchText(cfg.sourceUrl));
 	}
@@ -51,6 +54,11 @@ for (const cfg of RULESETS) {
 	}
 	rewriteImageUrls(sections, urlMap);
 
+	let fetchedAt = new Date().toISOString();
+	if (!fetchedNow && existsSync(manifestPath)) {
+		fetchedAt = ManifestSchema.parse(JSON.parse(readFileSync(manifestPath, 'utf8'))).fetchedAt;
+	}
+
 	const manifest: Manifest = {
 		id: cfg.id,
 		title: cfg.title,
@@ -58,7 +66,7 @@ for (const cfg of RULESETS) {
 		edition: cfg.edition,
 		sourceUrl: cfg.sourceUrl,
 		sectionScheme: cfg.sectionScheme,
-		fetchedAt: new Date().toISOString(),
+		fetchedAt,
 		sections: sections.map((s) => ({
 			slug: s.slug,
 			number: s.number,
@@ -68,12 +76,8 @@ for (const cfg of RULESETS) {
 		}))
 	};
 
-	const dir = join('content/rulesets', cfg.id);
 	mkdirSync(join(dir, 'sections'), { recursive: true });
-	writeFileSync(
-		join(dir, 'manifest.json'),
-		JSON.stringify(ManifestSchema.parse(manifest), null, '\t')
-	);
+	writeFileSync(manifestPath, JSON.stringify(ManifestSchema.parse(manifest), null, '\t'));
 	for (const s of sections) {
 		writeFileSync(
 			join(dir, 'sections', `${s.slug}.json`),

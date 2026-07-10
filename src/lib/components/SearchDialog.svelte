@@ -2,6 +2,7 @@
 	import { Dialog } from 'bits-ui';
 	import MiniSearch, { type Options, type SearchResult } from 'minisearch';
 	import { goto } from '$app/navigation';
+	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { SEARCH_OPTIONS } from '$lib/search/options';
 
 	interface SearchDoc {
@@ -22,7 +23,6 @@
 		storeFields: [...SEARCH_OPTIONS.storeFields]
 	};
 
-	const RULESET = 'usau-official-2026-27';
 	let { open = $bindable(false) }: { open?: boolean } = $props();
 	let query = $state('');
 	let selected = $state(0);
@@ -32,7 +32,7 @@
 	$effect(() => {
 		if (open && loadState === 'idle') {
 			loadState = 'loading';
-			fetch(`/search/${RULESET}.json`)
+			fetch(`/search/${DEFAULT_RULESET_ID}.json`)
 				.then((r) => {
 					if (!r.ok) throw new Error(`search index fetch failed: ${r.status}`);
 					return r.text();
@@ -62,7 +62,7 @@
 	function go(hit: Hit) {
 		open = false;
 		query = '';
-		goto(`/rules/${RULESET}/${hit.sectionSlug}#${encodeURIComponent(hit.id)}`);
+		goto(`/rules/${DEFAULT_RULESET_ID}/${hit.sectionSlug}#${encodeURIComponent(hit.id)}`);
 	}
 	function onKeydown(e: KeyboardEvent) {
 		if (e.key === 'ArrowDown') {
@@ -89,13 +89,27 @@
 				bind:value={query}
 				onkeydown={onKeydown}
 				autofocus
+				role="combobox"
+				aria-label="Search the rules"
+				aria-autocomplete="list"
+				aria-expanded={results.length > 0}
+				aria-controls="search-results"
+				aria-activedescendant={results.length > 0 ? `search-option-${selected}` : undefined}
 				placeholder="Search the rules… (e.g. stall count, travel)"
 				class="w-full border-b border-mist px-5 py-4 text-navy outline-none placeholder:text-navy/40"
 			/>
-			<ul class="max-h-96 overflow-y-auto p-2">
+			<ul
+				id="search-results"
+				role="listbox"
+				aria-label="Search results"
+				class="max-h-96 overflow-y-auto p-2"
+			>
 				{#each results as hit, i (hit.id)}
-					<li>
+					<li role="presentation">
 						<button
+							role="option"
+							id="search-option-{i}"
+							aria-selected={i === selected}
 							class="w-full rounded-lg px-3 py-2.5 text-left {i === selected
 								? 'bg-mist'
 								: 'hover:bg-mist/60'}"
@@ -109,13 +123,20 @@
 					</li>
 				{:else}
 					{#if loadState === 'error'}
-						<li class="rounded-lg bg-mist/60 px-3 py-6 text-center text-sm text-navy/50">
+						<li
+							role="presentation"
+							class="rounded-lg bg-mist/60 px-3 py-6 text-center text-sm text-navy/50"
+						>
 							Search index failed to load — try again.
 						</li>
 					{:else if query.length > 1 && loadState === 'loading'}
-						<li class="px-3 py-6 text-center text-sm text-navy/50">Loading index…</li>
+						<li role="presentation" class="px-3 py-6 text-center text-sm text-navy/50">
+							Loading index…
+						</li>
 					{:else if query.length > 1 && mini}
-						<li class="px-3 py-6 text-center text-sm text-navy/50">No rules match “{query}”.</li>
+						<li role="presentation" class="px-3 py-6 text-center text-sm text-navy/50">
+							No rules match “{query}”.
+						</li>
 					{/if}
 				{/each}
 			</ul>

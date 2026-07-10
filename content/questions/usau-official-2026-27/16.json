@@ -1,0 +1,231 @@
+[
+	{
+		"id": "16-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker starts the stall count at \"stalling nine... ten!\" before the thrower has any reasonable opportunity to react and call a fast count. How is this situation resolved?",
+		"choices": [
+			"It is treated as a contested stall.",
+			"The disc is awarded to the defense, but the thrower can call a general violation.",
+			"Play stops and the marker must restart the count at \"stalling one\".",
+			"The thrower must call \"fast count\" retroactively to reset the stall to eight."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 16.F.2, if a fast count occurs such that the thrower lacks a reasonable opportunity to call it before the word ten is uttered, the play is treated as a contested stall.",
+		"ruleRefs": [
+			"16.F.2"
+		],
+		"sectionSlug": "16",
+		"difficulty": 2
+	},
+	{
+		"id": "16-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defensive player who is not the marker runs within 5 feet of the thrower's pivot. They are not guarding any other offensive player, and their exclusive purpose is to reach the other side of the field. Is this a double team?",
+		"choices": [
+			"Yes, any defender within 10 feet of the thrower's pivot who is not guarding another offensive player is committing a double team.",
+			"No, merely running across this area is not a double team.",
+			"Yes, unless they are at least 15 feet away from the thrower.",
+			"No, double teams only apply if the defender actively waves their arms to block a throw."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 16.G, while being within 10 feet of the thrower's pivot without guarding another offensive player is normally a double team, \"merely running across this area is not a double team.\"",
+		"ruleRefs": [
+			"16.G"
+		],
+		"sectionSlug": "16",
+		"difficulty": 1
+	},
+	{
+		"id": "16-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The thrower calls a \"straddle\" marking violation, but the marker believes their feet are legally positioned. How may the marker contest this call?",
+		"choices": [
+			"By calling \"contest\", which immediately stops play and resets the stall count to zero.",
+			"By calling \"violation\", which is treated as the call of an offensive violation.",
+			"By replying \"no straddle\", which allows the marker to continue the stall count without dropping a number.",
+			"By calling \"play on\", which acts as a general defensive violation."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 16.J states that the marker may contest a marking violation by calling \"violation.\" This contest is treated as the call of an offensive violation.",
+		"ruleRefs": [
+			"16.J"
+		],
+		"sectionSlug": "16",
+		"difficulty": 2
+	},
+	{
+		"id": "16-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker intentionally skips multiple numbers at a time during the stall count. Can the thrower call a general violation for this?",
+		"choices": [
+			"Yes, flagrant marking infractions are immediately callable as a general violation.",
+			"No, they can only call \"fast count\" and drop the stall by one.",
+			"Yes, but only if the marker has been warned about fast counting previously in the game.",
+			"No, marking violations can never stop play or be treated as general violations."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 16.K, flagrant marking infractions (such as skipping multiple numbers at a time, per the annotation) are immediately callable as a general violation.",
+		"ruleRefs": [
+			"16.K"
+		],
+		"sectionSlug": "16",
+		"difficulty": 2
+	},
+	{
+		"id": "16-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Which players can commit a marking violation against the thrower?",
+		"choices": [
+			"Only the marker.",
+			"The marker or another defensive player close to the thrower.",
+			"Any defensive player anywhere on the field.",
+			"Any player, including offensive teammates who set illegal picks."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 16.A defines marking violations as infractions committed against the thrower by the marker or another defensive player close to the thrower.",
+		"ruleRefs": [
+			"16.A"
+		],
+		"sectionSlug": "16",
+		"difficulty": 1
+	},
+	{
+		"id": "16-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker steps forward and bumps the thrower's torso. The thrower's teammate on the sideline yells \"Disc space!\" Is this a valid marking violation call?",
+		"choices": [
+			"Yes, any offensive player can call a marking violation.",
+			"Yes, but only if the teammate is a designated team captain.",
+			"No, only the thrower may call a marking violation.",
+			"No, the thrower must call \"violation\" first before specifying \"disc space\"."
+		],
+		"answerIndex": 2,
+		"explanation": "According to 16.B, only the thrower may call a marking violation, and they must call out the name of the specific marking violation.",
+		"ruleRefs": [
+			"16.B"
+		],
+		"sectionSlug": "16",
+		"difficulty": 1
+	},
+	{
+		"id": "16-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The marker is counting \"stalling one... two... three... four\". The thrower calls \"fast count\" right after \"four\". Play continues. How must the marker resume the stall count once they correct the violation?",
+		"choices": [
+			"They must restart the count from \"stalling one\".",
+			"They must resume the count at \"...four\".",
+			"They must resume the count at \"...three\".",
+			"Play stops, and the marker must wait for a check before resuming at \"stalling three\"."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 16.C dictates that play does not stop, and the marker must resume the stall count with the number last uttered before the call minus one. Since \"four\" was the last number uttered, the count resumes at \"three\".",
+		"ruleRefs": [
+			"16.C"
+		],
+		"sectionSlug": "16",
+		"difficulty": 3
+	},
+	{
+		"id": "16-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a single stall count, the thrower calls \"disc space\", which the marker corrects. A few seconds later, before the thrower is in the act of throwing, the marker commits a wrapping violation. What options does the thrower have?",
+		"choices": [
+			"The thrower can call another marking violation, or treat it as a general defensive violation by calling \"violation\".",
+			"The thrower must call \"wrapping\", and the stall count is reset to zero.",
+			"The thrower is required to stop play and report the marker for a flagrant foul.",
+			"The thrower can only call \"wrapping\", which forces the marker to drop the count by two."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 16.D, if the defense commits a marking violation after being called for one during the same stall count, the thrower may choose to call another marking violation or to treat it as a general defensive violation by calling \"violation.\"",
+		"ruleRefs": [
+			"16.D"
+		],
+		"sectionSlug": "16",
+		"difficulty": 3
+	},
+	{
+		"id": "16-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "16",
+		"prompt": "A thrower is being heavily pressured by a marker and wishes to call a marking violation. According to the rules, which of the following is a recognized marking violation?",
+		"choices": [
+			"Vision blocking",
+			"Reaching",
+			"Crowding",
+			"Screening"
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 16.E, the only recognized marking violations are fast count, double team, disc space, straddle, wrapping, and vision blocking. Terms like 'reaching' or 'crowding' are not recognized marking violations.",
+		"ruleRefs": [
+			"16.E"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "16-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "16",
+		"prompt": "A defender sets a mark on the thrower and immediately begins counting \"One... two... three...\" at one-second intervals without saying the word \"stalling\" first. What marking violation has the marker committed?",
+		"choices": [
+			"Fast count",
+			"Disc space",
+			"No violation has occurred as long as the intervals are exactly one second.",
+			"General defensive violation"
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 16.F.1 defines a fast count as occurring if the marker does not say \"stalling\" to initiate or resume a count, counts at intervals of less than one second, or skips a number.",
+		"ruleRefs": [
+			"16.F.1"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "16-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "16",
+		"prompt": "The marker's hands are positioned such that a line between them is less than one disc diameter away from the thrower's torso. The thrower calls \"disc space\" rather than \"wrapping.\" Is this a valid call?",
+		"choices": [
+			"Yes, because wrapping violations are a subset of disc space violations, so the thrower may call \"disc space\" for this infraction.",
+			"No, the thrower must call the specific violation of \"wrapping\" to clearly communicate what needs to be corrected.",
+			"Yes, but only if the marker's torso is also less than one disc diameter away from the thrower.",
+			"No, \"disc space\" only applies if the marker's feet are too close to the thrower's pivot."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 16.H.4, the thrower may choose to call \"disc space\" for both straddle and wrapping violations because they are subsets of disc space violations, although calling the specific violation can offer clearer communication to the marker.",
+		"ruleRefs": [
+			"16.H.3",
+			"16.H.4"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "16-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "16",
+		"prompt": "While marking, the defender intentionally places their hand directly in front of the thrower's eyes to prevent them from seeing downfield. What marking violation should the thrower call?",
+		"choices": [
+			"Vision blocking",
+			"Disc space",
+			"Wrapping",
+			"Double team"
+		],
+		"answerIndex": 0,
+		"explanation": "According to rule 16.I, if the marker deliberately blocks the thrower's vision, it is a vision blocking violation.",
+		"ruleRefs": [
+			"16.I"
+		],
+		"difficulty": 1
+	}
+]

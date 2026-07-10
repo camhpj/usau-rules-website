@@ -66,4 +66,21 @@ describe('content schemas', () => {
 		).toThrow();
 		expect(() => GlossaryEntrySchema.parse({ ruleId: '3.A', term: '', definition: 'd' })).toThrow();
 	});
+
+	it('rejects a non-URL sourceUrl and a non-ISO fetchedAt', () => {
+		const manifest = {
+			id: 'x',
+			title: 'X',
+			shortTitle: 'X',
+			edition: '2026',
+			sourceUrl: 'not a url',
+			sectionScheme: 'numeric',
+			fetchedAt: 'yesterday',
+			sections: []
+		};
+		expect(() => ManifestSchema.parse(manifest)).toThrow();
+		expect(() =>
+			ManifestSchema.parse({ ...manifest, sourceUrl: 'https://example.com/rules' })
+		).toThrow(); // fetchedAt still bad
+	});
 });

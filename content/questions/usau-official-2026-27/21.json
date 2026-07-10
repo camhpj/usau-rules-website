@@ -1,0 +1,78 @@
+[
+	{
+		"id": "21-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "21",
+		"prompt": "Player A jumps straight up from the center of the end zone to catch a disc. While Player A is in the air, Player B moves into the space directly beneath Player A. Player A lands on Player B. Who had the right to that space?",
+		"choices": [
+			"Player A, because a jumping player is entitled to land at their take-off spot without hindrance.",
+			"Player B, because players are entitled to occupy any unoccupied position on the field at any time.",
+			"Player A, but only if they established their position for at least two seconds before jumping.",
+			"Player B, because a jumping player loses their established position once they leave the ground."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 21.B, a player who jumps is entitled to land at the take-off spot without hindrance by opponents. Player B is not allowed to move into the take-off spot while Player A is in the air.",
+		"ruleRefs": [
+			"21.B"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "21-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "21",
+		"prompt": "A defender is trying to stop an offensive cutter from getting open. The defender stands still and holds their arms out wide to create a wider physical barrier, obstructing the cutter's path. Is this legal?",
+		"choices": [
+			"Yes, as long as the defender does not initiate personal contact with the cutter.",
+			"No, players may not use their extended arms or legs to obstruct the movement of an opponent.",
+			"Yes, defenders are legally allowed to establish a protective cylinder of space using their arms.",
+			"No, unless the defender is within three meters of the thrower."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 21.D explicitly states that players may not use their extended arms or legs to obstruct the movement of an opponent.",
+		"ruleRefs": [
+			"21.D"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "21-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "21",
+		"prompt": "An offensive player wants to stand in a specific spot on the field to set up a play. According to the rules on positioning, what conditions must be met for them to legally take that position?",
+		"choices": [
+			"The spot must not be occupied by an opposing player, and taking the position must not cause personal contact.",
+			"The spot must be at least one disc diameter away from any opposing player.",
+			"The player must remain stationary for at least one full second before an opponent can contest the position.",
+			"The player must verbally announce their intention to occupy the spot before moving there."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 21.A, a player is entitled to occupy any position on the field not occupied by an opposing player, provided that no personal contact is caused in taking such a position.",
+		"ruleRefs": [
+			"21.A"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "21-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "21",
+		"prompt": "An offensive player chases down a rolling disc. Just as they reach down to pick it up, a defender intentionally steps directly in front of the disc, blocking the offensive player from picking it up and setting their pivot. Is this legal?",
+		"choices": [
+			"No, the defense must not move in a manner that obstructs the offense from taking possession of the disc or establishing a pivot.",
+			"Yes, the defender is entitled to occupy any position on the field not currently occupied by the offensive player.",
+			"No, but only because the defender caused a dangerous play by stepping in front of a moving player.",
+			"Yes, as long as the defender does not use their extended arms or legs to block the offensive player."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 21.C dictates that the defense must not move in a manner that obstructs the offense from taking possession of the disc or establishing a pivot. Intentionally stepping over or in front of the disc to block the offense violates this rule.",
+		"ruleRefs": [
+			"21.C"
+		],
+		"difficulty": 2
+	}
+]

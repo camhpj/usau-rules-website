@@ -1,0 +1,233 @@
+[
+	{
+		"id": "7-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a point, a player calls a timeout. How does this affect play and any active time limit counts?",
+		"choices": [
+			"Play stops and time limit counts are suspended.",
+			"Play continues until the throw is completed, then time limit counts are suspended.",
+			"Play stops but time limit counts continue running.",
+			"Play stops and all time limit counts are immediately reset to zero."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 7.A, a timeout stops play and suspends time limit counts.",
+		"ruleRefs": [
+			"7.A"
+		],
+		"sectionSlug": "7",
+		"difficulty": 1
+	},
+	{
+		"id": "7-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "In a standard game, how many team timeouts is each team allowed per half?",
+		"choices": [
+			"Two",
+			"One",
+			"Three",
+			"One in the first half and two in the second half"
+		],
+		"answerIndex": 0,
+		"explanation": "According to 7.B, each team has two team timeouts per half in a standard game.",
+		"ruleRefs": [
+			"7.B"
+		],
+		"sectionSlug": "7",
+		"difficulty": 1
+	},
+	{
+		"id": "7-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The thrower calls a team timeout when the marker's stall count is at \"stalling eight.\" How is the stall count resumed after the timeout?",
+		"choices": [
+			"The marker resumes the count at \"stalling nine\".",
+			"The marker resumes the count at \"stalling eight\".",
+			"The marker resumes the count at \"stalling six\".",
+			"The marker starts the count over at \"stalling one\"."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 7.B.4.c, the marker resumes the stall count with the word \"stalling\" followed by the last number uttered before the timeout plus one, or 9 if over 8. Since the last number was eight, the count resumes at nine.",
+		"ruleRefs": [
+			"7.B.4",
+			"7.B.4.c"
+		],
+		"sectionSlug": "7",
+		"difficulty": 3
+	},
+	{
+		"id": "7-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "When a player calls an injury timeout, what dictates how the situation should primarily be handled?",
+		"choices": [
+			"The health and safety of the injured player are of primary concern.",
+			"Ensuring the opposing team does not gain an unfair tactical advantage.",
+			"Accurately determining which player caused the injury.",
+			"Resuming play as quickly as possible to avoid delaying the game."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 7.C explicitly states that during an injury timeout, the health and safety of the injured player are of primary concern.",
+		"ruleRefs": [
+			"7.C"
+		],
+		"sectionSlug": "7",
+		"difficulty": 1
+	},
+	{
+		"id": "7-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An injury timeout is called during the middle of a point. Before play restarts, several offensive players attempt to move to new positions to run a different play. Is this allowed?",
+		"choices": [
+			"No, all players must resume their locations on the field at the time the injury timeout began, unless a team timeout is also called.",
+			"Yes, players are allowed to freely set up and change positions during any stoppage of play.",
+			"No, only the defensive players are allowed to adjust their positions during an injury timeout.",
+			"Yes, but only if the injured player was on the offensive team and was forced to substitute."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 7.C.3.c, all players must resume their locations on the field at the time the injury timeout began (i.e., players may not set up), unless a team timeout is also called.",
+		"ruleRefs": [
+			"7.C.3",
+			"7.C.3.c"
+		],
+		"sectionSlug": "7",
+		"difficulty": 2
+	},
+	{
+		"id": "7-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player calls a technical timeout to replace a deeply gouged disc while the disc is in the air. When does the timeout begin?",
+		"choices": [
+			"When the play is completed.",
+			"Immediately at the time of the call, causing the disc to be returned to the thrower.",
+			"Retroactively to the moment the thrower released the disc.",
+			"Only after the defense has had twenty seconds to set up."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 7.D.1, if a technical timeout is called and the disc is in the air or the act of throwing at the time of the call, the timeout begins when the play is completed.",
+		"ruleRefs": [
+			"7.D",
+			"7.D.1"
+		],
+		"sectionSlug": "7",
+		"difficulty": 3
+	},
+	{
+		"id": "7-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a stoppage, a player realizes they have illegal equipment. They attempt to fix it but are unable to do so in a timely manner. What must happen next?",
+		"choices": [
+			"The player must be substituted.",
+			"The player's team must immediately use a team timeout.",
+			"The player receives a warning but may continue playing the point.",
+			"The opposing team may choose whether to let the player stay or force a substitution."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 7.D.3 states that a player unable to correct illegal equipment in a timely manner must be substituted in accordance with 8.A.2.",
+		"ruleRefs": [
+			"7.D.3"
+		],
+		"sectionSlug": "7",
+		"difficulty": 2
+	},
+	{
+		"id": "7-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Under what conditions may a spirit captain call a spirit timeout?",
+		"choices": [
+			"If they believe teams have failed to follow Spirit of the Game, and game play has become dangerous or repeated violations are causing conflict.",
+			"If they disagree with an observer's ruling and want to appeal the decision to the tournament director.",
+			"If their team has run out of team timeouts and they need to stop play to discuss tactical adjustments.",
+			"If a single disputed foul call takes longer than 60 seconds to resolve on the field."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 7.E, a spirit timeout may be called if it is believed that teams have failed to follow the Spirit of the Game, and either game play has become dangerous or repeated violations are causing conflict.",
+		"ruleRefs": [
+			"7.E"
+		],
+		"sectionSlug": "7",
+		"difficulty": 2
+	},
+	{
+		"id": "7-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "7",
+		"prompt": "During a technical timeout to replace a severely gouged disc, the offensive team's coach comes onto the field to discuss a new play with the handlers. Neither team has called a team timeout. Is this allowed?",
+		"choices": [
+			"No, technical timeouts are exclusively to address the specific issue, and teams may not use them as team timeouts.",
+			"Yes, coaches may enter the field during any stoppage to discuss tactics as long as they do not delay the game.",
+			"Yes, provided the offensive team has at least one team timeout remaining in the half.",
+			"No, coaches are only allowed on the field during injury timeouts, not technical timeouts."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 7.F, technical timeouts are meant exclusively to address the issue for which they were called, and only personnel needed for that issue should be on the field. Teams may not use these stoppages as team timeouts unless they actually call a team timeout.",
+		"ruleRefs": [
+			"7.F"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "7-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "7",
+		"prompt": "The offensive team has exceeded the time limit during a team timeout and is still huddled on the sideline. A defensive player at the pivot spot wants to restart play. What must the defender do to legally self-check the disc into play without the offense's acknowledgment?",
+		"choices": [
+			"The defender must announce \"delay of game\" and immediately self-check the disc.",
+			"The defender must give warnings of 20, 10, and 5 seconds, announce \"delay of game,\" and then self-check the disc.",
+			"The defender must count down loudly from 10, announce \"play on,\" and self-check the disc.",
+			"The defender cannot self-check the disc; they must wait for the offense to establish their stationary positions."
+		],
+		"answerIndex": 1,
+		"explanation": "According to 7.B.4.d, if a team exceeds timeout time limits, the other team can announce “delay of game” and self-check the disc into play. To invoke this rule, the player must first give warnings of 20, 10, and 5 seconds.",
+		"ruleRefs": [
+			"7.B.4.d"
+		],
+		"difficulty": 3
+	},
+	{
+		"id": "7-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "7",
+		"prompt": "A defender suffers a serious injury while the disc is in the air. Several players stop playing out of concern, and the pass falls incomplete. How can this play be resolved if both team captains agree?",
+		"choices": [
+			"The turnover must stand, but the injured player can be substituted without penalty.",
+			"The disc must be returned to the thrower and the stall count resets to zero.",
+			"The play may be resolved or restarted in any appropriate manner, overriding standard rule outcomes.",
+			"The point must be restarted with a re-pull from the defending team."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 7.C.2.a states that if a serious injury occurs, players change their behavior as a result, and both captains agree, play may be resolved or restarted in any appropriate manner despite what the rules would normally dictate.",
+		"ruleRefs": [
+			"7.C.2.a"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "7-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "7",
+		"prompt": "A receiver is chasing a deep throw but notices a toddler wandering onto the back of the end zone. The receiver stops running to avoid a collision, and the pass falls incomplete. Both teams agree that the receiver had no chance of catching the disc even if they had kept running. What is the result?",
+		"choices": [
+			"The disc is returned to the thrower because a dangerous condition was called.",
+			"The result of the play stands as a turnover since both teams agree ceasing play did not affect the outcome.",
+			"The receiver is awarded possession at the spot where they stopped running.",
+			"The point is immediately paused and restarted with a re-pull."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 7.D.1.a, if a player ceases play due to a dangerous condition while the disc is in the air, the disc is usually returned to the thrower. However, if both teams agree that ceasing play did not affect the outcome of the throw, the result of the play stands.",
+		"ruleRefs": [
+			"7.D.1.a"
+		],
+		"difficulty": 2
+	}
+]

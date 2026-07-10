@@ -1,0 +1,371 @@
+[
+	{
+		"id": "17-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A foul is called by a receiver downfield while the disc is lying on the ground following a turnover. No player currently has possession. When does play stop?",
+		"choices": [
+			"Play stops immediately at the time of the call.",
+			"Play continues until a player picks up the disc and acknowledges the call.",
+			"Play continues until the defense sets up their mark.",
+			"Play stops only after the thrower establishes a pivot and asks for a check."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 17.C, if a call is made when there is no thrower in possession of the disc and the disc is not in the air (for example, lying on the ground), play stops at the time of the call.",
+		"ruleRefs": [
+			"17.C"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive receiver is fouled while making a cut, but the thrower throws the disc 15 yards out of bounds in the opposite direction. The receiver claims the foul affected the play. According to the rules, is the receiver correct?",
+		"choices": [
+			"Yes, because any foul on a receiver automatically affects the play.",
+			"Yes, because the receiver determines if they were fouled, regardless of where the disc was thrown.",
+			"No, because if the receiver would not have received a pass even without the foul, the play was not affected.",
+			"No, because the thrower is the only player who can determine if a play was affected."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 17.C.5, an infraction affected the play if the outcome may have been meaningfully different. However, if the receiver would not have received a pass even without the foul, the play was not affected.",
+		"ruleRefs": [
+			"17.C.5"
+		],
+		"sectionSlug": "17",
+		"difficulty": 2
+	},
+	{
+		"id": "17-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker calls a travel on the thrower, claiming the thrower dragged their pivot foot. The thrower is certain their pivot foot remained stationary. What is the appropriate action for the thrower?",
+		"choices": [
+			"The thrower must accept the call because the marker has the best perspective.",
+			"The thrower may contest the call because they believe the infraction did not occur.",
+			"The thrower must consult with the observer or team captains before contesting.",
+			"The thrower may only contest if an offensive teammate also saw the pivot foot remain stationary."
+		],
+		"answerIndex": 1,
+		"explanation": "According to 17.B, a player called for an infraction may contest that call if that player believes the infraction did not occur.",
+		"ruleRefs": [
+			"17.B"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player on the sideline yells “pick” and it is echoed by players on the field. As soon as the thrower becomes aware of the call, what must they do?",
+		"choices": [
+			"Immediately drop the disc to the ground to halt the stall count.",
+			"Stop play by visibly or audibly communicating the stoppage.",
+			"Throw the disc out of bounds to ensure play completely stops.",
+			"Look to the player who made the call for confirmation before stopping play."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 17.D dictates that when a call is made, throwers must stop play by visibly or audibly communicating the stoppage as soon as they are aware of the call.",
+		"ruleRefs": [
+			"17.D"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender calls a pick, halting play. A moment later, the defender realizes they just tripped over their own feet and no pick occurred. The defender announces “retracted.” What happens next?",
+		"choices": [
+			"Play continues immediately without a stoppage, as if the call was never made.",
+			"Play still stops, and it restarts with a check.",
+			"The defender must substitute out of the game for making an incorrect call.",
+			"The offense is automatically awarded a completed pass to the nearest receiver."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 17.F, if a player makes a play-halting call and subsequently determines it was incorrect, they should announce “retracted.” Play still stops and restarts with a check.",
+		"ruleRefs": [
+			"17.F"
+		],
+		"sectionSlug": "17",
+		"difficulty": 2
+	},
+	{
+		"id": "17-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender suspects that the thrower might have dragged their pivot foot while pivoting, but could not see it clearly. Which of the following is true regarding the defender's ability to call a travel?",
+		"choices": [
+			"The defender may call a travel to pause the game and ask bystanders if a travel occurred.",
+			"The defender may not call an infraction if they merely suspect it might have occurred; they must perceive it with certainty.",
+			"The defender should call “violation” and let the thrower decide if a travel actually happened.",
+			"Any player on the field, including the offense, is required to call the travel if the defender suspects it."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 17.A states that a player must know a specific rule was violated and have perceived the particular action with certainty. A player may not call an infraction when they merely suspect it might have occurred.",
+		"ruleRefs": [
+			"17.A"
+		],
+		"sectionSlug": "17",
+		"difficulty": 2
+	},
+	{
+		"id": "17-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver makes a diving catch near the sideline. It is unclear to the receiver whether their first point of ground contact was in-bounds or out-of-bounds. Who should make the call?",
+		"choices": [
+			"The player with the best perspective makes the call.",
+			"The thrower automatically makes the call.",
+			"The marker always has the final say on sideline calls.",
+			"The disc is returned to the thrower without any call being made."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 17.E, if it is unclear whether a player’s first point of ground contact after catching the disc was in- or out-of-bounds, the player with the best perspective makes the call.",
+		"ruleRefs": [
+			"17.E"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player jumps from in-bounds, catches the disc in the air, and throws a pass before landing out-of-bounds (a “greatest” attempt). A downfield foul occurs, and the resolution dictates that possession reverts to the thrower. Where does play restart?",
+		"choices": [
+			"At the spot on the playing field where the thrower jumped.",
+			"At the spot on the playing field closest to the point of release.",
+			"At the spot where the thrower first touched out-of-bounds.",
+			"At the center of the field parallel to where the thrower jumped."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 17.H specifies that if an infraction results in possession reverting to a thrower who was airborne when releasing the disc, play restarts at the spot on the playing field closest to the point of release.",
+		"ruleRefs": [
+			"17.H"
+		],
+		"sectionSlug": "17",
+		"difficulty": 3
+	},
+	{
+		"id": "17-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a single play, a marker calls a travel on the thrower just before a pass is released. While the disc is in the air, a receiver calls a defensive foul on their defender. How should these multiple calls be resolved?",
+		"choices": [
+			"In chronological sequence (earliest call first, latest call last).",
+			"In reverse sequence (latest call first, earliest call last).",
+			"The offensive call always takes precedence over the defensive call.",
+			"The disc automatically returns to the thrower because multiple calls offset."
+		],
+		"answerIndex": 1,
+		"explanation": "According to 17.I, if multiple calls occur on the same play or before play stops, the outcomes should be resolved in reverse sequence, meaning the latest call is resolved first and the earliest call is resolved last.",
+		"ruleRefs": [
+			"17.I"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender calls a pick while trailing their receiver. The thrower does not hear the call immediately and completes a pass to that receiver. The defender determines that the pick prevented them from making a play on the disc. What is the correct resolution?",
+		"choices": [
+			"Play stops and the disc reverts to the thrower at the time the infraction occurred.",
+			"The completion stands and the defender is allowed to catch up to the receiver.",
+			"The disc is awarded to the defense at the spot of the pick.",
+			"Play continues unhalted since the pass was completed."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 17.C.4.a.1, if the defense makes a call, the pass is complete, and the infraction affected the play, play stops and the disc reverts to the thrower at the time the infraction occurred.",
+		"ruleRefs": [
+			"17.C.4.a.1",
+			"17.C.5"
+		],
+		"sectionSlug": "17",
+		"difficulty": 2
+	},
+	{
+		"id": "17-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A foul is called away from the disc while a huck is in the air. The pass is caught for a goal. The players involved in the foul agree that the infraction had no impact on the outcome of the play. Assuming the thrower was not aware of the call before throwing, what happens?",
+		"choices": [
+			"The disc returns to the thrower and the stall count resumes at the count reached plus one.",
+			"The disc stays with the receiver, but they must tap it in outside the end zone.",
+			"Play stops and the result of the play stands, meaning the goal counts.",
+			"The foul offsets the catch, and the disc reverts to the thrower at the stall count of one."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 17.C.1, if the involved players on both teams agree that the infraction did not affect the outcome of the play, play stops and the result of the play stands. This allows the completed pass and the goal to count.",
+		"ruleRefs": [
+			"17.C.1"
+		],
+		"sectionSlug": "17",
+		"difficulty": 2
+	},
+	{
+		"id": "17-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Two opposing players simultaneously catch a huck and disagree on who caught it first. No other players have a good perspective, and the two players cannot come to a satisfactory resolution. How is play restarted?",
+		"choices": [
+			"The disc is awarded to the offense, as ties go to the receiver.",
+			"The disc is awarded to the defense, as the pass was not clearly caught by the offense.",
+			"The disc is returned to the thrower, with the stall count resuming at one.",
+			"The disc is returned to the thrower, with the stall count reached plus one or at six if over five."
+		],
+		"answerIndex": 3,
+		"explanation": "According to 17.G, if a dispute arises concerning an infraction or the outcome of a play and the teams cannot resolve it, play stops and the disc is returned to the thrower. The stall count resumes at the count reached plus one, or at six if over five.",
+		"ruleRefs": [
+			"17.G"
+		],
+		"sectionSlug": "17",
+		"difficulty": 3
+	},
+	{
+		"id": "17-13",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender calls a travel on the thrower. A moment later, while the disc is in the air, a receiver calls a defensive foul. The defender who called the travel realizes they were mistaken and retracts their call. How does the retracted travel call impact the resolution of the receiving foul?",
+		"choices": [
+			"The retracted call causes all subsequent calls on that play to be nullified.",
+			"The retracted call is treated as an offsetting infraction, returning the disc to the thrower.",
+			"The retracted call forces the stall count to drop to one, regardless of the foul's outcome.",
+			"The retracted call is not resolved and does not affect the resolution of the subsequent receiving foul."
+		],
+		"answerIndex": 3,
+		"explanation": "Per 17.I.1, if an earlier infraction is retracted, that infraction is not resolved and it does not affect the resolution of subsequent infractions. The play proceeds by resolving the receiving foul as if the travel had not been called.",
+		"ruleRefs": [
+			"17.I.1",
+			"17.F"
+		],
+		"sectionSlug": "17",
+		"difficulty": 2
+	},
+	{
+		"id": "17-14",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive receiver and a defender collide while trying to catch a pass. Both players call fouls against each other, and they agree the fouls occurred simultaneously. What is the correct resolution for these offsetting infractions?",
+		"choices": [
+			"The disc is returned to the thrower, and the stall count resumes at the count reached plus one or at six if over five.",
+			"The disc is awarded to the offense at the spot of the foul.",
+			"The disc is awarded to the defense as a turnover.",
+			"The disc is returned to the thrower, and the stall count restarts at one."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 17.I.2, if both offensive and defensive infractions occur simultaneously (offsetting infractions), the disc is returned to the thrower. It is put into play with a check, with the count reached plus one or at six if over five.",
+		"ruleRefs": [
+			"17.I.2"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-15",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender hears a \"pick\" call from across the field and stops running. The thrower subsequently completes a pass to the defender's matchup. The defender claims the pick call \"affected the play\" because they stopped playing when they heard it. Is the defender correct?",
+		"choices": [
+			"Yes, because any play-halting call affects all players on the field.",
+			"Yes, but only if the thrower also stopped playing.",
+			"No, a player’s ability to make a play is not considered \"affected\" just because they ceased playing due to another player's call.",
+			"No, because picks can only be called by the player who was directly picked."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 17.J states that a player’s ability to catch or make a play on the disc is not considered to be “affected” simply because they stopped or slowed down because a call was made by another player. Players are encouraged to continue playing until play actually stops.",
+		"ruleRefs": [
+			"17.J"
+		],
+		"sectionSlug": "17",
+		"difficulty": 1
+	},
+	{
+		"id": "17-16",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A thrower releases a pass that is ultimately incomplete. Immediately after the disc leaves their hand, the marker bumps their arm. The thrower calls a foul on the contact. How is this call treated in terms of timing?",
+		"choices": [
+			"It is treated as an infraction called before the act of throwing, returning the disc to the thrower.",
+			"It is treated as a defensive violation, resulting in an automatic uncontested stall count reset.",
+			"It is treated as offsetting fouls because the throw was already released.",
+			"It is treated as a foul by a non-thrower, and the turnover will generally stand."
+		],
+		"answerIndex": 3,
+		"explanation": "According to 17.C.3.a.3, if an infraction called by the thrower occurred after the throw was released, the call is considered to have been made by a non-thrower. Because the contact happened after the release, the turnover will generally stand.",
+		"ruleRefs": [
+			"17.C.3.a.3"
+		],
+		"sectionSlug": "17",
+		"difficulty": 3
+	},
+	{
+		"id": "17-17",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "17",
+		"prompt": "An offensive receiver is illegally held by their defender and calls a foul. The thrower, unaware of the call, attempts a pass to a completely different teammate. The pass is dropped and falls incomplete. The fouled receiver determines the foul affected the play because the thrower was looking right at them before having to pivot and throw elsewhere. What is the correct resolution?",
+		"choices": [
+			"Play stops and the disc reverts to the thrower at the time the infraction occurred.",
+			"The turnover stands because the pass was not thrown to the fouled receiver.",
+			"The fouled receiver is awarded possession of the disc at the spot of the foul.",
+			"Play stops and the disc is checked in where the pass fell incomplete."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 17.C.3.b.1, when the offense calls an infraction and the subsequent pass is incomplete, if the infraction affected the play, play stops and the disc reverts to the thrower at the time the infraction occurred.",
+		"ruleRefs": [
+			"17.C.3.b",
+			"17.C.3.b.1",
+			"17.C.5"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "17-18",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "17",
+		"prompt": "A defender calls a \"pick\" while chasing down their assigned offensive cutter. Unaware of the call, the thrower attempts a pass to that same cutter, but the throw is too far and hits the ground for an incomplete pass. What is the correct resolution?",
+		"choices": [
+			"Play continues un-halted.",
+			"Play stops, and the disc is returned to the thrower because the pick affected the defense.",
+			"Play stops, the turnover stands, and players must return to the positions they held at the time of the call.",
+			"Play stops, and the defender who called the pick is allowed to catch up to their receiver before the disc is checked in."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 17.C.4.b, if a call is made by the defense and the subsequent pass is incomplete, play continues un-halted. The turnover stands and there is no stoppage to resolve the defensive call.",
+		"ruleRefs": [
+			"17.C.4",
+			"17.C.4.b"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "17-19",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "17",
+		"prompt": "A thrower launches a huck downfield. While the disc is in the air, a receiver and a defender collide, and the receiver calls a foul. The pass falls incomplete, and the defender contests the foul, resulting in the disc reverting to the thrower. Where should all players return to for the restart of play?",
+		"choices": [
+			"The locations they occupied at the time of the throw.",
+			"The locations they occupied at the time of the foul call.",
+			"The locations they occupied when the disc hit the ground.",
+			"The locations they occupied when the thrower acknowledged the call."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 17.C.6.b.1, if a pass is thrown before the thrower acknowledges a call and possession reverts to the thrower, all players return to the locations they occupied at the earlier of the time of the throw or the time of the call. Since the throw occurred before the foul call in this scenario, players return to their positions at the time of the throw.",
+		"ruleRefs": [
+			"17.C.6.b",
+			"17.C.6.b.1",
+			"17.C.6.b.1.a",
+			"17.C.6.b.1.b"
+		],
+		"difficulty": 2
+	}
+]

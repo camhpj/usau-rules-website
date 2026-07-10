@@ -1,0 +1,173 @@
+[
+	{
+		"id": "5-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "After scoring a point, a player deliberately spikes the disc by bending it in half, permanently warping its shape. Is this permitted under the rules?",
+		"choices": [
+			"Yes, spiking is always allowed as long as it does not hit another player.",
+			"Yes, because the point has already been scored and play has stopped.",
+			"No, team members may not misuse game equipment in a manner likely to cause damage.",
+			"No, a spiked disc results in an automatic turnover for the next point."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 5.H, team members may not misuse game equipment in a manner likely to cause damage. The annotation explicitly notes that deliberately spiking a disc in a way that alters its flight characteristics is a violation.",
+		"ruleRefs": [
+			"5.H"
+		],
+		"sectionSlug": "5",
+		"difficulty": 1
+	},
+	{
+		"id": "5-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A coach on the sideline wants to coordinate strategy with an assistant coach on the opposite sideline during an active point. They use two-way radios to speak to each other. Is this permitted?",
+		"choices": [
+			"Yes, team members not participating in the current point may communicate electronically with each other.",
+			"Yes, but only if the radios are considered medically necessary devices.",
+			"No, team members may not use any form of electronic communication devices during a point.",
+			"No, electronic communication is only allowed between points, not during active play."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 5.I prohibits using electronic communication devices to communicate with players. However, the annotation clarifies that team members not participating in the current point (e.g., coaches and sideline players) may communicate electronically with each other.",
+		"ruleRefs": [
+			"5.I"
+		],
+		"sectionSlug": "5",
+		"difficulty": 3
+	},
+	{
+		"id": "5-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "In an unsanctioned pickup game, the captains agree to use a glowing, non-USA Ultimate-approved disc for a night game. Is this allowed?",
+		"choices": [
+			"Yes, in unsanctioned play any disc acceptable under the Event Organizer's and Captain's Clauses may be used.",
+			"Yes, but only if the disc weighs exactly 175 grams.",
+			"No, USA Ultimate-approved discs must be used for all games played under USAU rules.",
+			"No, the Event Organizer must explicitly approve non-standard discs in writing."
+		],
+		"answerIndex": 0,
+		"explanation": "According to rule 5.A, while sanctioned play requires a USA Ultimate-approved disc, unsanctioned play allows any disc acceptable under the Event Organizer’s Clause and Captain’s Clause.",
+		"ruleRefs": [
+			"5.A"
+		],
+		"sectionSlug": "5",
+		"difficulty": 1
+	},
+	{
+		"id": "5-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player wants to wear a soft, oversized cape during a game. The cape frequently blows into the faces of defenders, making it difficult for them to see. How do the rules address this attire?",
+		"choices": [
+			"The cape is permitted because all soft clothing is explicitly allowed without restriction.",
+			"The cape is permitted as long as it matches the team's uniform color.",
+			"The cape is not permitted because it provides an unfair advantage by interfering with the defenders.",
+			"The cape is not permitted because it is not considered part of the player's official uniform."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 5.B states that players may wear soft clothing as long as it does not endanger the safety of other players or provide an unfair advantage.",
+		"ruleRefs": [
+			"5.B"
+		],
+		"sectionSlug": "5",
+		"difficulty": 2
+	},
+	{
+		"id": "5-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player is recovering from a broken wrist and wears a hard plastic cast. Are they allowed to play with this cast?",
+		"choices": [
+			"Yes, protective medical equipment is always allowed without any modifications.",
+			"Yes, provided that the hard materials are sufficiently covered and padded if they pose a meaningful risk to others.",
+			"No, casts made of hard plastic are strictly prohibited in all circumstances.",
+			"No, players wearing casts must receive a medical exemption from the Event Organizer before playing."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 5.C allows players to wear casts, guards, or braces, but requires that any hard or sharp materials must be sufficiently covered and padded if they pose a meaningful risk to other participants.",
+		"ruleRefs": [
+			"5.C"
+		],
+		"sectionSlug": "5",
+		"difficulty": 1
+	},
+	{
+		"id": "5-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender attempts to block a pass. The thrown disc lightly grazes the loose fabric of the defender's shorts before hitting the ground. Does this count as the defender touching the disc?",
+		"choices": [
+			"Yes, because a player's clothing is considered part of the player.",
+			"Yes, but only if the disc's flight path was significantly altered.",
+			"No, clothing is considered part of the environment, not the player.",
+			"No, a disc must contact the player's skin or shoes to be considered touched."
+		],
+		"answerIndex": 0,
+		"explanation": "Under Rule 5.D, a player's clothing, shoes, and accessories are considered part of the player. Therefore, the disc touching the shorts counts as the player touching the disc.",
+		"ruleRefs": [
+			"5.D"
+		],
+		"sectionSlug": "5",
+		"difficulty": 2
+	},
+	{
+		"id": "5-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a pre-game check, a captain notices an opposing player is wearing metallic baseball cleats. Are these cleats permitted?",
+		"choices": [
+			"Yes, metallic cleats are permitted as long as the studs are not broken or worn.",
+			"Yes, players may wear any type of athletic shoe.",
+			"No, metallic baseball cleats are considered dangerous parts and are not allowed.",
+			"No, only molded plastic soccer cleats are permitted on the field."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 5.E explicitly states that cleats with dangerous parts, such as metallic baseball cleats, track spikes, or worn or broken studs with sharp edges, are not allowed.",
+		"ruleRefs": [
+			"5.E"
+		],
+		"sectionSlug": "5",
+		"difficulty": 1
+	},
+	{
+		"id": "5-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A team arrives at a tournament wearing different colored t-shirts that are mostly red, but none of them are matching uniforms and none have numbers. Assuming the other team is wearing a clearly distinct color (like blue), is the red team's clothing allowed under the rules?",
+		"choices": [
+			"Yes, they only must wear clothing distinguishing them from the other team; matching uniforms and numbers are recommended, not required.",
+			"Yes, but only if the captains agree to waive the numbered jersey requirement before the game begins.",
+			"No, all players in tournament play must wear matching uniforms.",
+			"No, all players in tournament play must have unique numbered jerseys."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 5.F requires each player to wear clothing distinguishing them from the other team. In tournament play, matching uniforms and numbered jerseys are merely recommended, not strictly required.",
+		"ruleRefs": [
+			"5.F"
+		],
+		"sectionSlug": "5",
+		"difficulty": 3
+	},
+	{
+		"id": "5-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "5",
+		"prompt": "A defender realizes they cannot reach a high pass, so they take off their hat and throw it at the disc, successfully knocking the pass to the ground. How do the rules treat this action?",
+		"choices": [
+			"It is a legal block because a player's clothing and accessories are considered part of the player.",
+			"It is a legal block provided the hat is made of soft materials and does not pose a safety risk to others.",
+			"It is illegal because players may not use clothing or equipment to unfairly inhibit the movement of the disc.",
+			"It is illegal because throwing personal items constitutes a misuse of game equipment."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 5.G states that players may not use clothing or equipment to unfairly inhibit or assist the movement of the disc. Throwing a hat to block a pass is an illegal use of clothing to inhibit the disc's movement.",
+		"ruleRefs": [
+			"5.G"
+		],
+		"difficulty": 2
+	}
+]

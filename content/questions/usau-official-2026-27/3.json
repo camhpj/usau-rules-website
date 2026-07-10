@@ -1,0 +1,423 @@
+[
+	{
+		"id": "3-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A defender is standing 8 feet away from an offensive cutter. The defender turns their back to the cutter and begins exclusively watching and reacting to the thrower's fakes. According to the definitions, is the defender still \"guarding\" the cutter?",
+		"choices": [
+			"Yes, because they are within 10 feet of the cutter.",
+			"Yes, because they established position on the cutter before looking away.",
+			"No, because a defender must be within 3 feet to be considered guarding.",
+			"No, because they are no longer reacting to the offensive player."
+		],
+		"answerIndex": 3,
+		"explanation": "Under rule 3.D, a defender is only guarding an offensive player when they are within 10 feet AND are reacting to that offensive player. A defender who turns away to focus on the thrower is no longer guarding the offensive player.",
+		"ruleRefs": [
+			"3.D"
+		],
+		"sectionSlug": "3",
+		"difficulty": 2
+	},
+	{
+		"id": "3-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Two opposing players brush shoulders while running down the field. Neither player is knocked off-balance or hindered in their ability to continue cutting or playing defense. How is this contact classified?",
+		"choices": [
+			"It is a foul because any contact between opposing players is prohibited.",
+			"It is a violation, but not a foul, because it did not affect the play.",
+			"It is incidental contact because it does not affect continued play.",
+			"It is incidental contact only if both players agree to play on."
+		],
+		"answerIndex": 2,
+		"explanation": "Incidental contact is defined as contact between opposing players that does not affect continued play (3.E). Because neither player was knocked off-balance or interfered with, the play continues normally.",
+		"ruleRefs": [
+			"3.E"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver grabs a fast-moving pass and has sustained contact and control of the non-spinning disc. While tumbling to the ground during the movement related to this catch, the disc pops out of their hands and hits the grass. What is the result?",
+		"choices": [
+			"The receiver retains possession because they established control before hitting the ground.",
+			"The initial possession ends, meaning the pass is incomplete and it is a turnover.",
+			"The receiver gets the disc back at the spot where they first grabbed it.",
+			"The play is treated as a foul on the ground and the disc returns to the thrower."
+		],
+		"answerIndex": 1,
+		"explanation": "According to 3.I.2, if a player loses possession of a disc during movement related to a catch, the initial possession ends. This means the catch was not completed and the drop results in a turnover.",
+		"ruleRefs": [
+			"3.I.2",
+			"3.I"
+		],
+		"sectionSlug": "3",
+		"difficulty": 2
+	},
+	{
+		"id": "3-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Which of the following best summarizes what constitutes a \"legal position\" for a marker?",
+		"choices": [
+			"A position established by a marker that does not violate any marking provisions, such as leaving sufficient space and not straddling the pivot.",
+			"A position where the marker is within 10 feet of the thrower and loudly initiating a stall count.",
+			"A position where the marker's arms are fully extended to block the thrower's vision.",
+			"A position that prevents the thrower from pivoting in any forward direction."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 3.F defines a legal position as one established by a marker that does not violate marking provisions, which generally means leaving sufficient space between the marker and the thrower's torso, not straddling the pivot, and not wrapping the thrower.",
+		"ruleRefs": [
+			"3.F"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A thrower comes to a stop after catching a pass and keeps their left foot planted on the grass. According to the definitions, what exactly constitutes their \"pivot\"?",
+		"choices": [
+			"The entirety of the thrower's left foot, up to the ankle.",
+			"The particular, infinitesimally small point on the body in continuous contact with a single spot on the field.",
+			"The circular area of the field within a one-foot radius of the thrower's planted foot.",
+			"The specific spot on the field where the thrower first made ground contact after catching the disc."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 3.H and its annotation define the pivot not as a whole body part, but as the infinitesimally small point on the body that remains in continuous contact with a single spot on the field during the thrower's possession.",
+		"ruleRefs": [
+			"3.H"
+		],
+		"sectionSlug": "3",
+		"difficulty": 3
+	},
+	{
+		"id": "3-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Team A is preparing to pull the disc to start the second half. Player 1 picks up the disc and signals readiness, but then decides the wind is too strong and hands the disc to Player 2 to pull instead. Is this allowed?",
+		"choices": [
+			"No, once a player signals readiness, they are locked in as the puller.",
+			"No, the puller must be the player who most recently scored a goal.",
+			"Yes, the pulling team may designate a new puller at any time before the pull.",
+			"Yes, but only if the receiving team grants permission for the change."
+		],
+		"answerIndex": 2,
+		"explanation": "Under rule 3.J, the pulling team may designate a new puller at any time before the pull, even if another player has already possessed the disc and signaled readiness.",
+		"ruleRefs": [
+			"3.J"
+		],
+		"sectionSlug": "3",
+		"difficulty": 2
+	},
+	{
+		"id": "3-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player calls a \"pick,\" causing all players to halt movement while the issue is resolved. Because this is a \"stoppage of play,\" what must occur to restart the game?",
+		"choices": [
+			"The thrower must tap the disc to the ground and yell \"Disc in.\"",
+			"The marker must restart the stall count from one without any physical prompt.",
+			"A check or self-check must be performed.",
+			"The thrower must immediately pass the disc within three seconds."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 3.M defines a stoppage of play as any halting of play due to a call, discussion, or timeout that requires a check or self-check to restart play.",
+		"ruleRefs": [
+			"3.M"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver catches the disc very close to the goal line. The players on the field are unsure if the receiver was in the end zone or just short, and no player has sufficient perspective to make the goal/non-goal call. How should this dispute be resolved?",
+		"choices": [
+			"The disc reverts to the thrower at the spot of the previous pass.",
+			"The disc remains with the receiver on the end zone line.",
+			"The players must ask the sideline for their perspective to make the definitive call.",
+			"The receiving team chooses whether to take the disc on the goal line or send it back to the thrower."
+		],
+		"answerIndex": 1,
+		"explanation": "Under rule 3.A, if no player has sufficient perspective to make a call in a goal/non-goal dispute, the disc should remain with the receiver on the end zone line.",
+		"ruleRefs": [
+			"3.A"
+		],
+		"sectionSlug": "3",
+		"difficulty": 3
+	},
+	{
+		"id": "3-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "During a stadium game, a contested foul call occurs. The players notice the play is currently being replayed on the stadium's large video board. How may the players use this video footage to resolve the call?",
+		"choices": [
+			"They may watch the video board to assist in resolving the call, provided doing so does not delay play.",
+			"They may formally request the video board operator to replay the footage from a different angle to ensure the correct call is made.",
+			"They are strictly prohibited from using any video footage to resolve calls, as Ultimate is entirely self-officiated by the players' own perspectives.",
+			"They may delay the game for up to two minutes to watch the replay multiple times before making a final decision."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 3.A.2, players may review officially-designated video footage to assist in resolving a call if it is available, but play may not be delayed to review it. Players cannot request specific replays or delay the game to rewatch the play.",
+		"ruleRefs": [
+			"3.A.2"
+		],
+		"sectionSlug": "3",
+		"difficulty": 2
+	},
+	{
+		"id": "3-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive cutter and a defender collide forcefully while running, knocking the cutter completely off-balance and preventing them from continuing their route. Under the definitions, how is this contact classified and who is generally considered responsible?",
+		"choices": [
+			"It is a violation committed by the defense, regardless of who initiated the contact.",
+			"It is a foul; in general, the player who initiated the non-incidental contact has committed the foul.",
+			"It is incidental contact, because both players were making a play on the disc.",
+			"It is a stoppage of play, but no foul can be called unless a player is injured."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 3.B defines a foul as non-incidental contact between opposing players. It specifies that, in general, the player initiating the contact has committed the foul.",
+		"ruleRefs": [
+			"3.B",
+			"3.E"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver dives to catch a low pass. While sliding on the grass during the catch, the receiver's elbow strikes a water bottle resting on the field. According to the definitions regarding \"ground contact,\" how is the water bottle treated?",
+		"choices": [
+			"It is considered an obstruction and results in a foul on the event organizer.",
+			"It is considered part of the ground.",
+			"It is treated as an opposing player, resulting in an incidental contact ruling.",
+			"It voids the catch because the player contacted an illegal object before recovering their balance."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 3.C, ground contact includes contact directly related to a maneuver like diving or falling. The rule explicitly states that items on the ground are considered part of the ground.",
+		"ruleRefs": [
+			"3.C"
+		],
+		"sectionSlug": "3",
+		"difficulty": 2
+	},
+	{
+		"id": "3-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A game is being played on an unlined field. A receiver catches a pass three yards deep into the end zone, but laterally they are two yards past the back-corner cone. If you were to draw an infinite straight line through the two back-line cones, the receiver would be inside that line. Is the receiver in bounds?",
+		"choices": [
+			"Yes, because the boundary line extends infinitely in both directions beyond the cones.",
+			"Yes, provided the receiver's momentum carried them past the cone from an in-bounds position.",
+			"No, because the boundary on an unlined field is an imaginary line segment that is not extrapolated beyond the defining markers.",
+			"No, because on an unlined field, a player must land within 10 feet of a defining marker to be considered in bounds."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 3.G defines a line on an unlined field as an imaginary line segment between two field markers. It explicitly notes that line segments are not extrapolated beyond the defining markers.",
+		"ruleRefs": [
+			"3.G"
+		],
+		"sectionSlug": "3",
+		"difficulty": 3
+	},
+	{
+		"id": "3-13",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A thrower has firmly caught a pass and is gripping the non-spinning disc, looking for an open receiver. The marker lunges forward and swats the disc directly out of the thrower's hand, without touching the thrower's hand or arm. What is the correct ruling based on the definitions?",
+		"choices": [
+			"It is a clean block, since the marker only touched the disc and not the thrower's body.",
+			"It is a violation on the marker for violating the thrower's cylinder, but not a foul.",
+			"It is a foul, because a disc in a player's possession is considered part of that player.",
+			"It is a turnover, because the thrower failed to maintain sustained contact and control of the disc."
+		],
+		"answerIndex": 2,
+		"explanation": "According to 3.I.4, a disc in a player's possession is considered part of that player. Therefore, hitting the disc while it is in the thrower's possession is a foul.",
+		"ruleRefs": [
+			"3.I.4"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-14",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "According to the definitions, when does a \"scoring attempt\" begin and end?",
+		"choices": [
+			"It starts when the pull is released and ends when a goal is scored or a turnover occurs.",
+			"It starts when an offensive player establishes possession of the disc and ends when they attempt a pass into the end zone.",
+			"It starts at the beginning of the game or when the previous goal is scored, and ends when the next goal is scored.",
+			"It starts when the disc is checked into play and ends when the defense gains possession of the disc."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 3.K explicitly defines a scoring attempt as starting at the beginning of the game or when the previous goal is scored, and ending when the next goal is scored.",
+		"ruleRefs": [
+			"3.K"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-15",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The rules define the \"state of the disc\" as the nature of play at a particular moment during the game. How many distinct states of the disc are there?",
+		"choices": [
+			"Two (In Play, Dead)",
+			"Three (In Play, Live, Dead)",
+			"Four (In Play, Live, Dead, Stoppage)",
+			"Five (In Play, Live, Dead, Turnover, Scoring Attempt)"
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 3.L defines the state of the disc and states that there are three states of the disc: \"in play,\" \"live,\" and \"dead.\"",
+		"ruleRefs": [
+			"3.L"
+		],
+		"sectionSlug": "3",
+		"difficulty": 1
+	},
+	{
+		"id": "3-16",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player retrieves an out-of-bounds disc and is walking it to the spot on the perimeter line where it is to be put into play. The disc is currently \"live.\" What two actions must the thrower complete to transition the disc to being \"in play\"?",
+		"choices": [
+			"Establish a pivot at the appropriate spot on the field, and offer the disc to the nearest defender for a check.",
+			"Establish a pivot at the appropriate spot on the field, and loudly announce \"Disc in.\"",
+			"Establish a pivot at the appropriate spot on the field, and touch the disc to the ground.",
+			"Establish a pivot at the appropriate spot on the field, and wait for the marker to begin the stall count."
+		],
+		"answerIndex": 2,
+		"explanation": "Under 3.L.2, for a live disc to be put into play, the thrower must (1) establish a pivot at the appropriate spot on the field, and (2) touch the disc to the ground.",
+		"ruleRefs": [
+			"3.L.2"
+		],
+		"sectionSlug": "3",
+		"difficulty": 2
+	},
+	{
+		"id": "3-17",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "3",
+		"prompt": "An offensive player performs a sharp pump fake, but the disc slips from their grip during the forward motion and flies spinning through the air. According to the definitions, how is this action classified?",
+		"choices": [
+			"It is considered a throw, because it is a disc in flight following a throwing motion that resulted in losing contact.",
+			"It is considered an accidentally dropped disc, because the player did not intend to release it.",
+			"It is considered a fumble, allowing the player to retrieve it without it being a turnover.",
+			"It is a live disc but not a throw, because a fake does not intentionally transfer momentum."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 3.N, a throw includes a disc in flight following any throwing motion (including a fake) that results in the thrower losing contact with the disc.",
+		"ruleRefs": [
+			"3.N"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "3-18",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "3",
+		"prompt": "A thrower steps out to pivot and begins winding up their arm to throw a backhand. During the backswing (wind-up), a defender fouls them. According to the definitions, has the \"act of throwing\" begun?",
+		"choices": [
+			"No, because pivots and wind-ups are not part of the act of throwing.",
+			"Yes, because the pivot establishes the foundation for the throwing motion.",
+			"Yes, because the backswing is part of the motion that transfers momentum to the disc.",
+			"No, because the act of throwing only begins once the disc leaves the thrower's hand."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 3.N.4, the act of throwing is the motion that transfers momentum to the disc in the direction of flight. Pivots and wind-ups are explicitly excluded from being part of the act of throwing.",
+		"ruleRefs": [
+			"3.N.4"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "3-19",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "3",
+		"prompt": "A player catches a pass and immediately launches a huck downfield to a teammate. While the disc is in the air, who is officially classified as the \"thrower\"?",
+		"choices": [
+			"The offensive player who most recently possessed the disc.",
+			"No one, because the disc is in flight and unpossessed.",
+			"The intended receiver of the pass.",
+			"Any offensive player on the team in possession."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 3.O, the term 'thrower' applies to an offensive player currently in possession of the disc, or the offensive player who has most recently possessed it.",
+		"ruleRefs": [
+			"3.O"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "3-20",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "3",
+		"prompt": "During a point, an offensive player commits an infraction of the rules that does not involve any non-incidental contact with an opposing player. What is the correct term for this infraction?",
+		"choices": [
+			"A violation",
+			"A foul",
+			"A stoppage of play",
+			"A turnover"
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 3.P defines a violation as any infraction of the rules other than a foul. Fouls require non-incidental contact between opposing players (3.B).",
+		"ruleRefs": [
+			"3.P",
+			"3.B"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "3-21",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "3",
+		"prompt": "The disc has gone out of bounds and is resting on the ground. An offensive player is walking over to retrieve it but has not yet picked it up. A defender sets up 8 feet away from the spot on the perimeter line where the disc will be put into play. Is this defender considered the \"marker\"?",
+		"choices": [
+			"Yes, because they are a defensive player within ten feet of the spot where the unpossessed disc is to be put into play.",
+			"No, because a marker cannot exist until an offensive player establishes possession.",
+			"No, because the disc is \"dead\" and no roles are assigned during a stoppage.",
+			"Yes, but only if they actively begin counting the stall out loud."
+		],
+		"answerIndex": 0,
+		"explanation": "Per 3.Q.6, if the disc is not in a player's possession, a defensive player within ten feet of a spot on the field where the disc is to be put into play is considered the marker.",
+		"ruleRefs": [
+			"3.Q.6"
+		],
+		"difficulty": 3
+	},
+	{
+		"id": "3-22",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "3",
+		"prompt": "During a point, a team has 7 people on the field actively playing, 3 coaches on the sideline, and 12 teammates cheering from the sideline. According to the definitions, how many \"players\" are currently participating in the point for both teams combined?",
+		"choices": [
+			"Up to 14",
+			"7",
+			"22",
+			"Any team member on the official roster"
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 3.Q.10 strictly defines a 'player' as one of the up to fourteen (14) persons participating in the current point of play, distinguishing them from sideline players or coaches.",
+		"ruleRefs": [
+			"3.Q.10"
+		],
+		"difficulty": 1
+	}
+]

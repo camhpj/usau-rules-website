@@ -1,0 +1,330 @@
+[
+	{
+		"id": "9-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The pull hits the ground in-bounds, rolls, and crosses the perimeter line to become out-of-bounds before being touched by the receiving team. How is the disc put into play?",
+		"choices": [
+			"At the spot on the central zone nearest to where it first crossed the perimeter line.",
+			"At the spot on the playing field (including the end zone) nearest to where it first crossed the perimeter line.",
+			"At the brick mark closest to the receiving team's defending end zone.",
+			"At the midpoint of the goal line the receiving team is defending."
+		],
+		"answerIndex": 0,
+		"explanation": "According to rule 9.F.2, if the disc initially hits in-bounds and goes out-of-bounds untouched by the receiving team, it is put into play on the central zone (excluding the end zones) nearest to where it first crossed the perimeter line.",
+		"ruleRefs": [
+			"9.F",
+			"9.F.2"
+		],
+		"sectionSlug": "9",
+		"difficulty": 3
+	},
+	{
+		"id": "9-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiving player jumps from an out-of-bounds area, catches the pull in the air, and lands out-of-bounds. Where is the disc put into play?",
+		"choices": [
+			"At the spot on the playing field nearest to where it was caught.",
+			"At the brick mark closest to the receiving team's end zone.",
+			"At the spot on the central zone nearest to where the player landed.",
+			"It is a turnover because the player was out-of-bounds when they caught the disc."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 9.G states that if the disc is caught outside the playing field, it is put into play at the spot on the playing field nearest to where it was caught.",
+		"ruleRefs": [
+			"9.G"
+		],
+		"sectionSlug": "9",
+		"difficulty": 1
+	},
+	{
+		"id": "9-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Immediately after the disc is pulled, a player on the receiving team notices the pulling team has eight players on the field. What is the correct protocol?",
+		"choices": [
+			"Any player on the field must call a violation as soon as they recognize it.",
+			"The receiving team must wait until the end of the point to call a violation and nullify the goal.",
+			"Only a designated sideline player may call an offsides violation.",
+			"The receiving team must play out the point, but the pulling team receives a warning."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 9.C.1, if a team has more than seven players after the disc has been pulled, it is the responsibility of all players on the field to call a violation as soon as they recognize it.",
+		"ruleRefs": [
+			"9.C.1"
+		],
+		"sectionSlug": "9",
+		"difficulty": 2
+	},
+	{
+		"id": "9-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "How is play initiated at the beginning of the second half?",
+		"choices": [
+			"With a pull.",
+			"With a check at the center of the field.",
+			"With the team that won the initial disc flip taking possession on their defending goal line.",
+			"With a pull, unless the first half ended on a time cap stoppage mid-point."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 9.A, play starts at the beginning of each half and after each goal with a pull.",
+		"ruleRefs": [
+			"9.A"
+		],
+		"sectionSlug": "9",
+		"difficulty": 1
+	},
+	{
+		"id": "9-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Team A just scored a goal against Team B. What is the procedure for the next point?",
+		"choices": [
+			"The teams switch their direction of attack and Team A pulls to Team B.",
+			"Team A pulls to Team B, and both teams maintain the same direction of attack.",
+			"The teams switch their direction of attack and Team B pulls to Team A.",
+			"Team B decides whether to switch directions, and then Team A pulls."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 9.B dictates that after a goal, the teams switch their direction of attack and the scoring team pulls. Therefore, Team A switches direction and pulls.",
+		"ruleRefs": [
+			"9.B"
+		],
+		"sectionSlug": "9",
+		"difficulty": 1
+	},
+	{
+		"id": "9-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "In a game without observers, a player on the pulling team crosses the goal line before the pull is released. Who is permitted to call \"offsides\"?",
+		"choices": [
+			"The receiving team before gaining possession, or a designated sideline player sent to either goal line.",
+			"Any player on the receiving team, at any time during the first possession of the point.",
+			"Only the player on the receiving team who raised their hand to signal readiness.",
+			"Only a designated sideline player; players on the field may not call offsides."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 9.D.4, the receiving team may call \"offsides\" before gaining possession of the disc. Additionally, in games without observers, each team may send a designated sideline player to either goal line who has the ability to make the call.",
+		"ruleRefs": [
+			"9.D.4"
+		],
+		"sectionSlug": "9",
+		"difficulty": 3
+	},
+	{
+		"id": "9-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The puller throws the disc high into a strong headwind. The disc gets blown backwards, and a player on the pulling team catches it before it hits the ground or touches a receiving player. What happens next?",
+		"choices": [
+			"The receiving team may immediately request a re-pull.",
+			"The pulling team retains possession and puts the disc into play where it was caught.",
+			"The receiving team gains possession at the spot of the catch.",
+			"The receiving team gains possession at the brick mark closest to their defending end zone."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 9.E states that a player on the throwing team may not touch the pull in the air before a member of the receiving team touches it. If this happens, the receiving team may request a re-pull immediately.",
+		"ruleRefs": [
+			"9.E"
+		],
+		"sectionSlug": "9",
+		"difficulty": 2
+	},
+	{
+		"id": "9-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player on the receiving team attempts to catch the pull before it hits the ground. The disc bounces off their hands and falls to the ground. What is the result?",
+		"choices": [
+			"It is considered a dropped disc and results in a turnover.",
+			"The receiving team retains possession but must put the disc into play from their defending goal line.",
+			"The pulling team may choose to enforce a re-pull.",
+			"The receiving team retains possession where the disc came to rest."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 9.H, if a receiving player touches the pull before it hits the ground and it then hits the ground, it is considered a dropped disc and results in a turnover.",
+		"ruleRefs": [
+			"9.H"
+		],
+		"sectionSlug": "9",
+		"difficulty": 1
+	},
+	{
+		"id": "9-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiving player retrieves an out-of-bounds pull. While walking the disc to the correct spot on the central zone to put it into play, they accidentally drop the disc and it hits the ground. What is the outcome?",
+		"choices": [
+			"The other team gains possession of the disc at the spot on the central zone nearest to the drop.",
+			"The player simply picks the disc up and continues to the correct spot.",
+			"The other team gains possession at the perimeter line where the pull originally went out-of-bounds.",
+			"The pulling team may choose whether to take possession or force a re-pull."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 9.I, dropping the disc while carrying it to the spot where it is to be put into play results in the other team gaining possession at the spot on the central zone nearest to the drop.",
+		"ruleRefs": [
+			"9.I"
+		],
+		"sectionSlug": "9",
+		"difficulty": 2
+	},
+	{
+		"id": "9-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiving player catches the pull out-of-bounds and carries it to the appropriate spot on the playing field to put it into play. What must the thrower do before attempting a pass?",
+		"choices": [
+			"Touch the disc to the ground after establishing a pivot at the appropriate spot.",
+			"Wait for a defender to tap the disc to check it into play.",
+			"Verbally announce 'disc in' to the marker.",
+			"Wait for the marker to initiate the stall count."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 9.J states that if the disc is to be put into play at a location other than where possession was gained, the disc is live and the thrower must touch the disc to the ground after establishing a pivot before attempting a pass.",
+		"ruleRefs": [
+			"9.J"
+		],
+		"sectionSlug": "9",
+		"difficulty": 1
+	},
+	{
+		"id": "9-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Team A scores a goal, but Team B contests the play, claiming a travel occurred before the throw. After a discussion, Team B retracts the call and the goal is awarded. When does the timer between pulls begin?",
+		"choices": [
+			"After the call or dispute has been resolved.",
+			"Retroactively at the exact time of the goal-scoring catch.",
+			"When the receiving team lines up on the goal line.",
+			"As soon as the travel call was initially made."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 9.K.1, if there is a call or dispute surrounding a goal-scoring play, the between-pull timer begins after the call or dispute has been resolved (if a goal is awarded).",
+		"ruleRefs": [
+			"9.K.1"
+		],
+		"sectionSlug": "9",
+		"difficulty": 2
+	},
+	{
+		"id": "9-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Team A scores a goal. Before the ensuing pull, Team B realizes Team A had eight players on the field during the point and calls a violation. What is one option Team B has to resolve this?",
+		"choices": [
+			"Nullify the goal and restart the point using re-pull timings.",
+			"Nullify the goal and take possession of the disc at their attacking brick mark.",
+			"Let the goal stand but force Team A to play the next point with only six players.",
+			"The goal must stand because the violation was not called during the point."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 9.C.1.d, if a too-many-players violation is called after a goal but before the ensuing pull, the other team may choose to nullify the goal and restart the point using re-pull timings.",
+		"ruleRefs": [
+			"9.C.1.d",
+			"9.C.1"
+		],
+		"sectionSlug": "9",
+		"difficulty": 3
+	},
+	{
+		"id": "9-13",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The pulling team commits their first pull violation of the game. The pull lands and remains in-bounds. What option does the receiving team have?",
+		"choices": [
+			"They may let the disc hit the ground untouched, signal, and take the disc at the brick mark closest to their defending end zone.",
+			"They must play the disc from where it comes to rest because it landed in-bounds.",
+			"They may let the disc hit the ground untouched, signal, and take the disc at midfield.",
+			"They may require the pulling team to re-pull the disc from 10 yards behind their goal line."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 9.D.4.b, in the first instance of a pull violation by the pulling team, the receiving team can let the disc hit the ground untouched and take it at the brick mark, even if it initially hits in-bounds.",
+		"ruleRefs": [
+			"9.D.4.b"
+		],
+		"sectionSlug": "9",
+		"difficulty": 1
+	},
+	{
+		"id": "9-14",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The pulling team has already committed an uncontested pull violation earlier in the game. They commit another pull violation on the current pull. If the receiving team lets the disc hit the ground untouched, what new option is available to them?",
+		"choices": [
+			"Taking the disc at midfield by fully extending one hand overhead and calling 'midfield'.",
+			"Taking the disc at the opposite brick mark by calling 'far brick'.",
+			"Forcing an automatic re-pull with a 20-second time limit.",
+			"Awarding the receiving team an immediate timeout without using one of their team timeouts."
+		],
+		"answerIndex": 0,
+		"explanation": "Per 9.D.4.c, after the first uncontested instance, every subsequent pull violation by the pulling team allows the receiving team to let the disc hit the ground untouched and take the disc at midfield.",
+		"ruleRefs": [
+			"9.D.4.c"
+		],
+		"sectionSlug": "9",
+		"difficulty": 2
+	},
+	{
+		"id": "9-15",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The pulling team calls a 'false start' on the receiving team. Play stops, and the offensive player with the disc reaches the spot where it is to be put into play. How long does the offense have to establish a stationary position?",
+		"choices": [
+			"Ten seconds",
+			"Twenty seconds",
+			"Thirty seconds",
+			"There is no time limit for the offense to set up"
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 9.D.4.d states that in any instance of a false start, ten seconds after the player in possession reaches the correct location, each offensive player must establish a stationary position.",
+		"ruleRefs": [
+			"9.D.4.d"
+		],
+		"sectionSlug": "9",
+		"difficulty": 3
+	},
+	{
+		"id": "9-16",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "9",
+		"prompt": "A pull lands out-of-bounds untouched. A player on the receiving team wants to put the disc into play at the brick mark. What must they do to properly signal for this option?",
+		"choices": [
+			"Verbally call \"brick\" to the nearest opponent after picking up the disc.",
+			"Point toward the brick mark and wait for the pulling team to acknowledge before moving.",
+			"Fully extend one hand overhead and call \"brick\" before gaining possession of the disc.",
+			"Tap the disc on the ground where it went out of bounds and loudly declare \"brick\"."
+		],
+		"answerIndex": 2,
+		"explanation": "According to 9.F.4.b, if the pull hits an out-of-bounds area, a player can take it to the brick mark (or middle) after signaling by fully extending one hand overhead and calling \"brick\" or \"middle\" before gaining possession of the disc.",
+		"ruleRefs": [
+			"9.F.4",
+			"9.F.4.b"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "9-17",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "9",
+		"prompt": "Between points, non-playing team members (like coaches and sideline players) walk onto the field to share water and discuss strategy. By what specific time must all of these non-playing team members be completely clear of the field?",
+		"choices": [
+			"When the receiving team lines up to allow defensive matchups (within 50 seconds after the goal).",
+			"When the receiving team signals readiness (within 60 seconds after the goal).",
+			"When the pulling team begins their run-up to release the pull.",
+			"When the pulling team's designated sideline player signals that they are ready."
+		],
+		"answerIndex": 1,
+		"explanation": "While coaches and sideline players may be on the field during the 50-second line-up period (9.K.2.a), they must be clear of the field by the time the receiving team signals readiness, which must occur within 60 seconds after the previous goal (9.K.3 and 9.K.3.a).",
+		"ruleRefs": [
+			"9.K.2.a",
+			"9.K.3",
+			"9.K.3.a"
+		],
+		"difficulty": 2
+	}
+]

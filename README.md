@@ -37,6 +37,33 @@ The ingest pipeline (`scripts/ingest/`) does the parsing (`parse.ts`), then tran
 
 To add a new ruleset, add an entry to `RULESETS` in `scripts/ingest/config.ts` and re-run the ingest script.
 
+## Quiz
+
+The app's second pillar is testing yourself, at `/quiz`. Three modes, all local-only (no accounts yet — progress lives in `localStorage` until Phase 3 adds auth + D1 persistence):
+
+- **Quick quiz** (`/quiz/quick`) — 10 questions drawn from the bank, optionally filtered by section and by difficulty tier (**Rookie**, **Veteran**, **Observer** — `difficulty` 1/2/3 in the question schema).
+- **Section mastery** (`/quiz/mastery`) — work the rulebook section by section; missed questions come back first, and a section is "mastered" once your recent answers there hit ≥90%. Every rule section page has a "Quiz me on this section" shortcut that deep-links here via `?section=<slug>`.
+- **Timed challenge** (`/quiz/timed`) — 60 seconds, auto-advancing, tracks your best streak and score.
+
+### Question bank
+
+Questions live under `content/questions/<rulesetId>/<sectionSlug>.json`, one file per rule section, loaded and validated the same way as ruleset content (`npm run validate:content`). Every question is **curated and human-reviewed** — nothing is served to users straight out of the generator. Each question has a prompt, exactly 4 choices, an `answerIndex`, an explanation, and `ruleRefs` back into the rulebook (rendered as citation links in the results screen).
+
+### Seeding the bank
+
+`scripts/seed-questions/` runs a **coverage-queue** model rather than "N questions per section": it ranks every rule by importance into a finite set of _targets_ (the saturation ceiling), figures out which targets the committed bank doesn't cover yet, and asks the Gemini API for exactly those — grounded in the section's rule text — merging results onto whatever's already committed for that section.
+
+A rule becomes a target when its importance score (derived from how often other rules reference it, its own annotation count, and how shallow it sits in the section) clears `targetThreshold` in `scripts/seed-questions/config.ts`, and its own text is at least `minTargetTextLength` characters (bare headers are skipped — they're covered once their children are). A target is _covered_ once some question cites that rule id or one of its descendants. Coverage is always recomputed from the question files on disk, never from a state file, so raising or lowering `targetThreshold` between runs simply changes the ceiling and everything recomputes fresh.
+
+```bash
+GEMINI_API_KEY=… npm run seed:questions                   # generate for every section with uncovered targets
+GEMINI_API_KEY=… npm run seed:questions -- --section 15   # only section 15
+GEMINI_API_KEY=… npm run seed:questions -- --force        # drop targeted section(s)' questions and regenerate their coverage from scratch
+npm run seed:questions -- --report                        # print the coverage report only — no key needed, no API calls
+```
+
+Each run requests at most `targetsPerSectionPerRun` uncovered targets per section (highest-importance first) and reports how many of those were fulfilled; a target the model repeatedly can't turn into a question stays visible under "requested but unfulfilled" in the report so it can be hand-authored or added to `excludeTargets`. Once every target is covered, the script prints `saturated` and exits without calling the API. **Always review every generated question before committing** — check the rule citations, the correct answer, and the distractors for accuracy — then run `npm run validate:content` to confirm the schema is satisfied.
+
 ## Testing
 
 ```bash
@@ -69,9 +96,9 @@ Or connect the repo to [Cloudflare Workers Builds](https://developers.cloudflare
 
 Best Perspective ships in four phases (full detail in `docs/superpowers/specs/2026-07-09-best-perspective-design.md`); each phase ships something usable:
 
-1. **Foundation** _(this phase)_ — scaffold, theme/tokens, ingest pipeline + Official Rules 2026-27 content, rules explorer, landing page, search, e2e coverage.
-2. **Quiz** — quiz engine and a seeded/reviewed question bank; quick, mastery, and timed modes, local (no auth) — plus a "Quiz me on this section" shortcut on section headers.
-3. **Accounts** — better-auth with Google OAuth, Cloudflare D1 for progress persistence, a dashboard, and bookmarks.
-4. **AI** — Gemini-powered scenario generation and ask-the-rules, with rule-citation grounding and cost guardrails.
+1. [x] **Foundation** _(shipped)_ — scaffold, theme/tokens, ingest pipeline + Official Rules 2026-27 content, rules explorer, landing page, search, e2e coverage.
+2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 212 human-reviewed questions covering all 217 coverage targets across every section.
+3. [ ] **Accounts** — better-auth with Google OAuth, Cloudflare D1 for progress persistence, a dashboard, and bookmarks.
+4. [ ] **AI** — Gemini-powered scenario generation and ask-the-rules, with rule-citation grounding and cost guardrails.
 
 Club/College Guidelines ingest, Spanish content, and social features are out of scope for v1 but the content architecture supports adding them later.

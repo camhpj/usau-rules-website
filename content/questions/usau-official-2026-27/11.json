@@ -1,0 +1,193 @@
+[
+	{
+		"id": "11-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A pass goes out-of-bounds and the opposing team gains possession. The new thrower carries the disc to the correct spot on the central zone and establishes a pivot. What must the thrower do next to legally continue play?",
+		"choices": [
+			"Touch the disc to the ground before putting it into play.",
+			"Offer the disc to the nearest defensive player for a check.",
+			"Wait for the defense to set up before making a pass.",
+			"Announce “Disc in” loudly before throwing."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 11.H, after establishing a pivot at the appropriate spot, the thrower must touch the disc to the ground before putting it into play.",
+		"ruleRefs": [
+			"11.H"
+		],
+		"sectionSlug": "11",
+		"difficulty": 1
+	},
+	{
+		"id": "11-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A pass is thrown near the sideline. Which of the following events causes the disc to immediately become out-of-bounds?",
+		"choices": [
+			"It is caught by an out-of-bounds defensive player.",
+			"It is deflected by an in-bounds defensive player and flies outside the perimeter line.",
+			"It passes completely outside the perimeter line in the air.",
+			"It is contacted by an in-bounds offensive player whose momentum is carrying them out-of-bounds."
+		],
+		"answerIndex": 0,
+		"explanation": "Under rule 11.E, a disc becomes out-of-bounds when it first contacts the out-of-bounds area, contacts an out-of-bounds offensive player, or is caught by an out-of-bounds defensive player.",
+		"ruleRefs": [
+			"11.E"
+		],
+		"sectionSlug": "11",
+		"difficulty": 3
+	},
+	{
+		"id": "11-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A receiver catches a pass near the edge of the field. Their first point of contact with the ground is directly on the solid perimeter line. What is the status of the player?",
+		"choices": [
+			"They are out-of-bounds, because the perimeter lines are not part of the playing field.",
+			"They are in-bounds, because the perimeter lines are part of the playing field.",
+			"They are in-bounds as long as no part of their foot touches the ground outside the line.",
+			"They are out-of-bounds only if they straddle the line, touching the outside area at the same time."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 11.A states that the entire playing field is in-bounds, and the perimeter lines are not part of the playing field and are out-of-bounds.",
+		"ruleRefs": [
+			"11.A"
+		],
+		"sectionSlug": "11",
+		"difficulty": 1
+	},
+	{
+		"id": "11-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An errant pass hits an observer who is standing out-of-bounds, then bounces back into the playing field where it is caught by an offensive player. What happens to the status of the disc?",
+		"choices": [
+			"It does not change status; the disc is still live and the catch stands.",
+			"It becomes out-of-bounds immediately upon contacting the observer.",
+			"It becomes a turnover and is put into play where the observer was standing.",
+			"It is returned to the thrower because observers are considered part of the out-of-bounds area."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 11.B states that a disc does not change in- or out-of-bounds status when contacted by an observer. Therefore, it remains live.",
+		"ruleRefs": [
+			"11.B"
+		],
+		"sectionSlug": "11",
+		"difficulty": 2
+	},
+	{
+		"id": "11-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A player starts entirely out-of-bounds, jumps into the air, catches the disc while airborne, and lands completely in-bounds. What is the status of the player when they catch the disc?",
+		"choices": [
+			"The player is out-of-bounds because they retain their out-of-bounds status until contacting the playing field.",
+			"The player is in-bounds because they caught the disc over the in-bounds playing field.",
+			"The player is in-bounds because their first point of ground contact after catching the disc is in-bounds.",
+			"The player is out-of-bounds, but only if the disc was caught outside the perimeter line."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 11.C, an airborne player retains their in-bounds or out-of-bounds status until they contact the playing field or the out-of-bounds area. Since they started out-of-bounds, they remain out-of-bounds while airborne.",
+		"ruleRefs": [
+			"11.C"
+		],
+		"sectionSlug": "11",
+		"difficulty": 3
+	},
+	{
+		"id": "11-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player catches an in-bounds disc and would easily have landed in-bounds. However, they safely land on a defender's foot, causing the offensive player to stumble and make their first ground contact out-of-bounds. How is this resolved?",
+		"choices": [
+			"It is treated as a force-out foul, assuming the play resulting in contact cannot be construed as a dangerous play.",
+			"It is a turnover because the offensive player's first ground contact was out-of-bounds.",
+			"The disc is returned to the thrower because the contact was incidental.",
+			"It is a dangerous play foul on the defender for undercutting the receiver."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 11.C.4, if a player catches an in-bounds disc and would have landed in-bounds but lands on an opposing player causing their first contact to be out-of-bounds, it is treated as a force-out foul, provided the play is not a dangerous play.",
+		"ruleRefs": [
+			"11.C.4"
+		],
+		"sectionSlug": "11",
+		"difficulty": 2
+	},
+	{
+		"id": "11-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A disc has been carried out-of-bounds. According to the rules, when does the disc legally become “in-bounds” again?",
+		"choices": [
+			"When it is put into play, or when play starts or restarts.",
+			"When the thrower establishes a pivot foot on the central zone.",
+			"As soon as it crosses the perimeter line in the air.",
+			"When the thrower releases the disc for a pass."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 11.D explicitly states that a disc becomes in-bounds when it is put into play, or when play starts or restarts.",
+		"ruleRefs": [
+			"11.D"
+		],
+		"sectionSlug": "11",
+		"difficulty": 1
+	},
+	{
+		"id": "11-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "An offensive player sees a pass curving outside the sideline. Can the player run outside the perimeter line to attempt a play on the disc?",
+		"choices": [
+			"Yes, players may go out-of-bounds to make a play on the disc, and the disc may fly outside the line and return.",
+			"No, offensive players must remain in-bounds at all times while the disc is in the air.",
+			"Yes, but only if the player establishes an in-bounds pivot before catching the disc.",
+			"No, once the disc crosses the perimeter line in the air, it is immediately dead."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 11.F clarifies that the disc may fly outside a perimeter line and return to the playing field, and players are permitted to go out-of-bounds to make a play on the disc.",
+		"ruleRefs": [
+			"11.F"
+		],
+		"sectionSlug": "11",
+		"difficulty": 1
+	},
+	{
+		"id": "11-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "11",
+		"prompt": "An in-bounds defender jumps, catches an opponent's pass while airborne, and lands completely out-of-bounds while still holding the disc. How is this play resolved?",
+		"choices": [
+			"The play is treated as if the defender was out-of-bounds when possession was gained.",
+			"The defender is considered in-bounds because their last point of contact before the catch was in-bounds.",
+			"The defender is considered in-bounds under the momentum exception.",
+			"The pass is considered incomplete and the disc is returned to the original thrower."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 11.G, if an in-bounds defender gains possession while airborne and becomes out-of-bounds while still in possession of the disc, the play is treated as if the defender was out-of-bounds when possession was gained. This causes the disc to become out-of-bounds under 11.E.",
+		"ruleRefs": [
+			"11.G",
+			"11.E"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "11-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "11",
+		"prompt": "A pass lands out-of-bounds. After hitting the ground, the disc bounces off an out-of-bounds spectator and rolls an additional 10 yards down the sideline. How does this deflection affect where the disc is put into play?",
+		"choices": [
+			"It does not affect where the disc is put into play.",
+			"The disc is put into play nearest to the spot where it deflected off the spectator.",
+			"The disc is put into play nearest to where it finally comes to rest.",
+			"The team gaining possession may choose between the spot it first hit the ground or the spot it came to rest."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 11.I states that events occurring after the disc becomes out-of-bounds do not affect where it is put into play. The bounce off the spectator and subsequent rolling are ignored for determining the spot of the disc.",
+		"ruleRefs": [
+			"11.I"
+		],
+		"difficulty": 1
+	}
+]

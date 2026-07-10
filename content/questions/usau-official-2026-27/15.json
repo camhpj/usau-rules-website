@@ -1,0 +1,213 @@
+[
+	{
+		"id": "15-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A marker initiates the stall count, then moves 12 feet away from the thrower to cover a cutting player. The marker then returns to mark the thrower. What must the marker do regarding the stall count?",
+		"choices": [
+			"Resume the count from the last number uttered.",
+			"Reinitiate the stall count from one.",
+			"Subtract one from the count and resume.",
+			"Wait for the thrower to tap the disc before resuming."
+		],
+		"answerIndex": 1,
+		"explanation": "Under 15.E, a marker leaving the ten foot radius and returning is considered a new marker, and a new marker must reinitiate the stall count.",
+		"ruleRefs": [
+			"15.E"
+		],
+		"sectionSlug": "15",
+		"difficulty": 2
+	},
+	{
+		"id": "15-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "What is required for a valid stall count?",
+		"choices": [
+			"Announcing “stalling” and counting from one to ten loudly enough for the thrower to hear.",
+			"Counting from one to ten at any volume.",
+			"Announcing “counting” and counting from one to ten loudly.",
+			"Holding up fingers to visually indicate the count from one to ten."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 15.B states that the stall count consists of announcing “stalling” and counting from one to ten loudly enough for the thrower to hear.",
+		"ruleRefs": [
+			"15.B"
+		],
+		"sectionSlug": "15",
+		"difficulty": 1
+	},
+	{
+		"id": "15-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Who is permitted to initiate or continue a stall count when a thrower has possession of a live disc?",
+		"choices": [
+			"Any defensive player on the field.",
+			"Any player within ten feet of the thrower.",
+			"Only the marker.",
+			"Both the marker and the defensive captain."
+		],
+		"answerIndex": 2,
+		"explanation": "According to 15.C, only the marker may initiate or continue a stall count when a thrower has possession of a disc that is live or in play.",
+		"ruleRefs": [
+			"15.C"
+		],
+		"sectionSlug": "15",
+		"difficulty": 1
+	},
+	{
+		"id": "15-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The marker reaches the first utterance of the word 'ten' and the thrower has not yet released the disc. However, the thrower throws the disc immediately after the 'T' in 'ten'. What is the immediate result?",
+		"choices": [
+			"Play stops immediately, the disc is returned to the thrower, and the defense sets up.",
+			"The pass is automatically ruled incomplete and play stops.",
+			"The marker loudly announces “stall” and play continues until the outcome of that pass is determined.",
+			"The thrower keeps possession but the stall count resets to eight."
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 15.D specifies that if the disc is thrown after the first utterance of the word 'ten', it is a turnover and the marker loudly announces “stall”. However, if the disc is thrown, play continues until the outcome of that pass is determined.",
+		"ruleRefs": [
+			"15.D"
+		],
+		"sectionSlug": "15",
+		"difficulty": 2
+	},
+	{
+		"id": "15-05",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "Under which of the following circumstances may a thrower contest a stall call?",
+		"choices": [
+			"Only if they believe the disc was released before the first utterance of the word “ten”.",
+			"If they believe the disc was released before “ten”, or if a fast count prevented a reasonable opportunity to call “fast count” before “ten”.",
+			"If the marker was positioned closer than one disc diameter during the stall count.",
+			"If the thrower's pivot foot slipped due to poor field conditions right before the stall."
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 15.D.2 explicitly states a thrower may contest a stall if they believe the disc was released before the first utterance of “ten” or if a fast count meant they did not have a reasonable opportunity to call “fast count” before the first utterance of the word “ten”.",
+		"ruleRefs": [
+			"15.D.2"
+		],
+		"sectionSlug": "15",
+		"difficulty": 2
+	},
+	{
+		"id": "15-06",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "A stall count is interrupted by a call. Prior to the call, the marker had said “stalling four... fi-” but did not finish saying the word “five”. What is the 'count reached' for the purpose of resuming the stall?",
+		"choices": [
+			"Three",
+			"Four",
+			"Five",
+			"Six"
+		],
+		"answerIndex": 1,
+		"explanation": "Under 15.F, the count reached is the last number fully uttered by the marker before the call. Since 'five' was not fully uttered, the count reached is four.",
+		"ruleRefs": [
+			"15.F"
+		],
+		"sectionSlug": "15",
+		"difficulty": 3
+	},
+	{
+		"id": "15-07",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "The marker reaches a count of seven. A player calls a foul, which the opposing team contests. The thrower and marker agree the count reached was seven. At what number does the stall count resume after the check?",
+		"choices": [
+			"1",
+			"6",
+			"7",
+			"8"
+		],
+		"answerIndex": 1,
+		"explanation": "Rule 15.F.1.c states that for a contested foul or violation, the count resumes at the count reached plus 1, or 6 if over 5. Since 7 is over 5, the count resumes with the word “stalling” followed by 6.",
+		"ruleRefs": [
+			"15.F.1",
+			"15.F"
+		],
+		"sectionSlug": "15",
+		"difficulty": 3
+	},
+	{
+		"id": "15-08",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"prompt": "What is the primary function of the stall count?",
+		"choices": [
+			"To time the period within which a thrower must release a throw.",
+			"To limit how long a team can possess the disc during a single point.",
+			"To determine the maximum time a defensive player can double-team the thrower.",
+			"To track the number of seconds a receiver can remain in the end zone."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 15.A defines stalling as the period of time within which a thrower must release a throw, which may be timed by the stall count.",
+		"ruleRefs": [
+			"15.A"
+		],
+		"sectionSlug": "15",
+		"difficulty": 1
+	},
+	{
+		"id": "15-09",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "15",
+		"prompt": "A marker begins a stall count by saying 'stalling one.' They then pause for two seconds before saying 'two,' and continue the rest of the count with 1.5 seconds between each number. Is this a legal stall count?",
+		"choices": [
+			"Yes, the interval between the first utterance of each number must be at least one second, but it is legal to count at intervals greater than one second.",
+			"No, the interval between numbers must be exactly one second.",
+			"No, pausing for more than one second between numbers is a marking violation.",
+			"Yes, but only if the marker pauses for the exact same amount of time between every number."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 15.B.1, the interval between the first utterance of each number must be at least one second. The rule's annotation clarifies that it is legal to count at intervals greater than one second between numbers.",
+		"ruleRefs": [
+			"15.B.1"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "15-10",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "15",
+		"prompt": "Ordinarily, a stall count cannot be initiated before a pivot is established directly after a turnover. However, under what condition may a marker initiate or continue a stall count even before a thrower gains possession?",
+		"choices": [
+			"If delay of game or pre-stall rules apply and have been satisfied.",
+			"If the disc is resting on the playing field proper for more than three seconds.",
+			"If the marker establishes a legal marking position within 10 feet of the disc.",
+			"If the marker verbally warns the nearest offensive player to pick up the disc."
+		],
+		"answerIndex": 0,
+		"explanation": "According to 15.C.1, a marker may initiate or continue a stall count before a thrower gains possession if delay of game or pre-stall rules apply and have been satisfied. This is an exception to the general requirement in 15.C.2.",
+		"ruleRefs": [
+			"15.C.1",
+			"15.C.2"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "15-11",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "15",
+		"prompt": "The marker calls 'stall' on the thrower. The thrower releases a pass, which is caught by a teammate. The marker then realizes they reached ten too quickly and retracts their stall call. What is the result?",
+		"choices": [
+			"The outcome of the pass stands and play restarts with a check.",
+			"The disc is returned to the thrower and the stall count resumes at 1.",
+			"The disc is returned to the thrower and the stall count resumes at 8.",
+			"The pass is considered a turnover because it was thrown after a stall call was made."
+		],
+		"answerIndex": 0,
+		"explanation": "Under 15.D.2.c, if a marker retracts a stall call and the thrower attempted a pass, the outcome of that pass stands and play restarts with a check.",
+		"ruleRefs": [
+			"15.D.2.c"
+		],
+		"difficulty": 3
+	}
+]

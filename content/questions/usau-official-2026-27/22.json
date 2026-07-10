@@ -1,0 +1,79 @@
+[
+	{
+		"id": "22-01",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "22",
+		"prompt": "Who has the authority to decide if observers will be used for a game?",
+		"choices": [
+			"Only the event organizer.",
+			"Only the captains of the competing teams.",
+			"The captains or the event organizer.",
+			"The regional coordinator."
+		],
+		"answerIndex": 2,
+		"explanation": "According to rule 22.A, observers may be used if desired by the captains or the event organizer.",
+		"ruleRefs": [
+			"22.A"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "22-02",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "22",
+		"prompt": "During an observed game, two players are arguing over a foul call and cannot reach a resolution in a timely manner. Neither player has asked the observer for help. What may the observer do?",
+		"choices": [
+			"The observer must wait until one of the involved players explicitly requests their input.",
+			"The observer may step in and resolve the dispute without a request from the players.",
+			"The observer must issue a Spirit of the Game infraction to both players for delaying the game.",
+			"The observer must force the disc to go back to the thrower without resolving the foul."
+		],
+		"answerIndex": 1,
+		"explanation": "Under rule 22.B.2.b, an observer may resolve a dispute without a request from the players involved if they cannot resolve it in a timely manner.",
+		"ruleRefs": [
+			"22.B",
+			"22.B.2.b"
+		],
+		"difficulty": 2
+	},
+	{
+		"id": "22-03",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "22",
+		"prompt": "What is the fundamental agreement players make when playing a game under observers?",
+		"choices": [
+			"They agree to abide by the observers’ decisions.",
+			"They agree to forfeit their right to make any calls on the field.",
+			"They agree that observers will call all fouls and violations actively.",
+			"They agree to defer all line calls to the opposing team if the observer's view is blocked."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 22.C states that by playing under observers, the players agree to abide by the observers’ decisions.",
+		"ruleRefs": [
+			"22.C"
+		],
+		"difficulty": 1
+	},
+	{
+		"id": "22-04",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "22",
+		"prompt": "An observer assesses a yardage penalty against Team A through the misconduct system. Team B decides they want to decline the enforcement of this penalty. Under what condition might the observer deny Team B's declination?",
+		"choices": [
+			"If the observer believes the teams are trying to circumvent mandatory tournament rules, guidelines, or player safety.",
+			"If the penalty was assessed during the last five minutes of a closely contested game.",
+			"If Team B has already declined a previous yardage penalty in the same half.",
+			"The observer cannot deny the declination; teams always have the final say on yardage penalties."
+		],
+		"answerIndex": 0,
+		"explanation": "Rule 22.D allows players to decline enforcement of a yardage penalty, but observers may deny the declination if they feel the teams are trying to circumvent mandatory tournament rules, guidelines, or player safety.",
+		"ruleRefs": [
+			"22.D"
+		],
+		"difficulty": 3
+	}
+]
