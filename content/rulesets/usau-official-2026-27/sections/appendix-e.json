@@ -1,0 +1,48 @@
+{
+	"slug": "appendix-e",
+	"anchorId": "appendix_e",
+	"number": "E",
+	"kind": "appendix",
+	"title": "Youth Rules Adaptations",
+	"html": "<div class=\"rulesBody plain\">The following adaptations to the rules are recommended for youth ultimate competitions, as defined below. These adaptations may be additions to the current official rules or may supersede existing rules. Other than these additions and changes, the current official rules will apply to youth competition.</div> <div class=\"rulesBody plain\">The goals for Youth Rules Adaptations are to modify the game to make it safer, more fun, and more developmentally appropriate for various age groups. These adaptations should be used with those goals in mind, rather than for strategic purposes. The current age categories are a general approximation of development levels, and are also in part based on factors such as school levels and the breakdown of current age groups participating in the sport. These will continue to be refined in the future.</div> <table class=\"normal youth\"> <colgroup> <col style=\"width: 25%\"> <col style=\"width: 25%\"> <col style=\"width: 25%\"> <col style=\"width: 25%\"> </colgroup> <tbody> <tr> <td>&nbsp;</td> <td>Under-12</td> <td>Under-15</td> <td>Under-17/20</td> </tr> <tr> <td>Disc size</td> <td>USA Ultimate-approved “Youth Level U-12” disc</td> <td>USA Ultimate-approved 175g disc</td> <td>USA Ultimate-approved 175g disc</td> </tr> <tr> <td>Number of players on the field</td> <td>3v3 or 4v4</td> <td>5v5 or 6v6</td> <td>7v7</td> </tr> <tr> <td> Field size (yards)<br> Length: Central Zone (goal line to goal line) </td> <td> <span class=\"fieldSizeHeader\">3v3</span><br> Length: 25-35<br> Width: 15-20<br> End Zone: 5-10<br> Brick: 7-10<br><br> <span class=\"fieldSizeHeader\">4v4</span><br> Length: 35-45<br> Width: 20-25<br> End Zone: 10-15<br> Brick: 10-13 </td> <td> <span class=\"fieldSizeHeader\">5v5</span><br> Length: 45-55<br> Width: 25-35<br> End Zone: 12-18<br> Brick: 13-16<br><br> <span class=\"fieldSizeHeader\">6v6</span><br> Length: 55-65<br> Width: 30-35<br> End Zone: 15-20<br> Brick: 16-18 </td> <td>Standard rules.</td> </tr> <tr> <td>Game length</td> <td>Game Total<br>(range 9-11)<br>Hard Time Cap<br>(range 45-60 minutes)</td> <td>Game Total<br>(range 11-13)<br>Hard Time Cap<br>(range 60-75 minutes)</td> <td>Game Total<br>(range 13-15)<br>Hard Time Cap<br>(range 75-105 minutes)</td> </tr> <tr> <td>Time Between Points</td> <td>Coaches should communicate before the game about expectations for time between points.</td> <td>Coaches should communicate before the game about expectations for time between points.</td> <td>Add 20 seconds to the prescribed time limits for the receiving and pulling teams.</td> </tr> <tr> <td>In-Point Substitutions</td> <td>Organizers/coaches may agree to stop the game during a long point to substitute players. Specific rules around when and how this is implemented should be communicated ahead of the game.</td> <td>Organizers/coaches may agree to stop the game during a long point to substitute players. Specific rules around when and how this is implemented should be communicated ahead of the game.</td> <td>Standard rules.</td> </tr> <tr> <td>Pre-stall</td> <td>None</td> <td>None</td> <td>Standard rules.</td> </tr> <tr> <td>Dropped pull</td> <td>Not a turnover.<br>Play from where disc was dropped.<br>No stoppage.<br>Intended to teach catching the pull, not to be used simply to knock the pull out of the air.</td> <td>Not a turnover.<br>Play restarts with a defensive check after players on both teams have set up.<br>Intended to teach catching the pull, not to be used simply to knock the pull out of the air.</td> <td>Standard rules.</td> </tr> <tr> <td>Zone defense</td> <td>Not allowed. Must play match-up or person-to-person. Switching and poaching to provide help are allowed, but no defense designed to cover spaces rather than players.</td> <td>Standard rules.<br>Organizers/coaches may agree to restrict zone and only play match-up or person-to-person.</td> <td>Standard rules.</td> </tr> <tr> <td>Disc space</td> <td>Marking distance extended from disc width to arms-length.</td> <td>Marking distance extended from disc width to arms-length.</td> <td>Standard rules.</td> </tr> <tr> <td>Foot blocks</td> <td>Not allowed.<br>If a marker blocks a throw with a non-planted foot or leg, it is considered a marking foul.</td> <td>Standards rules. Emphasis must be placed by coaches on proper technique and decision-making, especially for new players.</td> <td>Standards rules. Emphasis must be placed by coaches on proper technique and decision-making, especially for new players.</td> </tr> <tr> <td>Travel calls</td> <td>Standard rules. Coaches encouraged to teach pivoting and not calling insignificant traveling violations.</td> <td>Standard rules. Coaches encouraged to teach pivoting and not calling insignificant traveling violations.</td> <td>Standard rules.</td> </tr> <tr> <td>Layout on Defense</td> <td>Not allowed.<br>Diving for a block on defense is considered a receiving foul.</td> <td>Allowed without contact.<br>Any contact with another player before, during, or after the play is considered a receiving foul. This includes incidental contact that did not affect the play.<br>Emphasis must be placed by coaches on proper technique and decision-making.</td> <td>Standard rules.<br>Emphasis must be placed by coaches on proper technique and decision-making to avoid contact.</td> </tr> <tr> <td>Dangerous play/receiving fouls</td> <td>Ultimate is a non-contact sport. Incidental contact can occur, but unlike some sports, blatant bumping and physicality are not acceptable. Please play safely and avoid contact whenever possible.</td> <td>Ultimate is a non-contact sport. Incidental contact can occur, but unlike some sports, blatant bumping and physicality are not acceptable. Please play safely and avoid contact whenever possible.</td> <td>Ultimate is a non-contact sport. Incidental contact can occur, but unlike some sports, blatant bumping and physicality are not acceptable. Please play safely and avoid contact whenever possible.</td> </tr> <tr> <td>Spiking</td> <td>Not allowed by default. Only allowed if spirit captains/coaches agree ahead of time.</td> <td>Not allowed by default. Only allowed if spirit captains/coaches agree ahead of time.</td> <td>Not allowed by default. Only allowed if spirit captains/coaches agree ahead of time.</td> </tr> </tbody> </table>",
+	"rules": [
+		{
+			"id": "E1",
+			"label": "E1.",
+			"html": "Requirements",
+			"text": "Requirements",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "E1.A",
+					"label": "E1.A.",
+					"html": "There are not currently any requirements for rules adaptations for youth under this edition of the rules. Requirements may come in future editions based on continued research and experience with adapting the sport for youth age groups.",
+					"text": "There are not currently any requirements for rules adaptations for youth under this edition of the rules. Requirements may come in future editions based on continued research and experience with adapting the sport for youth age groups.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "E2",
+			"label": "E2.",
+			"html": "Recommendations",
+			"text": "Recommendations",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "E2.A",
+					"label": "E2.A.",
+					"html": "These rule adaptations are not required, but are optional recommendations taken in whole or in part, to help younger players learn to play in a more developmentally appropriate environment.",
+					"text": "These rule adaptations are not required, but are optional recommendations taken in whole or in part, to help younger players learn to play in a more developmentally appropriate environment.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}

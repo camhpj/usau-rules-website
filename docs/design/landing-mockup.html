@@ -1,0 +1,300 @@
+<h2>Navy First — refined landing</h2>
+<p class="subtitle">Single nav bar, one-viewport minimal landing. Does this nail it, or what would you change?</p>
+
+<div class="mockup">
+  <div class="mockup-header">Desktop — 1440px</div>
+  <div class="mockup-body" style="padding:0;">
+    <div class="nfl-wrap">
+      <div class="nfl-texture" aria-hidden="true"></div>
+
+      <nav class="nfl-nav">
+        <div class="nfl-wordmark">The Rules Lab</div>
+        <div class="nfl-nav-right">
+          <a class="nfl-link" href="#">Rules</a>
+          <a class="nfl-link" href="#">Quiz</a>
+          <a class="nfl-link" href="#">Ask</a>
+          <button class="nfl-avatar" aria-label="Sign in">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <div class="nfl-hero">
+        <div class="nfl-chip">2026–2027 Official Rules</div>
+
+        <h1 class="nfl-headline">Know the<br><span class="nfl-accent">Rules.</span></h1>
+
+        <p class="nfl-subline">The official rules of ultimate — explorable, searchable, and quizzable.</p>
+
+        <div class="nfl-cards">
+          <a class="nfl-card" href="#">
+            <div class="nfl-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5c-2-1.2-4.7-1.5-7-.8v13.3c2.3-.7 5-.4 7 .8 2-1.2 4.7-1.5 7-.8V4.2c-2.3-.7-5-.4-7 .8Z"/><path d="M12 5v13.3"/></svg>
+            </div>
+            <div class="nfl-card-text">
+              <h3>Explore the rules</h3>
+              <p>Browse the full rulebook, organized and cross-linked.</p>
+            </div>
+            <span class="nfl-card-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+
+          <a class="nfl-card" href="#">
+            <div class="nfl-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z"/></svg>
+            </div>
+            <div class="nfl-card-text">
+              <h3>Test yourself</h3>
+              <p>Quiz your knowledge with scenario-based questions.</p>
+            </div>
+            <span class="nfl-card-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </div>
+
+        <a class="nfl-ghost-link" href="#">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5c.4 3.6 1.4 6 3 7.6 1.6 1.6 4 2.6 7.6 3-3.6.4-6 1.4-7.6 3-1.6 1.6-2.6 4-3 7.6-.4-3.6-1.4-6-3-7.6-1.6-1.6-4-2.6-7.6-3 3.6-.4 6-1.4 7.6-3 1.6-1.6 2.6-4 3-7.6Z"/></svg>
+          Ask a rules question
+        </a>
+      </div>
+
+      <div class="nfl-footer">Unofficial study tool · Rules © USA Ultimate</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nfl-wrap {
+    --navy: #1C3557;
+    --navy-deep: #152A47;
+    --red: #B41F3A;
+    --red-dark: #931831;
+    --ink: #1C3557;
+    --gray-tint: #F0F1F3;
+    --gray-text: #5B6472;
+
+    position: relative;
+    overflow: hidden;
+    min-height: 760px;
+    background: linear-gradient(165deg, var(--navy) 0%, var(--navy-deep) 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- background field texture ---- */
+  .nfl-texture {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.045) 0px, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 96px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 140px);
+  }
+  .nfl-texture::before,
+  .nfl-texture::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.09) 0px, rgba(255,255,255,0.09) 1px, transparent 1px, transparent 13px);
+  }
+  .nfl-texture::before {
+    top: 0;
+    left: 0;
+    -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 70%);
+            mask-image: linear-gradient(135deg, #000 0%, transparent 70%);
+  }
+  .nfl-texture::after {
+    bottom: 0;
+    right: 0;
+    -webkit-mask-image: linear-gradient(-45deg, #000 0%, transparent 70%);
+            mask-image: linear-gradient(-45deg, #000 0%, transparent 70%);
+  }
+
+  /* ---- nav ---- */
+  .nfl-nav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 56px;
+    height: 74px;
+    flex-shrink: 0;
+  }
+  .nfl-wordmark {
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: 18px;
+    color: #fff;
+  }
+  .nfl-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  .nfl-link {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+  }
+  .nfl-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  /* ---- hero ---- */
+  .nfl-hero {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 32px 0;
+  }
+
+  .nfl-chip {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid var(--red);
+    border-radius: 4px;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(180,31,58,0.12);
+    margin-bottom: 30px;
+  }
+
+  .nfl-headline {
+    margin: 0 0 22px;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    font-stretch: condensed;
+    color: #fff;
+    font-size: clamp(48px, 6.4vw, 82px);
+    line-height: 0.92;
+    transform: scaleX(0.94);
+  }
+  .nfl-accent {
+    color: var(--red);
+  }
+
+  .nfl-subline {
+    margin: 0 0 44px;
+    max-width: 480px;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.68);
+  }
+
+  /* ---- entry cards ---- */
+  .nfl-cards {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 0 26px;
+  }
+  .nfl-card {
+    position: relative;
+    flex: 1;
+    text-align: left;
+    text-decoration: none;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px 52px 22px 22px;
+    box-shadow: 0 16px 32px -8px rgba(9, 20, 38, 0.38);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .nfl-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    background: var(--gray-tint);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nfl-card-text h3 {
+    margin: 0 0 4px;
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .nfl-card-text p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--gray-text);
+  }
+  .nfl-card-arrow {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nfl-ghost-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,0.32);
+    padding-bottom: 3px;
+  }
+  .nfl-ghost-link svg { color: var(--red); }
+
+  /* ---- footer ---- */
+  .nfl-footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.38);
+    padding: 20px 0 22px;
+  }
+
+  @media (max-width: 760px) {
+    .nfl-nav-right { gap: 20px; }
+    .nfl-cards { flex-direction: column; }
+  }
+</style>

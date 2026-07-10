@@ -1,0 +1,579 @@
+{
+	"slug": "7",
+	"anchorId": "7",
+	"number": "7",
+	"kind": "section",
+	"title": "Timeouts",
+	"html": null,
+	"rules": [
+		{
+			"id": "7.A",
+			"label": "7.A.",
+			"html": "A timeout stops play and suspends time limit counts.",
+			"text": "A timeout stops play and suspends time limit counts.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "7.B",
+			"label": "7.B.",
+			"html": "Team Timeout: Each team has two team timeouts per half in a standard game.",
+			"text": "Team Timeout: Each team has two team timeouts per half in a standard game.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "7.B.1",
+					"label": "7.B.1.",
+					"html": "A team timeout lasts 70 seconds.",
+					"text": "A team timeout lasts 70 seconds.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.B.2",
+					"label": "7.B.2.",
+					"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn>, <dfn data-rule=\"3.Q.11\">sideline player</dfn>, or <dfn data-rule=\"3.Q.2\">coach</dfn> may call a timeout after a goal is scored and before both teams have signaled readiness to start play. Time limit counts between points are suspended for 70 seconds and readiness signals are reset. A timeout may not be called between a re-<dfn data-rule=\"3.J\">pull</dfn> call and the ensuing pull.",
+					"text": "Any player, sideline player, or coach may call a timeout after a goal is scored and before both teams have signaled readiness to start play. Time limit counts between points are suspended for 70 seconds and readiness signals are reset. A timeout may not be called between a re-pull call and the ensuing pull.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.B.3",
+					"label": "7.B.3.",
+					"html": "After the <dfn data-rule=\"3.J\">pull</dfn>, only a <dfn data-rule=\"3.O\">thrower</dfn> with <dfn data-rule=\"3.I\">possession of the disc</dfn> that has survived all <dfn data-rule=\"3.C\">ground contact</dfn> can call a timeout. The <dfn data-rule=\"3.Q.10\">player</dfn> must form a T with one hand and the disc, and should audibly say “timeout.” The timeout begins when the T is formed. The disc is then placed on the ground at the <dfn data-rule=\"3.H\">pivot</dfn> spot.",
+					"text": "After the pull, only a thrower with possession of the disc that has survived all ground contact can call a timeout. The player must form a T with one hand and the disc, and should audibly say “timeout.” The timeout begins when the T is formed. The disc is then placed on the ground at the pivot spot.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.B.4",
+					"label": "7.B.4.",
+					"html": "Restarting play after a timeout called by a <dfn data-rule=\"3.O\">thrower</dfn>:",
+					"text": "Restarting play after a timeout called by a thrower:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.B.4.a",
+							"label": "7.B.4.a.",
+							"html": "All players at the time of the timeout call must return to play unless an injury timeout also is called.",
+							"text": "All players at the time of the timeout call must return to play unless an injury timeout also is called.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.B.4.b",
+							"label": "7.B.4.b.",
+							"html": "Each <dfn data-rule=\"3.Q.9\">offensive player</dfn> must establish a stationary position by the end of the timeout. Movement after this time and before the disc is checked into play is a <dfn data-rule=\"3.P\">violation</dfn>. The defense has ninety seconds after the beginning of the timeout or up to twenty seconds after all offensive players have established their positions (whichever is longer) to check the disc into play.",
+							"text": "Each offensive player must establish a stationary position by the end of the timeout. Movement after this time and before the disc is checked into play is a violation. The defense has ninety seconds after the beginning of the timeout or up to twenty seconds after all offensive players have established their positions (whichever is longer) to check the disc into play.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.B.4.c",
+							"label": "7.B.4.c.",
+							"html": "The <dfn data-rule=\"3.Q.10\">player</dfn> who had <dfn data-rule=\"3.I\">possession of the disc</dfn> when the team timeout was called restarts play with a check at the <dfn data-rule=\"3.H\">pivot</dfn> spot, and the <dfn data-rule=\"3.Q.6\">marker</dfn> resumes the stall count with the word “stalling” followed by the last number uttered before the timeout plus one or 9 if over 8, however <a href=\"/rules/usau-official-2026-27/15#15.E\">15.E</a> applies.",
+							"text": "The player who had possession of the disc when the team timeout was called restarts play with a check at the pivot spot, and the marker resumes the stall count with the word “stalling” followed by the last number uttered before the timeout plus one or 9 if over 8, however 15.E applies.",
+							"annotations": [],
+							"refs": [
+								"15.E"
+							],
+							"children": []
+						},
+						{
+							"id": "7.B.4.d",
+							"label": "7.B.4.d.",
+							"html": "If the time limits for the timeout are exceeded by one team, a <dfn data-rule=\"3.Q.10\">player</dfn> on the other team may announce “delay of game” and the player at the location the disc is to be put into play may self-check the disc into play without acknowledgment by the opposing team. In order to invoke this rule a player must give warnings of 20, 10, and 5 seconds.",
+							"text": "If the time limits for the timeout are exceeded by one team, a player on the other team may announce “delay of game” and the player at the location the disc is to be put into play may self-check the disc into play without acknowledgment by the opposing team. In order to invoke this rule a player must give warnings of 20, 10, and 5 seconds.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "7.B.5",
+					"label": "7.B.5.",
+					"html": "If the disc is live or in play and the <dfn data-rule=\"3.O\">thrower</dfn> attempts to call a timeout when the team in possession has no timeouts remaining, play is stopped. The <dfn data-rule=\"3.Q.6\">marker</dfn> resumes the stall count with the number last uttered before the call plus three (e.g., if the timeout was called after a stall count of two, play would resume on a stall count of five). If this results in a stall count of ten or above, this is a turnover.",
+					"text": "If the disc is live or in play and the thrower attempts to call a timeout when the team in possession has no timeouts remaining, play is stopped. The marker resumes the stall count with the number last uttered before the call plus three (e.g., if the timeout was called after a stall count of two, play would resume on a stall count of five). If this results in a stall count of ten or above, this is a turnover.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "7.C",
+			"label": "7.C.",
+			"html": "Injury Timeout: A timeout called for a <dfn data-rule=\"3.Q.10\">player</dfn> injury. During an injury timeout, the health and safety of the injured player are of primary concern.",
+			"text": "Injury Timeout: A timeout called for a player injury. During an injury timeout, the health and safety of the injured player are of primary concern.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "7.C.1",
+					"label": "7.C.1.",
+					"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn> on the injured player’s team may call an injury timeout.",
+					"text": "Any player on the injured player’s team may call an injury timeout.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.C.2",
+					"label": "7.C.2.",
+					"html": "The timeout is retroactive to the time of the injury, unless the injured <dfn data-rule=\"3.Q.10\">player</dfn> chooses to continue play before the timeout is called, in which case, the timeout begins at the time of the call. If the disc is in the air or the <dfn data-rule=\"3.O\">thrower</dfn> is in the act of throwing at the time of the injury or of the call when the player has continued play, the timeout begins when the play is completed.",
+					"text": "The timeout is retroactive to the time of the injury, unless the injured player chooses to continue play before the timeout is called, in which case, the timeout begins at the time of the call. If the disc is in the air or the thrower is in the act of throwing at the time of the injury or of the call when the player has continued play, the timeout begins when the play is completed.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.C.2.a",
+							"label": "7.C.2.a.",
+							"html": "The health and safety of the injured <dfn data-rule=\"3.Q.10\">player</dfn> are of primary concern. If a serious injury occurs, other players change their behavior as a result of that injury, and the captains of both teams agree, the play may be resolved or play may be restarted in any appropriate manner despite any outcome dictated by these rules.",
+							"text": "The health and safety of the injured player are of primary concern. If a serious injury occurs, other players change their behavior as a result of that injury, and the captains of both teams agree, the play may be resolved or play may be restarted in any appropriate manner despite any outcome dictated by these rules.",
+							"annotations": [
+								"This could include, for example, returning a thrown disc to the thrower regardless of the outcome, restarting the point with a re-pull, or delaying the restart of play."
+							],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "7.C.3",
+					"label": "7.C.3.",
+					"html": "Restarting play after an injury timeout:",
+					"text": "Restarting play after an injury timeout:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.C.3.a",
+							"label": "7.C.3.a.",
+							"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> in possession leaves the field following an injury, the replacing player takes possession.",
+							"text": "If a player in possession leaves the field following an injury, the replacing player takes possession.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.C.3.b",
+							"label": "7.C.3.b.",
+							"html": "Play restarts at the appropriate spot with a check and the <dfn data-rule=\"3.Q.6\">marker</dfn> resumes any stall count with the word stalling followed by the last number uttered before the injury timeout started plus one or 9 if over 8. The substitution of the <dfn data-rule=\"3.O\">thrower</dfn> or marker does not alter the stall count.",
+							"text": "Play restarts at the appropriate spot with a check and the marker resumes any stall count with the word stalling followed by the last number uttered before the injury timeout started plus one or 9 if over 8. The substitution of the thrower or marker does not alter the stall count.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.C.3.c",
+							"label": "7.C.3.c.",
+							"html": "All players must resume their locations on the field at the time the injury timeout began (i.e., players may not set up), unless a team timeout is also called.",
+							"text": "All players must resume their locations on the field at the time the injury timeout began (i.e., players may not set up), unless a team timeout is also called.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "7.C.4",
+					"label": "7.C.4.",
+					"html": "If the injury was not caused by contact with another <dfn data-rule=\"3.Q.10\">player</dfn>, either the injured player must be substituted, or the injured player’s team must forfeit a team timeout by announcing it prior to restarting play.",
+					"text": "If the injury was not caused by contact with another player, either the injured player must be substituted, or the injured player’s team must forfeit a team timeout by announcing it prior to restarting play.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.C.5",
+					"label": "7.C.5.",
+					"html": "If an injury timeout is called during a team timeout, the opposing team must be notified as soon as the injury is discovered (<a href=\"/rules/usau-official-2026-27/8#8.A.2\">8.A.2</a>).",
+					"text": "If an injury timeout is called during a team timeout, the opposing team must be notified as soon as the injury is discovered (8.A.2).",
+					"annotations": [],
+					"refs": [
+						"8.A.2"
+					],
+					"children": []
+				},
+				{
+					"id": "7.C.6",
+					"label": "7.C.6.",
+					"html": "If an injury timeout is called between points, all time limits are suspended until the injured <dfn data-rule=\"3.Q.10\">player</dfn> is removed from the field.",
+					"text": "If an injury timeout is called between points, all time limits are suspended until the injured player is removed from the field.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.C.7",
+					"label": "7.C.7.",
+					"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn>, <dfn data-rule=\"3.Q.2\">coach</dfn>, or <dfn data-rule=\"3.Q.8\">observer</dfn> should call an injury timeout for a player who is bleeding or has an exposed open wound.",
+					"text": "Any player, coach, or observer should call an injury timeout for a player who is bleeding or has an exposed open wound.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.C.7.a",
+							"label": "7.C.7.a.",
+							"html": "This timeout takes effect when the call is made (i.e., is not retroactive to the time of injury). If the disc is in the air or the <dfn data-rule=\"3.O\">thrower</dfn> is in the act of throwing at the time of the call, the timeout begins when the play is completed. However, the disc is returned to the thrower if avoiding potential contact with the bleeding <dfn data-rule=\"3.Q.10\">player</dfn> is determined to have affected the play.",
+							"text": "This timeout takes effect when the call is made (i.e., is not retroactive to the time of injury). If the disc is in the air or the thrower is in the act of throwing at the time of the call, the timeout begins when the play is completed. However, the disc is returned to the thrower if avoiding potential contact with the bleeding player is determined to have affected the play.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.C.7.b",
+							"label": "7.C.7.b.",
+							"html": "This timeout may last up to 70 seconds, during which time the injured <dfn data-rule=\"3.Q.10\">player</dfn> must have the wound effectively covered in order to return to the point in progress.",
+							"text": "This timeout may last up to 70 seconds, during which time the injured player must have the wound effectively covered in order to return to the point in progress.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.C.7.c",
+							"label": "7.C.7.c.",
+							"html": "If play cannot be restarted with the injured <dfn data-rule=\"3.Q.10\">player</dfn>’s wound effectively covered in 70 seconds, the player’s team may either",
+							"text": "If play cannot be restarted with the injured player’s wound effectively covered in 70 seconds, the player’s team may either",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "7.C.7.c.1",
+									"label": "7.C.7.c.1.",
+									"html": "replace the injured <dfn data-rule=\"3.Q.10\">player</dfn> according to <a href=\"/rules/usau-official-2026-27/7#7.C.3\">7.C.3</a>, or",
+									"text": "replace the injured player according to 7.C.3, or",
+									"annotations": [],
+									"refs": [
+										"7.C.3"
+									],
+									"children": []
+								},
+								{
+									"id": "7.C.7.c.2",
+									"label": "7.C.7.c.2.",
+									"html": "call a team timeout, if they have one, in order to extend the time frame to have the wound effectively covered and leave the <dfn data-rule=\"3.Q.10\">player</dfn> in the game.",
+									"text": "call a team timeout, if they have one, in order to extend the time frame to have the wound effectively covered and leave the player in the game.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "7.C.7.d",
+							"label": "7.C.7.d.",
+							"html": "A bleeding or exposed open wound is “effectively covered” if it is covered with a dressing sturdy enough to withstand the demands of activity and able to prevent bodily fluids from coming in contact with other players.",
+							"text": "A bleeding or exposed open wound is “effectively covered” if it is covered with a dressing sturdy enough to withstand the demands of activity and able to prevent bodily fluids from coming in contact with other players.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.C.7.e",
+							"label": "7.C.7.e.",
+							"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn> whose clothing has blood on it must have the affected areas disinfected or must change the clothing before returning to play.",
+							"text": "Any player whose clothing has blood on it must have the affected areas disinfected or must change the clothing before returning to play.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.C.7.f",
+							"label": "7.C.7.f.",
+							"html": "Whether a <dfn data-rule=\"3.Q.10\">player</dfn> may return to play is determined by appropriate medical staff. If medical staff is not available, captains and coaches may agree that a wound has been effectively covered and any clothing issues have been addressed.",
+							"text": "Whether a player may return to play is determined by appropriate medical staff. If medical staff is not available, captains and coaches may agree that a wound has been effectively covered and any clothing issues have been addressed.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "7.D",
+			"label": "7.D.",
+			"html": "Technical Timeout: A technical timeout may be called for illegal equipment, a dangerous condition, or a broken disc.",
+			"text": "Technical Timeout: A technical timeout may be called for illegal equipment, a dangerous condition, or a broken disc.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "7.D.1",
+					"label": "7.D.1.",
+					"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn> recognizing a condition that endangers themselves or other players may call a technical timeout during play by calling “technical.” The <dfn data-rule=\"3.O\">thrower</dfn> may call a technical timeout during play to replace a cracked, torn, deeply gouged, creased, or punctured disc; a warped, wet or dirty disc does not qualify. The timeout begins at the time of the call. If the disc is in the air or the act of throwing at the time of the call, the timeout begins when the play is completed.",
+					"text": "Any player recognizing a condition that endangers themselves or other players may call a technical timeout during play by calling “technical.” The thrower may call a technical timeout during play to replace a cracked, torn, deeply gouged, creased, or punctured disc; a warped, wet or dirty disc does not qualify. The timeout begins at the time of the call. If the disc is in the air or the act of throwing at the time of the call, the timeout begins when the play is completed.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.D.1.a",
+							"label": "7.D.1.a.",
+							"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> discovers a dangerous condition after the disc is in the air or while the <dfn data-rule=\"3.O\">thrower</dfn> is in the act of throwing and the player ceases play as a result, the disc is returned to the thrower regardless of the outcome of that pass. However, if both teams agree that ceasing play did not affect the outcome of the <dfn data-rule=\"3.N\">throw</dfn>, the result of the play stands.",
+							"text": "If a player discovers a dangerous condition after the disc is in the air or while the thrower is in the act of throwing and the player ceases play as a result, the disc is returned to the thrower regardless of the outcome of that pass. However, if both teams agree that ceasing play did not affect the outcome of the throw, the result of the play stands.",
+							"annotations": [
+								"For example, a receiver is not required to continue playing through a dangerous situation, such as a child wandering onto the field. In that case, the receiver should stop making a play on the disc in order to prioritize the safety of themselves and others, and the disc will be returned to the thrower once the dangerous situation is rectified."
+							],
+							"refs": [],
+							"children": [
+								{
+									"id": "7.D.1.a.1",
+									"label": "7.D.1.a.1.",
+									"html": "If possession reverts to the <dfn data-rule=\"3.O\">thrower</dfn>, all players return to the locations they occupied at the time of the <dfn data-rule=\"3.N\">throw</dfn>.",
+									"text": "If possession reverts to the thrower, all players return to the locations they occupied at the time of the throw.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "7.D.2",
+					"label": "7.D.2.",
+					"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn> may briefly extend a <dfn data-rule=\"3.M\">stoppage of play</dfn> to correct faulty equipment (e.g., to tie shoelaces or straighten a disc), but active play may not be stopped for this purpose. (Note: play does not stop during a turnover even if the disc is out-of-bounds.)",
+					"text": "Any player may briefly extend a stoppage of play to correct faulty equipment (e.g., to tie shoelaces or straighten a disc), but active play may not be stopped for this purpose. (Note: play does not stop during a turnover even if the disc is out-of-bounds.)",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "7.D.3",
+					"label": "7.D.3.",
+					"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> unable to correct illegal equipment in a timely manner must be substituted in accordance with <a href=\"/rules/usau-official-2026-27/8#8.A.2\">8.A.2</a>.",
+					"text": "A player unable to correct illegal equipment in a timely manner must be substituted in accordance with 8.A.2.",
+					"annotations": [],
+					"refs": [
+						"8.A.2"
+					],
+					"children": []
+				},
+				{
+					"id": "7.D.4",
+					"label": "7.D.4.",
+					"html": "Restarting play after a technical timeout:",
+					"text": "Restarting play after a technical timeout:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.D.4.a",
+							"label": "7.D.4.a.",
+							"html": "The <dfn data-rule=\"3.O\">thrower</dfn> restarts play at the appropriate spot with a check and the <dfn data-rule=\"3.Q.6\">marker</dfn> resumes any stall count as follows:",
+							"text": "The thrower restarts play at the appropriate spot with a check and the marker resumes any stall count as follows:",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "7.D.4.a.1",
+									"label": "7.D.4.a.1.",
+									"html": "If the technical timeout was called during a <dfn data-rule=\"3.M\">stoppage of play</dfn>, the count resumes at the appropriate count for the event that stopped play.",
+									"text": "If the technical timeout was called during a stoppage of play, the count resumes at the appropriate count for the event that stopped play.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "7.D.4.a.2",
+									"label": "7.D.4.a.2.",
+									"html": "If the technical timeout stopped play, the count resumes at the stall count reached plus one, or at six if over five.",
+									"text": "If the technical timeout stopped play, the count resumes at the stall count reached plus one, or at six if over five.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "7.D.4.b",
+							"label": "7.D.4.b.",
+							"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> in possession leaves the field due to illegal equipment, the replacing player puts the disc into play. The substitution of the <dfn data-rule=\"3.O\">thrower</dfn> or <dfn data-rule=\"3.Q.6\">marker</dfn> does not alter the stall count.",
+							"text": "If a player in possession leaves the field due to illegal equipment, the replacing player puts the disc into play. The substitution of the thrower or marker does not alter the stall count.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.D.4.c",
+							"label": "7.D.4.c.",
+							"html": "All players must resume their locations on the field at the time the timeout began (i.e., players may not set up), unless a team timeout is also called.",
+							"text": "All players must resume their locations on the field at the time the timeout began (i.e., players may not set up), unless a team timeout is also called.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "7.E",
+			"label": "7.E.",
+			"html": "Spirit timeout: A spirit timeout may be called by one or both teams’ <dfn data-rule=\"3.Q.13\">spirit captain</dfn>(s) if they believe that either or both teams have failed to follow the Spirit of the Game, and (1) game play has become dangerous; or (2) repeated Spirit of the Game violations are causing conflict between the teams. Spirit timeouts are subject to the following provisions:",
+			"text": "Spirit timeout: A spirit timeout may be called by one or both teams’ spirit captain(s) if they believe that either or both teams have failed to follow the Spirit of the Game, and (1) game play has become dangerous; or (2) repeated Spirit of the Game violations are causing conflict between the teams. Spirit timeouts are subject to the following provisions:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "7.E.1",
+					"label": "7.E.1.",
+					"html": "A spirit timeout can be called only if all of the following conditions have been met:",
+					"text": "A spirit timeout can be called only if all of the following conditions have been met:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.E.1.a",
+							"label": "7.E.1.a.",
+							"html": "Both spirit captains have discussed the perceived Spirit of the Game <dfn data-rule=\"3.P\">violation</dfn>(s) and adjustments to address those violations, and one or more members of either or both teams have not adjusted their conduct.",
+							"text": "Both spirit captains have discussed the perceived Spirit of the Game violation(s) and adjustments to address those violations, and one or more members of either or both teams have not adjusted their conduct.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.1.b",
+							"label": "7.E.1.b.",
+							"html": "Both spirit captains have discussed the need to call a spirit timeout before calling the spirit timeout. It is not required that both spirit captains agree that a spirit timeout is necessary.",
+							"text": "Both spirit captains have discussed the need to call a spirit timeout before calling the spirit timeout. It is not required that both spirit captains agree that a spirit timeout is necessary.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.1.c",
+							"label": "7.E.1.c.",
+							"html": "Play is stopped.",
+							"text": "Play is stopped.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.1.d",
+							"label": "7.E.1.d.",
+							"html": "In games with observers, spirit timeouts initiated by the spirit captains must be communicated to the observers before being called. An observers may call a spirit timeout if the <dfn data-rule=\"3.Q.8\">observer</dfn> believes it is needed and at least one of the spirit captains agrees.",
+							"text": "In games with observers, spirit timeouts initiated by the spirit captains must be communicated to the observers before being called. An observers may call a spirit timeout if the observer believes it is needed and at least one of the spirit captains agrees.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "7.E.2",
+					"label": "7.E.2.",
+					"html": "During the spirit timeout:",
+					"text": "During the spirit timeout:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.E.2.a",
+							"label": "7.E.2.a.",
+							"html": "Both teams will aim to complete all discussions within 5 minutes, with a goal of resuming play as quickly as possible. If teams require more time to resolve spirit discussions, the timeout can be extended with the consent of both spirit captains.",
+							"text": "Both teams will aim to complete all discussions within 5 minutes, with a goal of resuming play as quickly as possible. If teams require more time to resolve spirit discussions, the timeout can be extended with the consent of both spirit captains.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.2.b",
+							"label": "7.E.2.b.",
+							"html": "Team members may not engage in tactical discussions. Team members may not extend the spirit timeout to try to gain a tactical advantage.",
+							"text": "Team members may not engage in tactical discussions. Team members may not extend the spirit timeout to try to gain a tactical advantage.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.2.c",
+							"label": "7.E.2.c.",
+							"html": "Spirit timeouts may follow one of two formats, as determined by the spirit captains. Where the spirit captains disagree as to the format of the spirit timeout, the default format is for teams to form one circle.",
+							"text": "Spirit timeouts may follow one of two formats, as determined by the spirit captains. Where the spirit captains disagree as to the format of the spirit timeout, the default format is for teams to form one circle.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "7.E.2.c.1",
+									"label": "7.E.2.c.1.",
+									"html": "All team members of both teams will form one circle, alternating players from each team, if possible. The spirit captains will lead a conversation addressing and proposing solutions to resolve spirit issues; or",
+									"text": "All team members of both teams will form one circle, alternating players from each team, if possible. The spirit captains will lead a conversation addressing and proposing solutions to resolve spirit issues; or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "7.E.2.c.2",
+									"label": "7.E.2.c.2.",
+									"html": "Two circles will be formed, one for each team to internally resolve spirit issues that have already been discussed between the spirit captains of the opposing team.",
+									"text": "Two circles will be formed, one for each team to internally resolve spirit issues that have already been discussed between the spirit captains of the opposing team.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "7.E.3",
+					"label": "7.E.3.",
+					"html": "After the spirit timeout:",
+					"text": "After the spirit timeout:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "7.E.3.a",
+							"label": "7.E.3.a.",
+							"html": "The game resumes in the same manner as it does after a team timeout.",
+							"text": "The game resumes in the same manner as it does after a team timeout.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.3.b",
+							"label": "7.E.3.b.",
+							"html": "Spirit timeouts do not affect timeouts available.",
+							"text": "Spirit timeouts do not affect timeouts available.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "7.E.3.c",
+							"label": "7.E.3.c.",
+							"html": "For spirit timeouts lasting five minutes or less, the time taken for a spirit timeout will automatically be added to the length of the game time to determine time caps for the game. After the initial five minutes, although spirit captains may always agree to extend a spirit timeout, event organizers may limit the time that can be added to the length of games. The <dfn data-rule=\"3.Q.13\">spirit captain</dfn>(s) initiating the spirit timeout will convey the start and end of the stoppage to <dfn data-rule=\"3.Q.5\">event support staff</dfn> or the <dfn data-rule=\"3.Q.4\">event organizer</dfn> for time-keeping purposes.",
+							"text": "For spirit timeouts lasting five minutes or less, the time taken for a spirit timeout will automatically be added to the length of the game time to determine time caps for the game. After the initial five minutes, although spirit captains may always agree to extend a spirit timeout, event organizers may limit the time that can be added to the length of games. The spirit captain(s) initiating the spirit timeout will convey the start and end of the stoppage to event support staff or the event organizer for time-keeping purposes.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "7.F",
+			"label": "7.F.",
+			"html": "Injury, technical, and spirit timeouts are meant to be used exclusively to address the issue for which the timeout was called. Only personnel needed to address the issue should be on the field and only for that purpose. Teams may not use these timeouts as team timeouts, unless they also call a team timeout.",
+			"text": "Injury, technical, and spirit timeouts are meant to be used exclusively to address the issue for which the timeout was called. Only personnel needed to address the issue should be on the field and only for that purpose. Teams may not use these timeouts as team timeouts, unless they also call a team timeout.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

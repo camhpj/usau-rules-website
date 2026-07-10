@@ -1,0 +1,530 @@
+{
+	"slug": "9",
+	"anchorId": "9",
+	"number": "9",
+	"kind": "section",
+	"title": "The Pull",
+	"html": null,
+	"rules": [
+		{
+			"id": "9.A",
+			"label": "9.A.",
+			"html": "Play starts at the beginning of each half and after each goal with a <dfn data-rule=\"3.J\">pull</dfn>.",
+			"text": "Play starts at the beginning of each half and after each goal with a pull.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "9.B",
+			"label": "9.B.",
+			"html": "After a goal, the teams switch their direction of attack and the scoring team pulls.",
+			"text": "After a goal, the teams switch their direction of attack and the scoring team pulls.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "9.C",
+			"label": "9.C.",
+			"html": "The <dfn data-rule=\"3.J\">pull</dfn> may be made only after the puller and a <dfn data-rule=\"3.Q.10\">player</dfn> on the receiving team both raise their hands to signal their team’s readiness to begin play. A team must have a minimum of two players and a maximum of seven players on the field in order to signal readiness. The pull occurs when the puller throws (<a href=\"/rules/usau-official-2026-27/3#3.J\">3.J</a>) the disc after signaling readiness. Players (<a href=\"/rules/usau-official-2026-27/3#3.Q.10\">3.Q.10</a>) may not signal readiness until all of their other team members are off of the playing field (<a href=\"/rules/usau-official-2026-27/9#9.K.3.a\">9.K.3.a</a>).",
+			"text": "The pull may be made only after the puller and a player on the receiving team both raise their hands to signal their team’s readiness to begin play. A team must have a minimum of two players and a maximum of seven players on the field in order to signal readiness. The pull occurs when the puller throws (3.J) the disc after signaling readiness. Players (3.Q.10) may not signal readiness until all of their other team members are off of the playing field (9.K.3.a).",
+			"annotations": [],
+			"refs": [
+				"3.J",
+				"3.Q.10",
+				"9.K.3.a"
+			],
+			"children": [
+				{
+					"id": "9.C.1",
+					"label": "9.C.1.",
+					"html": "If the disc has been pulled and a team has more than seven (7) players or has the incorrect mixed personnel ratio (<a href=\"/rules/usau-official-2026-27/appendix-b#B1.G\">B1.G</a>), it is the responsibility of all players on the field to call <dfn data-rule=\"3.P\">violation</dfn> as soon as they recognize it.",
+					"text": "If the disc has been pulled and a team has more than seven (7) players or has the incorrect mixed personnel ratio (B1.G), it is the responsibility of all players on the field to call violation as soon as they recognize it.",
+					"annotations": [
+						"This violation call is always appropriate under 2.D.2."
+					],
+					"refs": [
+						"B1.G"
+					],
+					"children": [
+						{
+							"id": "9.C.1.a",
+							"label": "9.C.1.a.",
+							"html": "The team in <dfn data-rule=\"3.P\">violation</dfn> must choose which <dfn data-rule=\"3.Q.10\">player</dfn>(s) to remove from their team, in the case of too many players, or substitute, in the case of an incorrect mixed personnel ratio.",
+							"text": "The team in violation must choose which player(s) to remove from their team, in the case of too many players, or substitute, in the case of an incorrect mixed personnel ratio.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.C.1.b",
+							"label": "9.C.1.b.",
+							"html": "For every <dfn data-rule=\"3.Q.10\">player</dfn> removed or substituted by the team in <dfn data-rule=\"3.P\">violation</dfn>, the other team may substitute a player.",
+							"text": "For every player removed or substituted by the team in violation, the other team may substitute a player.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.C.1.c",
+							"label": "9.C.1.c.",
+							"html": "After correcting the <dfn data-rule=\"3.P\">violation</dfn>, the other team chooses whether to restart the point using re-<dfn data-rule=\"3.J\">pull</dfn> timings (<a href=\"/rules/usau-official-2026-27/9#9.K.5\">9.K.5</a>) or to restart play as if a team timeout had been called (<a href=\"/rules/usau-official-2026-27/7#7.B.4\">7.B.4</a>) with the stall count determined by the applicable violation resolution of <a href=\"/rules/usau-official-2026-27/15#15.F.1\">15.F.1</a>. If both teams are in violation, the point should be restarted unless both teams agree to restart play as if a team timeout had been called.",
+							"text": "After correcting the violation, the other team chooses whether to restart the point using re-pull timings (9.K.5) or to restart play as if a team timeout had been called (7.B.4) with the stall count determined by the applicable violation resolution of 15.F.1. If both teams are in violation, the point should be restarted unless both teams agree to restart play as if a team timeout had been called.",
+							"annotations": [],
+							"refs": [
+								"9.K.5",
+								"7.B.4",
+								"15.F.1"
+							],
+							"children": []
+						},
+						{
+							"id": "9.C.1.d",
+							"label": "9.C.1.d.",
+							"html": "If a <dfn data-rule=\"3.P\">violation</dfn> of <a href=\"/rules/usau-official-2026-27/9#9.C.1\">9.C.1</a> is called after a goal has been scored and prior to the ensuing <dfn data-rule=\"3.J\">pull</dfn>, the other team may choose to nullify the goal and restart the point using re-pull timings (<a href=\"/rules/usau-official-2026-27/9#9.K.5\">9.K.5</a>).",
+							"text": "If a violation of 9.C.1 is called after a goal has been scored and prior to the ensuing pull, the other team may choose to nullify the goal and restart the point using re-pull timings (9.K.5).",
+							"annotations": [
+								"A team must call a violation as soon as one is discovered; they may not wait to see the outcome of a point or play to call the violation (17.A)"
+							],
+							"refs": [
+								"9.C.1",
+								"9.K.5"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "9.D",
+			"label": "9.D.",
+			"html": "Positioning before the <dfn data-rule=\"3.J\">pull</dfn>:",
+			"text": "Positioning before the pull:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "9.D.1",
+					"label": "9.D.1.",
+					"html": "After signaling readiness, players on the pulling team may move anywhere in their end zone, but their feet may not break the vertical plane of the goal <dfn data-rule=\"3.G\">line</dfn> until the disc is released.",
+					"text": "After signaling readiness, players on the pulling team may move anywhere in their end zone, but their feet may not break the vertical plane of the goal line until the disc is released.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "9.D.2",
+					"label": "9.D.2.",
+					"html": "After signaling readiness, players on the receiving team must have one foot on the goal <dfn data-rule=\"3.G\">line</dfn> that they are defending without changing location relative to one another.",
+					"text": "After signaling readiness, players on the receiving team must have one foot on the goal line that they are defending without changing location relative to one another.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "9.D.3",
+					"label": "9.D.3.",
+					"html": "After the disc is released, it is in play and any <dfn data-rule=\"3.Q.10\">player</dfn> may move in any direction.",
+					"text": "After the disc is released, it is in play and any player may move in any direction.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "9.D.4",
+					"label": "9.D.4.",
+					"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> on the pulling team fails to maintain proper positioning before the <dfn data-rule=\"3.J\">pull</dfn>, the receiving team may call “offsides” before gaining <dfn data-rule=\"3.I\">possession of the disc</dfn>. If a player on the receiving team fails to maintain proper positioning before the pull, the pulling team may call “false start” before the receiving team gains possession of the disc. The offsides and false start calls do not immediately stop play, and the Continuation Rule (<a href=\"/rules/usau-official-2026-27/17#17.C\">17.C</a>) does not apply. In games where observers are used, these calls can only be made by the observers. In games without observers, each team may send a designated <dfn data-rule=\"3.Q.11\">sideline player</dfn> to either goal <dfn data-rule=\"3.G\">line</dfn> who has the ability to call “offsides” or “false start” or to offer their perspective on such a call. A contested offsides call results in a <dfn data-rule=\"3.M\">stoppage of play</dfn> and a re-pull. To contest an offsides or false start call, a player on the contesting team must have perspective at least as good as the person making the call. If the call is made by a designated sideline player, only a similarly-positioned sideline player designated by the contesting team has equal or better perspective.",
+					"text": "If a player on the pulling team fails to maintain proper positioning before the pull, the receiving team may call “offsides” before gaining possession of the disc. If a player on the receiving team fails to maintain proper positioning before the pull, the pulling team may call “false start” before the receiving team gains possession of the disc. The offsides and false start calls do not immediately stop play, and the Continuation Rule (17.C) does not apply. In games where observers are used, these calls can only be made by the observers. In games without observers, each team may send a designated sideline player to either goal line who has the ability to call “offsides” or “false start” or to offer their perspective on such a call. A contested offsides call results in a stoppage of play and a re-pull. To contest an offsides or false start call, a player on the contesting team must have perspective at least as good as the person making the call. If the call is made by a designated sideline player, only a similarly-positioned sideline player designated by the contesting team has equal or better perspective.",
+					"annotations": [
+						"A sideline player or coach who is leaving the playing field with urgency but is still on the playing field when the disc is released is not considered to be offsides or committing a false start. If a sideline player or coach on the playing field impedes a player from the other team, that is a separate violation."
+					],
+					"refs": [
+						"17.C"
+					],
+					"children": [
+						{
+							"id": "9.D.4.a",
+							"label": "9.D.4.a.",
+							"html": "Offsides and false starts accumulate together as “<dfn data-rule=\"3.J\">pull</dfn> violations.”",
+							"text": "Offsides and false starts accumulate together as “pull violations.”",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.D.4.b",
+							"label": "9.D.4.b.",
+							"html": "In the first instance of a <dfn data-rule=\"3.J\">pull</dfn> <dfn data-rule=\"3.P\">violation</dfn> by the pulling team, the receiving team may let the disc hit the ground untouched and then take the disc at the brick mark closest to the end zone the receiving team is defending (following the same signaling procedure described in <a href=\"/rules/usau-official-2026-27/9#9.F.4.b\">9.F.4.b</a>), even if the disc initially hits in-bounds, in addition to any other applicable options per <a href=\"/rules/usau-official-2026-27/9#9.F\">9.F</a>–<a href=\"/rules/usau-official-2026-27/9#9.G\">9.G</a>.",
+							"text": "In the first instance of a pull violation by the pulling team, the receiving team may let the disc hit the ground untouched and then take the disc at the brick mark closest to the end zone the receiving team is defending (following the same signaling procedure described in 9.F.4.b), even if the disc initially hits in-bounds, in addition to any other applicable options per 9.F–9.G.",
+							"annotations": [],
+							"refs": [
+								"9.F.4.b",
+								"9.F",
+								"9.G"
+							],
+							"children": []
+						},
+						{
+							"id": "9.D.4.c",
+							"label": "9.D.4.c.",
+							"html": "After the first uncontested instance of a <dfn data-rule=\"3.J\">pull</dfn> <dfn data-rule=\"3.P\">violation</dfn>, in every subsequent instance of a pull violation by the pulling team, the receiving team may let the disc hit the ground untouched and then take the disc at midfield (by fully extending one hand overhead and calling “midfield” before gaining <dfn data-rule=\"3.I\">possession of the disc</dfn>) in addition to any other applicable options per <a href=\"/rules/usau-official-2026-27/9#9.F\">9.F</a>–<a href=\"/rules/usau-official-2026-27/9#9.G\">9.G</a>.",
+							"text": "After the first uncontested instance of a pull violation, in every subsequent instance of a pull violation by the pulling team, the receiving team may let the disc hit the ground untouched and then take the disc at midfield (by fully extending one hand overhead and calling “midfield” before gaining possession of the disc) in addition to any other applicable options per 9.F–9.G.",
+							"annotations": [],
+							"refs": [
+								"9.F",
+								"9.G"
+							],
+							"children": []
+						},
+						{
+							"id": "9.D.4.d",
+							"label": "9.D.4.d.",
+							"html": "In any instance of false start, the pulling team may call “false start” prior to the receiving team taking <dfn data-rule=\"3.I\">possession of the disc</dfn>. Play stops after the outcome of the <dfn data-rule=\"3.J\">pull</dfn> is decided. Play resumes in a similar manner as after a team timeout. The <dfn data-rule=\"3.Q.10\">player</dfn> with possession of the disc (or any player on the offensive team if no player has possession) takes the disc to the spot on the playing field where the disc is to be put into play (per <a href=\"/rules/usau-official-2026-27/9#9.F\">9.F</a>–<a href=\"/rules/usau-official-2026-27/9#9.G\">9.G</a>). Ten seconds after the player in possession reaches that location, each <dfn data-rule=\"3.Q.9\">offensive player</dfn> must establish a stationary position. Movement after this time and before the disc is checked into play is a <dfn data-rule=\"3.P\">violation</dfn>. The defense has twenty seconds after all offensive players have established their positions to check the disc into play.",
+							"text": "In any instance of false start, the pulling team may call “false start” prior to the receiving team taking possession of the disc. Play stops after the outcome of the pull is decided. Play resumes in a similar manner as after a team timeout. The player with possession of the disc (or any player on the offensive team if no player has possession) takes the disc to the spot on the playing field where the disc is to be put into play (per 9.F–9.G). Ten seconds after the player in possession reaches that location, each offensive player must establish a stationary position. Movement after this time and before the disc is checked into play is a violation. The defense has twenty seconds after all offensive players have established their positions to check the disc into play.",
+							"annotations": [],
+							"refs": [
+								"9.F",
+								"9.G"
+							],
+							"children": []
+						},
+						{
+							"id": "9.D.4.e",
+							"label": "9.D.4.e.",
+							"html": "If the pulling team is offsides and the receiving team commits a false start, the offense may put the disc into play at the appropriate spot for an offsides (<a href=\"/rules/usau-official-2026-27/9#9.D.4.b\">9.D.4.b</a> or <a href=\"/rules/usau-official-2026-27/9#9.D.4.c\">9.D.4.c</a>) but may not attempt a pass until the disc is checked into play by the defense (<a href=\"/rules/usau-official-2026-27/9#9.D.4.d\">9.D.4.d</a>).",
+							"text": "If the pulling team is offsides and the receiving team commits a false start, the offense may put the disc into play at the appropriate spot for an offsides (9.D.4.b or 9.D.4.c) but may not attempt a pass until the disc is checked into play by the defense (9.D.4.d).",
+							"annotations": [],
+							"refs": [
+								"9.D.4.b",
+								"9.D.4.c",
+								"9.D.4.d"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "9.E",
+			"label": "9.E.",
+			"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> on the throwing team may not touch the <dfn data-rule=\"3.J\">pull</dfn> in the air before a member of the receiving team touches it. If this <dfn data-rule=\"3.P\">violation</dfn> occurs, the receiving team may request a re-pull immediately.",
+			"text": "A player on the throwing team may not touch the pull in the air before a member of the receiving team touches it. If this violation occurs, the receiving team may request a re-pull immediately.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "9.F",
+			"label": "9.F.",
+			"html": "If the <dfn data-rule=\"3.J\">pull</dfn> hits the ground or an out-of-bounds area untouched, it is put into play as follows:",
+			"text": "If the pull hits the ground or an out-of-bounds area untouched, it is put into play as follows:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "9.F.1",
+					"label": "9.F.1.",
+					"html": "If the disc initially hits and remains in-bounds, it is in play where it comes to rest or is stopped (<a href=\"/rules/usau-official-2026-27/18#18.D.3\">18.D.3</a>).",
+					"text": "If the disc initially hits and remains in-bounds, it is in play where it comes to rest or is stopped (18.D.3).",
+					"annotations": [],
+					"refs": [
+						"18.D.3"
+					],
+					"children": []
+				},
+				{
+					"id": "9.F.2",
+					"label": "9.F.2.",
+					"html": "If the disc initially hits in-bounds and then becomes out-of-bounds before being touched by the receiving team, it is put into play at the spot on the central zone (i.e., excluding the end zones) nearest to where it first crossed the perimeter <dfn data-rule=\"3.G\">line</dfn> to become out-of-bounds.",
+					"text": "If the disc initially hits in-bounds and then becomes out-of-bounds before being touched by the receiving team, it is put into play at the spot on the central zone (i.e., excluding the end zones) nearest to where it first crossed the perimeter line to become out-of-bounds.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "9.F.3",
+					"label": "9.F.3.",
+					"html": "If the disc initially hits in-bounds and then becomes out-of-bounds after being touched by the receiving team, it is put into play at the spot on the playing field nearest to where it first crossed the perimeter <dfn data-rule=\"3.G\">line</dfn> to become out-of-bounds.",
+					"text": "If the disc initially hits in-bounds and then becomes out-of-bounds after being touched by the receiving team, it is put into play at the spot on the playing field nearest to where it first crossed the perimeter line to become out-of-bounds.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "9.F.4",
+					"label": "9.F.4.",
+					"html": "If the disc initially hits an out-of-bounds area, the receiving team may put the disc into play:",
+					"text": "If the disc initially hits an out-of-bounds area, the receiving team may put the disc into play:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "9.F.4.a",
+							"label": "9.F.4.a.",
+							"html": "at the spot determined by <a href=\"/rules/usau-official-2026-27/11#11.H\">11.H</a>; or",
+							"text": "at the spot determined by 11.H; or",
+							"annotations": [],
+							"refs": [
+								"11.H"
+							],
+							"children": []
+						},
+						{
+							"id": "9.F.4.b",
+							"label": "9.F.4.b.",
+							"html": "after signaling for a brick or middle by fully extending one hand overhead and calling brick or middle before gaining <dfn data-rule=\"3.I\">possession of the disc</dfn>, either at",
+							"text": "after signaling for a brick or middle by fully extending one hand overhead and calling brick or middle before gaining possession of the disc, either at",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "9.F.4.b.1",
+									"label": "9.F.4.b.1.",
+									"html": "the brick mark closest to the end zone that the receiving team is defending if “brick” was called, or",
+									"text": "the brick mark closest to the end zone that the receiving team is defending if “brick” was called, or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "9.F.4.b.2",
+									"label": "9.F.4.b.2.",
+									"html": "the spot on the long axis of the central zone nearest to the spot determined by <a href=\"/rules/usau-official-2026-27/11#11.H\">11.H</a> if “middle” was called.",
+									"text": "the spot on the long axis of the central zone nearest to the spot determined by 11.H if “middle” was called.",
+									"annotations": [],
+									"refs": [
+										"11.H"
+									],
+									"children": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "9.G",
+			"label": "9.G.",
+			"html": "If the <dfn data-rule=\"3.J\">pull</dfn> is caught on the playing field, the disc is in play where it was caught. If the disc is caught outside the playing field, the disc is put into play at the spot on the playing field nearest to where it was caught.",
+			"text": "If the pull is caught on the playing field, the disc is in play where it was caught. If the disc is caught outside the playing field, the disc is put into play at the spot on the playing field nearest to where it was caught.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "9.H",
+			"label": "9.H.",
+			"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> on the receiving team touches the <dfn data-rule=\"3.J\">pull</dfn> before it hits the ground and the disc then hits the ground, it is considered a dropped disc (<a href=\"/rules/usau-official-2026-27/14#14.B\">14.B</a>) and results in a turnover.",
+			"text": "If a player on the receiving team touches the pull before it hits the ground and the disc then hits the ground, it is considered a dropped disc (14.B) and results in a turnover.",
+			"annotations": [],
+			"refs": [
+				"14.B"
+			],
+			"children": []
+		},
+		{
+			"id": "9.I",
+			"label": "9.I.",
+			"html": "After a <dfn data-rule=\"3.J\">pull</dfn>, whichever <dfn data-rule=\"3.Q.10\">player</dfn> takes <dfn data-rule=\"3.I\">possession of the disc</dfn> must put it into play. If a player drops the disc while carrying it to the spot where it is to be put into play and it contacts the ground before the <dfn data-rule=\"3.O\">thrower</dfn> regains possession, the other team gains possession of the disc at the spot on the central zone nearest to the drop.",
+			"text": "After a pull, whichever player takes possession of the disc must put it into play. If a player drops the disc while carrying it to the spot where it is to be put into play and it contacts the ground before the thrower regains possession, the other team gains possession of the disc at the spot on the central zone nearest to the drop.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "9.J",
+			"label": "9.J.",
+			"html": "There is no <dfn data-rule=\"3.M\">stoppage of play</dfn> when putting the <dfn data-rule=\"3.J\">pull</dfn> into play. If the disc is to be put into play at a location other than where possession was gained, the disc is live and the <dfn data-rule=\"3.O\">thrower</dfn> must touch the disc to the ground after establishing a <dfn data-rule=\"3.H\">pivot</dfn> at the appropriate spot on the playing field before attempting a pass.",
+			"text": "There is no stoppage of play when putting the pull into play. If the disc is to be put into play at a location other than where possession was gained, the disc is live and the thrower must touch the disc to the ground after establishing a pivot at the appropriate spot on the playing field before attempting a pass.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "9.K",
+			"label": "9.K.",
+			"html": "Time between pulls:",
+			"text": "Time between pulls:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "9.K.1",
+					"label": "9.K.1.",
+					"html": "For the times listed below, if there is a call or dispute surrounding the goal-scoring play, the timer begins after the call or dispute has been resolved (if the resolution results in a goal being awarded).",
+					"text": "For the times listed below, if there is a call or dispute surrounding the goal-scoring play, the timer begins after the call or dispute has been resolved (if the resolution results in a goal being awarded).",
+					"annotations": [
+						"The timer is not retroactive to the time of the goal-scoring catch. This is in contrast to determining when time caps go into effect, which is retroactive to the goal-scoring catch (6.D.4)."
+					],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "9.K.2",
+					"label": "9.K.2.",
+					"html": "Within fifty (50) seconds after the previous goal was scored, the receiving team must <dfn data-rule=\"3.G\">line</dfn> up for the purpose of allowing the pulling team to match up defensively. Each <dfn data-rule=\"3.Q.10\">player</dfn> must place one foot on the goal line, be visible to the pulling team, and not change their relative position on the line.",
+					"text": "Within fifty (50) seconds after the previous goal was scored, the receiving team must line up for the purpose of allowing the pulling team to match up defensively. Each player must place one foot on the goal line, be visible to the pulling team, and not change their relative position on the line.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "9.K.2.a",
+							"label": "9.K.2.a.",
+							"html": "Other team members (coaches, support staff, sideline players) may be present on the field during this time.",
+							"text": "Other team members (coaches, support staff, sideline players) may be present on the field during this time.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "9.K.3",
+					"label": "9.K.3.",
+					"html": "Within sixty (60) seconds after the previous goal was scored, the receiving team must signal readiness (<a href=\"/rules/usau-official-2026-27/9#9.C\">9.C</a>).",
+					"text": "Within sixty (60) seconds after the previous goal was scored, the receiving team must signal readiness (9.C).",
+					"annotations": [],
+					"refs": [
+						"9.C"
+					],
+					"children": [
+						{
+							"id": "9.K.3.a",
+							"label": "9.K.3.a.",
+							"html": "All other team members must be clear of the field at this time.",
+							"text": "All other team members must be clear of the field at this time.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "9.K.4",
+					"label": "9.K.4.",
+					"html": "The pulling team must release the <dfn data-rule=\"3.J\">pull</dfn> before the latest to occur of:",
+					"text": "The pulling team must release the pull before the latest to occur of:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "9.K.4.a",
+							"label": "9.K.4.a.",
+							"html": "eighty (80) seconds after the previous goal was scored; or",
+							"text": "eighty (80) seconds after the previous goal was scored; or",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.K.4.b",
+							"label": "9.K.4.b.",
+							"html": "thirty (30) seconds after the receiving team lined up; or",
+							"text": "thirty (30) seconds after the receiving team lined up; or",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.K.4.c",
+							"label": "9.K.4.c.",
+							"html": "twenty (20) seconds after the receiving team signaled readiness.",
+							"text": "twenty (20) seconds after the receiving team signaled readiness.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "9.K.5",
+					"label": "9.K.5.",
+					"html": "On a re-<dfn data-rule=\"3.J\">pull</dfn>,",
+					"text": "On a re-pull,",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "9.K.5.a",
+							"label": "9.K.5.a.",
+							"html": "the receiving team must signal readiness to play within twenty (20) seconds after the call for a re-<dfn data-rule=\"3.J\">pull</dfn> was made; and",
+							"text": "the receiving team must signal readiness to play within twenty (20) seconds after the call for a re-pull was made; and",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.K.5.b",
+							"label": "9.K.5.b.",
+							"html": "the pulling team must release the <dfn data-rule=\"3.J\">pull</dfn> before the later to occur of:",
+							"text": "the pulling team must release the pull before the later to occur of:",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "9.K.5.b.1",
+									"label": "9.K.5.b.1.",
+									"html": "forty (40) seconds after the call for a re-<dfn data-rule=\"3.J\">pull</dfn> was made; or",
+									"text": "forty (40) seconds after the call for a re-pull was made; or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "9.K.5.b.2",
+									"label": "9.K.5.b.2.",
+									"html": "twenty (20) seconds after the receiving team signaled readiness.",
+									"text": "twenty (20) seconds after the receiving team signaled readiness.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "9.K.6",
+					"label": "9.K.6.",
+					"html": "In games where observers are used, the observers may monitor and call time violations as appropriate. The first instance of a time <dfn data-rule=\"3.P\">violation</dfn> for each team will result in a warning. After a team has received its warning, any further time violations will result in assessment of a team timeout (and the resulting time extensions). If a team has no timeouts remaining, time violations are treated as follows:",
+					"text": "In games where observers are used, the observers may monitor and call time violations as appropriate. The first instance of a time violation for each team will result in a warning. After a team has received its warning, any further time violations will result in assessment of a team timeout (and the resulting time extensions). If a team has no timeouts remaining, time violations are treated as follows:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "9.K.6.a",
+							"label": "9.K.6.a.",
+							"html": "Time <dfn data-rule=\"3.P\">violation</dfn> on receiving team: the receiving team starts with the disc at the midpoint of the end zone they are defending, after players set up and a check is performed.",
+							"text": "Time violation on receiving team: the receiving team starts with the disc at the midpoint of the end zone they are defending, after players set up and a check is performed.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "9.K.6.b",
+							"label": "9.K.6.b.",
+							"html": "Time <dfn data-rule=\"3.P\">violation</dfn> on pulling team: the receiving team starts with the disc at midfield, after players set up and a check is performed.",
+							"text": "Time violation on pulling team: the receiving team starts with the disc at midfield, after players set up and a check is performed.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "9.K.7",
+					"label": "9.K.7.",
+					"html": "In games where the participants require more time (youth, beginner, or other levels), team captains or tournament organizers (as appropriate) are encouraged to extend the time limits listed above to best suit the level of play.",
+					"text": "In games where the participants require more time (youth, beginner, or other levels), team captains or tournament organizers (as appropriate) are encouraged to extend the time limits listed above to best suit the level of play.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}

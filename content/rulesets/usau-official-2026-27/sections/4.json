@@ -1,0 +1,131 @@
+{
+	"slug": "4",
+	"anchorId": "4",
+	"number": "4",
+	"kind": "section",
+	"title": "Playing Field",
+	"html": null,
+	"rules": [
+		{
+			"id": "4.A",
+			"label": "4.A.",
+			"html": "The playing field is a rectangular area and should be essentially flat, free of obstructions and afford reasonable <dfn data-rule=\"3.Q.10\">player</dfn> safety. Well trimmed grass is the recommended surface and all lines should be marked.",
+			"text": "The playing field is a rectangular area and should be essentially flat, free of obstructions and afford reasonable player safety. Well trimmed grass is the recommended surface and all lines should be marked.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "4.A.1",
+					"label": "4.A.1.",
+					"html": "Grass and items on the ground are considered part of the ground.",
+					"text": "Grass and items on the ground are considered part of the ground.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "4.B",
+			"label": "4.B.",
+			"html": "The standard field of play has dimensions as shown on the accompanying diagram (see <a href=\"/rules/usau-official-2026-27/appendix-a\">A</a>).",
+			"text": "The standard field of play has dimensions as shown on the accompanying diagram (see A).",
+			"annotations": [],
+			"refs": [
+				"appendix_A"
+			],
+			"children": []
+		},
+		{
+			"id": "4.C",
+			"label": "4.C.",
+			"html": "The playing field is bounded by four perimeter lines: two (2) sidelines along the length and two (2) backlines along the width. The perimeter lines are not part of the playing field.",
+			"text": "The playing field is bounded by four perimeter lines: two (2) sidelines along the length and two (2) backlines along the width. The perimeter lines are not part of the playing field.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "4.D",
+			"label": "4.D.",
+			"html": "The playing field also includes two (2) goal lines parallel to the backlines. The two (2) areas bounded by each backline, the sidelines, and the nearest goal <dfn data-rule=\"3.G\">line</dfn> are the end zones.",
+			"text": "The playing field also includes two (2) goal lines parallel to the backlines. The two (2) areas bounded by each backline, the sidelines, and the nearest goal line are the end zones.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "4.E",
+			"label": "4.E.",
+			"html": "The central zone is the playing field excluding the end zones.",
+			"text": "The central zone is the playing field excluding the end zones.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "4.F",
+			"label": "4.F.",
+			"html": "The goal lines separate the central zone from the end zones and are part of the central zone.",
+			"text": "The goal lines separate the central zone from the end zones and are part of the central zone.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "4.G",
+			"label": "4.G.",
+			"html": "Brick marks are located in the central zone a set distance from each goal <dfn data-rule=\"3.G\">line</dfn> and midway between the sidelines. Reverse brick marks are located in each end zone midway between the goal line and backline and midway between the sidelines. A midfield mark is located midway between the goal lines and midway between the sidelines.",
+			"text": "Brick marks are located in the central zone a set distance from each goal line and midway between the sidelines. Reverse brick marks are located in each end zone midway between the goal line and backline and midway between the sidelines. A midfield mark is located midway between the goal lines and midway between the sidelines.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "4.H",
+			"label": "4.H.",
+			"html": "The corners of the central zone and the end zones are marked by brightly colored, flexible cones or pylons.",
+			"text": "The corners of the central zone and the end zones are marked by brightly colored, flexible cones or pylons.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "4.I",
+			"label": "4.I.",
+			"html": "It is recommended that the following additional lines are also established.",
+			"text": "It is recommended that the following additional lines are also established.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "4.I.1",
+					"label": "4.I.1.",
+					"html": "The equipment <dfn data-rule=\"3.G\">line</dfn> surrounds the playing field. Spectators and gear should remain behind this line to keep the perimeter safe and clear during play.",
+					"text": "The equipment line surrounds the playing field. Spectators and gear should remain behind this line to keep the perimeter safe and clear during play.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "4.I.2",
+					"label": "4.I.2.",
+					"html": "The team lines are outside of the playing field, parallel to the sidelines. Competitors and coaches should remain behind these lines to allow play adjacent to the playing field.",
+					"text": "The team lines are outside of the playing field, parallel to the sidelines. Competitors and coaches should remain behind these lines to allow play adjacent to the playing field.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "4.J",
+			"label": "4.J.",
+			"html": "If play is obstructed by sideline players, non-players, or objects within five yards of or on the playing field, any <dfn data-rule=\"3.Q.10\">player</dfn> that is physically obstructed by these obstacles or the <dfn data-rule=\"3.O\">thrower</dfn> in <dfn data-rule=\"3.I\">possession of the disc</dfn> may call this <dfn data-rule=\"3.P\">violation</dfn>. Play resumes at the stall count reached plus one, or 9 if over 8.",
+			"text": "If play is obstructed by sideline players, non-players, or objects within five yards of or on the playing field, any player that is physically obstructed by these obstacles or the thrower in possession of the disc may call this violation. Play resumes at the stall count reached plus one, or 9 if over 8.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

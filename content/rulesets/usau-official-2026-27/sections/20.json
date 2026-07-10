@@ -1,0 +1,335 @@
+{
+	"slug": "20",
+	"anchorId": "20",
+	"number": "20",
+	"kind": "section",
+	"title": "Fouls",
+	"html": null,
+	"rules": [
+		{
+			"id": "20.A",
+			"label": "20.A.",
+			"html": "It is the responsibility of all players to avoid initiating contact in every way possible.",
+			"text": "It is the responsibility of all players to avoid initiating contact in every way possible.",
+			"annotations": [
+				"Avoid initiating contact in every way reasonably possible, while still playing ultimate. Some contact is inevitable, but players have an affirmative obligation to make reasonable efforts to avoid initiating contact. This includes, but is not exclusive to, contact initiated with non-throwers (i.e., cutters and handlers) prior to starting or restarting play, as well as mid-play. Moreover, in instances of severe contact, such as a violent collision, a player anticipating a violent collision has responsibility to avoid the collision, even if not initiated by the player; one may not attempt to “win the collision.”"
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "20.B",
+			"label": "20.B.",
+			"html": "The rules encourage and anticipate highly competitive play. This type of play inherently involves potential danger and risk of injury, even when players act responsibly within the rules. The standard rules provide resolutions for such events. The Dangerous Play Rule addresses behavior that lies outside this inherent level of danger and risk — behavior that cannot be accepted as part of the game. As such, the rule addresses the behavior itself, not the effect of the behavior on the outcome of a play, unlike the standard rules. The Dangerous Play Rule is not intended to address every situation involving potential danger or risk of injury, nor is it designed to guarantee safety.<br><br> Dangerous Play. Actions demonstrating reckless disregard for the safety of or posing a significant risk of injury to fellow players, or other dangerously aggressive behavior are considered “dangerous play” and are treated as a <dfn data-rule=\"3.B\">foul</dfn>. The proper call in such circumstances is “dangerous play” and play stops. This rule is not superseded by any other rule.",
+			"text": "The rules encourage and anticipate highly competitive play. This type of play inherently involves potential danger and risk of injury, even when players act responsibly within the rules. The standard rules provide resolutions for such events. The Dangerous Play Rule addresses behavior that lies outside this inherent level of danger and risk — behavior that cannot be accepted as part of the game. As such, the rule addresses the behavior itself, not the effect of the behavior on the outcome of a play, unlike the standard rules. The Dangerous Play Rule is not intended to address every situation involving potential danger or risk of injury, nor is it designed to guarantee safety. Dangerous Play. Actions demonstrating reckless disregard for the safety of or posing a significant risk of injury to fellow players, or other dangerously aggressive behavior are considered “dangerous play” and are treated as a foul. The proper call in such circumstances is “dangerous play” and play stops. This rule is not superseded by any other rule.",
+			"annotations": [
+				"The following are non-exhaustive examples of behaviors that can result in a dangerous play and therefore should be avoided: significantly colliding with a mostly stationary opponent, jumping into a group of mostly stationary players, diving around or through a player that results in contact with a player’s back or legs, running without looking, when there is a likelihood of other players occupying the space into which the player is traveling, jumping or otherwise leaving the ground where it is likely that a significant collision will result, wild or uncontrolled throwing motions, initiating contact with a player’s head, initiating contact with an airborne player’s lower body that prevents them from landing on their feet, and jumping right in front of a sprinting player in a manner where contact is unavoidable"
+			],
+			"refs": [],
+			"children": [
+				{
+					"id": "20.B.1",
+					"label": "20.B.1.",
+					"html": "Dangerous play is considered a <dfn data-rule=\"3.B\">foul</dfn> regardless of whether or when the disc arrives or contact occurs.",
+					"text": "Dangerous play is considered a foul regardless of whether or when the disc arrives or contact occurs.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "20.B.1.a",
+							"label": "20.B.1.a.",
+							"html": "In general, a dangerous play call may only be made if at least some amount of contact between the involved players occurred, and the vast majority of dangerous play will involve contact between players. However, when the other criteria of Rule <a href=\"/rules/usau-official-2026-27/20#20.B\">20.B</a> are met, contact is not required for a <dfn data-rule=\"3.Q.10\">player</dfn> to invoke this rule where there is near certainty that significant contact would have occurred had the player not taken last moment steps to avoid contact.",
+							"text": "In general, a dangerous play call may only be made if at least some amount of contact between the involved players occurred, and the vast majority of dangerous play will involve contact between players. However, when the other criteria of Rule 20.B are met, contact is not required for a player to invoke this rule where there is near certainty that significant contact would have occurred had the player not taken last moment steps to avoid contact.",
+							"annotations": [
+								"A player is not required to hold their position and receive contact in order to call “dangerous play,” but the mere possibility of contact is insufficient to justify a call. Furthermore, if the offending player stops or changes their path such that contact would not have occurred, contact was not “nearly certain.”",
+								"For example, a “no-contact dangerous play” may be called by a player who is standing under a floating disc and sees an opponent recklessly barreling towards them, and moves out of that space at the last moment, when it is clear that otherwise a collision will almost certainly occur. Even if no contact occurs (as a result of the successful dodge), the dangerous play call is permitted in this type of exceptional circumstance. In contrast, if a player is vying for unoccupied space, but decides not to enter the space for fear of possible or likely contact with an opponent also moving into that space, the player may not call a dangerous play if no contact actually occurred. In most cases, if an opponent moves through a space that a player never occupied and no contact occurs, a dangerous play cannot be called. However, even the slightest contact satisfies the contact requirement of this rule."
+							],
+							"refs": [
+								"20.B"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "20.B.2",
+					"label": "20.B.2.",
+					"html": "Resolution. If uncontested, a call of “dangerous play” is resolved as an analogous <dfn data-rule=\"3.B\">foul</dfn> (e.g., if the call occurred while or immediately after the calling <dfn data-rule=\"3.Q.10\">player</dfn> was making a play on a disc in the air, it is treated as a Receiving Foul (<a href=\"/rules/usau-official-2026-27/20#20.E.2\">20.E.2</a>)). A player called for dangerous play may contest the call if they believe the call was incorrect (<a href=\"/rules/usau-official-2026-27/17#17.B\">17.B</a>).",
+					"text": "Resolution. If uncontested, a call of “dangerous play” is resolved as an analogous foul (e.g., if the call occurred while or immediately after the calling player was making a play on a disc in the air, it is treated as a Receiving Foul (20.E.2)). A player called for dangerous play may contest the call if they believe the call was incorrect (17.B).",
+					"annotations": [],
+					"refs": [
+						"20.E.2",
+						"17.B"
+					],
+					"children": [
+						{
+							"id": "20.B.2.a",
+							"label": "20.B.2.a.",
+							"html": "Dangerous play between a <dfn data-rule=\"3.O\">thrower</dfn> and <dfn data-rule=\"3.Q.6\">marker</dfn> is treated as a throwing <dfn data-rule=\"3.B\">foul</dfn> that affected the play, regardless of whether or when the disc is released or when contact occurs, unless the calling <dfn data-rule=\"3.Q.10\">player</dfn> determines otherwise.",
+							"text": "Dangerous play between a thrower and marker is treated as a throwing foul that affected the play, regardless of whether or when the disc is released or when contact occurs, unless the calling player determines otherwise.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.B.2.b",
+							"label": "20.B.2.b.",
+							"html": "Dangerous play occurring when or immediately after the disc is in the air is treated as a receiving <dfn data-rule=\"3.B\">foul</dfn> if either <dfn data-rule=\"3.Q.10\">player</dfn> involved is attempting a play on the disc. However, the calling player may elect to treat the dangerous play as a general foul, if the player determines that the dangerous play was unrelated to the overall play that decided the outcome of the action.",
+							"text": "Dangerous play occurring when or immediately after the disc is in the air is treated as a receiving foul if either player involved is attempting a play on the disc. However, the calling player may elect to treat the dangerous play as a general foul, if the player determines that the dangerous play was unrelated to the overall play that decided the outcome of the action.",
+							"annotations": [
+								"For example, if a third player appears and grabs the disc far before it reaches the two involved players, or if the disc is thrown to the opposite side of the field, the involved players will not be attempting a play on the disc. However, if multiple players accumulate under a floating disc, one player’s dangerous play will be treated as a receiving foul, even if a third player happens to make a successful play on the disc, as the players under the disc were attempting a play on the disc. The calling player would have discretion to deem the third player’s play so independent and removed from the involved players that the calling player wishes to treat the dangerous play as a general foul rather than a receiving foul. In general, a calling player’s decision that a dangerous play was unrelated to the overall play will be based on the dangerous play being removed in significant distance or time from the overall play. By way of further example, even a dangerous play committed against a player unaware of the approaching disc will be treated as a receiving foul, where the offending player was attempting to make a play on the disc, giving the benefit of the doubt that the calling player could potentially have become aware of the approaching disc, had the offending player made a safe play. In this instance, the calling player could determine that it would not have been possible to become aware of the disc such that the outcome of the play would have changed and therefore elect to treat the dangerous play as a general foul."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.B.2.c",
+							"label": "20.B.2.c.",
+							"html": "Dangerous play is treated as a general <dfn data-rule=\"3.B\">foul</dfn> only if it occurs when the disc is not in the air, occurs far away from the disc, when the disc is obviously uncatchable, or when the calling <dfn data-rule=\"3.Q.10\">player</dfn> has elected such treatment under <a href=\"/rules/usau-official-2026-27/20#20.B.2.b\">20.B.2.b</a>. In this situation, the calling player determines whether the play was affected, under the standard enunciated in this rule and its annotations.",
+							"text": "Dangerous play is treated as a general foul only if it occurs when the disc is not in the air, occurs far away from the disc, when the disc is obviously uncatchable, or when the calling player has elected such treatment under 20.B.2.b. In this situation, the calling player determines whether the play was affected, under the standard enunciated in this rule and its annotations.",
+							"annotations": [
+								"A disc is obviously uncatchable only when it hits the ground before a catch could possibly be made, is out-of-bounds with no possibility of an in-bounds completion, or otherwise presents no opportunity for a catch (whether initial or subsequent efforts), giving every benefit of the doubt to the calling player.",
+								"In determining whether a dangerous play affected the play under 20.B.2.c, the calling player should broadly consider the entire play, including any approach taken by the offending player immediately before the dangerous play. A good rule of thumb is to look to the last time when a player could have still changed their actions and actively avoided a dangerous outcome but did not (the “point of no return”) through the time immediately after resolution of the play and broadly consider whether the outcome of the play could possibly have been different, had the offending player taken a safe approach. Even a player’s awareness of the presence of the offending player can affect the play."
+							],
+							"refs": [
+								"20.B.2.b"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "20.C",
+			"label": "20.C.",
+			"html": "A <dfn data-rule=\"3.B\">foul</dfn> can be called only by the fouled <dfn data-rule=\"3.Q.10\">player</dfn> and must be announced by loudly calling “foul” immediately after it occurs.",
+			"text": "A foul can be called only by the fouled player and must be announced by loudly calling “foul” immediately after it occurs.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "20.D",
+			"label": "20.D.",
+			"html": "Non-<dfn data-rule=\"3.E\">incidental contact</dfn> resulting from adjacent opposing players vying for the same unoccupied position may be treated as offsetting fouls.",
+			"text": "Non-incidental contact resulting from adjacent opposing players vying for the same unoccupied position may be treated as offsetting fouls.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "20.E",
+			"label": "20.E.",
+			"html": "Some fouls carry some extra provisions, as listed below.",
+			"text": "Some fouls carry some extra provisions, as listed below.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "20.E.1",
+					"label": "20.E.1.",
+					"html": "Throwing Fouls:",
+					"text": "Throwing Fouls:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "20.E.1.a",
+							"label": "20.E.1.a.",
+							"html": "A throwing <dfn data-rule=\"3.B\">foul</dfn> may be called when there is non-<dfn data-rule=\"3.E\">incidental contact</dfn> between the <dfn data-rule=\"3.O\">thrower</dfn> and <dfn data-rule=\"3.Q.6\">marker</dfn>. The disc in a thrower’s possession is considered part of the thrower.",
+							"text": "A throwing foul may be called when there is non-incidental contact between the thrower and marker. The disc in a thrower’s possession is considered part of the thrower.",
+							"annotations": [
+								"Nearly every instance of contact between the thrower and marker will be non-incidental with respect to the thrower, whether it disrupts the thrower’s concentration, interferes with the thrower’s movement, disturbs the thrower’s grip, interferes with a throw, or affects continued play in any other way."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.E.1.b",
+							"label": "20.E.1.b.",
+							"html": "In general, any contact between the <dfn data-rule=\"3.O\">thrower</dfn> and the extended (i.e., away from the midline of the body) arms or legs of a <dfn data-rule=\"3.Q.6\">marker</dfn> is a <dfn data-rule=\"3.B\">foul</dfn> on the marker, unless the contacted area of the marker is completely stationary and in a <dfn data-rule=\"3.F\">legal position</dfn>.",
+							"text": "In general, any contact between the thrower and the extended (i.e., away from the midline of the body) arms or legs of a marker is a foul on the marker, unless the contacted area of the marker is completely stationary and in a legal position.",
+							"annotations": [
+								"Really completely stationary. This is very rare."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.E.1.c",
+							"label": "20.E.1.c.",
+							"html": "Any contact that occurs due to the <dfn data-rule=\"3.Q.6\">marker</dfn> setting up in an illegal position (<a href=\"/rules/usau-official-2026-27/16#16.H\">16.H</a>) is a <dfn data-rule=\"3.B\">foul</dfn> on the marker. This contact must be part of an ultimate-related maneuver (throwing, pivoting, etc.) and must occur with a part of the marker that is illegally positioned. Once the marker has set up in a legal marking position, it is the responsibility of both players to respect this <dfn data-rule=\"3.F\">legal position</dfn>. However, contact resulting from the <dfn data-rule=\"3.O\">thrower</dfn> and the marker both vying for the same unoccupied position is a foul on the marker.",
+							"text": "Any contact that occurs due to the marker setting up in an illegal position (16.H) is a foul on the marker. This contact must be part of an ultimate-related maneuver (throwing, pivoting, etc.) and must occur with a part of the marker that is illegally positioned. Once the marker has set up in a legal marking position, it is the responsibility of both players to respect this legal position. However, contact resulting from the thrower and the marker both vying for the same unoccupied position is a foul on the marker.",
+							"annotations": [
+								"Nearly all contact will be non-incidental with respect to the thrower.",
+								"For example, shoving the marker does not result in contact due to the marker setting up an illegal position. Similarly, if a marker is providing disc space, except for illegally wrapping the thrower with their arms, only contact with the illegally positioned arms is due to the marker setting up an illegal position."
+							],
+							"refs": [
+								"16.H"
+							],
+							"children": []
+						},
+						{
+							"id": "20.E.1.d",
+							"label": "20.E.1.d.",
+							"html": "Any contact initiated by a <dfn data-rule=\"3.O\">thrower</dfn> with the body (excluding arms and legs extended from the midline of the body) of a legally positioned (<a href=\"/rules/usau-official-2026-27/16#16.H\">16.H</a>) <dfn data-rule=\"3.Q.6\">marker</dfn> is a <dfn data-rule=\"3.B\">foul</dfn> on the thrower.",
+							"text": "Any contact initiated by a thrower with the body (excluding arms and legs extended from the midline of the body) of a legally positioned (16.H) marker is a foul on the thrower.",
+							"annotations": [
+								"Non-incidental contact. The effect of the contact on the marker is important here, as many, but not all, instances of contact will affect continued play with respect to the marker."
+							],
+							"refs": [
+								"16.H"
+							],
+							"children": []
+						},
+						{
+							"id": "20.E.1.e",
+							"label": "20.E.1.e.",
+							"html": "Although it should be avoided whenever possible, <dfn data-rule=\"3.E\">incidental contact</dfn> occurring during the follow-through (after the disc is released) is not a <dfn data-rule=\"3.B\">foul</dfn>.",
+							"text": "Although it should be avoided whenever possible, incidental contact occurring during the follow-through (after the disc is released) is not a foul.",
+							"annotations": [
+								"Remember, even if the contact were non-incidental, because it occurred after the throw was released, it cannot be deemed to have affected the specific play, and a turnover will stand."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.E.1.f",
+							"label": "20.E.1.f.",
+							"html": "If non-<dfn data-rule=\"3.E\">incidental contact</dfn> occurs between the <dfn data-rule=\"3.O\">thrower</dfn> and <dfn data-rule=\"3.Q.6\">marker</dfn> such that the thrower could call a throwing <dfn data-rule=\"3.B\">foul</dfn> on the marker, the thrower may instead choose to call “contact.” Play does not stop and the marker resumes the stall count at “one.” Other than resetting the stall count, the “contact” call is resolved in the same manner as a marking <dfn data-rule=\"3.P\">violation</dfn> (<a href=\"/rules/usau-official-2026-27/16\">16</a>). The marker may contest the “contact” call by calling “violation,” which is treated as the call of an offensive violation. If the thrower calls “contact” after beginning the throwing motion and subsequently releases the disc, it is treated as if the thrower called “foul.”",
+							"text": "If non-incidental contact occurs between the thrower and marker such that the thrower could call a throwing foul on the marker, the thrower may instead choose to call “contact.” Play does not stop and the marker resumes the stall count at “one.” Other than resetting the stall count, the “contact” call is resolved in the same manner as a marking violation (16). The marker may contest the “contact” call by calling “violation,” which is treated as the call of an offensive violation. If the thrower calls “contact” after beginning the throwing motion and subsequently releases the disc, it is treated as if the thrower called “foul.”",
+							"annotations": [],
+							"refs": [
+								"16"
+							],
+							"children": []
+						},
+						{
+							"id": "20.E.1.g",
+							"label": "20.E.1.g.",
+							"html": "Any references above to a <dfn data-rule=\"3.Q.6\">marker</dfn> also apply to any defensive <dfn data-rule=\"3.Q.10\">player</dfn> within ten feet of the <dfn data-rule=\"3.O\">thrower</dfn>’s <dfn data-rule=\"3.H\">pivot</dfn>.",
+							"text": "Any references above to a marker also apply to any defensive player within ten feet of the thrower’s pivot.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.E.1.h",
+							"label": "20.E.1.h.",
+							"html": "Before a <dfn data-rule=\"3.O\">thrower</dfn> has established a <dfn data-rule=\"3.H\">pivot</dfn>, application of throwing <dfn data-rule=\"3.B\">foul</dfn> protections are limited to contact during the throwing motion and related windups. Instead, the general foul rules and responsibility to avoid contact will apply, and the <dfn data-rule=\"3.Q.10\">player</dfn> initiating non-<dfn data-rule=\"3.E\">incidental contact</dfn> will generally have committed the foul, with the exception of blocking fouls (<a href=\"/rules/usau-official-2026-27/20#20.E.3\">20.E.3</a>).",
+							"text": "Before a thrower has established a pivot, application of throwing foul protections are limited to contact during the throwing motion and related windups. Instead, the general foul rules and responsibility to avoid contact will apply, and the player initiating non-incidental contact will generally have committed the foul, with the exception of blocking fouls (20.E.3).",
+							"annotations": [
+								"For example, contact initiated by a thrower with a marker’s extended, moving arm would generally be a foul on the marker. However, contact initiated by a receiver immediately after a catch with a defender’s extended arm is generally not a foul on that defender if a pivot is not set and the contact is not part of a windup or throwing motion. Another example: a receiver who jumps, catches a disc, and initiates contact with a nearby defender on the way down, losing possession of the disc, cannot call a foul or strip on the basis that the defender was an illegally positioned marker."
+							],
+							"refs": [
+								"20.E.3"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "20.E.2",
+					"label": "20.E.2.",
+					"html": "Receiving Fouls:",
+					"text": "Receiving Fouls:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "20.E.2.a",
+							"label": "20.E.2.a.",
+							"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> contacts an opponent while the disc is in the air and thereby interferes with that opponent’s attempt to make a play on the disc, that player has committed a receiving <dfn data-rule=\"3.B\">foul</dfn>. Some amount of <dfn data-rule=\"3.E\">incidental contact</dfn> before, during, or immediately after the attempt often is unavoidable and is not a foul.",
+							"text": "If a player contacts an opponent while the disc is in the air and thereby interferes with that opponent’s attempt to make a play on the disc, that player has committed a receiving foul. Some amount of incidental contact before, during, or immediately after the attempt often is unavoidable and is not a foul.",
+							"annotations": [
+								"The opponent must at least begin an attempt to make a play on the disc. The opponent’s “attempt to make a play on the disc” includes any second efforts after a disc is tipped, if the disc has not become uncatchable.",
+								"Incidental contact, by definition, is not a foul."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.E.2.b",
+							"label": "20.E.2.b.",
+							"html": "If <a href=\"/rules/usau-official-2026-27/17#17.C.3.b.1\">17.C.3.b.1</a> or <a href=\"/rules/usau-official-2026-27/17#17.C.4.a.1\">17.C.4.a.1</a> of the Continuation Rule applies: if the call is uncontested, the fouled <dfn data-rule=\"3.Q.10\">player</dfn> gains possession at the spot on the playing field closest to the spot of the infraction. If the <dfn data-rule=\"3.B\">foul</dfn> is contested, the disc reverts to the <dfn data-rule=\"3.O\">thrower</dfn>.",
+							"text": "If 17.C.3.b.1 or 17.C.4.a.1 of the Continuation Rule applies: if the call is uncontested, the fouled player gains possession at the spot on the playing field closest to the spot of the infraction. If the foul is contested, the disc reverts to the thrower.",
+							"annotations": [],
+							"refs": [
+								"17.C.3.b.1",
+								"17.C.4.a.1"
+							],
+							"children": []
+						},
+						{
+							"id": "20.E.2.c",
+							"label": "20.E.2.c.",
+							"html": "The Principle of Verticality: All players have the right to enter the air space immediately above their torso to make a play on a thrown disc. If non-<dfn data-rule=\"3.E\">incidental contact</dfn> occurs in the airspace immediately above a <dfn data-rule=\"3.Q.10\">player</dfn> before the outcome of the play is determined (e.g., before possession is gained or an incomplete pass is effected), it is a <dfn data-rule=\"3.B\">foul</dfn> on the player entering the vertical space of the other player.",
+							"text": "The Principle of Verticality: All players have the right to enter the air space immediately above their torso to make a play on a thrown disc. If non-incidental contact occurs in the airspace immediately above a player before the outcome of the play is determined (e.g., before possession is gained or an incomplete pass is effected), it is a foul on the player entering the vertical space of the other player.",
+							"annotations": [
+								"If the disc is caught (or rendered uncatchable) before contact occurs, then the outcome of the play is determined already and the contact is not an infraction of this rule."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "20.E.2.d",
+							"label": "20.E.2.d.",
+							"html": "Force-out <dfn data-rule=\"3.B\">Foul</dfn>: If an airborne <dfn data-rule=\"3.Q.10\">player</dfn> catches the disc and is contacted by an opposing player before landing, and that contact causes the player to land out-of-bounds instead of in-bounds, or out of the end zone instead of in the end zone, it is a foul on the opposing player and the fouled player retains possession at the spot of the foul. If an uncontested force-out foul results in an in-bounds player landing outside the end zone being attacked when they would have landed in the end zone without the foul, a goal is awarded.",
+							"text": "Force-out Foul: If an airborne player catches the disc and is contacted by an opposing player before landing, and that contact causes the player to land out-of-bounds instead of in-bounds, or out of the end zone instead of in the end zone, it is a foul on the opposing player and the fouled player retains possession at the spot of the foul. If an uncontested force-out foul results in an in-bounds player landing outside the end zone being attacked when they would have landed in the end zone without the foul, a goal is awarded.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "20.E.3",
+					"label": "20.E.3.",
+					"html": "Blocking Fouls:",
+					"text": "Blocking Fouls:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "20.E.3.a",
+							"label": "20.E.3.a.",
+							"html": "When the disc is in the air a <dfn data-rule=\"3.Q.10\">player</dfn> may not move in a manner solely to prevent an opponent from taking an unoccupied path to the disc and any resulting non-<dfn data-rule=\"3.E\">incidental contact</dfn> is a <dfn data-rule=\"3.B\">foul</dfn> on the blocking player which is treated like a receiving foul (<a href=\"/rules/usau-official-2026-27/20#20.E.2\">20.E.2</a>).",
+							"text": "When the disc is in the air a player may not move in a manner solely to prevent an opponent from taking an unoccupied path to the disc and any resulting non-incidental contact is a foul on the blocking player which is treated like a receiving foul (20.E.2).",
+							"annotations": [
+								"Solely. The intent of the player’s movement can be partly motivated to prevent an opponent from taking an unoccupied path to the disc, so long as it is part of a general effort to make a play on the disc. Note, if a trailing player runs into a player in front of them, it is nearly always a foul on the trailing player."
+							],
+							"refs": [
+								"20.E.2"
+							],
+							"children": []
+						},
+						{
+							"id": "20.E.3.b",
+							"label": "20.E.3.b.",
+							"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> may not take a position that is unavoidable by a moving opponent when time, distance, and <dfn data-rule=\"3.G\">line</dfn> of sight are considered. Non-<dfn data-rule=\"3.E\">incidental contact</dfn> resulting from taking such a position is a <dfn data-rule=\"3.B\">foul</dfn> on the blocking player.",
+							"text": "A player may not take a position that is unavoidable by a moving opponent when time, distance, and line of sight are considered. Non-incidental contact resulting from taking such a position is a foul on the blocking player.",
+							"annotations": [
+								"If you are already in a position, you maintaining that position is not “taking a position.”"
+							],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "20.E.4",
+					"label": "20.E.4.",
+					"html": "Strip: If a <dfn data-rule=\"3.B\">foul</dfn> causes a <dfn data-rule=\"3.Q.10\">player</dfn> to lose <dfn data-rule=\"3.I\">possession of the disc</dfn>, it is a strip. A strip is a subset of fouls and is treated the same way.",
+					"text": "Strip: If a foul causes a player to lose possession of the disc, it is a strip. A strip is a subset of fouls and is treated the same way.",
+					"annotations": [
+						"Initiating contact with a disc in a player’s possession is a foul.",
+						"Sustained contact with, and control of, a non-spinning disc is required to establish possession (3.J). A player may not call a strip if they had only momentary contact with or lacked control of the disc at the time of an opponent contacting the disc because the player did not have possession."
+					],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}

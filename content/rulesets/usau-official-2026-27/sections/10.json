@@ -1,0 +1,276 @@
+{
+	"slug": "10",
+	"anchorId": "10",
+	"number": "10",
+	"kind": "section",
+	"title": "Restarting and Continuing Play",
+	"html": null,
+	"rules": [
+		{
+			"id": "10.A",
+			"label": "10.A.",
+			"html": "It is the responsibility of all players to avoid any delay when starting, restarting, or continuing play. This includes standing over the disc or taking more time than reasonably necessary to put the disc into play.",
+			"text": "It is the responsibility of all players to avoid any delay when starting, restarting, or continuing play. This includes standing over the disc or taking more time than reasonably necessary to put the disc into play.",
+			"annotations": [
+				"This includes standing back from the disc, wandering around to gain more time, etc. Pretending not to delay while delaying is still delaying."
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "10.B",
+			"label": "10.B.",
+			"html": "If the disc is on the ground, whether in- or out-of-bounds, any member of the team becoming offense may take possession of it.",
+			"text": "If the disc is on the ground, whether in- or out-of-bounds, any member of the team becoming offense may take possession of it.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "10.B.1",
+					"label": "10.B.1.",
+					"html": "If an <dfn data-rule=\"3.Q.9\">offensive player</dfn> picks up a live or in play disc, that <dfn data-rule=\"3.Q.10\">player</dfn> must put it into play.",
+					"text": "If an offensive player picks up a live or in play disc, that player must put it into play.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "10.B.2",
+					"label": "10.B.2.",
+					"html": "If possession is gained at the spot where the disc is in play, the <dfn data-rule=\"3.O\">thrower</dfn> must establish a <dfn data-rule=\"3.H\">pivot</dfn> at the spot of the disc.",
+					"text": "If possession is gained at the spot where the disc is in play, the thrower must establish a pivot at the spot of the disc.",
+					"annotations": [
+						"The thrower should pick up the disc and place the pivot at the spot of the disc."
+					],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "10.B.3",
+					"label": "10.B.3.",
+					"html": "If an in-bounds disc comes to rest on the central zone, a member of the team becoming offense must pick up the disc and establish a <dfn data-rule=\"3.H\">pivot</dfn> within ten seconds after it comes to rest. After ten seconds elapse, a defensive <dfn data-rule=\"3.Q.10\">player</dfn> within ten feet of the disc may announce “disc in,” and then initiate and continue the stall count, but only if a defensive player has given audible warnings of ten and five seconds (the pre-stall).",
+					"text": "If an in-bounds disc comes to rest on the central zone, a member of the team becoming offense must pick up the disc and establish a pivot within ten seconds after it comes to rest. After ten seconds elapse, a defensive player within ten feet of the disc may announce “disc in,” and then initiate and continue the stall count, but only if a defensive player has given audible warnings of ten and five seconds (the pre-stall).",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "10.B.4",
+					"label": "10.B.4.",
+					"html": "If the disc is out-of-bounds (<a href=\"/rules/usau-official-2026-27/11#11.E\">11.E</a>) or comes to rest in the end zone, a member of the team becoming offense must put the disc into play within twenty seconds after it comes to rest.",
+					"text": "If the disc is out-of-bounds (11.E) or comes to rest in the end zone, a member of the team becoming offense must put the disc into play within twenty seconds after it comes to rest.",
+					"annotations": [
+						"For an out-of bounds disc that has come to rest on the central zone, the team becoming offense will have twenty seconds to put it into play."
+					],
+					"refs": [
+						"11.E"
+					],
+					"children": [
+						{
+							"id": "10.B.4.a",
+							"label": "10.B.4.a.",
+							"html": "If the disc is out of bounds and not reasonably retrievable quickly, a replacement disc may be introduced without a <dfn data-rule=\"3.M\">stoppage of play</dfn>. The <dfn data-rule=\"3.Q.10\">player</dfn> retrieving the disc must first confirm with a player on the opposing team that the new disc is acceptable. The player putting the new disc into play must then raise the replacement disc above their head and announce “new disc” before putting the disc into play according to <a href=\"/rules/usau-official-2026-27/11#11.H\">11.H</a>.",
+							"text": "If the disc is out of bounds and not reasonably retrievable quickly, a replacement disc may be introduced without a stoppage of play. The player retrieving the disc must first confirm with a player on the opposing team that the new disc is acceptable. The player putting the new disc into play must then raise the replacement disc above their head and announce “new disc” before putting the disc into play according to 11.H.",
+							"annotations": [],
+							"refs": [
+								"11.H"
+							],
+							"children": []
+						},
+						{
+							"id": "10.B.4.b",
+							"label": "10.B.4.b.",
+							"html": "If the disc is in the end zone, after twenty seconds elapse, a defensive <dfn data-rule=\"3.Q.10\">player</dfn> within 10 feet of the disc may announce “disc in,” and then initiate and continue the stall count, but only if a defensive player has given audible warnings of twenty, ten and five seconds (the pre-stall).",
+							"text": "If the disc is in the end zone, after twenty seconds elapse, a defensive player within 10 feet of the disc may announce “disc in,” and then initiate and continue the stall count, but only if a defensive player has given audible warnings of twenty, ten and five seconds (the pre-stall).",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "10.B.4.c",
+							"label": "10.B.4.c.",
+							"html": "If the disc is out-of-bounds, after twenty seconds elapse, a defensive <dfn data-rule=\"3.Q.10\">player</dfn> within ten feet of the spot the disc is to be put into play may announce “disc in,” and then initiate and continue the stall count, but only if a defensive player has given audible warnings of twenty, ten and five seconds (the pre-stall).",
+							"text": "If the disc is out-of-bounds, after twenty seconds elapse, a defensive player within ten feet of the spot the disc is to be put into play may announce “disc in,” and then initiate and continue the stall count, but only if a defensive player has given audible warnings of twenty, ten and five seconds (the pre-stall).",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "10.B.4.d",
+							"label": "10.B.4.d.",
+							"html": "Non-playing members of the team on offense may assist in retrieving live discs outside the <dfn data-rule=\"3.Q.10\">player</dfn> and team lines (or, if no such lines exist, live discs in the out-of-bounds area). These team members cannot cause a turnover. Once a player obtains <dfn data-rule=\"3.I\">possession of the disc</dfn>, they must carry the disc to a spot outside the team <dfn data-rule=\"3.G\">line</dfn> (or, if no such line exists, at least three yards away from the playing field) before carrying it to the spot where it is to be put into play.",
+							"text": "Non-playing members of the team on offense may assist in retrieving live discs outside the player and team lines (or, if no such lines exist, live discs in the out-of-bounds area). These team members cannot cause a turnover. Once a player obtains possession of the disc, they must carry the disc to a spot outside the team line (or, if no such line exists, at least three yards away from the playing field) before carrying it to the spot where it is to be put into play.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "10.B.5",
+					"label": "10.B.5.",
+					"html": "If an <dfn data-rule=\"3.Q.9\">offensive player</dfn> unnecessarily delays in taking <dfn data-rule=\"3.I\">possession of the disc</dfn> or putting the disc into play in <dfn data-rule=\"3.P\">violation</dfn> of rule <a href=\"/rules/usau-official-2026-27/10#10.A\">10.A</a>, a defender within ten feet of the spot the disc is to be put into play may issue a delay of game warning instead of calling a violation, by announcing “delay of game” and counting down from three to zero at intervals of at least one second to provide an opportunity for the offensive <dfn data-rule=\"3.Q.10\">player</dfn> to react to the warning. Play then continues as follows:",
+					"text": "If an offensive player unnecessarily delays in taking possession of the disc or putting the disc into play in violation of rule 10.A, a defender within ten feet of the spot the disc is to be put into play may issue a delay of game warning instead of calling a violation, by announcing “delay of game” and counting down from three to zero at intervals of at least one second to provide an opportunity for the offensive player to react to the warning. Play then continues as follows:",
+					"annotations": [],
+					"refs": [
+						"10.A"
+					],
+					"children": [
+						{
+							"id": "10.B.5.a",
+							"label": "10.B.5.a.",
+							"html": "If the behavior in <dfn data-rule=\"3.P\">violation</dfn> of rule <a href=\"/rules/usau-official-2026-27/10#10.A\">10.A</a> is stopped before the full utterance of the word “zero,” the <dfn data-rule=\"3.Q.6\">marker</dfn> stops the count-down and may only initiate the stall count as usual, according to <a href=\"/rules/usau-official-2026-27/15#15.C\">15.C</a>.",
+							"text": "If the behavior in violation of rule 10.A is stopped before the full utterance of the word “zero,” the marker stops the count-down and may only initiate the stall count as usual, according to 15.C.",
+							"annotations": [
+								"An example of “stopping” behavior in violation of rule 10.A is to begin moving toward the disc at walking pace. Another example would be to run downfield, leaving the disc for someone else to pick up. However, if a player is taking more time than reasonably necessary to put the disc into play by standing back from the disc, wandering around near the disc, or standing over the disc, continuing such behavior during the three-second countdown will allow a marker to initiate the stall count under 10.B.5."
+							],
+							"refs": [
+								"10.A",
+								"15.C"
+							],
+							"children": []
+						},
+						{
+							"id": "10.B.5.b",
+							"label": "10.B.5.b.",
+							"html": "If the behavior in <dfn data-rule=\"3.P\">violation</dfn> of rule <a href=\"/rules/usau-official-2026-27/10#10.A\">10.A</a> is not stopped before the full utterance of the word “zero,” the <dfn data-rule=\"3.Q.6\">marker</dfn> may then initiate or continue a stall count, regardless of any subsequent actions by the offense, by announcing “disc in” and then initiating the stall count.",
+							"text": "If the behavior in violation of rule 10.A is not stopped before the full utterance of the word “zero,” the marker may then initiate or continue a stall count, regardless of any subsequent actions by the offense, by announcing “disc in” and then initiating the stall count.",
+							"annotations": [],
+							"refs": [
+								"10.A"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "10.C",
+			"label": "10.C.",
+			"html": "For a live disc to be put into play, the <dfn data-rule=\"3.O\">thrower</dfn> must establish a <dfn data-rule=\"3.H\">pivot</dfn> at the appropriate spot on the field, and touch the disc to the ground (<a href=\"/rules/usau-official-2026-27/3#3.L.2\">3.L.2</a>).",
+			"text": "For a live disc to be put into play, the thrower must establish a pivot at the appropriate spot on the field, and touch the disc to the ground (3.L.2).",
+			"annotations": [],
+			"refs": [
+				"3.L.2"
+			],
+			"children": []
+		},
+		{
+			"id": "10.D",
+			"label": "10.D.",
+			"html": "If the disc is dead:",
+			"text": "If the disc is dead:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "10.D.1",
+					"label": "10.D.1.",
+					"html": "When play stops, each <dfn data-rule=\"3.Q.10\">player</dfn> must come to a stop as quickly as possible. Before restarting play, all players must assume the location on the field specified by the rule that covers that specific <dfn data-rule=\"3.M\">stoppage of play</dfn> and remain there until play is restarted.",
+					"text": "When play stops, each player must come to a stop as quickly as possible. Before restarting play, all players must assume the location on the field specified by the rule that covers that specific stoppage of play and remain there until play is restarted.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "10.D.2",
+					"label": "10.D.2.",
+					"html": "If a called infraction occurs while play is stopped, any subsequent play is negated and players must assume their appropriate locations under <a href=\"/rules/usau-official-2026-27/10#10.D.1\">10.D.1</a>. This called infraction does not alter the stall count.",
+					"text": "If a called infraction occurs while play is stopped, any subsequent play is negated and players must assume their appropriate locations under 10.D.1. This called infraction does not alter the stall count.",
+					"annotations": [],
+					"refs": [
+						"10.D.1"
+					],
+					"children": []
+				},
+				{
+					"id": "10.D.3",
+					"label": "10.D.3.",
+					"html": "The check: When the situation is resolved, the <dfn data-rule=\"3.Q.10\">player</dfn> determined to be in possession offers the disc to the <dfn data-rule=\"3.Q.6\">marker</dfn> for a check. The marker restarts play by loudly announcing “3-2-1,” touching the disc in the <dfn data-rule=\"3.O\">thrower</dfn>’s possession, and announcing “disc in.” If the thrower attempts a pass before the marker touches the disc, the pass (whether complete or incomplete) does not count and the thrower regains possession.",
+					"text": "The check: When the situation is resolved, the player determined to be in possession offers the disc to the marker for a check. The marker restarts play by loudly announcing “3-2-1,” touching the disc in the thrower’s possession, and announcing “disc in.” If the thrower attempts a pass before the marker touches the disc, the pass (whether complete or incomplete) does not count and the thrower regains possession.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "10.D.3.a",
+							"label": "10.D.3.a.",
+							"html": "Any stall count in effect resumes according to <a href=\"/rules/usau-official-2026-27/15#15.F\">15.F</a>.",
+							"text": "Any stall count in effect resumes according to 15.F.",
+							"annotations": [],
+							"refs": [
+								"15.F"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "10.D.4",
+					"label": "10.D.4.",
+					"html": "Offensive self-check: If play is to restart with a check, but no defensive <dfn data-rule=\"3.Q.10\">player</dfn> is near enough to touch the disc in the <dfn data-rule=\"3.O\">thrower</dfn>’s hand, play restarts with an offensive self-check. To restart play using an offensive self-check:",
+					"text": "Offensive self-check: If play is to restart with a check, but no defensive player is near enough to touch the disc in the thrower’s hand, play restarts with an offensive self-check. To restart play using an offensive self-check:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "10.D.4.a",
+							"label": "10.D.4.a.",
+							"html": "the defense must acknowledge readiness; and",
+							"text": "the defense must acknowledge readiness; and",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "10.D.4.b",
+							"label": "10.D.4.b.",
+							"html": "the <dfn data-rule=\"3.O\">thrower</dfn> establishes a <dfn data-rule=\"3.H\">pivot</dfn> at the appropriate spot on the field, loudly announces “3-2-1,” touches the disc to the ground, and loudly announces “disc in.”",
+							"text": "the thrower establishes a pivot at the appropriate spot on the field, loudly announces “3-2-1,” touches the disc to the ground, and loudly announces “disc in.”",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "10.D.5",
+					"label": "10.D.5.",
+					"html": "Defensive self-check: If play is to restart with a check, but no <dfn data-rule=\"3.Q.9\">offensive player</dfn> is in <dfn data-rule=\"3.I\">possession of the disc</dfn> at the appropriate spot, play restarts with a defensive self-check. To restart play using a defensive self-check:",
+					"text": "Defensive self-check: If play is to restart with a check, but no offensive player is in possession of the disc at the appropriate spot, play restarts with a defensive self-check. To restart play using a defensive self-check:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "10.D.5.a",
+							"label": "10.D.5.a.",
+							"html": "the disc is placed at the appropriate spot on the field;",
+							"text": "the disc is placed at the appropriate spot on the field;",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "10.D.5.b",
+							"label": "10.D.5.b.",
+							"html": "the offense must acknowledge readiness; and",
+							"text": "the offense must acknowledge readiness; and",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "10.D.5.c",
+							"label": "10.D.5.c.",
+							"html": "the defender closest to the disc loudly announces “3-2-1 disc in.”",
+							"text": "the defender closest to the disc loudly announces “3-2-1 disc in.”",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

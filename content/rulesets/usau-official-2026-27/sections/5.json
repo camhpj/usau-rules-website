@@ -1,0 +1,97 @@
+{
+	"slug": "5",
+	"anchorId": "5",
+	"number": "5",
+	"kind": "section",
+	"title": "Equipment",
+	"html": null,
+	"rules": [
+		{
+			"id": "5.A",
+			"label": "5.A.",
+			"html": "In USA Ultimate-sanctioned play, a USA Ultimate-approved disc appropriate for the level of competition must be used. Further requirements may be instituted under the <dfn data-rule=\"3.Q.4\">Event Organizer</dfn>’s clause (<a href=\"/rules/usau-official-2026-27/1#1.B.2\">1.B.2</a>) for specific programs or events. In unsanctioned play, any disc acceptable under the Event Organizer’s Clause (<a href=\"/rules/usau-official-2026-27/1#1.B.2\">1.B.2</a>) and <dfn data-rule=\"3.Q.1\">Captain</dfn>’s Clause (<a href=\"/rules/usau-official-2026-27/1#1.B.2\">1.B.3</a>) may be used.",
+			"text": "In USA Ultimate-sanctioned play, a USA Ultimate-approved disc appropriate for the level of competition must be used. Further requirements may be instituted under the Event Organizer’s clause (1.B.2) for specific programs or events. In unsanctioned play, any disc acceptable under the Event Organizer’s Clause (1.B.2) and Captain’s Clause (1.B.3) may be used.",
+			"annotations": [],
+			"refs": [
+				"1.B.2"
+			],
+			"children": []
+		},
+		{
+			"id": "5.B",
+			"label": "5.B.",
+			"html": "Players may wear any soft clothing that does not endanger the safety of other players or provide unfair advantage.",
+			"text": "Players may wear any soft clothing that does not endanger the safety of other players or provide unfair advantage.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.C",
+			"label": "5.C.",
+			"html": "Players may wear casts, guards, braces, or similar protective medical equipment. Any hard or sharp materials must be sufficiently covered and padded if they pose a meaningful risk to other participants.",
+			"text": "Players may wear casts, guards, braces, or similar protective medical equipment. Any hard or sharp materials must be sufficiently covered and padded if they pose a meaningful risk to other participants.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.D",
+			"label": "5.D.",
+			"html": "A <dfn data-rule=\"3.Q.10\">player</dfn>’s clothing, shoes, and accessories are considered part of the player.",
+			"text": "A player’s clothing, shoes, and accessories are considered part of the player.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.E",
+			"label": "5.E.",
+			"html": "Cleats with dangerous parts, such as metallic baseball cleats, track spikes, or worn or broken studs with sharp edges, are not allowed.",
+			"text": "Cleats with dangerous parts, such as metallic baseball cleats, track spikes, or worn or broken studs with sharp edges, are not allowed.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.F",
+			"label": "5.F.",
+			"html": "Each <dfn data-rule=\"3.Q.10\">player</dfn> must wear a uniform or other clothing distinguishing that player from players on the other team. In tournament play, matching uniforms and numbered jerseys are recommended.",
+			"text": "Each player must wear a uniform or other clothing distinguishing that player from players on the other team. In tournament play, matching uniforms and numbered jerseys are recommended.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.G",
+			"label": "5.G.",
+			"html": "Players may not use clothing or equipment to unfairly inhibit or assist the movement of the disc or another <dfn data-rule=\"3.Q.10\">player</dfn>.",
+			"text": "Players may not use clothing or equipment to unfairly inhibit or assist the movement of the disc or another player.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.H",
+			"label": "5.H.",
+			"html": "Team members may not misuse game equipment in a manner that is likely to cause damage.",
+			"text": "Team members may not misuse game equipment in a manner that is likely to cause damage.",
+			"annotations": [
+				"Such actions include, but are not limited to, violently kicking field markers and deliberately spiking a disc in a way that is likely to alter the disc’s flight characteristics."
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "5.I",
+			"label": "5.I.",
+			"html": "Team members may not use any form of acoustic amplifiers and/or electronic communication devices to communicate with players. Medically necessary devices are exempt from this rule.",
+			"text": "Team members may not use any form of acoustic amplifiers and/or electronic communication devices to communicate with players. Medically necessary devices are exempt from this rule.",
+			"annotations": [
+				"Team members not participating in the current point may communicate electronically with each other (e.g. coaches, sideline players, team support staff, but not players)."
+			],
+			"refs": [],
+			"children": []
+		}
+	]
+}

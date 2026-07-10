@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+@import '@fontsource/barlow-condensed/700-italic.css';
+@import '@fontsource/barlow-condensed/900-italic.css';
+@import '@fontsource-variable/inter';
+
+@theme {
+	--color-navy: #1c3557;
+	--color-navy-deep: #12233c;
+	--color-cardinal: #b41f3a;
+	--color-mist: #f0f1f3;
+	--font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+	html {
+		font-family: var(--font-sans);
+		background: var(--color-navy-deep);
+		color: white;
+		scroll-behavior: smooth;
+	}
+}
+
+@utility display {
+	font-family: var(--font-display);
+	font-style: italic;
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: -0.01em;
+	line-height: 0.95;
+}
+
+/* faint field-line texture for the navy shell */
+@utility field-lines {
+	background-image:
+		linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+		linear-gradient(to bottom, rgb(255 255 255 / 0.03) 1px, transparent 1px);
+	background-size: 96px 96px;
+}
+
+/* rule text content: cross-refs, glossary terms, tables, and images from ingested rule HTML */
+@layer components {
+	.rule-html a {
+		color: var(--color-cardinal);
+		text-decoration: underline;
+		text-decoration-color: color-mix(in srgb, var(--color-cardinal) 45%, transparent);
+		text-underline-offset: 2px;
+	}
+	.rule-html a:hover {
+		text-decoration-color: var(--color-cardinal);
+	}
+	.rule-html dfn {
+		font-style: normal;
+		text-decoration: underline dotted;
+		text-decoration-color: color-mix(in srgb, var(--color-navy) 45%, transparent);
+		text-underline-offset: 2px;
+		cursor: help;
+	}
+	.rule-html table {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.9375rem;
+	}
+	.rule-html th,
+	.rule-html td {
+		border: 1px solid var(--color-mist);
+		padding: 0.5rem 0.75rem;
+		text-align: left;
+		vertical-align: top;
+	}
+	.rule-html th {
+		background: var(--color-mist);
+		font-weight: 600;
+	}
+	.rule-html img {
+		max-width: 100%;
+		height: auto;
+	}
+	.rule-html p {
+		margin-top: 0.75rem;
+	}
+	.rule-html p:first-child {
+		margin-top: 0;
+	}
+	.anchor-flash {
+		animation: anchor-flash 2s ease-out;
+	}
+	@keyframes anchor-flash {
+		from {
+			background-color: rgb(180 31 58 / 0.12);
+		}
+		to {
+			background-color: transparent;
+		}
+	}
+}

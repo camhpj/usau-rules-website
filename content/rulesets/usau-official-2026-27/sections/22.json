@@ -1,0 +1,111 @@
+{
+	"slug": "22",
+	"anchorId": "22",
+	"number": "22",
+	"kind": "section",
+	"title": "Observers",
+	"html": null,
+	"rules": [
+		{
+			"id": "22.A",
+			"label": "22.A.",
+			"html": "Observers may be used if desired by the captains or the <dfn data-rule=\"3.Q.4\">event organizer</dfn>.",
+			"text": "Observers may be used if desired by the captains or the event organizer.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "22.B",
+			"label": "22.B.",
+			"html": "Observers may perform any or all of the following duties:",
+			"text": "Observers may perform any or all of the following duties:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "22.B.1",
+					"label": "22.B.1.",
+					"html": "Track time limits and announce associated warnings and expirations.",
+					"text": "Track time limits and announce associated warnings and expirations.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "22.B.2",
+					"label": "22.B.2.",
+					"html": "Resolve <dfn data-rule=\"3.Q.10\">player</dfn> disputes.",
+					"text": "Resolve player disputes.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "22.B.2.a",
+							"label": "22.B.2.a.",
+							"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn> directly involved in a dispute may request <dfn data-rule=\"3.Q.8\">observer</dfn> resolution.",
+							"text": "Any player directly involved in a dispute may request observer resolution.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "22.B.2.b",
+							"label": "22.B.2.b.",
+							"html": "An <dfn data-rule=\"3.Q.8\">observer</dfn> may resolve a dispute without request from the players involved if they cannot resolve it in a timely manner.",
+							"text": "An observer may resolve a dispute without request from the players involved if they cannot resolve it in a timely manner.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "22.B.2.c",
+							"label": "22.B.2.c.",
+							"html": "If an <dfn data-rule=\"3.Q.8\">observer</dfn> is involved in resolving a dispute, play restarts with a check.",
+							"text": "If an observer is involved in resolving a dispute, play restarts with a check.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "22.B.3",
+					"label": "22.B.3.",
+					"html": "Censure or eject players for Spirit of the Game infractions. This includes assigning responsibility for game delays to a specific <dfn data-rule=\"3.Q.10\">player</dfn>.",
+					"text": "Censure or eject players for Spirit of the Game infractions. This includes assigning responsibility for game delays to a specific player.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "22.B.4",
+					"label": "22.B.4.",
+					"html": "Render opinions on other on-field events (e.g., <dfn data-rule=\"3.G\">line</dfn> and offside calls), as determined in advance by the <dfn data-rule=\"3.Q.4\">event organizer</dfn>.",
+					"text": "Render opinions on other on-field events (e.g., line and offside calls), as determined in advance by the event organizer.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "22.C",
+			"label": "22.C.",
+			"html": "By playing under observers, the players agree to abide by the observers’ decisions.",
+			"text": "By playing under observers, the players agree to abide by the observers’ decisions.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "22.D",
+			"label": "22.D.",
+			"html": "Players may overrule an <dfn data-rule=\"3.Q.8\">observer</dfn>’s active ruling, provided it is to their team’s detriment. Players may also decline enforcement of a yardage penalty assessed through the misconduct system. Observers may deny the declination if they feel the teams are trying to circumvent mandatory tournament rules, guidelines, or <dfn data-rule=\"3.Q.10\">player</dfn> safety.",
+			"text": "Players may overrule an observer’s active ruling, provided it is to their team’s detriment. Players may also decline enforcement of a yardage penalty assessed through the misconduct system. Observers may deny the declination if they feel the teams are trying to circumvent mandatory tournament rules, guidelines, or player safety.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

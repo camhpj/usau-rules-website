@@ -1,0 +1,90 @@
+{
+	"slug": "13",
+	"anchorId": "13",
+	"number": "13",
+	"kind": "section",
+	"title": "Scoring",
+	"html": null,
+	"rules": [
+		{
+			"id": "13.A",
+			"label": "13.A.",
+			"html": "A goal is scored when an in-bounds <dfn data-rule=\"3.Q.10\">player</dfn> catches any legal pass in the end zone of attack, and retains <dfn data-rule=\"3.I\">possession of the disc</dfn> throughout all <dfn data-rule=\"3.C\">ground contact</dfn> related to the catch.",
+			"text": "A goal is scored when an in-bounds player catches any legal pass in the end zone of attack, and retains possession of the disc throughout all ground contact related to the catch.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "13.A.1",
+					"label": "13.A.1.",
+					"html": "To be considered in the end zone after gaining <dfn data-rule=\"3.I\">possession of the disc</dfn> in accordance with <a href=\"/rules/usau-official-2026-27/3#3.I.2\">3.I.2</a> and <a href=\"/rules/usau-official-2026-27/17#17.E\">17.E</a>, the <dfn data-rule=\"3.Q.10\">player</dfn>’s first point of <dfn data-rule=\"3.C\">ground contact</dfn> must be completely in the end zone. If the player loses possession due to ground contact related to the catch and any <dfn data-rule=\"3.Q.9\">offensive player</dfn> subsequently gains possession of the disc before a turnover occurs, the first point of ground contact of the subsequent possession must be completely in the endzone.",
+					"text": "To be considered in the end zone after gaining possession of the disc in accordance with 3.I.2 and 17.E, the player’s first point of ground contact must be completely in the end zone. If the player loses possession due to ground contact related to the catch and any offensive player subsequently gains possession of the disc before a turnover occurs, the first point of ground contact of the subsequent possession must be completely in the endzone.",
+					"annotations": [
+						"If a player clearly lands on their toes first and then continues down onto their heels, their toes are the first point of ground contact. If a player lands fairly flat-footed and it is not possible to determine which part of the foot contacted the ground first, the entire foot is the first point of ground contact.",
+						"If a player catches a disc outside of their end zone of attack, loses possession during ground contact related to the catch, bobbles the disc, and then re-gains possession of the disc with their first point of ground contact of this subsequent possession completely in the end zone, it is a goal."
+					],
+					"refs": [
+						"3.I.2",
+						"17.E"
+					],
+					"children": []
+				},
+				{
+					"id": "13.A.2",
+					"label": "13.A.2.",
+					"html": "When an in-bounds <dfn data-rule=\"3.Q.10\">player</dfn> in <dfn data-rule=\"3.I\">possession of the disc</dfn> whose first <dfn data-rule=\"3.C\">ground contact</dfn> will be completely within the end zone loses possession of the disc due to an uncontested <dfn data-rule=\"3.B\">foul</dfn>, or lands out of the end zone due to an uncontested force-out foul (<a href=\"/rules/usau-official-2026-27/20#20.E.2.d\">20.E.2.d</a>), that player is awarded a goal.",
+					"text": "When an in-bounds player in possession of the disc whose first ground contact will be completely within the end zone loses possession of the disc due to an uncontested foul, or lands out of the end zone due to an uncontested force-out foul (20.E.2.d), that player is awarded a goal.",
+					"annotations": [],
+					"refs": [
+						"20.E.2.d"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "13.B",
+			"label": "13.B.",
+			"html": "If after receiving a pass outside the end zone, a <dfn data-rule=\"3.Q.10\">player</dfn> comes to a stop contacting the end zone without a <dfn data-rule=\"3.H\">pivot</dfn> on the central zone, that player must carry the disc back to, and put it into play at, the closest spot on the goal <dfn data-rule=\"3.G\">line</dfn>.",
+			"text": "If after receiving a pass outside the end zone, a player comes to a stop contacting the end zone without a pivot on the central zone, that player must carry the disc back to, and put it into play at, the closest spot on the goal line.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "13.C",
+			"label": "13.C.",
+			"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> scores according to <a href=\"/rules/usau-official-2026-27/13#13.A\">13.A</a>, but then unknowingly throws another pass, a goal is awarded to that player, regardless of the outcome of the pass. However, if it is unclear if the player scored according to <a href=\"/rules/usau-official-2026-27/13#13.A\">13.A</a> (i.e., there is no agreement on the player who had <dfn data-rule=\"3.A\">best perspective</dfn>, and there are opposing viewpoints on the play), the result of the pass stands.",
+			"text": "If a player scores according to 13.A, but then unknowingly throws another pass, a goal is awarded to that player, regardless of the outcome of the pass. However, if it is unclear if the player scored according to 13.A (i.e., there is no agreement on the player who had best perspective, and there are opposing viewpoints on the play), the result of the pass stands.",
+			"annotations": [],
+			"refs": [
+				"13.A"
+			],
+			"children": []
+		},
+		{
+			"id": "13.D",
+			"label": "13.D.",
+			"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> catches the disc and believes a goal has been scored the player may call “goal” and play stops. A player may not call “goal” prior to the completion of all <dfn data-rule=\"3.C\">ground contact</dfn> related to the catch. Best practice is to announce “goal” and raise both hands vertically above the head. After a contested or retracted goal call, play must restart with a check and the call is deemed to have been made when the pass was caught.",
+			"text": "If a player catches the disc and believes a goal has been scored the player may call “goal” and play stops. A player may not call “goal” prior to the completion of all ground contact related to the catch. Best practice is to announce “goal” and raise both hands vertically above the head. After a contested or retracted goal call, play must restart with a check and the call is deemed to have been made when the pass was caught.",
+			"annotations": [
+				"Accordingly, the stall count will resume at 1 (15.F, 15.F.1.e). When repositioning, all players should return to where they were when the pass was caught (17.C.6.a).",
+				"In an observed game, in/out of the end zone and “goal” are active observer calls, and player calls are ignored. Therefore, in an observed game, a player’s “goal” call does not stop play.",
+				"If it is ever unclear whether “goal” was called, play continues and 13.C applies to subsequent throws (undisputed goals stand, turnovers stand on disputed goals). Celebration or other actions following a suspected goal do not substitute for a “goal” call under this rule."
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "13.E",
+			"label": "13.E.",
+			"html": "The act of scoring a goal is subject to rule <a href=\"/rules/usau-official-2026-27/3#3.I.2\">3.I.2</a>.",
+			"text": "The act of scoring a goal is subject to rule 3.I.2.",
+			"annotations": [],
+			"refs": [
+				"3.I.2"
+			],
+			"children": []
+		}
+	]
+}

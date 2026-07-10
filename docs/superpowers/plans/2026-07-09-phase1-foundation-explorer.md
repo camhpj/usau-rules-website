@@ -13,6 +13,7 @@
 ## Global Constraints
 
 - Node 22, npm (no pnpm/yarn). TypeScript everywhere, including scripts.
+- Use the LATEST stable version of every dependency: after any install, run `npm outdated` and upgrade anything stale (`npm i <pkg>@latest`); when a snippet in this plan conflicts with a newer package's API, the package's current docs win — adapt and note the deviation.
 - Palette tokens (exact): navy `#1C3557`, deep navy `#12233C`, cardinal `#B41F3A`, mist gray `#F0F1F3`, white surfaces. Cardinal is ONLY for CTAs/active/accent states.
 - Display type: Barlow Condensed italic (700/900) uppercase; body/UI: Inter. Self-hosted via Fontsource. No external font/CDN requests.
 - Wordmark copy: `BEST PERSPECTIVE`. Hero headline: `KNOW THE` / `RULES.` ("RULES." in cardinal). Chip: `2026-2027 OFFICIAL RULES`. Footer: `Unofficial study tool · Rules © USA Ultimate`.

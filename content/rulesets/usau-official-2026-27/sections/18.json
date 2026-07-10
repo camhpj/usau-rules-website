@@ -1,0 +1,256 @@
+{
+	"slug": "18",
+	"anchorId": "18",
+	"number": "18",
+	"kind": "section",
+	"title": "Travels",
+	"html": null,
+	"rules": [
+		{
+			"id": "18.A",
+			"label": "18.A.",
+			"html": "After catching a pass, a <dfn data-rule=\"3.Q.10\">player</dfn> is required to come to a stop as quickly as possible and establish a <dfn data-rule=\"3.H\">pivot</dfn>.",
+			"text": "After catching a pass, a player is required to come to a stop as quickly as possible and establish a pivot.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "18.B",
+			"label": "18.B.",
+			"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> catches the disc while running or jumping, the player may release a pass without attempting to stop and without setting a <dfn data-rule=\"3.H\">pivot</dfn>, provided the player does not speed up or change direction while in <dfn data-rule=\"3.I\">possession of the disc</dfn> and releases a pass before three additional points of <dfn data-rule=\"3.C\">ground contact</dfn> occur, provided that all points of ground contact are completely in-bounds, excluding their attacking end zone (<a href=\"/rules/usau-official-2026-27/18#18.E.2\">18.E.2</a>).",
+			"text": "If a player catches the disc while running or jumping, the player may release a pass without attempting to stop and without setting a pivot, provided the player does not speed up or change direction while in possession of the disc and releases a pass before three additional points of ground contact occur, provided that all points of ground contact are completely in-bounds, excluding their attacking end zone (18.E.2).",
+			"annotations": [],
+			"refs": [
+				"18.E.2"
+			],
+			"children": []
+		},
+		{
+			"id": "18.C",
+			"label": "18.C.",
+			"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> may bobble the disc in order to gain control of it.",
+			"text": "A player may bobble the disc in order to gain control of it.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "18.D",
+			"label": "18.D.",
+			"html": "The following are travels:",
+			"text": "The following are travels:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "18.D.1",
+					"label": "18.D.1.",
+					"html": "The <dfn data-rule=\"3.O\">thrower</dfn> fails to establish and continually maintain a <dfn data-rule=\"3.H\">pivot</dfn> at the appropriate spot on the field until the <dfn data-rule=\"3.N\">throw</dfn> is released.",
+					"text": "The thrower fails to establish and continually maintain a pivot at the appropriate spot on the field until the throw is released.",
+					"annotations": [
+						"Remember that according to 17.A, a player must perceive that this infraction has occurred in order to make a call. In most cases, it is unreasonable for a marker to recognize an infraction concerning a small toe-drag during the release of a throw since this would require the marker to simultaneously perceive both the toe-drag and the release. To ensure accuracy, defenders should err toward allowing play to continue if the drag causing the travel is less than two inches.",
+						"In addition, remember that a player must only make a call where the infraction is significant enough to affect play (2.D.2)."
+					],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "18.D.2",
+					"label": "18.D.2.",
+					"html": "The <dfn data-rule=\"3.O\">thrower</dfn> fails to touch the disc to the ground when required.",
+					"text": "The thrower fails to touch the disc to the ground when required.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "18.D.3",
+					"label": "18.D.3.",
+					"html": "An <dfn data-rule=\"3.Q.9\">offensive player</dfn> advances in any direction an in-bounds disc that is rolling, sliding, or sitting on the ground.",
+					"text": "An offensive player advances in any direction an in-bounds disc that is rolling, sliding, or sitting on the ground.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "18.D.3.a",
+							"label": "18.D.3.a.",
+							"html": "If the defense commits this infraction, the <dfn data-rule=\"3.O\">thrower</dfn> may inform the defense of the infraction without stopping play. The thrower must indicate where the infraction occurred and put the disc into play at that spot.",
+							"text": "If the defense commits this infraction, the thrower may inform the defense of the infraction without stopping play. The thrower must indicate where the infraction occurred and put the disc into play at that spot.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "18.D.4",
+					"label": "18.D.4.",
+					"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> catches the disc and either does not stop as quickly as possible, speeds up, or changes direction before establishing a <dfn data-rule=\"3.H\">pivot</dfn>.",
+					"text": "A player catches the disc and either does not stop as quickly as possible, speeds up, or changes direction before establishing a pivot.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "18.D.5",
+					"label": "18.D.5.",
+					"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> purposefully bobbles the disc (including tipping, delaying, guiding, brushing, or the like) to oneself in order to advance the disc in any direction from where it initially was contacted.",
+					"text": "A player purposefully bobbles the disc (including tipping, delaying, guiding, brushing, or the like) to oneself in order to advance the disc in any direction from where it initially was contacted.",
+					"annotations": [
+						"Tipping, brushing, etc. to someone else is legal. It is legal to tip/brush your own throw. However, if after a tip/brush, a player is the first player to touch the disc, then it is deemed a tip/brush to themself and it is a travel.",
+						"A player may bobble the disc in order to gain control of it (18.C)."
+					],
+					"refs": [],
+					"children": [
+						{
+							"id": "18.D.5.a",
+							"label": "18.D.5.a.",
+							"html": "If a defender commits this infraction on a disc in flight and the result of the play is the defender or the defender’s team gaining possession, the defender gains or retains possession at the initial spot of the infraction and becomes the <dfn data-rule=\"3.O\">thrower</dfn>.",
+							"text": "If a defender commits this infraction on a disc in flight and the result of the play is the defender or the defender’s team gaining possession, the defender gains or retains possession at the initial spot of the infraction and becomes the thrower.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "18.E",
+			"label": "18.E.",
+			"html": "Exceptions:",
+			"text": "Exceptions:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "18.E.1",
+					"label": "18.E.1.",
+					"html": "If a non-standing <dfn data-rule=\"3.Q.10\">player</dfn> loses contact with the <dfn data-rule=\"3.H\">pivot</dfn> spot in order to stand up, it is not a travel, provided the new pivot is established at the same location.",
+					"text": "If a non-standing player loses contact with the pivot spot in order to stand up, it is not a travel, provided the new pivot is established at the same location.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "18.E.2",
+					"label": "18.E.2.",
+					"html": "It is not a travel if a <dfn data-rule=\"3.Q.10\">player</dfn> catches the disc while running or jumping, does not speed up or change direction while in <dfn data-rule=\"3.I\">possession of the disc</dfn>, and releases a pass before three additional points of <dfn data-rule=\"3.C\">ground contact</dfn> occur, provided that all points of ground contact are completely in-bounds, excluding their attacking end zone. In this instance, a player is not required to establish a <dfn data-rule=\"3.H\">pivot</dfn> or stop as quickly as possible.",
+					"text": "It is not a travel if a player catches the disc while running or jumping, does not speed up or change direction while in possession of the disc, and releases a pass before three additional points of ground contact occur, provided that all points of ground contact are completely in-bounds, excluding their attacking end zone. In this instance, a player is not required to establish a pivot or stop as quickly as possible.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "18.E.3",
+					"label": "18.E.3.",
+					"html": "If play stops, the <dfn data-rule=\"3.O\">thrower</dfn> may reset the <dfn data-rule=\"3.H\">pivot</dfn>.",
+					"text": "If play stops, the thrower may reset the pivot.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "18.F",
+			"label": "18.F.",
+			"html": "Resolutions:",
+			"text": "Resolutions:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "18.F.1",
+					"label": "18.F.1.",
+					"html": "If the travel occurs and a pass is thrown:",
+					"text": "If the travel occurs and a pass is thrown:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "18.F.1.a",
+							"label": "18.F.1.a.",
+							"html": "If the pass is incomplete, play continues uninterrupted (as per the Continuation Rule, <a href=\"/rules/usau-official-2026-27/17#17.C.4.b\">17.C.4.b</a>).",
+							"text": "If the pass is incomplete, play continues uninterrupted (as per the Continuation Rule, 17.C.4.b).",
+							"annotations": [],
+							"refs": [
+								"17.C.4.b"
+							],
+							"children": []
+						},
+						{
+							"id": "18.F.1.b",
+							"label": "18.F.1.b.",
+							"html": "If the pass is complete, play stops and the disc is returned to the <dfn data-rule=\"3.O\">thrower</dfn> where the travel occurred (as per the Continuation Rule, <a href=\"/rules/usau-official-2026-27/17#17.C.4.a.1\">17.C.4.a.1</a>). Play restarts with a check.",
+							"text": "If the pass is complete, play stops and the disc is returned to the thrower where the travel occurred (as per the Continuation Rule, 17.C.4.a.1). Play restarts with a check.",
+							"annotations": [
+								"The spot where the travel occurred is the spot on the field where the thrower’s pivot would have been had they not traveled."
+							],
+							"refs": [
+								"17.C.4.a.1"
+							],
+							"children": [
+								{
+									"id": "18.F.1.b.1",
+									"label": "18.F.1.b.1.",
+									"html": "If the <dfn data-rule=\"3.O\">thrower</dfn> threw from either the end zone or out-of-bounds, and their <dfn data-rule=\"3.H\">pivot</dfn> was more than one step from the appropriate spot, the following procedure is used instead: First, the disc is checked in where the thrower threw the pass, making it live, then the thrower walks to the appropriate spot for their pivot and puts the disc in play.",
+									"text": "If the thrower threw from either the end zone or out-of-bounds, and their pivot was more than one step from the appropriate spot, the following procedure is used instead: First, the disc is checked in where the thrower threw the pass, making it live, then the thrower walks to the appropriate spot for their pivot and puts the disc in play.",
+									"annotations": [
+										"At this point, the stall count may resume."
+									],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "18.F.2",
+					"label": "18.F.2.",
+					"html": "If the travel occurs and no pass has been attempted:",
+					"text": "If the travel occurs and no pass has been attempted:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "18.F.2.a",
+							"label": "18.F.2.a.",
+							"html": "Play does not stop. The defense (typically the <dfn data-rule=\"3.Q.6\">marker</dfn>) points to the spot where the travel occurred, and the <dfn data-rule=\"3.O\">thrower</dfn> returns to that spot without delay. The thrower must touch the disc to the ground before attempting a legal pass.",
+							"text": "Play does not stop. The defense (typically the marker) points to the spot where the travel occurred, and the thrower returns to that spot without delay. The thrower must touch the disc to the ground before attempting a legal pass.",
+							"annotations": [
+								"Play does not stop, but the disc is live, so it is still subject to a turnover (for example if the thrower drops it)."
+							],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "18.F.2.b",
+							"label": "18.F.2.b.",
+							"html": "The stall count is paused until the <dfn data-rule=\"3.O\">thrower</dfn> sets a <dfn data-rule=\"3.H\">pivot</dfn> where the travel occurred. The <dfn data-rule=\"3.Q.6\">marker</dfn> is not required to say “stalling” when resuming the count if they previously initiated the stall count by saying “stalling” prior to calling travel. The thrower must touch the disc to the ground before attempting a pass.",
+							"text": "The stall count is paused until the thrower sets a pivot where the travel occurred. The marker is not required to say “stalling” when resuming the count if they previously initiated the stall count by saying “stalling” prior to calling travel. The thrower must touch the disc to the ground before attempting a pass.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "18.F.2.c",
+							"label": "18.F.2.c.",
+							"html": "If the <dfn data-rule=\"3.O\">thrower</dfn> wishes to contest the travel call, they announce “<dfn data-rule=\"3.P\">violation</dfn>” and play stops. Upon checking the disc in, the stall count resumes at the count reached plus 1, or 6 if over 5 (<a href=\"/rules/usau-official-2026-27/15#15.F.1.c\">15.F.1.c</a>).",
+							"text": "If the thrower wishes to contest the travel call, they announce “violation” and play stops. Upon checking the disc in, the stall count resumes at the count reached plus 1, or 6 if over 5 (15.F.1.c).",
+							"annotations": [
+								"If the defense does not indicate to the thrower where the travel occurred, or the thrower wishes to contest the location of an indicated spot, the thrower should announce “violation”, stopping play, and explain that the spot was incorrectly/not indicated. After setting their pivot in the correct spot, and checking the disc in, the stall count resumes at the count reached plus 1, or 6 if over 5 (15.F.1.c)."
+							],
+							"refs": [
+								"15.F.1.c"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,18 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+# Miscellaneous
+/static/
+/docs/
+
+# Generated ingest output: raw source snapshot + machine-written JSON content
+# (tab-indented by the CLI, not meant for hand-formatting review).
+/content/
+
+# Fixture HTML must retain exact source whitespace semantics (parser tests
+# assert on li text content); prettier's HTML formatter would rewrite it.
+scripts/ingest/fixtures/

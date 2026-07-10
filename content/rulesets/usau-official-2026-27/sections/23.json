@@ -1,0 +1,55 @@
+{
+	"slug": "23",
+	"anchorId": "23",
+	"number": "23",
+	"kind": "section",
+	"title": "Etiquette",
+	"html": null,
+	"rules": [
+		{
+			"id": "23.A",
+			"label": "23.A.",
+			"html": "If an infraction is committed and not called, the <dfn data-rule=\"3.Q.10\">player</dfn> committing the infraction should inform the infracted player or team of the infraction.",
+			"text": "If an infraction is committed and not called, the player committing the infraction should inform the infracted player or team of the infraction.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "23.B",
+			"label": "23.B.",
+			"html": "On a <dfn data-rule=\"3.M\">stoppage of play</dfn>, if it is ever unclear which of a team’s members are the current players or where they are on or off the field, they should identify themselves when the opposing team requests.",
+			"text": "On a stoppage of play, if it is ever unclear which of a team’s members are the current players or where they are on or off the field, they should identify themselves when the opposing team requests.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "23.C",
+			"label": "23.C.",
+			"html": "If a dispute arises on the field, play stops and is restarted with a check when the matter is resolved.",
+			"text": "If a dispute arises on the field, play stops and is restarted with a check when the matter is resolved.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "23.D",
+			"label": "23.D.",
+			"html": "If a novice <dfn data-rule=\"3.Q.10\">player</dfn> commits an infraction out of sincere ignorance of the rules, it should be common practice to stop play and explain the infraction.",
+			"text": "If a novice player commits an infraction out of sincere ignorance of the rules, it should be common practice to stop play and explain the infraction.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "23.E",
+			"label": "23.E.",
+			"html": "In addition to the assumption that players will not intentionally violate the rules, players are similarly expected to make every effort to avoid violating them.",
+			"text": "In addition to the assumption that players will not intentionally violate the rules, players are similarly expected to make every effort to avoid violating them.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

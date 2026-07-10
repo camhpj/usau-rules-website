@@ -1,0 +1,9 @@
+{
+	"slug": "appendix-a",
+	"anchorId": "appendix_a",
+	"number": "A",
+	"kind": "appendix",
+	"title": "Field Diagram",
+	"html": "<div class=\"plain\"> <table class=\"fieldDiagram\"> <tbody> <tr> <td colspan=\"2\"> <img decoding=\"async\" src=\"/rules-media/field.png\"> </td> </tr> <tr> <td id=\"field_lines\"> <img decoding=\"async\" src=\"/rules-media/lines.png\"> </td> <td id=\"field_line_names\"> Perimeter Line<br> Goal Line<br> Team Line<br> Equipment Line </td> </tr> </tbody> </table> </div>",
+	"rules": []
+}

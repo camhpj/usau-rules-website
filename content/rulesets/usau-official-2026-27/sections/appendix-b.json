@@ -1,0 +1,197 @@
+{
+	"slug": "appendix-b",
+	"anchorId": "appendix_b",
+	"number": "B",
+	"kind": "appendix",
+	"title": "Mixed Rules and Adaptations",
+	"html": "<div class=\"rulesBody plain\"> The following adaptations of the rules may be applied for mixed competition and are intended to address the mechanics of game play. Guidance on eligibility, including rules related to gender, are covered by event organizer policies, including where applicable, USA Ultimate policies and guidelines. While this appendix provides a baseline for some elements of mixed play, additional rules or modifications of these rules may be implemented by organizers of different mixed competitions, ranging from independent matches to local leagues to official USA Ultimate competitive seasons. </div>",
+	"rules": [
+		{
+			"id": "B1",
+			"label": "B1.",
+			"html": "Personnel Ratio Rules",
+			"text": "Personnel Ratio Rules",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "B1.A",
+					"label": "B1.A.",
+					"html": "The default personnel ratio for the mixed division is 4/3 (four woman-matching and three man-matching or four man-matching and three woman-matching).",
+					"text": "The default personnel ratio for the mixed division is 4/3 (four woman-matching and three man-matching or four man-matching and three woman-matching).",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "B1.B",
+					"label": "B1.B.",
+					"html": "Prescribed Ratio Rule (ABBA): At the start of the game, after the first disc flip, an additional disc flip happens with the winner selecting the gender ratio for the first point. For the second and third points the ratio must be the reverse of the first point. For the fourth and fifth points the ratio must be the same as the first point. This pattern of alternating the ratio every two points repeats until the end of the game. Halftime does not impact the pattern. This is the preferred Personnel Ratio Rule for sanctioned play.",
+					"text": "Prescribed Ratio Rule (ABBA): At the start of the game, after the first disc flip, an additional disc flip happens with the winner selecting the gender ratio for the first point. For the second and third points the ratio must be the reverse of the first point. For the fourth and fifth points the ratio must be the same as the first point. This pattern of alternating the ratio every two points repeats until the end of the game. Halftime does not impact the pattern. This is the preferred Personnel Ratio Rule for sanctioned play.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "B1.C",
+					"label": "B1.C.",
+					"html": "Endzone Decides Ratio Rule: At the start of the game, after the first disc flip, an additional disc flip happens with the winner selecting which end zone is “end zone A,” with the other end zone becoming “end zone B.” At the start of each point in the first half, the team that is defending end zone A must choose the mixed personnel ratio. For the second half, at the start of each point the team that is defending end zone B must choose the mixed personnel ratio.",
+					"text": "Endzone Decides Ratio Rule: At the start of the game, after the first disc flip, an additional disc flip happens with the winner selecting which end zone is “end zone A,” with the other end zone becoming “end zone B.” At the start of each point in the first half, the team that is defending end zone A must choose the mixed personnel ratio. For the second half, at the start of each point the team that is defending end zone B must choose the mixed personnel ratio.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "B1.D",
+					"label": "B1.D.",
+					"html": "Receiving Team Decides Ratio Rule: At the start of each point in the game, the receiving team must choose the mixed personnel ratio.",
+					"text": "Receiving Team Decides Ratio Rule: At the start of each point in the game, the receiving team must choose the mixed personnel ratio.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "B1.E",
+					"label": "B1.E.",
+					"html": "If the Endzone Decides Ratio Rule or the Receiving Team Decides Ratio Rule is in effect for the game, the team responsible for signaling the personnel ratio for the upcoming point must do so within twenty five (25) seconds after the previous goal was scored.",
+					"text": "If the Endzone Decides Ratio Rule or the Receiving Team Decides Ratio Rule is in effect for the game, the team responsible for signaling the personnel ratio for the upcoming point must do so within twenty five (25) seconds after the previous goal was scored.",
+					"annotations": [
+						"The team responsible for signaling the personnel ratio is encouraged to signal as early as possible after the previous goal is scored, but must do so no later than 25 seconds."
+					],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "B1.F",
+					"label": "B1.F.",
+					"html": "If a team cannot match the on-field personnel ratio of all seven players for the point, then it must play with fewer than seven players, but no less than five, matching the personnel ratio with as many players as possible.",
+					"text": "If a team cannot match the on-field personnel ratio of all seven players for the point, then it must play with fewer than seven players, but no less than five, matching the personnel ratio with as many players as possible.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "B1.G",
+					"label": "B1.G.",
+					"html": "Personnel Ratio <dfn data-rule=\"3.P\">Violation</dfn>: If the disc has been pulled and a team has the incorrect personnel ratio, it is a violation.",
+					"text": "Personnel Ratio Violation: If the disc has been pulled and a team has the incorrect personnel ratio, it is a violation.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "B1.G.1",
+							"label": "B1.G.1.",
+							"html": "Violations of the mixed personnel ratio and how they are handled after the <dfn data-rule=\"3.J\">pull</dfn> are described in 2026-2027 Official Rules of Ultimate (<a href=\"/rules/usau-official-2026-27/9#9.C.1\">9.C.1</a>).",
+							"text": "Violations of the mixed personnel ratio and how they are handled after the pull are described in 2026-2027 Official Rules of Ultimate (9.C.1).",
+							"annotations": [],
+							"refs": [
+								"9.C.1"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "B2",
+			"label": "B2.",
+			"html": "Gender Match Signalling",
+			"text": "Gender Match Signalling",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "B2.A",
+					"label": "B2.A.",
+					"html": "If Gender Match Signaling is to be requested, team and/or spirit captains must discuss and agree to do so during the captains’ meeting prior to the start of the game. If teams do not reach agreement, then players will signal gender as described in <a href=\"/rules/usau-official-2026-27/appendix-b#B2.B\">B2.B</a>. Exception: If it becomes apparent, after the start of the game, that Gender Match Signalling is needed, team and/or spirit captains will need to meet and mutually agree for both sides to begin doing so. No <dfn data-rule=\"3.Q.10\">player</dfn>, <dfn data-rule=\"3.Q.1\">captain</dfn>, or <dfn data-rule=\"3.Q.2\">coach</dfn> may make a spur-of-the-moment request for the opposing team to signal their respective gender matches between points.",
+					"text": "If Gender Match Signaling is to be requested, team and/or spirit captains must discuss and agree to do so during the captains’ meeting prior to the start of the game. If teams do not reach agreement, then players will signal gender as described in B2.B. Exception: If it becomes apparent, after the start of the game, that Gender Match Signalling is needed, team and/or spirit captains will need to meet and mutually agree for both sides to begin doing so. No player, captain, or coach may make a spur-of-the-moment request for the opposing team to signal their respective gender matches between points.",
+					"annotations": [],
+					"refs": [
+						"B2.B"
+					],
+					"children": []
+				},
+				{
+					"id": "B2.B",
+					"label": "B2.B.",
+					"html": "Players on the receiving team will signal their gender match (either “man-matching” or “woman-matching”) within 50 seconds after the previous goal was scored for the purpose of allowing the pulling team to match up defensively. The pulling team is permitted to remind the receiving team to signal their respective gender matches as long as it was previously agreed upon, per <a href=\"/rules/usau-official-2026-27/appendix-b#B2.A\">B2.A</a>.",
+					"text": "Players on the receiving team will signal their gender match (either “man-matching” or “woman-matching”) within 50 seconds after the previous goal was scored for the purpose of allowing the pulling team to match up defensively. The pulling team is permitted to remind the receiving team to signal their respective gender matches as long as it was previously agreed upon, per B2.A.",
+					"annotations": [],
+					"refs": [
+						"B2.A"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "B3",
+			"label": "B3.",
+			"html": "<dfn data-rule=\"3.J\">Pull</dfn> Rules",
+			"text": "Pull Rules",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "B3.A",
+					"label": "B3.A.",
+					"html": "Majority <dfn data-rule=\"3.J\">Pull</dfn> Rule",
+					"text": "Majority Pull Rule",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "B3.A.1",
+							"label": "B3.A.1.",
+							"html": "Each point, a <dfn data-rule=\"3.Q.10\">player</dfn> representing the gender match-up with four players on the field must <dfn data-rule=\"3.J\">pull</dfn> for that point. That is, if there are four women-matching players then a woman-matching player must pull. This is the preferred rule for sanctioned play.",
+							"text": "Each point, a player representing the gender match-up with four players on the field must pull for that point. That is, if there are four women-matching players then a woman-matching player must pull. This is the preferred rule for sanctioned play.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "B3.A.2",
+							"label": "B3.A.2.",
+							"html": "Majority <dfn data-rule=\"3.J\">Pull</dfn> <dfn data-rule=\"3.P\">Violation</dfn>: Violations of the gender match pull rule will be handled the same as an offsides violation (<a href=\"/rules/usau-official-2026-27/9#9.D.4\">9.D.4</a>), but instead of calling “offsides,” a <dfn data-rule=\"3.Q.10\">player</dfn> should call “majority pull violation.” Like with offsides violations, after the first majority pull violation, any subsequent majority pull violations should be handled as described in <a href=\"/rules/usau-official-2026-27/9#9.D.4\">9.D.4</a>. Majority Pull Rule violations accumulate together with offsides and false start violations as “pull violations.” In games with observers, either the <dfn data-rule=\"3.Q.8\">observer</dfn> or a player on the field may call the violation.",
+							"text": "Majority Pull Violation: Violations of the gender match pull rule will be handled the same as an offsides violation (9.D.4), but instead of calling “offsides,” a player should call “majority pull violation.” Like with offsides violations, after the first majority pull violation, any subsequent majority pull violations should be handled as described in 9.D.4. Majority Pull Rule violations accumulate together with offsides and false start violations as “pull violations.” In games with observers, either the observer or a player on the field may call the violation.",
+							"annotations": [],
+							"refs": [
+								"9.D.4"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "B3.B",
+					"label": "B3.B.",
+					"html": "If the Majority <dfn data-rule=\"3.J\">Pull</dfn> Rule is not used, then any of the players on the pulling team may pull.",
+					"text": "If the Majority Pull Rule is not used, then any of the players on the pulling team may pull.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "B4",
+			"label": "B4.",
+			"html": "<dfn data-rule=\"3.Q.10\">Player</dfn> Substitutions",
+			"text": "Player Substitutions",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "B4.A",
+					"label": "B4.A.",
+					"html": "Substituting players must be of the same gender match as the <dfn data-rule=\"3.Q.10\">player</dfn> they are replacing.",
+					"text": "Substituting players must be of the same gender match as the player they are replacing.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}

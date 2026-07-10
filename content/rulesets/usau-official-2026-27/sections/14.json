@@ -1,0 +1,134 @@
+{
+	"slug": "14",
+	"anchorId": "14",
+	"number": "14",
+	"kind": "section",
+	"title": "Turnovers",
+	"html": null,
+	"rules": [
+		{
+			"id": "14.A",
+			"label": "14.A.",
+			"html": "A turnover results when:",
+			"text": "A turnover results when:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "14.A.1",
+					"label": "14.A.1.",
+					"html": "a pass is incomplete;",
+					"text": "a pass is incomplete;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "14.A.2",
+					"label": "14.A.2.",
+					"html": "a disc contacts the ground while not in possession of a <dfn data-rule=\"3.Q.10\">player</dfn> other than as a result of a <dfn data-rule=\"3.J\">pull</dfn>; or",
+					"text": "a disc contacts the ground while not in possession of a player other than as a result of a pull; or",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "14.A.3",
+					"label": "14.A.3.",
+					"html": "a disc becomes out-of-bounds other than as a result of a <dfn data-rule=\"3.J\">pull</dfn>.",
+					"text": "a disc becomes out-of-bounds other than as a result of a pull.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "14.B",
+			"label": "14.B.",
+			"html": "If the <dfn data-rule=\"3.O\">thrower</dfn> accidentally drops a live disc or a disc in play without defensive interference and it contacts the ground before the thrower regains possession, it is considered a turnover. If the thrower regains possession of an accidentally dropped disc before it contacts the ground without another <dfn data-rule=\"3.Q.10\">player</dfn> touching the disc, that possession is considered continuous, and the stall count continues uninterrupted. If the thrower regains possession of an accidentally dropped disc before it contacts the ground and after another player touches it, it is considered a new possession.",
+			"text": "If the thrower accidentally drops a live disc or a disc in play without defensive interference and it contacts the ground before the thrower regains possession, it is considered a turnover. If the thrower regains possession of an accidentally dropped disc before it contacts the ground without another player touching the disc, that possession is considered continuous, and the stall count continues uninterrupted. If the thrower regains possession of an accidentally dropped disc before it contacts the ground and after another player touches it, it is considered a new possession.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "14.C",
+			"label": "14.C.",
+			"html": "A pass is intercepted if a defensive <dfn data-rule=\"3.Q.10\">player</dfn> obtains <dfn data-rule=\"3.I\">possession of the disc</dfn>, but if the defender accidentally loses possession of the disc before or during <dfn data-rule=\"3.C\">ground contact</dfn> related to the catch, the pass is considered incomplete rather than intercepted.",
+			"text": "A pass is intercepted if a defensive player obtains possession of the disc, but if the defender accidentally loses possession of the disc before or during ground contact related to the catch, the pass is considered incomplete rather than intercepted.",
+			"annotations": [
+				"i.e., this is not a “double-turnover” – the defender’s team still gains possession."
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "14.D",
+			"label": "14.D.",
+			"html": "The following actions result in a turnover and a <dfn data-rule=\"3.M\">stoppage of play</dfn>:",
+			"text": "The following actions result in a turnover and a stoppage of play:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "14.D.1",
+					"label": "14.D.1.",
+					"html": "The <dfn data-rule=\"3.Q.6\">marker</dfn>’s count reaches ten before the <dfn data-rule=\"3.N\">throw</dfn> is released (<a href=\"/rules/usau-official-2026-27/15#15.D\">15.D</a>).",
+					"text": "The marker’s count reaches ten before the throw is released (15.D).",
+					"annotations": [],
+					"refs": [
+						"15.D"
+					],
+					"children": []
+				},
+				{
+					"id": "14.D.2",
+					"label": "14.D.2.",
+					"html": "The <dfn data-rule=\"3.O\">thrower</dfn> hands the disc to another <dfn data-rule=\"3.Q.10\">player</dfn>.",
+					"text": "The thrower hands the disc to another player.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "14.D.3",
+					"label": "14.D.3.",
+					"html": "The <dfn data-rule=\"3.O\">thrower</dfn> catches a legally thrown disc. However, it is not a turnover if another <dfn data-rule=\"3.Q.10\">player</dfn> touches the disc during its flight unless the thrower intentionally deflected the disc off another player.",
+					"text": "The thrower catches a legally thrown disc. However, it is not a turnover if another player touches the disc during its flight unless the thrower intentionally deflected the disc off another player.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "14.D.4",
+					"label": "14.D.4.",
+					"html": "An <dfn data-rule=\"3.Q.9\">offensive player</dfn> intentionally assists a teammate’s movement to catch a pass. If a defender intentionally assists a teammate’s movement to block or intercept a pass, the intended receiver is awarded possession at the spot on the playing field nearest the location the intended receiver occupied at the time of the infraction. If the intended receiver was in the end zone, <a href=\"/rules/usau-official-2026-27/12#12.B\">12.B</a> and <a href=\"/rules/usau-official-2026-27/12#12.C\">12.C</a> apply.",
+					"text": "An offensive player intentionally assists a teammate’s movement to catch a pass. If a defender intentionally assists a teammate’s movement to block or intercept a pass, the intended receiver is awarded possession at the spot on the playing field nearest the location the intended receiver occupied at the time of the infraction. If the intended receiver was in the end zone, 12.B and 12.C apply.",
+					"annotations": [
+						"The official interpretation of this rule is that a player is prohibited from intentionally pushing off of a teammate to jump higher"
+					],
+					"refs": [
+						"12.B",
+						"12.C"
+					],
+					"children": []
+				},
+				{
+					"id": "14.D.5",
+					"label": "14.D.5.",
+					"html": "An <dfn data-rule=\"3.Q.9\">offensive player</dfn> uses an item of equipment to assist in catching a pass (e.g., throwing a hat or shirt at the disc). If a defender uses an item of equipment to assist in blocking or intercepting a pass, the intended receiver is awarded possession at the spot on the playing field nearest the location the intended receiver occupied at the time of the infraction. If the intended receiver was in the end zone, <a href=\"/rules/usau-official-2026-27/12#12.B\">12.B</a> and <a href=\"/rules/usau-official-2026-27/12#12.C\">12.C</a> apply.",
+					"text": "An offensive player uses an item of equipment to assist in catching a pass (e.g., throwing a hat or shirt at the disc). If a defender uses an item of equipment to assist in blocking or intercepting a pass, the intended receiver is awarded possession at the spot on the playing field nearest the location the intended receiver occupied at the time of the infraction. If the intended receiver was in the end zone, 12.B and 12.C apply.",
+					"annotations": [
+						"Tacky gloves are legal and do not result in a turnover under this rule."
+					],
+					"refs": [
+						"12.B",
+						"12.C"
+					],
+					"children": []
+				}
+			]
+		}
+	]
+}

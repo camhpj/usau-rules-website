@@ -1,0 +1,28 @@
+{
+	"slug": "appendix-d",
+	"anchorId": "appendix_d",
+	"number": "D",
+	"kind": "appendix",
+	"title": "Hand Signals",
+	"html": null,
+	"rules": [
+		{
+			"id": "D1",
+			"label": "D1.",
+			"html": "<dfn data-rule=\"3.Q.10\">Player</dfn> and <dfn data-rule=\"3.Q.8\">Observer</dfn> Hand Signals <table class=\"handSignals\"> <tbody> <tr> <td> <img decoding=\"async\" src=\"/rules-media/inoutofbounds.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/discup.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/discdown.jpg\"> </td> </tr> <tr class=\"desc\"> <td>In- or out-of-bounds</td> <td>Disc up</td> <td>Disc down</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/inendzone.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/goal.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/forceoutfoul.jpg\"> </td> </tr> <tr class=\"desc\"> <td>In the end zone</td> <td>Goal</td> <td>Force-out <dfn data-rule=\"3.B\">foul</dfn></td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/bobble.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/foul.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/nocontest.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Bobble</td> <td>Foul</td> <td>No contest</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/contest.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/retraction.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/injurytimeout.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Contest</td> <td>Retraction (3 swipes)</td> <td>Injury timeout</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/injurysub.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/discuncatchable.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/pick.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Injury substitution</td> <td>Disc uncatchable</td> <td>Pick</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/travel.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/doubleteam.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/discspace.gif\"> </td> </tr> <tr class=\"desc\"> <td>Travel</td> <td>Double team</td> <td>Disc space</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/fastcount.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/visionblocking.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/stall.gif\"> </td> </tr> <tr class=\"desc\"> <td>Fast count</td> <td>Vision blocking</td> <td>Stall or time <dfn data-rule=\"3.P\">violation</dfn></td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/readiness.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/stopplay.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/announcestall.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Readiness or brick</td> <td>Play has stopped</td> <td>Announce stall (use appropriate number of fingers)</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/genderratio4women.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/genderratio4men.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/offsides.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Gender ratio: 4 women-matching players</td> <td>Gender ratio: 4 men-matching players</td> <td>Offsides</td> </tr> <tr> <td><br><br>(Arms straight, upward at a 45 degree angle, hands open, forming a “V” with your arms)<br></td> <td> <img decoding=\"async\" src=\"/rules-media/10seconds.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/20seconds.jpg\"> </td> </tr> <tr class=\"desc\"> <td>False start or violation</td> <td>10 seconds</td> <td>20 seconds</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/prestallcount.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/timeout-player.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/spirittimeout.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Pre-stall count</td> <td>Timeout</td> <td>Spirit timeout</td> </tr> </tbody> </table>",
+			"text": "Player and Observer Hand Signals In- or out-of-bounds Disc up Disc down In the end zone Goal Force-out foul Bobble Foul No contest Contest Retraction (3 swipes) Injury timeout Injury substitution Disc uncatchable Pick Travel Double team Disc space Fast count Vision blocking Stall or time violation Readiness or brick Play has stopped Announce stall (use appropriate number of fingers) Gender ratio: 4 women-matching players Gender ratio: 4 men-matching players Offsides (Arms straight, upward at a 45 degree angle, hands open, forming a “V” with your arms) False start or violation 10 seconds 20 seconds Pre-stall count Timeout Spirit timeout",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "D2",
+			"label": "D2.",
+			"html": "<dfn data-rule=\"3.Q.8\">Observer</dfn> Only Hand Signals <table class=\"handSignals\"> <tbody> <tr> <td> <img decoding=\"async\" src=\"/rules-media/observerruling.jpg\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/observeroverrule.gif\"> </td> <td> <img decoding=\"async\" src=\"/rules-media/callonfield.jpg\"> </td> </tr> <tr class=\"desc\"> <td>Observer ruling</td> <td>Observer overrule</td> <td>Call on field</td> </tr> <tr> <td> <img decoding=\"async\" src=\"/rules-media/timeout-obs.jpg\"> </td> <td></td> <td></td> </tr> <tr class=\"desc\"> <td>Timeout</td> <td></td> <td></td> </tr> </tbody> </table>",
+			"text": "Observer Only Hand Signals Observer ruling Observer overrule Call on field Timeout",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

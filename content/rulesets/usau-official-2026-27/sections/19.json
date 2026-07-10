@@ -1,0 +1,56 @@
+{
+	"slug": "19",
+	"anchorId": "19",
+	"number": "19",
+	"kind": "section",
+	"title": "Picks",
+	"html": null,
+	"rules": [
+		{
+			"id": "19.A",
+			"label": "19.A.",
+			"html": "A pick occurs whenever an <dfn data-rule=\"3.Q.9\">offensive player</dfn> moves in a manner that causes a defensive <dfn data-rule=\"3.Q.10\">player</dfn> <dfn data-rule=\"3.D\">guarding</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.D\">3.D</a>) an offensive player to be obstructed by another player. Obstruction may result from contact with, or the need to avoid, the obstructing player. However, it is not a pick if both the offensive player being guarded and the obstructing player are making a play on the disc at the time of the obstruction.",
+			"text": "A pick occurs whenever an offensive player moves in a manner that causes a defensive player guarding (3.D) an offensive player to be obstructed by another player. Obstruction may result from contact with, or the need to avoid, the obstructing player. However, it is not a pick if both the offensive player being guarded and the obstructing player are making a play on the disc at the time of the obstruction.",
+			"annotations": [],
+			"refs": [
+				"3.D"
+			],
+			"children": []
+		},
+		{
+			"id": "19.B",
+			"label": "19.B.",
+			"html": "A pick can be called only by the obstructed <dfn data-rule=\"3.Q.10\">player</dfn> and must be announced by loudly calling “pick” immediately after it occurs.",
+			"text": "A pick can be called only by the obstructed player and must be announced by loudly calling “pick” immediately after it occurs.",
+			"annotations": [
+				"Call the pick immediately. If you wait too long, you lose your window of opportunity to make the call."
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "19.C",
+			"label": "19.C.",
+			"html": "If play stops according to <a href=\"/rules/usau-official-2026-27/17#17.C\">17.C</a>, players reposition according to <a href=\"/rules/usau-official-2026-27/17#17.C.6\">17.C.6</a>. In addition, the obstructed <dfn data-rule=\"3.Q.10\">player</dfn> is then allowed to move to recover the relative position lost because of the pick.",
+			"text": "If play stops according to 17.C, players reposition according to 17.C.6. In addition, the obstructed player is then allowed to move to recover the relative position lost because of the pick.",
+			"annotations": [
+				"So if the disc is returned to the thrower, everyone resumes the locations they occupied at the earlier of the time of the throw or the time of the call.",
+				"If they were trailing by 9 feet, then they get to catch back up to 9 feet away, but do not get to set up right next to the offensive player."
+			],
+			"refs": [
+				"17.C",
+				"17.C.6"
+			],
+			"children": []
+		},
+		{
+			"id": "19.D",
+			"label": "19.D.",
+			"html": "During any stoppage, opposing players may agree to slightly adjust their locations to avoid potential imminent picks.",
+			"text": "During any stoppage, opposing players may agree to slightly adjust their locations to avoid potential imminent picks.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

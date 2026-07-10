@@ -1,0 +1,157 @@
+[
+	{
+		"ruleId": "3.A",
+		"term": "Best perspective",
+		"definition": "Best perspective: The most complete view available by a player that includes the relative positions of the disc, ground, players, and line markers involved in a play. On an unlined field, this may require sighting from one field marker to another. Best perspective always belongs to a player. However, players may rely on the following sources as a component of best perspective: If no player has sufficient perspective to make a call, the disc should revert to the thrower (in the case of in-bounds/out-of-bounds and up/down disputes) or remain with the receiver on the end zone line (in the case of goal/non-goal disputes)."
+	},
+	{
+		"ruleId": "3.B",
+		"term": "Foul",
+		"definition": "Foul: Non-Incidental contact between opposing players (see 3.E for a definition of incidental contact). In general, the player initiating the contact has committed the foul."
+	},
+	{
+		"ruleId": "3.C",
+		"term": "Ground contact",
+		"definition": "Ground contact: All player contact with the ground directly related to a specific event or maneuver (e.g., jumping, diving, leaning or falling), including landing or recovering after being off-balance. Items on the ground are considered part of the ground (4.A.1)."
+	},
+	{
+		"ruleId": "3.D",
+		"term": "Guarding",
+		"definition": "Guarding: A defender is guarding an offensive player when they are within 10 feet of that offensive player and are reacting to that offensive player."
+	},
+	{
+		"ruleId": "3.E",
+		"term": "Incidental contact",
+		"definition": "Incidental contact: Contact between opposing players that does not affect continued play."
+	},
+	{
+		"ruleId": "3.F",
+		"term": "Legal position",
+		"definition": "Legal position: A position established by a marker that does not violate any of the provisions outlined in 16."
+	},
+	{
+		"ruleId": "3.G",
+		"term": "Line",
+		"definition": "Line: A boundary defining the playing areas. On an unlined field, the boundary is an imaginary line segment between two field markers with the thickness of said markers. Line segments are not extrapolated beyond the defining markers."
+	},
+	{
+		"ruleId": "3.H",
+		"term": "Pivot",
+		"definition": "Pivot: The particular part of the body in continuous contact with a single spot on the field during a thrower’s possession once the thrower has come to a stop or has attempted a throw or fake. When there is a definitive spot for putting the disc into play, the part of the body in contact with that spot is the pivot."
+	},
+	{
+		"ruleId": "3.I",
+		"term": "Possession of the disc",
+		"definition": "Possession of the disc: Sustained contact with, and control of, a non-spinning disc."
+	},
+	{
+		"ruleId": "3.J",
+		"term": "Pull",
+		"definition": "Pull: The throw from one team to the other that starts play at the beginning of a half or after a goal. It is not a legal pass for scoring and has many special provisions (Section 9). The player on the pulling team who possesses the disc and signals readiness is the puller. The pulling team may designate a new puller at any time before the pull."
+	},
+	{
+		"ruleId": "3.K",
+		"term": "Scoring attempt",
+		"definition": "Scoring attempt: A scoring attempt starts at the beginning of the game or when the previous goal is scored and ends when the next goal is scored."
+	},
+	{
+		"ruleId": "3.L",
+		"term": "State of the disc",
+		"definition": "State of the disc: The nature of play at a particular moment during the game. There are three states of the disc:"
+	},
+	{
+		"ruleId": "3.M",
+		"term": "Stoppage of play",
+		"definition": "Stoppage of play: Any halting of play due to a call, discussion, or timeout that requires a check or self-check to restart play. The term “play stops” means a stoppage of play occurs."
+	},
+	{
+		"ruleId": "3.N",
+		"term": "Throw",
+		"definition": "Throw: A disc in flight following any throwing motion (including a fake) that results in the thrower losing contact with the disc."
+	},
+	{
+		"ruleId": "3.O",
+		"term": "Thrower",
+		"definition": "Thrower: An offensive player in possession of, or who has most recently possessed, the disc, is the thrower."
+	},
+	{
+		"ruleId": "3.P",
+		"term": "Violation",
+		"definition": "Violation: Any infraction of the rules other than a foul."
+	},
+	{
+		"ruleId": "3.Q.1",
+		"term": "Captain",
+		"definition": "Captain: A team member, who is eligible to participate in the game, and has been designated to represent the team in decision-making on behalf of the team before, during, and after a game."
+	},
+	{
+		"ruleId": "3.Q.2",
+		"term": "Coach",
+		"definition": "Coach: A team member who has been officially recognized by event organizers to have met the requirements necessary for coaching, including but not limited to certification, screening, education, and registration. Coaches are permitted in areas where sideline players are allowed, during and between points, in accordance with event rules. Coaches are not permitted to make calls or contribute to the discussion or resolution of calls, except to clarify rules if requested."
+	},
+	{
+		"ruleId": "3.Q.3",
+		"term": "Defensive player/Defender",
+		"definition": "Defensive player/Defender: A player whose team is not in possession of the disc. A defensive player may not pick up a live disc or a disc in play or call for a pass from the thrower."
+	},
+	{
+		"ruleId": "3.Q.4",
+		"term": "Event organizer",
+		"definition": "Event organizer: The person(s) or entity organizing and responsible for a competition, whether it is a tournament, tournament series, league, single game, or other type of event. Responsibilities may include, but are not limited to competition rules, safety, event registration and event logistics."
+	},
+	{
+		"ruleId": "3.Q.5",
+		"term": "Event support staff",
+		"definition": "Event support staff: Event support staff are officially designated personnel assigned by the event organizers to cover a wide variety of positions and responsibilities associated with an event, including but not limited to medical staff, scorekeepers, security, media, field crew, and other paid or volunteer positions. Vendors, sponsors, and business partners may also be designated as event support staff by the event organizer. Event support staff do not have additional duties or permissions beyond those specifically assigned by the event organizer."
+	},
+	{
+		"ruleId": "3.Q.6",
+		"term": "Marker",
+		"definition": "Marker: The defensive player within ten feet of the thrower’s pivot or of the thrower if no pivot has been established. If the disc is not in a player’s possession, a defensive player within ten feet of a spot on the field where the disc is to be put into play is considered the marker."
+	},
+	{
+		"ruleId": "3.Q.7",
+		"term": "Non-player",
+		"definition": "Non-player: Any person who is not a player or sideline player as defined in these rules."
+	},
+	{
+		"ruleId": "3.Q.8",
+		"term": "Observer",
+		"definition": "Observer: Observers are non-player game officials whose job is to support the players in implementing a safe, fair, and efficient game. Observers carefully watch the action of the game, assist with communication, help uphold self-officiating and the Spirit of the Game, assist with resolving calls as needed, and perform other duties as described in Section 22."
+	},
+	{
+		"ruleId": "3.Q.9",
+		"term": "Offensive player",
+		"definition": "Offensive player: A player whose team is in possession of the disc."
+	},
+	{
+		"ruleId": "3.Q.10",
+		"term": "Player",
+		"definition": "Player: One of the up to fourteen (14) persons who are participating in the current point of play."
+	},
+	{
+		"ruleId": "3.Q.11",
+		"term": "Sideline player",
+		"definition": "Sideline player: Any team member who is present at the field and eligible to participate in the game, but who is not a player participating in the current point."
+	},
+	{
+		"ruleId": "3.Q.12",
+		"term": "Spectator",
+		"definition": "Spectator: Event attendees who do not fall into one of the other roles defined in 3.Q."
+	},
+	{
+		"ruleId": "3.Q.13",
+		"term": "Spirit captain",
+		"definition": "Spirit captain: A team member, who is eligible to participate in the game, and has been designated to address, discuss, and resolve spirit issues at any point throughout the competition with opponents, teammates, coaches, and game or event officials. If no spirit captain is designated, this role is assigned to the captain(s)."
+	},
+	{
+		"ruleId": "3.Q.14",
+		"term": "Team member",
+		"definition": "Team member: Any person designated by the team, to the event organizer, to be officially associated with the team, per the rules established by the event organizer."
+	},
+	{
+		"ruleId": "3.Q.15",
+		"term": "Team support staff",
+		"definition": "Team support staff: A team member who has been officially recognized by event organizers to be a member of the team for a specific support purpose. Team support staff are generally permitted in areas where sideline players are allowed, but may be further restricted by event rules."
+	}
+]

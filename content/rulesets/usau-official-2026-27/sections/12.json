@@ -1,0 +1,64 @@
+{
+	"slug": "12",
+	"anchorId": "12",
+	"number": "12",
+	"kind": "section",
+	"title": "End Zone Possession",
+	"html": null,
+	"rules": [
+		{
+			"id": "12.A",
+			"label": "12.A.",
+			"html": "If a turnover results in a team gaining possession in the end zone that they are defending, the <dfn data-rule=\"3.Q.10\">player</dfn> in possession must immediately either:",
+			"text": "If a turnover results in a team gaining possession in the end zone that they are defending, the player in possession must immediately either:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "12.A.1",
+					"label": "12.A.1.",
+					"html": "establish a <dfn data-rule=\"3.H\">pivot</dfn> at the spot of the disc (to fake a <dfn data-rule=\"3.N\">throw</dfn> or pause after gaining possession commits the <dfn data-rule=\"3.Q.10\">player</dfn> to put the disc into play at that spot); or",
+					"text": "establish a pivot at the spot of the disc (to fake a throw or pause after gaining possession commits the player to put the disc into play at that spot); or",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "12.A.2",
+					"label": "12.A.2.",
+					"html": "carry the disc directly to the closest point on the goal <dfn data-rule=\"3.G\">line</dfn> and put it into play at that spot. If this option is chosen, the <dfn data-rule=\"3.Q.10\">player</dfn> taking possession must put the disc into play at the goal line. Failure to do so is a travel.",
+					"text": "carry the disc directly to the closest point on the goal line and put it into play at that spot. If this option is chosen, the player taking possession must put the disc into play at the goal line. Failure to do so is a travel.",
+					"annotations": [
+						"The player may carry the disc at any speed, constant or variable, while not unreasonably delaying."
+					],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "12.B",
+			"label": "12.B.",
+			"html": "If a team gains or retains possession in the end zone that they are attacking other than by scoring a goal in accordance with rule <a href=\"/rules/usau-official-2026-27/13\">13</a>, the <dfn data-rule=\"3.Q.10\">player</dfn> in possession must carry the disc directly to, and put it into play at, the spot on the goal <dfn data-rule=\"3.G\">line</dfn> closest to where the player stopped.",
+			"text": "If a team gains or retains possession in the end zone that they are attacking other than by scoring a goal in accordance with rule 13, the player in possession must carry the disc directly to, and put it into play at, the spot on the goal line closest to where the player stopped.",
+			"annotations": [],
+			"refs": [
+				"13"
+			],
+			"children": []
+		},
+		{
+			"id": "12.C",
+			"label": "12.C.",
+			"html": "If a team gains or retains possession of a dead disc in the end zone that they are attacking, the disc is checked into a live state where the infraction occurred, and the <dfn data-rule=\"3.O\">thrower</dfn> then proceeds according to <a href=\"/rules/usau-official-2026-27/12#12.B\">12.B</a>.",
+			"text": "If a team gains or retains possession of a dead disc in the end zone that they are attacking, the disc is checked into a live state where the infraction occurred, and the thrower then proceeds according to 12.B.",
+			"annotations": [
+				"For example, after an uncontested receiving foul."
+			],
+			"refs": [
+				"12.B"
+			],
+			"children": []
+		}
+	]
+}

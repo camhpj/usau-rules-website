@@ -1,0 +1,299 @@
+{
+	"slug": "appendix-f",
+	"anchorId": "appendix_f",
+	"number": "F",
+	"kind": "appendix",
+	"title": "Beach Ultimate Rules Adaptations",
+	"html": "<div class=\"rulesBody plain\"> The following adaptations to the rules are to be used in beach or sand ultimate competitions. These adaptations may be additions to the current official rules or may supersede existing rules. Other than these additions and changes, the current official rules will apply to beach or sand competition. </div>",
+	"rules": [
+		{
+			"id": "F1",
+			"label": "F1.",
+			"html": "Number of Players",
+			"text": "Number of Players",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "F1.A",
+					"label": "F1.A.",
+					"html": "The recommended number of players per team is either five (5) or four (4).",
+					"text": "The recommended number of players per team is either five (5) or four (4).",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "F2",
+			"label": "F2.",
+			"html": "Playing Field",
+			"text": "Playing Field",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "F2.A",
+					"label": "F2.A.",
+					"html": "5v5 Field Dimensions",
+					"text": "5v5 Field Dimensions",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "F2.A.1",
+							"label": "F2.A.1.",
+							"html": "The standard field of play, including end zones, is 82 yards (75 meters) long and 27 yards (25 meters) wide.",
+							"text": "The standard field of play, including end zones, is 82 yards (75 meters) long and 27 yards (25 meters) wide.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F2.A.2",
+							"label": "F2.A.2.",
+							"html": "The standard end zone is 16 yards (15 meters) deep.",
+							"text": "The standard end zone is 16 yards (15 meters) deep.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F2.A.3",
+							"label": "F2.A.3.",
+							"html": "The brick marks are located 11 yards (10 meters) from the goal <dfn data-rule=\"3.G\">line</dfn>.",
+							"text": "The brick marks are located 11 yards (10 meters) from the goal line.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "F2.B",
+					"label": "F2.B.",
+					"html": "4v4 Field Dimensions",
+					"text": "4v4 Field Dimensions",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "F2.B.1",
+							"label": "F2.B.1.",
+							"html": "The standard field of play, including end zones, is 50 yards (45 meters) long and 30 yards (27 meters) wide.",
+							"text": "The standard field of play, including end zones, is 50 yards (45 meters) long and 30 yards (27 meters) wide.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F2.B.2",
+							"label": "F2.B.2.",
+							"html": "The standard end zone is 8 yards (7.5 meters) deep.",
+							"text": "The standard end zone is 8 yards (7.5 meters) deep.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F2.B.3",
+							"label": "F2.B.3.",
+							"html": "The brick marks are located 8 yards (7.5 meters) from the goal <dfn data-rule=\"3.G\">line</dfn>.",
+							"text": "The brick marks are located 8 yards (7.5 meters) from the goal line.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "F2.C",
+					"label": "F2.C.",
+					"html": "Perimeter and end zone lines are established with field lining tape (preferred) or rope.",
+					"text": "Perimeter and end zone lines are established with field lining tape (preferred) or rope.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "F2.C.1",
+							"label": "F2.C.1.",
+							"html": "The top of the tape is the portion of the field tape that is facing upwards. Should the tape twist along its length, the “top” is always the side that is facing up, even if that changes along the length.",
+							"text": "The top of the tape is the portion of the field tape that is facing upwards. Should the tape twist along its length, the “top” is always the side that is facing up, even if that changes along the length.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "F2.D",
+					"label": "F2.D.",
+					"html": "The top of the perimeter lines is not part of the playing field and is out-of-bounds.",
+					"text": "The top of the perimeter lines is not part of the playing field and is out-of-bounds.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "F2.E",
+					"label": "F2.E.",
+					"html": "The area directly under the perimeter lines and all parts of the perimeter lines excluding the top of the tape are part of the playing field and in-bounds.",
+					"text": "The area directly under the perimeter lines and all parts of the perimeter lines excluding the top of the tape are part of the playing field and in-bounds.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "F2.F",
+					"label": "F2.F.",
+					"html": "The top of the goal <dfn data-rule=\"3.G\">line</dfn> is part of the central zone.",
+					"text": "The top of the goal line is part of the central zone.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "F2.G",
+					"label": "F2.G.",
+					"html": "The area directly under the goal <dfn data-rule=\"3.G\">line</dfn> and all parts of the goal line excluding the top of the tape are part of the end zone.",
+					"text": "The area directly under the goal line and all parts of the goal line excluding the top of the tape are part of the end zone.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "F3",
+			"label": "F3.",
+			"html": "Equipment",
+			"text": "Equipment",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "F3.A",
+					"label": "F3.A.",
+					"html": "Shoes and cleats are not allowed. Players’ feet must be bare or only have a soft covering such as socks or tape.",
+					"text": "Shoes and cleats are not allowed. Players’ feet must be bare or only have a soft covering such as socks or tape.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "F4",
+			"label": "F4.",
+			"html": "Length of Game",
+			"text": "Length of Game",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "F4.A",
+					"label": "F4.A.",
+					"html": "A standard game has",
+					"text": "A standard game has",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "F4.A.1",
+							"label": "F4.A.1.",
+							"html": "a game total of 13,",
+							"text": "a game total of 13,",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F4.A.2",
+							"label": "F4.A.2.",
+							"html": "a soft cap at 50 minutes,",
+							"text": "a soft cap at 50 minutes,",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F4.A.3",
+							"label": "F4.A.3.",
+							"html": "a hard cap at 60 minutes,",
+							"text": "a hard cap at 60 minutes,",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F4.A.4",
+							"label": "F4.A.4.",
+							"html": "a halftime of 5 minutes, and",
+							"text": "a halftime of 5 minutes, and",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "F4.A.5",
+							"label": "F4.A.5.",
+							"html": "1 team timeout per game.",
+							"text": "1 team timeout per game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "F5",
+			"label": "F5.",
+			"html": "Sand Stoppages",
+			"text": "Sand Stoppages",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "F5.A",
+					"label": "F5.A.",
+					"html": "Any <dfn data-rule=\"3.Q.10\">player</dfn> may briefly extend a <dfn data-rule=\"3.M\">stoppage of play</dfn> to remove interfering sand from their face, but active play may not be stopped for this purpose.",
+					"text": "Any player may briefly extend a stoppage of play to remove interfering sand from their face, but active play may not be stopped for this purpose.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "F6",
+			"label": "F6.",
+			"html": "Sand Fouls",
+			"text": "Sand Fouls",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "F6.A",
+					"label": "F6.A.",
+					"html": "A sand <dfn data-rule=\"3.B\">foul</dfn> occurs when a <dfn data-rule=\"3.Q.10\">player</dfn> causes sand to fly into an opponent’s face in a way that significantly interferes with their play, such as in the eyes or up their nose.",
+					"text": "A sand foul occurs when a player causes sand to fly into an opponent’s face in a way that significantly interferes with their play, such as in the eyes or up their nose.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "F6.B",
+					"label": "F6.B.",
+					"html": "A sand <dfn data-rule=\"3.B\">foul</dfn> is considered distinct and separate to the action that caused it and should be resolved separately as such.",
+					"text": "A sand foul is considered distinct and separate to the action that caused it and should be resolved separately as such.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}

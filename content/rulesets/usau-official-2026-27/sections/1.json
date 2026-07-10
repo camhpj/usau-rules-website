@@ -1,0 +1,65 @@
+{
+	"slug": "1",
+	"anchorId": "1",
+	"number": "1",
+	"kind": "section",
+	"title": "Introduction",
+	"html": null,
+	"rules": [
+		{
+			"id": "1.A",
+			"label": "1.A.",
+			"html": "Description: Ultimate is a non-contact, self-officiated disc sport played by two teams of seven players. The object of the game is to score goals. A goal is scored when a <dfn data-rule=\"3.Q.10\">player</dfn> catches any legal pass in the end zone that player is attacking. A player may not run while holding the disc. The disc is advanced by passing it to other players. The disc may be passed in any direction. Any time a pass is incomplete, a turnover occurs, resulting in an immediate change of the team in <dfn data-rule=\"3.I\">possession of the disc</dfn>. Players are empowered to self-officiate using a framework governed by the principles of Spirit of the Game.",
+			"text": "Description: Ultimate is a non-contact, self-officiated disc sport played by two teams of seven players. The object of the game is to score goals. A goal is scored when a player catches any legal pass in the end zone that player is attacking. A player may not run while holding the disc. The disc is advanced by passing it to other players. The disc may be passed in any direction. Any time a pass is incomplete, a turnover occurs, resulting in an immediate change of the team in possession of the disc. Players are empowered to self-officiate using a framework governed by the principles of Spirit of the Game.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "1.B",
+			"label": "1.B.",
+			"html": "Rules Variations",
+			"text": "Rules Variations",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "1.B.1",
+					"label": "1.B.1.",
+					"html": "Appendices included in these rules outline rules changes and additions specific to several variations of the sport.",
+					"text": "Appendices included in these rules outline rules changes and additions specific to several variations of the sport.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "1.B.2",
+					"label": "1.B.2.",
+					"html": "<dfn data-rule=\"3.Q.4\">Event Organizer</dfn> Clause: The event organizer may modify rules relating to game logistics in order to suit the event. Examples include game length (game total), time limits (time caps), halftime length, number of timeouts, starting time point assessments, uniform requirements, and <dfn data-rule=\"3.Q.8\">observer</dfn> operations. Any such change must be established before competition starts.",
+					"text": "Event Organizer Clause: The event organizer may modify rules relating to game logistics in order to suit the event. Examples include game length (game total), time limits (time caps), halftime length, number of timeouts, starting time point assessments, uniform requirements, and observer operations. Any such change must be established before competition starts.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "1.B.3",
+					"label": "1.B.3.",
+					"html": "<dfn data-rule=\"3.Q.1\">Captain</dfn>’s Clause: For games not subject to the <dfn data-rule=\"3.Q.4\">event organizer</dfn> clause, a game may be played under any variation of the rules agreed upon by the captains of the teams involved. Otherwise, any rules variations are subject to approval by the event organizer.",
+					"text": "Captain’s Clause: For games not subject to the event organizer clause, a game may be played under any variation of the rules agreed upon by the captains of the teams involved. Otherwise, any rules variations are subject to approval by the event organizer.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "1.C",
+			"label": "1.C.",
+			"html": "General vs. Specific Rules: Many of these rules are general in nature and cover most situations. However, some rules cover specific situations and override the general case.",
+			"text": "General vs. Specific Rules: Many of these rules are general in nature and cover most situations. However, some rules cover specific situations and override the general case.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

@@ -1,0 +1,1083 @@
+{
+	"slug": "appendix-c",
+	"anchorId": "appendix_c",
+	"number": "C",
+	"kind": "appendix",
+	"title": "Misconduct System",
+	"html": "<div class=\"rulesBody plain\"> This appendix describes the system for handling misconduct within a game that is using observers. For games without observers, behavior expectations and related procedures are described in <a href=\"/rules/usau-official-2026-27/2\">Section 2</a> (Spirit of the Game). Additional mechanisms for handling misconduct at the event level or beyond are described in the USA Ultimate Conduct Policy. <br><br> The “Event Disciplinary Authority” (EDA) is defined by section A.a of the <a href=\"https://usaultimate.org/conduct/event-disciplinary-authority/\">USAU Event Disciplinary Authority Guidelines</a>. </div>",
+	"rules": [
+		{
+			"id": "C1",
+			"label": "C1.",
+			"html": "Misconduct Fouls",
+			"text": "Misconduct Fouls",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "C1.A",
+					"label": "C1.A.",
+					"html": "Any <dfn data-rule=\"3.Q.8\">observer</dfn> may assess a Technical <dfn data-rule=\"3.B\">Foul</dfn>, blue card, yellow card, or red card.",
+					"text": "Any observer may assess a Technical Foul, blue card, yellow card, or red card.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C1.A.1",
+							"label": "C1.A.1.",
+							"html": "The infraction must have been witnessed by at least one <dfn data-rule=\"3.Q.8\">observer</dfn>.",
+							"text": "The infraction must have been witnessed by at least one observer.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.A.2",
+							"label": "C1.A.2.",
+							"html": "The infraction must have occurred during the game.",
+							"text": "The infraction must have occurred during the game.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C1.A.2.a",
+									"label": "C1.A.2.a.",
+									"html": "This includes the time preceding and following the game, when members from teams are present in the vicinity of the field.",
+									"text": "This includes the time preceding and following the game, when members from teams are present in the vicinity of the field.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "C1.B",
+					"label": "C1.B.",
+					"html": "Technical <dfn data-rule=\"3.B\">Foul</dfn>",
+					"text": "Technical Foul",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C1.B.1",
+							"label": "C1.B.1.",
+							"html": "A Technical <dfn data-rule=\"3.B\">Foul</dfn> can be assessed against a team for minor conduct violations that do not affect competitiveness or Spirit of the Game.",
+							"text": "A Technical Foul can be assessed against a team for minor conduct violations that do not affect competitiveness or Spirit of the Game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.B.2",
+							"label": "C1.B.2.",
+							"html": "Technical Fouls shall be assessed at the next <dfn data-rule=\"3.M\">stoppage of play</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.M\">3.M</a>), or when the current <dfn data-rule=\"3.K\">scoring attempt</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.K\">3.K</a>) is completed.",
+							"text": "Technical Fouls shall be assessed at the next stoppage of play (3.M), or when the current scoring attempt (3.K) is completed.",
+							"annotations": [],
+							"refs": [
+								"3.M",
+								"3.K"
+							],
+							"children": []
+						},
+						{
+							"id": "C1.B.3",
+							"label": "C1.B.3.",
+							"html": "There is no limit to the number of Technical Fouls a team can accrue during a game.",
+							"text": "There is no limit to the number of Technical Fouls a team can accrue during a game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.B.4",
+							"label": "C1.B.4.",
+							"html": "Technical Fouls do not carry over beyond the game in which they are issued.",
+							"text": "Technical Fouls do not carry over beyond the game in which they are issued.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C1.C",
+					"label": "C1.C.",
+					"html": "Blue Card",
+					"text": "Blue Card",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C1.C.1",
+							"label": "C1.C.1.",
+							"html": "A blue card can be assessed against a team for conduct that affects competitiveness or violates Spirit of the Game by any <dfn data-rule=\"3.Q.14\">team member</dfn> or spectators considered as partisans for the team.",
+							"text": "A blue card can be assessed against a team for conduct that affects competitiveness or violates Spirit of the Game by any team member or spectators considered as partisans for the team.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.C.2",
+							"label": "C1.C.2.",
+							"html": "The blue card can be assessed regardless of whether the infracted team makes any call, although teams are encouraged to make <dfn data-rule=\"3.P\">violation</dfn> calls in order to directly communicate about issues and minimize the need for observers to issue blue cards without a call.",
+							"text": "The blue card can be assessed regardless of whether the infracted team makes any call, although teams are encouraged to make violation calls in order to directly communicate about issues and minimize the need for observers to issue blue cards without a call.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.C.3",
+							"label": "C1.C.3.",
+							"html": "Blue cards shall be assessed at the next <dfn data-rule=\"3.M\">stoppage of play</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.M\">3.M</a>), or when the current <dfn data-rule=\"3.K\">scoring attempt</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.K\">3.K</a>) is completed.",
+							"text": "Blue cards shall be assessed at the next stoppage of play (3.M), or when the current scoring attempt (3.K) is completed.",
+							"annotations": [],
+							"refs": [
+								"3.M",
+								"3.K"
+							],
+							"children": []
+						},
+						{
+							"id": "C1.C.4",
+							"label": "C1.C.4.",
+							"html": "There is no limit to the number of blue cards a team can accrue during a game.",
+							"text": "There is no limit to the number of blue cards a team can accrue during a game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.C.5",
+							"label": "C1.C.5.",
+							"html": "Blue cards do not carry over beyond the game in which they are issued.",
+							"text": "Blue cards do not carry over beyond the game in which they are issued.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C1.D",
+					"label": "C1.D.",
+					"html": "Yellow Card",
+					"text": "Yellow Card",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C1.D.1",
+							"label": "C1.D.1.",
+							"html": "A yellow card can be assessed against a specific <dfn data-rule=\"3.Q.14\">team member</dfn> for particularly egregious conduct or a pattern of such behavior. A yellow card is a formal warning for unacceptable behavior and puts the team member on notice that any further such actions will result in ejection from the game.",
+							"text": "A yellow card can be assessed against a specific team member for particularly egregious conduct or a pattern of such behavior. A yellow card is a formal warning for unacceptable behavior and puts the team member on notice that any further such actions will result in ejection from the game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.D.2",
+							"label": "C1.D.2.",
+							"html": "The yellow card can be assessed regardless of whether the infracted team makes any call, although teams are encouraged to make <dfn data-rule=\"3.P\">violation</dfn> calls in order to directly communicate about issues and minimize the need for observers to issue yellow cards without a call.",
+							"text": "The yellow card can be assessed regardless of whether the infracted team makes any call, although teams are encouraged to make violation calls in order to directly communicate about issues and minimize the need for observers to issue yellow cards without a call.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.D.3",
+							"label": "C1.D.3.",
+							"html": "Observers may stop play to issue a yellow card.",
+							"text": "Observers may stop play to issue a yellow card.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C1.D.3.a",
+									"label": "C1.D.3.a.",
+									"html": "If play is stopped to assess a yellow card, for the purpose of the Continuation Rule (<a href=\"/rules/usau-official-2026-27/17#17.C\">17.C</a>), the situation should be treated like an injury called at the time of the infraction.",
+									"text": "If play is stopped to assess a yellow card, for the purpose of the Continuation Rule (17.C), the situation should be treated like an injury called at the time of the infraction.",
+									"annotations": [],
+									"refs": [
+										"17.C"
+									],
+									"children": []
+								},
+								{
+									"id": "C1.D.3.b",
+									"label": "C1.D.3.b.",
+									"html": "Observers may delay the stoppage until the infracted team is no longer in <dfn data-rule=\"3.I\">possession of the disc</dfn>.",
+									"text": "Observers may delay the stoppage until the infracted team is no longer in possession of the disc.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C1.D.3.c",
+									"label": "C1.D.3.c.",
+									"html": "Observers may issue a yellow card during a subsequent stoppage if an <dfn data-rule=\"3.Q.8\">observer</dfn> consultation is needed to determine whether a yellow card is warranted.",
+									"text": "Observers may issue a yellow card during a subsequent stoppage if an observer consultation is needed to determine whether a yellow card is warranted.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C1.D.4",
+							"label": "C1.D.4.",
+							"html": "A yellow card is non-reviewable for the duration of the game, although it may be appealed to the EDA after the game.",
+							"text": "A yellow card is non-reviewable for the duration of the game, although it may be appealed to the EDA after the game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.D.5",
+							"label": "C1.D.5.",
+							"html": "One blue card is automatically assessed against a team whenever one of its members receives a yellow card.",
+							"text": "One blue card is automatically assessed against a team whenever one of its members receives a yellow card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C1.E",
+					"label": "C1.E.",
+					"html": "Red Card",
+					"text": "Red Card",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C1.E.1",
+							"label": "C1.E.1.",
+							"html": "A red card can be assessed against a specific <dfn data-rule=\"3.Q.14\">team member</dfn> for particularly egregious conduct that warrants immediate suspension from the game.",
+							"text": "A red card can be assessed against a specific team member for particularly egregious conduct that warrants immediate suspension from the game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.E.2",
+							"label": "C1.E.2.",
+							"html": "No formal or informal warning is necessary before a <dfn data-rule=\"3.Q.14\">team member</dfn> is issued a red card, and a red card need not be preceded by a blue card or yellow card.",
+							"text": "No formal or informal warning is necessary before a team member is issued a red card, and a red card need not be preceded by a blue card or yellow card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.E.3",
+							"label": "C1.E.3.",
+							"html": "Observers may stop play to assess a red card, and should stop as soon as possible.",
+							"text": "Observers may stop play to assess a red card, and should stop as soon as possible.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C1.E.3.a",
+									"label": "C1.E.3.a.",
+									"html": "If observers stop play to issue a red card, for the purpose of the Continuation Rule (<a href=\"/rules/usau-official-2026-27/17#17.C\">17.C</a>), the situation should be treated like an injury at the time of the infraction.",
+									"text": "If observers stop play to issue a red card, for the purpose of the Continuation Rule (17.C), the situation should be treated like an injury at the time of the infraction.",
+									"annotations": [],
+									"refs": [
+										"17.C"
+									],
+									"children": []
+								},
+								{
+									"id": "C1.E.3.b",
+									"label": "C1.E.3.b.",
+									"html": "Observers may issue a red card during a subsequent stoppage if an <dfn data-rule=\"3.Q.8\">observer</dfn> consultation is needed to determine whether a red card is warranted.",
+									"text": "Observers may issue a red card during a subsequent stoppage if an observer consultation is needed to determine whether a red card is warranted.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C1.E.4",
+							"label": "C1.E.4.",
+							"html": "A red card is non-reviewable for the duration of the game, although it may be appealed to the EDA after the game.",
+							"text": "A red card is non-reviewable for the duration of the game, although it may be appealed to the EDA after the game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C1.E.5",
+							"label": "C1.E.5.",
+							"html": "Two blue cards are automatically assessed against a team whenever one of its members receives a red card.",
+							"text": "Two blue cards are automatically assessed against a team whenever one of its members receives a red card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "C2",
+			"label": "C2.",
+			"html": "Behavior Warranting Misconduct Fouls",
+			"text": "Behavior Warranting Misconduct Fouls",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "C2.A",
+					"label": "C2.A.",
+					"html": "Teams are encouraged to demonstrate good Spirit (<a href=\"/rules/usau-official-2026-27/2#2.E\">2.E</a>) and resolve disagreements between themselves. When such a resolution is not possible, or when behavior clearly violates Spirit of the Game (<a href=\"/rules/usau-official-2026-27/2#2.F\">2.F</a>), observers may assess Misconduct Fouls.",
+					"text": "Teams are encouraged to demonstrate good Spirit (2.E) and resolve disagreements between themselves. When such a resolution is not possible, or when behavior clearly violates Spirit of the Game (2.F), observers may assess Misconduct Fouls.",
+					"annotations": [],
+					"refs": [
+						"2.E",
+						"2.F"
+					],
+					"children": []
+				},
+				{
+					"id": "C2.B",
+					"label": "C2.B.",
+					"html": "The following is a non-exhaustive list of behaviors that may result in Misconduct Fouls. When warranted by the severity or circumstances of the conduct, more serious penalties than those illustrated may be applied.",
+					"text": "The following is a non-exhaustive list of behaviors that may result in Misconduct Fouls. When warranted by the severity or circumstances of the conduct, more serious penalties than those illustrated may be applied.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "C2.C",
+					"label": "C2.C.",
+					"html": "Dangerous Play",
+					"text": "Dangerous Play",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.C.1",
+							"label": "C2.C.1.",
+							"html": "All <dfn data-rule=\"3.Q.8\">observer</dfn>-ruled or uncontested <dfn data-rule=\"3.Q.10\">player</dfn>-called dangerous plays (<a href=\"/rules/usau-official-2026-27/20#20.B\">20.B</a>) shall receive a yellow card.",
+							"text": "All observer-ruled or uncontested player-called dangerous plays (20.B) shall receive a yellow card.",
+							"annotations": [],
+							"refs": [
+								"20.B"
+							],
+							"children": []
+						},
+						{
+							"id": "C2.C.2",
+							"label": "C2.C.2.",
+							"html": "Dangerous plays that are particularly egregious (reasonable certainty of violent contact with a <dfn data-rule=\"3.Q.10\">player</dfn>’s knees or head, or other injurious behavior) may result in a red card.",
+							"text": "Dangerous plays that are particularly egregious (reasonable certainty of violent contact with a player’s knees or head, or other injurious behavior) may result in a red card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.D",
+					"label": "C2.D.",
+					"html": "Battery and Fighting",
+					"text": "Battery and Fighting",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.D.1",
+							"label": "C2.D.1.",
+							"html": "Intentionally striking another person, or any clear attempt to do so, warrants a red card. This includes, but is not limited to: punching or attempting to punch, kicking or attempting to kick, spitting on or attempting to spit on someone.",
+							"text": "Intentionally striking another person, or any clear attempt to do so, warrants a red card. This includes, but is not limited to: punching or attempting to punch, kicking or attempting to kick, spitting on or attempting to spit on someone.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.E",
+					"label": "C2.E.",
+					"html": "Pushing and Shoving",
+					"text": "Pushing and Shoving",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.E.1",
+							"label": "C2.E.1.",
+							"html": "Aggressively pushing or shoving another <dfn data-rule=\"3.Q.10\">player</dfn>, or other acts of physical aggression warrant a yellow card or red card.",
+							"text": "Aggressively pushing or shoving another player, or other acts of physical aggression warrant a yellow card or red card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.F",
+					"label": "C2.F.",
+					"html": "Repeated Infractions",
+					"text": "Repeated Infractions",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.F.1",
+							"label": "C2.F.1.",
+							"html": "Repeated instances of the same infraction may receive a blue card.",
+							"text": "Repeated instances of the same infraction may receive a blue card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C2.F.2",
+							"label": "C2.F.2.",
+							"html": "Continued instances of a repeated infraction after a blue card has been issued (<a href=\"/rules/usau-official-2026-27/appendix-c#C2.F.1\">C2.F.1</a>) may receive a yellow card.",
+							"text": "Continued instances of a repeated infraction after a blue card has been issued (C2.F.1) may receive a yellow card.",
+							"annotations": [],
+							"refs": [
+								"C2.F.1"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.G",
+					"label": "C2.G.",
+					"html": "Egregious Infractions",
+					"text": "Egregious Infractions",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.G.1",
+							"label": "C2.G.1.",
+							"html": "Egregious instances of any infraction may receive a blue card or yellow card.",
+							"text": "Egregious instances of any infraction may receive a blue card or yellow card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.H",
+					"label": "C2.H.",
+					"html": "Deliberate Infractions",
+					"text": "Deliberate Infractions",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.H.1",
+							"label": "C2.H.1.",
+							"html": "Deliberate infractions may receive a yellow card.",
+							"text": "Deliberate infractions may receive a yellow card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.I",
+					"label": "C2.I.",
+					"html": "Incorrect or Invalid Calls",
+					"text": "Incorrect or Invalid Calls",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.I.1",
+							"label": "C2.I.1.",
+							"html": "Calls or contests that are knowingly incorrect or made with disregard for their validity may result in a blue card.",
+							"text": "Calls or contests that are knowingly incorrect or made with disregard for their validity may result in a blue card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C2.I.2",
+							"label": "C2.I.2.",
+							"html": "Continued instances of calls or contests that are knowingly incorrect or made with disregard for their validity after a blue card has been issued (<a href=\"/rules/usau-official-2026-27/appendix-c#C2.I.1\">C2.I.1</a>) may receive a yellow card.",
+							"text": "Continued instances of calls or contests that are knowingly incorrect or made with disregard for their validity after a blue card has been issued (C2.I.1) may receive a yellow card.",
+							"annotations": [],
+							"refs": [
+								"C2.I.1"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.J",
+					"label": "C2.J.",
+					"html": "Taunting and Spiking",
+					"text": "Taunting and Spiking",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.J.1",
+							"label": "C2.J.1.",
+							"html": "Taunting an opponent or spiking the disc towards a <dfn data-rule=\"3.Q.10\">player</dfn> warrants either a blue card or yellow card, depending on the severity of the behavior.",
+							"text": "Taunting an opponent or spiking the disc towards a player warrants either a blue card or yellow card, depending on the severity of the behavior.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C2.J.2",
+							"label": "C2.J.2.",
+							"html": "Forcibly spiking, or attempting to forcibly spike a disc on a <dfn data-rule=\"3.Q.10\">player</dfn> is considered intentionally striking (<a href=\"/rules/usau-official-2026-27/appendix-c#C2.D.1\">C2.D.1</a>).",
+							"text": "Forcibly spiking, or attempting to forcibly spike a disc on a player is considered intentionally striking (C2.D.1).",
+							"annotations": [],
+							"refs": [
+								"C2.D.1"
+							],
+							"children": []
+						},
+						{
+							"id": "C2.J.3",
+							"label": "C2.J.3.",
+							"html": "If a <dfn data-rule=\"3.Q.14\">team member</dfn> spikes the disc without intending to hit another person, and it does hit an opposing team member, a blue card or yellow card may be assessed at the discretion of the <dfn data-rule=\"3.Q.8\">observer</dfn>.",
+							"text": "If a team member spikes the disc without intending to hit another person, and it does hit an opposing team member, a blue card or yellow card may be assessed at the discretion of the observer.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.K",
+					"label": "C2.K.",
+					"html": "Verbal Abuse",
+					"text": "Verbal Abuse",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.K.1",
+							"label": "C2.K.1.",
+							"html": "Verbal abuse directed at a <dfn data-rule=\"3.Q.10\">player</dfn>, game official, <dfn data-rule=\"3.Q.12\">spectator</dfn>, or tournament official warrants a blue card or yellow card, depending on the severity and extent of the language. This includes continued dissent with <dfn data-rule=\"3.Q.8\">observer</dfn> rulings.",
+							"text": "Verbal abuse directed at a player, game official, spectator, or tournament official warrants a blue card or yellow card, depending on the severity and extent of the language. This includes continued dissent with observer rulings.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C2.K.2",
+							"label": "C2.K.2.",
+							"html": "Egregious verbal abuse such as racial and gender based slurs warrants a red card.",
+							"text": "Egregious verbal abuse such as racial and gender based slurs warrants a red card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.L",
+					"label": "C2.L.",
+					"html": "Swearing",
+					"text": "Swearing",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.L.1",
+							"label": "C2.L.1.",
+							"html": "General undirected swearing in accordance with specific written guidelines for a tournament warrants a Technical <dfn data-rule=\"3.B\">Foul</dfn>.",
+							"text": "General undirected swearing in accordance with specific written guidelines for a tournament warrants a Technical Foul.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.M",
+					"label": "C2.M.",
+					"html": "Sideline Encroachment",
+					"text": "Sideline Encroachment",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C2.M.1",
+							"label": "C2.M.1.",
+							"html": "Sideline encroachment that does not affect an <dfn data-rule=\"3.Q.8\">observer</dfn>’s ability to make a call warrants a Technical <dfn data-rule=\"3.B\">Foul</dfn>.",
+							"text": "Sideline encroachment that does not affect an observer’s ability to make a call warrants a Technical Foul.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C2.M.2",
+							"label": "C2.M.2.",
+							"html": "Sideline encroachment that interferes with play or affects an <dfn data-rule=\"3.Q.8\">observer</dfn>’s ability to make a call warrants a blue card.",
+							"text": "Sideline encroachment that interferes with play or affects an observer’s ability to make a call warrants a blue card.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C2.M.3",
+							"label": "C2.M.3.",
+							"html": "<dfn data-rule=\"3.Q.7\">Non-player</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.Q.10\">3.Q.10</a>) team members entering the playing field before a goal has been signaled by an <dfn data-rule=\"3.Q.8\">observer</dfn> warrants a Technical <dfn data-rule=\"3.B\">Foul</dfn>.",
+							"text": "Non-player (3.Q.10) team members entering the playing field before a goal has been signaled by an observer warrants a Technical Foul.",
+							"annotations": [],
+							"refs": [
+								"3.Q.10"
+							],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C2.N",
+					"label": "C2.N.",
+					"html": "Any other behavior described by the USAU Code of Conduct may warrant a misconduct <dfn data-rule=\"3.B\">foul</dfn> at the discretion of the <dfn data-rule=\"3.Q.8\">observer</dfn>.",
+					"text": "Any other behavior described by the USAU Code of Conduct may warrant a misconduct foul at the discretion of the observer.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "C2.O",
+					"label": "C2.O.",
+					"html": "Any behavior that would warrant the issuance of a misconduct <dfn data-rule=\"3.B\">foul</dfn>, but which occurs in a game without observers, can result in sanctions upon a complaint filed to the EDA.",
+					"text": "Any behavior that would warrant the issuance of a misconduct foul, but which occurs in a game without observers, can result in sanctions upon a complaint filed to the EDA.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "C3",
+			"label": "C3.",
+			"html": "Penalties",
+			"text": "Penalties",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "C3.A",
+					"label": "C3.A.",
+					"html": "This section does not limit additional sanctions that may be issued by the EDA after a game.",
+					"text": "This section does not limit additional sanctions that may be issued by the EDA after a game.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "C3.B",
+					"label": "C3.B.",
+					"html": "Suspension",
+					"text": "Suspension",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C3.B.1",
+							"label": "C3.B.1.",
+							"html": "A <dfn data-rule=\"3.Q.14\">team member</dfn> shall receive a game suspension upon receiving",
+							"text": "A team member shall receive a game suspension upon receiving",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.B.1.a",
+									"label": "C3.B.1.a.",
+									"html": "two yellow cards during a game, or",
+									"text": "two yellow cards during a game, or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.B.1.b",
+									"label": "C3.B.1.b.",
+									"html": "a red card.",
+									"text": "a red card.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C3.B.2",
+							"label": "C3.B.2.",
+							"html": "If a <dfn data-rule=\"3.Q.14\">team member</dfn> receives a game suspension in the second half of a game, the suspension remains in effect for the first half of the team’s next game.",
+							"text": "If a team member receives a game suspension in the second half of a game, the suspension remains in effect for the first half of the team’s next game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C3.B.3",
+							"label": "C3.B.3.",
+							"html": "A <dfn data-rule=\"3.Q.14\">team member</dfn> shall be suspended for the remainder of a tournament upon receiving:",
+							"text": "A team member shall be suspended for the remainder of a tournament upon receiving:",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.B.3.a",
+									"label": "C3.B.3.a.",
+									"html": "three yellow cards in a tournament, or",
+									"text": "three yellow cards in a tournament, or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.B.3.b",
+									"label": "C3.B.3.b.",
+									"html": "one yellow card and one red card in a tournament, or",
+									"text": "one yellow card and one red card in a tournament, or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.B.3.c",
+									"label": "C3.B.3.c.",
+									"html": "two red cards in a tournament.",
+									"text": "two red cards in a tournament.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C3.B.4",
+							"label": "C3.B.4.",
+							"html": "A suspended <dfn data-rule=\"3.Q.14\">team member</dfn> must immediately leave the general area where their game is being played, as directed by the EDA.",
+							"text": "A suspended team member must immediately leave the general area where their game is being played, as directed by the EDA.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.B.4.a",
+									"label": "C3.B.4.a.",
+									"html": "In practice this means the <dfn data-rule=\"3.Q.14\">team member</dfn> must remove themselves at least 100 yards from their team’s current playing field and refrain from interacting with any team members, spectators, or officials involved in that game.",
+									"text": "In practice this means the team member must remove themselves at least 100 yards from their team’s current playing field and refrain from interacting with any team members, spectators, or officials involved in that game.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.B.4.b",
+									"label": "C3.B.4.b.",
+									"html": "Failure to do so results in a forfeit for that <dfn data-rule=\"3.Q.14\">team member</dfn>’s team.",
+									"text": "Failure to do so results in a forfeit for that team member’s team.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C3.B.5",
+							"label": "C3.B.5.",
+							"html": "If a <dfn data-rule=\"3.Q.14\">team member</dfn> participates in a game from which they have been suspended, that team member is suspended for the entire tournament, and the team member’s team forfeits that game.",
+							"text": "If a team member participates in a game from which they have been suspended, that team member is suspended for the entire tournament, and the team member’s team forfeits that game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C3.B.6",
+							"label": "C3.B.6.",
+							"html": "A team whose <dfn data-rule=\"3.Q.10\">player</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.Q.10\">3.Q.10</a>) is suspended may substitute another player, and the opposing team also may exchange a player if they wish.",
+							"text": "A team whose player (3.Q.10) is suspended may substitute another player, and the opposing team also may exchange a player if they wish.",
+							"annotations": [],
+							"refs": [
+								"3.Q.10"
+							],
+							"children": []
+						},
+						{
+							"id": "C3.B.7",
+							"label": "C3.B.7.",
+							"html": "All players must remain in the positions they occupied when play stopped, unless the ejection also triggers a Team Misconduct Penalty (<a href=\"/rules/usau-official-2026-27/appendix-c#C3.C\">C3.C</a>).",
+							"text": "All players must remain in the positions they occupied when play stopped, unless the ejection also triggers a Team Misconduct Penalty (C3.C).",
+							"annotations": [],
+							"refs": [
+								"C3.C"
+							],
+							"children": []
+						},
+						{
+							"id": "C3.B.8",
+							"label": "C3.B.8.",
+							"html": "A suspension is non-reviewable for the duration of the game when it was assessed, although it may be appealed to the EDA after the game.",
+							"text": "A suspension is non-reviewable for the duration of the game when it was assessed, although it may be appealed to the EDA after the game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C3.B.9",
+							"label": "C3.B.9.",
+							"html": "A suspension does not carry over to subsequent tournaments.",
+							"text": "A suspension does not carry over to subsequent tournaments.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "C3.C",
+					"label": "C3.C.",
+					"html": "Team Misconduct Penalty",
+					"text": "Team Misconduct Penalty",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C3.C.1",
+							"label": "C3.C.1.",
+							"html": "A Team Misconduct Penalty shall be assessed against a team when a Technical <dfn data-rule=\"3.B\">Foul</dfn> is assessed against a team, and the team previously accumulated two or more Technical Fouls.",
+							"text": "A Team Misconduct Penalty shall be assessed against a team when a Technical Foul is assessed against a team, and the team previously accumulated two or more Technical Fouls.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C3.C.2",
+							"label": "C3.C.2.",
+							"html": "A Team Misconduct Penalty shall be assessed against a team when a blue card is assessed against a team, and the team has previously accumulated two or more blue cards.",
+							"text": "A Team Misconduct Penalty shall be assessed against a team when a blue card is assessed against a team, and the team has previously accumulated two or more blue cards.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C3.C.3",
+							"label": "C3.C.3.",
+							"html": "A Team Misconduct Penalty shall be assessed at the next <dfn data-rule=\"3.M\">stoppage of play</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.M\">3.M</a>), or when the current <dfn data-rule=\"3.K\">scoring attempt</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.K\">3.K</a>) is completed. This includes stoppages initiated due to a yellow card (<a href=\"/rules/usau-official-2026-27/appendix-c#C1.D.3\">C1.D.3</a>) or red card (<a href=\"/rules/usau-official-2026-27/appendix-c#C1.E.3\">C1.E.3</a>).",
+							"text": "A Team Misconduct Penalty shall be assessed at the next stoppage of play (3.M), or when the current scoring attempt (3.K) is completed. This includes stoppages initiated due to a yellow card (C1.D.3) or red card (C1.E.3).",
+							"annotations": [],
+							"refs": [
+								"3.M",
+								"3.K",
+								"C1.D.3",
+								"C1.E.3"
+							],
+							"children": []
+						},
+						{
+							"id": "C3.C.4",
+							"label": "C3.C.4.",
+							"html": "When a Team Misconduct Penalty is assessed against the offense, the defense has two options available to continue play.",
+							"text": "When a Team Misconduct Penalty is assessed against the offense, the defense has two options available to continue play.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.C.4.a",
+									"label": "C3.C.4.a.",
+									"html": "The disc is moved to the reverse brick mark, away from the end zone of attack. The offense is given 30 seconds to set up anywhere on the playing field. After all offensive players have assumed stationary positions, the defense has an additional 20 seconds to match up and check the disc in with a stall count of one.",
+									"text": "The disc is moved to the reverse brick mark, away from the end zone of attack. The offense is given 30 seconds to set up anywhere on the playing field. After all offensive players have assumed stationary positions, the defense has an additional 20 seconds to match up and check the disc in with a stall count of one.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.C.4.b",
+									"label": "C3.C.4.b.",
+									"html": "The disc and players stay where they were when play stopped. Once players are ready, the count resumes at the stall count reached plus one, or at nine if over eight.",
+									"text": "The disc and players stay where they were when play stopped. Once players are ready, the count resumes at the stall count reached plus one, or at nine if over eight.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C3.C.5",
+							"label": "C3.C.5.",
+							"html": "When a Team Misconduct Penalty is assessed against the defense, the offense has three options available to continue play.",
+							"text": "When a Team Misconduct Penalty is assessed against the defense, the offense has three options available to continue play.",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.C.5.a",
+									"label": "C3.C.5.a.",
+									"html": "The disc is moved to the brick mark closest to the end zone of attack. The offense has 30 seconds to set up anywhere on the playing field. After all offensive players have assumed stationary positions, the defense has an additional 20 seconds to match up and check the disc in with a stall count of one.",
+									"text": "The disc is moved to the brick mark closest to the end zone of attack. The offense has 30 seconds to set up anywhere on the playing field. After all offensive players have assumed stationary positions, the defense has an additional 20 seconds to match up and check the disc in with a stall count of one.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.C.5.b",
+									"label": "C3.C.5.b.",
+									"html": "The disc is centered on the long axis of the field. The offense has 30 seconds to set up anywhere on the playing field. After all offensive players have assumed stationary positions, the defense has an additional 20 seconds to match up and check the disc in with a stall count of one.",
+									"text": "The disc is centered on the long axis of the field. The offense has 30 seconds to set up anywhere on the playing field. After all offensive players have assumed stationary positions, the defense has an additional 20 seconds to match up and check the disc in with a stall count of one.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.C.5.c",
+									"label": "C3.C.5.c.",
+									"html": "The disc and players stay where they were when play stopped. Once players are ready, the defense checks in the disc with a stall count of one.",
+									"text": "The disc and players stay where they were when play stopped. Once players are ready, the defense checks in the disc with a stall count of one.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C3.C.6",
+							"label": "C3.C.6.",
+							"html": "Team Misconduct Penalty Assessed Between Points",
+							"text": "Team Misconduct Penalty Assessed Between Points",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.C.6.a",
+									"label": "C3.C.6.a.",
+									"html": "If a Team Misconduct Penalty is assessed after the completion of a point, there is no <dfn data-rule=\"3.J\">pull</dfn>.",
+									"text": "If a Team Misconduct Penalty is assessed after the completion of a point, there is no pull.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.C.6.b",
+									"label": "C3.C.6.b.",
+									"html": "If the penalty is against the receiving team, the disc is put into play at the brick mark in the end zone they are defending (<a href=\"/rules/usau-official-2026-27/appendix-c#C3.C.4.a\">C3.C.4.a</a>).",
+									"text": "If the penalty is against the receiving team, the disc is put into play at the brick mark in the end zone they are defending (C3.C.4.a).",
+									"annotations": [],
+									"refs": [
+										"C3.C.4.a"
+									],
+									"children": []
+								},
+								{
+									"id": "C3.C.6.c",
+									"label": "C3.C.6.c.",
+									"html": "If the penalty is against the pulling team, the receiving team puts the disc into play at the brick mark closest to the end zone they are attacking (<a href=\"/rules/usau-official-2026-27/appendix-c#C3.C.5.a\">C3.C.5.a</a>).",
+									"text": "If the penalty is against the pulling team, the receiving team puts the disc into play at the brick mark closest to the end zone they are attacking (C3.C.5.a).",
+									"annotations": [],
+									"refs": [
+										"C3.C.5.a"
+									],
+									"children": []
+								},
+								{
+									"id": "C3.C.6.d",
+									"label": "C3.C.6.d.",
+									"html": "Each team may substitute players as per <a href=\"/rules/usau-official-2026-27/8#8.A.1\">8.A.1</a>.",
+									"text": "Each team may substitute players as per 8.A.1.",
+									"annotations": [],
+									"refs": [
+										"8.A.1"
+									],
+									"children": []
+								},
+								{
+									"id": "C3.C.6.e",
+									"label": "C3.C.6.e.",
+									"html": "Each <dfn data-rule=\"3.Q.9\">offensive player</dfn> must establish a stationary position by 90 seconds after the previous goal was scored.",
+									"text": "Each offensive player must establish a stationary position by 90 seconds after the previous goal was scored.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "C3.C.6.f",
+									"label": "C3.C.6.f.",
+									"html": "The defense has 100 seconds after the previous goal was scored or up to 20 seconds after all offensive players have established their positions (whichever is longer) to check the disc into play.",
+									"text": "The defense has 100 seconds after the previous goal was scored or up to 20 seconds after all offensive players have established their positions (whichever is longer) to check the disc into play.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						},
+						{
+							"id": "C3.C.7",
+							"label": "C3.C.7.",
+							"html": "Declined Team Misconduct Penalties",
+							"text": "Declined Team Misconduct Penalties",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "C3.C.7.a",
+									"label": "C3.C.7.a.",
+									"html": "A <dfn data-rule=\"3.Q.1\">captain</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.Q.1\">3.Q.1</a>) can decline a misconduct penalty and leave the disc as is.",
+									"text": "A captain (3.Q.1) can decline a misconduct penalty and leave the disc as is.",
+									"annotations": [],
+									"refs": [
+										"3.Q.1"
+									],
+									"children": []
+								},
+								{
+									"id": "C3.C.7.b",
+									"label": "C3.C.7.b.",
+									"html": "In exceptional circumstances, observers may deny the declination if they feel the teams are trying to circumvent mandatory tournament rules, guidelines, or <dfn data-rule=\"3.Q.10\">player</dfn> safety.",
+									"text": "In exceptional circumstances, observers may deny the declination if they feel the teams are trying to circumvent mandatory tournament rules, guidelines, or player safety.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "C3.D",
+					"label": "C3.D.",
+					"html": "Game Forfeiture",
+					"text": "Game Forfeiture",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "C3.D.1",
+							"label": "C3.D.1.",
+							"html": "If five yellow cards are assessed against team members on a single team during a game, that team forfeits the game. For this purpose, a red card is equivalent to two yellow cards. For example, if three or more players on a single team are assessed red cards, that team forfeits the game.",
+							"text": "If five yellow cards are assessed against team members on a single team during a game, that team forfeits the game. For this purpose, a red card is equivalent to two yellow cards. For example, if three or more players on a single team are assessed red cards, that team forfeits the game.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "C3.D.2",
+							"label": "C3.D.2.",
+							"html": "If the situation arises where both teams would be required to forfeit the game (<a href=\"/rules/usau-official-2026-27/appendix-c#C3.D.1\">C3.D.1</a>) due to multiple simultaneously assessed misconduct fouls, the EDA determines the appropriate outcome based on competition considerations.",
+							"text": "If the situation arises where both teams would be required to forfeit the game (C3.D.1) due to multiple simultaneously assessed misconduct fouls, the EDA determines the appropriate outcome based on competition considerations.",
+							"annotations": [],
+							"refs": [
+								"C3.D.1"
+							],
+							"children": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

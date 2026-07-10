@@ -1,0 +1,228 @@
+{
+	"id": "usau-official-2026-27",
+	"title": "Official Rules of Ultimate",
+	"shortTitle": "Official Rules",
+	"edition": "2026-2027",
+	"sourceUrl": "https://usaultimate.org/rules/",
+	"sectionScheme": "numeric",
+	"fetchedAt": "2026-07-10T01:38:38.461Z",
+	"sections": [
+		{
+			"slug": "preface",
+			"number": null,
+			"kind": "preface",
+			"title": "Preface",
+			"ruleCount": 0
+		},
+		{
+			"slug": "1",
+			"number": "1",
+			"kind": "section",
+			"title": "Introduction",
+			"ruleCount": 6
+		},
+		{
+			"slug": "2",
+			"number": "2",
+			"kind": "section",
+			"title": "Spirit of the Game",
+			"ruleCount": 48
+		},
+		{
+			"slug": "3",
+			"number": "3",
+			"kind": "section",
+			"title": "Definitions",
+			"ruleCount": 50
+		},
+		{
+			"slug": "4",
+			"number": "4",
+			"kind": "section",
+			"title": "Playing Field",
+			"ruleCount": 13
+		},
+		{
+			"slug": "5",
+			"number": "5",
+			"kind": "section",
+			"title": "Equipment",
+			"ruleCount": 9
+		},
+		{
+			"slug": "6",
+			"number": "6",
+			"kind": "section",
+			"title": "Game Structure",
+			"ruleCount": 18
+		},
+		{
+			"slug": "7",
+			"number": "7",
+			"kind": "section",
+			"title": "Timeouts",
+			"ruleCount": 60
+		},
+		{
+			"slug": "8",
+			"number": "8",
+			"kind": "section",
+			"title": "Player Substitutions",
+			"ruleCount": 4
+		},
+		{
+			"slug": "9",
+			"number": "9",
+			"kind": "section",
+			"title": "The Pull",
+			"ruleCount": 51
+		},
+		{
+			"slug": "10",
+			"number": "10",
+			"kind": "section",
+			"title": "Restarting and Continuing Play",
+			"ruleCount": 26
+		},
+		{
+			"slug": "11",
+			"number": "11",
+			"kind": "section",
+			"title": "In- and Out-of-bounds",
+			"ruleCount": 17
+		},
+		{
+			"slug": "12",
+			"number": "12",
+			"kind": "section",
+			"title": "End Zone Possession",
+			"ruleCount": 5
+		},
+		{
+			"slug": "13",
+			"number": "13",
+			"kind": "section",
+			"title": "Scoring",
+			"ruleCount": 7
+		},
+		{
+			"slug": "14",
+			"number": "14",
+			"kind": "section",
+			"title": "Turnovers",
+			"ruleCount": 12
+		},
+		{
+			"slug": "15",
+			"number": "15",
+			"kind": "section",
+			"title": "Stalling",
+			"ruleCount": 21
+		},
+		{
+			"slug": "16",
+			"number": "16",
+			"kind": "section",
+			"title": "Marking Violations",
+			"ruleCount": 23
+		},
+		{
+			"slug": "17",
+			"number": "17",
+			"kind": "section",
+			"title": "Making and Resolving Calls",
+			"ruleCount": 38
+		},
+		{
+			"slug": "18",
+			"number": "18",
+			"kind": "section",
+			"title": "Travels",
+			"ruleCount": 24
+		},
+		{
+			"slug": "19",
+			"number": "19",
+			"kind": "section",
+			"title": "Picks",
+			"ruleCount": 4
+		},
+		{
+			"slug": "20",
+			"number": "20",
+			"kind": "section",
+			"title": "Fouls",
+			"ruleCount": 29
+		},
+		{
+			"slug": "21",
+			"number": "21",
+			"kind": "section",
+			"title": "Positioning",
+			"ruleCount": 4
+		},
+		{
+			"slug": "22",
+			"number": "22",
+			"kind": "section",
+			"title": "Observers",
+			"ruleCount": 11
+		},
+		{
+			"slug": "23",
+			"number": "23",
+			"kind": "section",
+			"title": "Etiquette",
+			"ruleCount": 5
+		},
+		{
+			"slug": "appendix-a",
+			"number": "A",
+			"kind": "appendix",
+			"title": "Field Diagram",
+			"ruleCount": 0
+		},
+		{
+			"slug": "appendix-b",
+			"number": "B",
+			"kind": "appendix",
+			"title": "Mixed Rules and Adaptations",
+			"ruleCount": 19
+		},
+		{
+			"slug": "appendix-c",
+			"number": "C",
+			"kind": "appendix",
+			"title": "Misconduct System",
+			"ruleCount": 111
+		},
+		{
+			"slug": "appendix-d",
+			"number": "D",
+			"kind": "appendix",
+			"title": "Hand Signals",
+			"ruleCount": 2
+		},
+		{
+			"slug": "appendix-e",
+			"number": "E",
+			"kind": "appendix",
+			"title": "Youth Rules Adaptations",
+			"ruleCount": 4
+		},
+		{
+			"slug": "appendix-f",
+			"number": "F",
+			"kind": "appendix",
+			"title": "Beach Ultimate Rules Adaptations",
+			"ruleCount": 31
+		},
+		{
+			"slug": "appendix-g",
+			"number": "G",
+			"kind": "appendix",
+			"title": "Ultimate 4’s Rules Adaptations",
+			"ruleCount": 0
+		}
+	]
+}

@@ -1,0 +1,452 @@
+{
+	"slug": "2",
+	"anchorId": "2",
+	"number": "2",
+	"kind": "section",
+	"title": "Spirit of the Game",
+	"html": null,
+	"rules": [
+		{
+			"id": "2.A",
+			"label": "2.A.",
+			"html": "Spirit of the Game is a set of principles which places the responsibility for fair play on the <dfn data-rule=\"3.Q.10\">player</dfn>. Highly competitive play is encouraged, but never at the expense of the three core tenets of Spirit of the Game: mutual respect among competitors, adherence to the agreed upon rules, and the basic joy of play.",
+			"text": "Spirit of the Game is a set of principles which places the responsibility for fair play on the player. Highly competitive play is encouraged, but never at the expense of the three core tenets of Spirit of the Game: mutual respect among competitors, adherence to the agreed upon rules, and the basic joy of play.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "2.B",
+			"label": "2.B.",
+			"html": "All players are responsible for knowing, administering, and adhering to the rules. The integrity of ultimate depends on each <dfn data-rule=\"3.Q.10\">player</dfn>’s responsibility to uphold Spirit of the Game, and this responsibility should remain paramount.",
+			"text": "All players are responsible for knowing, administering, and adhering to the rules. The integrity of ultimate depends on each player’s responsibility to uphold Spirit of the Game, and this responsibility should remain paramount.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "2.C",
+			"label": "2.C.",
+			"html": "It is assumed that no <dfn data-rule=\"3.Q.10\">player</dfn> will intentionally violate the rules; thus there are no harsh penalties for inadvertent infractions, but rather a method for resuming play in a manner that simulates what most likely would have occurred absent the infraction. An intentional infraction is cheating and considered a gross offense against the Spirit of the Game. Players are obligated to abide by the rules and not gain advantage by knowingly committing an infraction, or calling one where none exists.",
+			"text": "It is assumed that no player will intentionally violate the rules; thus there are no harsh penalties for inadvertent infractions, but rather a method for resuming play in a manner that simulates what most likely would have occurred absent the infraction. An intentional infraction is cheating and considered a gross offense against the Spirit of the Game. Players are obligated to abide by the rules and not gain advantage by knowingly committing an infraction, or calling one where none exists.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "2.C.1",
+					"label": "2.C.1.",
+					"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> intentionally or flagrantly violates the rules, the captains of each team should discuss the incident and determine an appropriate outcome, and are not bound by any outcome dictated by these rules.",
+					"text": "If a player intentionally or flagrantly violates the rules, the captains of each team should discuss the incident and determine an appropriate outcome, and are not bound by any outcome dictated by these rules.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.C.2",
+					"label": "2.C.2.",
+					"html": "For behavior warranting sanctions pursuant to <a href=\"/rules/usau-official-2026-27/appendix-c\">Appendix C The Misconduct System</a>, team captains or coaches may remove players on their team from the game for one point or any longer duration, to help promote Spirit of the Game. Removal shall occur after a point has been scored and before the next <dfn data-rule=\"3.J\">pull</dfn>. However, in cases of ejection-worthy behavior, removal can occur at the next <dfn data-rule=\"3.M\">stoppage of play</dfn> during the current point, with permission of the opposing <dfn data-rule=\"3.Q.1\">captain</dfn>. Spirit captains should be consulted prior to removal of a <dfn data-rule=\"3.Q.10\">player</dfn>. A captain or <dfn data-rule=\"3.Q.2\">coach</dfn> may permit a removed player to return to play at any time, consistent with rules on substitutions. If a player is substituted by a team in accordance with this rule, the other team may substitute a player.",
+					"text": "For behavior warranting sanctions pursuant to Appendix C The Misconduct System, team captains or coaches may remove players on their team from the game for one point or any longer duration, to help promote Spirit of the Game. Removal shall occur after a point has been scored and before the next pull. However, in cases of ejection-worthy behavior, removal can occur at the next stoppage of play during the current point, with permission of the opposing captain. Spirit captains should be consulted prior to removal of a player. A captain or coach may permit a removed player to return to play at any time, consistent with rules on substitutions. If a player is substituted by a team in accordance with this rule, the other team may substitute a player.",
+					"annotations": [],
+					"refs": [
+						"appendix_c"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "2.D",
+			"label": "2.D.",
+			"html": "Players should be mindful of the fact that they are acting as officials in any arbitration between teams. Players must:",
+			"text": "Players should be mindful of the fact that they are acting as officials in any arbitration between teams. Players must:",
+			"annotations": [
+				"Players are required to “explain their viewpoint clearly and concisely” and “resolve disputes as quickly as possible.” As such, most discussions should not exceed thirty seconds before either reaching a resolution or requesting an observer to resolve the dispute. If both players have had an opportunity to state their viewpoint and it is clear that an agreement will not be reached, players have an obligation to accept that the call is contested and resolve it as such. Where a dispute exists regarding what a rule says, the players may agree to consult a rulebook."
+			],
+			"refs": [],
+			"children": [
+				{
+					"id": "2.D.1",
+					"label": "2.D.1.",
+					"html": "know and abide by the rules;",
+					"text": "know and abide by the rules;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.2",
+					"label": "2.D.2.",
+					"html": "make calls only where an infraction is significant enough to make a difference to the outcome of the action or where a <dfn data-rule=\"3.Q.10\">player</dfn>’s safety is at risk;",
+					"text": "make calls only where an infraction is significant enough to make a difference to the outcome of the action or where a player’s safety is at risk;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.3",
+					"label": "2.D.3.",
+					"html": "be fair-minded and objective;",
+					"text": "be fair-minded and objective;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.4",
+					"label": "2.D.4.",
+					"html": "be truthful;",
+					"text": "be truthful;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.5",
+					"label": "2.D.5.",
+					"html": "explain their viewpoint clearly and concisely;",
+					"text": "explain their viewpoint clearly and concisely;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.6",
+					"label": "2.D.6.",
+					"html": "allow opponents an opportunity to speak;",
+					"text": "allow opponents an opportunity to speak;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.7",
+					"label": "2.D.7.",
+					"html": "listen to and consider opponent’s viewpoint;",
+					"text": "listen to and consider opponent’s viewpoint;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.8",
+					"label": "2.D.8.",
+					"html": "treat your opponents with consideration;",
+					"text": "treat your opponents with consideration;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.9",
+					"label": "2.D.9.",
+					"html": "be conscious of the impact of your words and body language;",
+					"text": "be conscious of the impact of your words and body language;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.10",
+					"label": "2.D.10.",
+					"html": "resolve disputes efficiently;",
+					"text": "resolve disputes efficiently;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.11",
+					"label": "2.D.11.",
+					"html": "make calls in a consistent manner throughout the game and from <dfn data-rule=\"3.Q.10\">player</dfn> to player; and",
+					"text": "make calls in a consistent manner throughout the game and from player to player; and",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.D.12",
+					"label": "2.D.12.",
+					"html": "acknowledge potential bias and preconceptions in order to treat every <dfn data-rule=\"3.Q.10\">player</dfn> equitably.",
+					"text": "acknowledge potential bias and preconceptions in order to treat every player equitably.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "2.E",
+			"label": "2.E.",
+			"html": "The following are examples of actions to support good Spirit. While the absence of these actions is not necessarily an indication of poor Spirit, the examples illustrate ways to uphold core tenets of Spirit of the Game:",
+			"text": "The following are examples of actions to support good Spirit. While the absence of these actions is not necessarily an indication of poor Spirit, the examples illustrate ways to uphold core tenets of Spirit of the Game:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "2.E.1",
+					"label": "2.E.1.",
+					"html": "playing safely by actively avoiding unnecessary body contact;",
+					"text": "playing safely by actively avoiding unnecessary body contact;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.2",
+					"label": "2.E.2.",
+					"html": "working as a team to ensure that all players have an excellent knowledge of the rules;",
+					"text": "working as a team to ensure that all players have an excellent knowledge of the rules;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.3",
+					"label": "2.E.3.",
+					"html": "bringing up Spirit issues with opponents as early as possible;",
+					"text": "bringing up Spirit issues with opponents as early as possible;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.4",
+					"label": "2.E.4.",
+					"html": "establishing lines of communication to address Spirit and safety issues (e.g. <dfn data-rule=\"3.Q.13\">Spirit captain</dfn> pregame and halftime meetings; calling a Spirit timeout if needed);",
+					"text": "establishing lines of communication to address Spirit and safety issues (e.g. Spirit captain pregame and halftime meetings; calling a Spirit timeout if needed);",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.5",
+					"label": "2.E.5.",
+					"html": "informing a teammate if they have made a wrong or unnecessary call, caused a <dfn data-rule=\"3.B\">foul</dfn> or <dfn data-rule=\"3.P\">violation</dfn>, or need a clarification of a rule;",
+					"text": "informing a teammate if they have made a wrong or unnecessary call, caused a foul or violation, or need a clarification of a rule;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.6",
+					"label": "2.E.6.",
+					"html": "retracting a call when you no longer believe the call was necessary or believe that it was made in error and should not have been called;",
+					"text": "retracting a call when you no longer believe the call was necessary or believe that it was made in error and should not have been called;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.7",
+					"label": "2.E.7.",
+					"html": "acknowledging exciting plays and good Spirit by both teams;",
+					"text": "acknowledging exciting plays and good Spirit by both teams;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.8",
+					"label": "2.E.8.",
+					"html": "checking in with an opponent on the sideline after a contentious interaction;",
+					"text": "checking in with an opponent on the sideline after a contentious interaction;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.9",
+					"label": "2.E.9.",
+					"html": "making and/or discussing calls about contact that could be considered a <dfn data-rule=\"3.B\">foul</dfn> in order to keep players safe;",
+					"text": "making and/or discussing calls about contact that could be considered a foul in order to keep players safe;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.10",
+					"label": "2.E.10.",
+					"html": "connecting with or introducing yourself to an opponent on the sideline;",
+					"text": "connecting with or introducing yourself to an opponent on the sideline;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.11",
+					"label": "2.E.11.",
+					"html": "keeping communication open and engaging in a way that seeks to de-escalate disputed situations; and",
+					"text": "keeping communication open and engaging in a way that seeks to de-escalate disputed situations; and",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.E.12",
+					"label": "2.E.12.",
+					"html": "participating in a pre- or post-game Spirit circle that includes Spirit highlights and constructive Spirit feedback (if needed) for each team;",
+					"text": "participating in a pre- or post-game Spirit circle that includes Spirit highlights and constructive Spirit feedback (if needed) for each team;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "2.F",
+			"label": "2.F.",
+			"html": "The following actions are clear violations of Spirit of the Game and must be avoided by all participants:",
+			"text": "The following actions are clear violations of Spirit of the Game and must be avoided by all participants:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "2.F.1",
+					"label": "2.F.1.",
+					"html": "reckless play or dangerously aggressive behavior;",
+					"text": "reckless play or dangerously aggressive behavior;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.2",
+					"label": "2.F.2.",
+					"html": "intentional fouling or other intentional rule violations;",
+					"text": "intentional fouling or other intentional rule violations;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.3",
+					"label": "2.F.3.",
+					"html": "taunting or intimidating opposing players;",
+					"text": "taunting or intimidating opposing players;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.4",
+					"label": "2.F.4.",
+					"html": "celebration that is targeted towards an opponent in a negative or aggressive manner;",
+					"text": "celebration that is targeted towards an opponent in a negative or aggressive manner;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.5",
+					"label": "2.F.5.",
+					"html": "intentionally damaging equipment;",
+					"text": "intentionally damaging equipment;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.6",
+					"label": "2.F.6.",
+					"html": "intentional interference by a <dfn data-rule=\"3.Q.7\">non-player</dfn> with an in-play disc in the air;",
+					"text": "intentional interference by a non-player with an in-play disc in the air;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.7",
+					"label": "2.F.7.",
+					"html": "making calls in retaliation to an opponent’s calls or other actions;",
+					"text": "making calls in retaliation to an opponent’s calls or other actions;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.8",
+					"label": "2.F.8.",
+					"html": "allowing preconceived expectations, biases (e.g., microaggressions), or previous interactions or encounters with a <dfn data-rule=\"3.Q.10\">player</dfn> or team to affect how game situations are reacted to and judged; and",
+					"text": "allowing preconceived expectations, biases (e.g., microaggressions), or previous interactions or encounters with a player or team to affect how game situations are reacted to and judged; and",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.F.9",
+					"label": "2.F.9.",
+					"html": "other win-at-all-costs behavior.",
+					"text": "other win-at-all-costs behavior.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "2.G",
+			"label": "2.G.",
+			"html": "Teams are guardians of Spirit of the Game, and must:",
+			"text": "Teams are guardians of Spirit of the Game, and must:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "2.G.1",
+					"label": "2.G.1.",
+					"html": "take responsibility for teaching their players the rules and good Spirit;",
+					"text": "take responsibility for teaching their players the rules and good Spirit;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.G.2",
+					"label": "2.G.2.",
+					"html": "hold team members accountable when they display poor Spirit;",
+					"text": "hold team members accountable when they display poor Spirit;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.G.3",
+					"label": "2.G.3.",
+					"html": "provide constructive feedback to other teams about what they are doing well and/or how to improve their adherence to Spirit of the Game; and",
+					"text": "provide constructive feedback to other teams about what they are doing well and/or how to improve their adherence to Spirit of the Game; and",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "2.G.4",
+					"label": "2.G.4.",
+					"html": "be aware regarding the potential for implicit biases to impact play and Spirit of the Game.",
+					"text": "be aware regarding the potential for implicit biases to impact play and Spirit of the Game.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "2.G.4.a",
+							"label": "2.G.4.a.",
+							"html": "Players and team leaders should acknowledge and recognize that the implementation of Spirit of the Game is susceptible to bias. Team leaders should be mindful of and encourage their teammates to be mindful of their own biases when considering and discussing interactions with, and impressions of, other teams as well as their own team. Understand that intent and impact are not the same. The intent of a person’s statement or gesture may be neutral or positive to them, but the impact of what they say or do may be harmful or hurtful to others.",
+							"text": "Players and team leaders should acknowledge and recognize that the implementation of Spirit of the Game is susceptible to bias. Team leaders should be mindful of and encourage their teammates to be mindful of their own biases when considering and discussing interactions with, and impressions of, other teams as well as their own team. Understand that intent and impact are not the same. The intent of a person’s statement or gesture may be neutral or positive to them, but the impact of what they say or do may be harmful or hurtful to others.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "2.H",
+			"label": "2.H.",
+			"html": "In the case where a novice <dfn data-rule=\"3.Q.10\">player</dfn> commits an infraction out of ignorance of the rules, experienced players are obliged to explain the infraction and clarify what should happen.",
+			"text": "In the case where a novice player commits an infraction out of ignorance of the rules, experienced players are obliged to explain the infraction and clarify what should happen.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

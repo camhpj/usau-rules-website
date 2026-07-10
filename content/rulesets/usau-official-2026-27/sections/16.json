@@ -1,0 +1,244 @@
+{
+	"slug": "16",
+	"anchorId": "16",
+	"number": "16",
+	"kind": "section",
+	"title": "Marking Violations",
+	"html": null,
+	"rules": [
+		{
+			"id": "16.A",
+			"label": "16.A.",
+			"html": "Marking violations are infractions committed against the <dfn data-rule=\"3.O\">thrower</dfn> by the <dfn data-rule=\"3.Q.6\">marker</dfn> or another defensive <dfn data-rule=\"3.Q.10\">player</dfn> close to the thrower, as outlined below.",
+			"text": "Marking violations are infractions committed against the thrower by the marker or another defensive player close to the thrower, as outlined below.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "16.B",
+			"label": "16.B.",
+			"html": "Only the <dfn data-rule=\"3.O\">thrower</dfn> may call a marking <dfn data-rule=\"3.P\">violation</dfn>, and to do so must call out the name of the specific marking violation.",
+			"text": "Only the thrower may call a marking violation, and to do so must call out the name of the specific marking violation.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "16.C",
+			"label": "16.C.",
+			"html": "When a marking <dfn data-rule=\"3.P\">violation</dfn> is called, play does not stop. The violation must be corrected before the <dfn data-rule=\"3.Q.6\">marker</dfn> can resume the stall count with the number last uttered before the call minus one (e.g., “stalling one…two…three…” “fast count” “…two…three…”). If the marker resumes the stall count before the defense corrects a marking violation, it is another instance of the original marking violation, which may be called by the <dfn data-rule=\"3.O\">thrower</dfn>.",
+			"text": "When a marking violation is called, play does not stop. The violation must be corrected before the marker can resume the stall count with the number last uttered before the call minus one (e.g., “stalling one…two…three…” “fast count” “…two…three…”). If the marker resumes the stall count before the defense corrects a marking violation, it is another instance of the original marking violation, which may be called by the thrower.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "16.D",
+			"label": "16.D.",
+			"html": "If the defense commits a marking <dfn data-rule=\"3.P\">violation</dfn> after being called for a marking violation during the same stall count (<a href=\"/rules/usau-official-2026-27/15#15.B\">15.B</a>) but before the <dfn data-rule=\"3.O\">thrower</dfn> is in the act of throwing, the thrower may choose to either call another marking violation or to treat the marking violation as a general defensive violation (<a href=\"/rules/usau-official-2026-27/17\">17</a>). To treat it as a general violation, the thrower must call “violation.”",
+			"text": "If the defense commits a marking violation after being called for a marking violation during the same stall count (15.B) but before the thrower is in the act of throwing, the thrower may choose to either call another marking violation or to treat the marking violation as a general defensive violation (17). To treat it as a general violation, the thrower must call “violation.”",
+			"annotations": [],
+			"refs": [
+				"15.B",
+				"17"
+			],
+			"children": []
+		},
+		{
+			"id": "16.E",
+			"label": "16.E.",
+			"html": "Marking violations are: Fast count, double team, disc space, straddle, wrapping, and vision blocking.",
+			"text": "Marking violations are: Fast count, double team, disc space, straddle, wrapping, and vision blocking.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "16.F",
+			"label": "16.F.",
+			"html": "Fast count:",
+			"text": "Fast count:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "16.F.1",
+					"label": "16.F.1.",
+					"html": "If the <dfn data-rule=\"3.Q.6\">marker</dfn> does not say “stalling” to initiate or resume a stall count, counts at intervals of less than one second, or skips a number in the count, it is a fast count.",
+					"text": "If the marker does not say “stalling” to initiate or resume a stall count, counts at intervals of less than one second, or skips a number in the count, it is a fast count.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "16.F.2",
+					"label": "16.F.2.",
+					"html": "If a fast count occurs in such a manner that the <dfn data-rule=\"3.O\">thrower</dfn> does not have a reasonable opportunity to call fast count before the first utterance of the word ten, the play is treated as a contested stall (<a href=\"/rules/usau-official-2026-27/15#15.D.2\">15.D.2</a>).",
+					"text": "If a fast count occurs in such a manner that the thrower does not have a reasonable opportunity to call fast count before the first utterance of the word ten, the play is treated as a contested stall (15.D.2).",
+					"annotations": [],
+					"refs": [
+						"15.D.2"
+					],
+					"children": []
+				},
+				{
+					"id": "16.F.3",
+					"label": "16.F.3.",
+					"html": "If this (<a href=\"/rules/usau-official-2026-27/16#16.F.2\">16.F.2</a>) occurs in the same possession following a contested stall (either due to <a href=\"/rules/usau-official-2026-27/16#16.F.1\">16.F.1</a> or <a href=\"/rules/usau-official-2026-27/15#15.D.2\">15.D.2</a>), the stall count resumes at six.",
+					"text": "If this (16.F.2) occurs in the same possession following a contested stall (either due to 16.F.1 or 15.D.2), the stall count resumes at six.",
+					"annotations": [],
+					"refs": [
+						"16.F.2",
+						"16.F.1",
+						"15.D.2"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "16.G",
+			"label": "16.G.",
+			"html": "Double team: If a defensive <dfn data-rule=\"3.Q.10\">player</dfn> other than the <dfn data-rule=\"3.Q.6\">marker</dfn> is within 10 feet of any <dfn data-rule=\"3.H\">pivot</dfn> of the <dfn data-rule=\"3.O\">thrower</dfn> without also being within 10 feet of and <dfn data-rule=\"3.D\">guarding</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.D\">3.D</a>) another <dfn data-rule=\"3.Q.9\">offensive player</dfn>, it is a double team. However, merely running across this area is not a double team.",
+			"text": "Double team: If a defensive player other than the marker is within 10 feet of any pivot of the thrower without also being within 10 feet of and guarding (3.D) another offensive player, it is a double team. However, merely running across this area is not a double team.",
+			"annotations": [
+				"“Merely running” means running for the exclusive purpose of reaching the other side. Running with an ulterior motive of interfering with the thrower in any way is not “merely running” and is a double team."
+			],
+			"refs": [
+				"3.D"
+			],
+			"children": []
+		},
+		{
+			"id": "16.H",
+			"label": "16.H.",
+			"html": "Disc space:",
+			"text": "Disc space:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "16.H.1",
+					"label": "16.H.1.",
+					"html": "It is a disc space <dfn data-rule=\"3.P\">violation</dfn> if:",
+					"text": "It is a disc space violation if:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "16.H.1.a",
+							"label": "16.H.1.a.",
+							"html": "any part of the <dfn data-rule=\"3.Q.6\">marker</dfn> is less than one disc diameter away from the torso of the <dfn data-rule=\"3.O\">thrower</dfn>; or",
+							"text": "any part of the marker is less than one disc diameter away from the torso of the thrower; or",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "16.H.1.b",
+							"label": "16.H.1.b.",
+							"html": "a <dfn data-rule=\"3.G\">line</dfn> between any two points on the <dfn data-rule=\"3.Q.6\">marker</dfn>",
+							"text": "a line between any two points on the marker",
+							"annotations": [],
+							"refs": [],
+							"children": [
+								{
+									"id": "16.H.1.b.1",
+									"label": "16.H.1.b.1.",
+									"html": "touches the <dfn data-rule=\"3.O\">thrower</dfn>; or",
+									"text": "touches the thrower; or",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								},
+								{
+									"id": "16.H.1.b.2",
+									"label": "16.H.1.b.2.",
+									"html": "is less than one disc diameter away from the torso or <dfn data-rule=\"3.H\">pivot</dfn> of the <dfn data-rule=\"3.O\">thrower</dfn>.",
+									"text": "is less than one disc diameter away from the torso or pivot of the thrower.",
+									"annotations": [],
+									"refs": [],
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "16.H.2",
+					"label": "16.H.2.",
+					"html": "Straddle: If a <dfn data-rule=\"3.G\">line</dfn> between the <dfn data-rule=\"3.Q.6\">marker</dfn>’s feet is less than one disc diameter away from the <dfn data-rule=\"3.H\">pivot</dfn> of the <dfn data-rule=\"3.O\">thrower</dfn>, it is a straddle <dfn data-rule=\"3.P\">violation</dfn>.",
+					"text": "Straddle: If a line between the marker’s feet is less than one disc diameter away from the pivot of the thrower, it is a straddle violation.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "16.H.3",
+					"label": "16.H.3.",
+					"html": "Wrapping: If a <dfn data-rule=\"3.G\">line</dfn> between the <dfn data-rule=\"3.Q.6\">marker</dfn>’s hands is less than one disc diameter away from the torso or <dfn data-rule=\"3.H\">pivot</dfn> of the <dfn data-rule=\"3.O\">thrower</dfn>, it is a wrapping <dfn data-rule=\"3.P\">violation</dfn>.",
+					"text": "Wrapping: If a line between the marker’s hands is less than one disc diameter away from the torso or pivot of the thrower, it is a wrapping violation.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "16.H.4",
+					"label": "16.H.4.",
+					"html": "The <dfn data-rule=\"3.O\">thrower</dfn> may choose to call “disc space” for both straddle and wrapping violations as they are a subset of disc space violations.",
+					"text": "The thrower may choose to call “disc space” for both straddle and wrapping violations as they are a subset of disc space violations.",
+					"annotations": [
+						"However, the thrower may also choose to call the more specific violation for clearer communication to the marker about what needs to be corrected."
+					],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "16.H.5",
+					"label": "16.H.5.",
+					"html": "However, if any of the above situations are caused solely by movement of the <dfn data-rule=\"3.O\">thrower</dfn>, it is not a <dfn data-rule=\"3.P\">violation</dfn>.",
+					"text": "However, if any of the above situations are caused solely by movement of the thrower, it is not a violation.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "16.I",
+			"label": "16.I.",
+			"html": "Vision blocking: If the <dfn data-rule=\"3.Q.6\">marker</dfn> deliberately blocks the <dfn data-rule=\"3.O\">thrower</dfn>’s vision, it is a vision blocking <dfn data-rule=\"3.P\">violation</dfn>.",
+			"text": "Vision blocking: If the marker deliberately blocks the thrower’s vision, it is a vision blocking violation.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "16.J",
+			"label": "16.J.",
+			"html": "The <dfn data-rule=\"3.Q.6\">marker</dfn> may contest a marking <dfn data-rule=\"3.P\">violation</dfn> by calling “violation.” This contest is treated as the call of an offensive violation, and the Continuation Rule (<a href=\"/rules/usau-official-2026-27/17#17.C\">17.C</a>) applies.",
+			"text": "The marker may contest a marking violation by calling “violation.” This contest is treated as the call of an offensive violation, and the Continuation Rule (17.C) applies.",
+			"annotations": [
+				"It is the marker’s responsibility to announce if play was affected for the purpose of the Continuation Rule (17.C). Generally speaking, due to 17.J, calls made by another player cannot be said to affect play. However, in limited situations for contested marking violation calls, when the marker diverts their attention away from marking while reasonably and quickly assessing the conditions to the thrower’s marking violation call, the marker could determine that play was affected. For example, the thrower calls straddle, and while the marker is looking at their feet to assess their marking position, the thrower completes a throw around the marker. If the marker subsequently contests the straddle because they assessed that they weren’t committing a marking violation, they could claim that play was affected and the disc should be returned to the thrower. It is the thrower’s responsibility to stop play as soon as possible after the marker makes their call contesting the marking violation (17.D)."
+			],
+			"refs": [
+				"17.C"
+			],
+			"children": []
+		},
+		{
+			"id": "16.K",
+			"label": "16.K.",
+			"html": "Flagrant marking infractions are immediately callable as a general <dfn data-rule=\"3.P\">violation</dfn> and are also covered under <a href=\"/rules/usau-official-2026-27/2#2.C.1\">2.C.1</a>.",
+			"text": "Flagrant marking infractions are immediately callable as a general violation and are also covered under 2.C.1.",
+			"annotations": [
+				"One example of a flagrant marking infraction would be skipping multiple numbers or intervals at a time in a stall count."
+			],
+			"refs": [
+				"2.C.1"
+			],
+			"children": []
+		}
+	]
+}

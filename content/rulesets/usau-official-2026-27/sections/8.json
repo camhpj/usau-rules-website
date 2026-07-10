@@ -1,0 +1,54 @@
+{
+	"slug": "8",
+	"anchorId": "8",
+	"number": "8",
+	"kind": "section",
+	"title": "Player Substitutions",
+	"html": null,
+	"rules": [
+		{
+			"id": "8.A",
+			"label": "8.A.",
+			"html": "<dfn data-rule=\"3.Q.10\">Player</dfn> substitutions can be completed only:",
+			"text": "Player substitutions can be completed only:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "8.A.1",
+					"label": "8.A.1.",
+					"html": "after a goal and before the substituting team has signaled readiness; or",
+					"text": "after a goal and before the substituting team has signaled readiness; or",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "8.A.2",
+					"label": "8.A.2.",
+					"html": "to replace injured players, replace players with illegal equipment (<a href=\"/rules/usau-official-2026-27/7#7.D.3\">7.D.3</a>), to resolve an incorrect personnel <dfn data-rule=\"3.P\">violation</dfn> (<a href=\"/rules/usau-official-2026-27/9#9.C.1\">9.C.1</a>), or to replace a <dfn data-rule=\"3.Q.10\">player</dfn> removed due to misconduct (<a href=\"/rules/usau-official-2026-27/2#2.C.2\">2.C.2</a>, <a href=\"/rules/usau-official-2026-27/appendix-c#C3.B.6\">C3.B.6</a>). In this case, the opposing team may substitute a like number of, or fewer, players.",
+					"text": "to replace injured players, replace players with illegal equipment (7.D.3), to resolve an incorrect personnel violation (9.C.1), or to replace a player removed due to misconduct (2.C.2, C3.B.6). In this case, the opposing team may substitute a like number of, or fewer, players.",
+					"annotations": [],
+					"refs": [
+						"7.D.3",
+						"9.C.1",
+						"2.C.2",
+						"C3.B.6"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "8.B",
+			"label": "8.B.",
+			"html": "Substitutions are not permitted following a re-<dfn data-rule=\"3.J\">pull</dfn> call, unless in accordance with <a href=\"/rules/usau-official-2026-27/8#8.A.2\">8.A.2</a>.",
+			"text": "Substitutions are not permitted following a re-pull call, unless in accordance with 8.A.2.",
+			"annotations": [],
+			"refs": [
+				"8.A.2"
+			],
+			"children": []
+		}
+	]
+}

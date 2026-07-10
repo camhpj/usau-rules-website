@@ -1,0 +1,187 @@
+{
+	"slug": "6",
+	"anchorId": "6",
+	"number": "6",
+	"kind": "section",
+	"title": "Game Structure",
+	"html": null,
+	"rules": [
+		{
+			"id": "6.A",
+			"label": "6.A.",
+			"html": "Start of the game:",
+			"text": "Start of the game:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "6.A.1",
+					"label": "6.A.1.",
+					"html": "Representatives of the two teams fairly determine which team chooses to",
+					"text": "Representatives of the two teams fairly determine which team chooses to",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "6.A.1.a",
+							"label": "6.A.1.a.",
+							"html": "receive or <dfn data-rule=\"3.N\">throw</dfn> the initial <dfn data-rule=\"3.J\">pull</dfn>; or",
+							"text": "receive or throw the initial pull; or",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "6.A.1.b",
+							"label": "6.A.1.b.",
+							"html": "which end zone they wish to initially defend.",
+							"text": "which end zone they wish to initially defend.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "6.A.2",
+					"label": "6.A.2.",
+					"html": "The other team gets the remaining choice.",
+					"text": "The other team gets the remaining choice.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "6.A.3",
+					"label": "6.A.3.",
+					"html": "The second half begins with a reversal of the initial choices.",
+					"text": "The second half begins with a reversal of the initial choices.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "6.A.4",
+					"label": "6.A.4.",
+					"html": "If only one team fails to signal readiness for the start of a scheduled game, the opposing team may be awarded goals by the <dfn data-rule=\"3.Q.4\">event organizer</dfn> at a rate of one goal for every five minutes elapsed after the posted start time.",
+					"text": "If only one team fails to signal readiness for the start of a scheduled game, the opposing team may be awarded goals by the event organizer at a rate of one goal for every five minutes elapsed after the posted start time.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "6.B",
+			"label": "6.B.",
+			"html": "The game total is the predetermined number of goals to win the game. A game is played until one team first reaches the game total.",
+			"text": "The game total is the predetermined number of goals to win the game. A game is played until one team first reaches the game total.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "6.B.1",
+					"label": "6.B.1.",
+					"html": "A standard game has a game total of 15.",
+					"text": "A standard game has a game total of 15.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "6.C",
+			"label": "6.C.",
+			"html": "The halftime target is the minimum number of goals necessary to reach or exceed half of the game total. Halftime begins when one team’s score first reaches the halftime target.",
+			"text": "The halftime target is the minimum number of goals necessary to reach or exceed half of the game total. Halftime begins when one team’s score first reaches the halftime target.",
+			"annotations": [
+				"In a game with a game total of 15, the halftime target will be 8."
+			],
+			"refs": [],
+			"children": [
+				{
+					"id": "6.C.1",
+					"label": "6.C.1.",
+					"html": "A standard halftime is 7 minutes. At the end of halftime, the standard time between pulls (<a href=\"/rules/usau-official-2026-27/9#9.K\">9.K</a>) begins.",
+					"text": "A standard halftime is 7 minutes. At the end of halftime, the standard time between pulls (9.K) begins.",
+					"annotations": [
+						"From the end of halftime, the offense has 50 seconds to line up and 60 seconds to signal readiness, and the defense has 80 seconds to pull."
+					],
+					"refs": [
+						"9.K"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "6.D",
+			"label": "6.D.",
+			"html": "Time Caps",
+			"text": "Time Caps",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "6.D.1",
+					"label": "6.D.1.",
+					"html": "The soft cap occurs once a predetermined time of play has elapsed. At the soft cap, play continues until the current <dfn data-rule=\"3.K\">scoring attempt</dfn> is completed. If, after the current scoring attempt is completed, the game total has not yet been reached by one team, one is added to the higher score and the resulting number is the new game total.",
+					"text": "The soft cap occurs once a predetermined time of play has elapsed. At the soft cap, play continues until the current scoring attempt is completed. If, after the current scoring attempt is completed, the game total has not yet been reached by one team, one is added to the higher score and the resulting number is the new game total.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "6.D.1.a",
+							"label": "6.D.1.a.",
+							"html": "If the soft cap occurs during the halftime break, the new game total is one more than the higher score.",
+							"text": "If the soft cap occurs during the halftime break, the new game total is one more than the higher score.",
+							"annotations": [
+								"Don’t play a point and then add one."
+							],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "6.D.2",
+					"label": "6.D.2.",
+					"html": "The hard cap is the ending of the game once a predetermined time of play has elapsed. At the hard cap, play continues until the current <dfn data-rule=\"3.K\">scoring attempt</dfn> is completed. If, after the current scoring attempt is completed, the score is tied, play continues until one additional goal is scored. Otherwise, the game ends. The team with the most goals at the end of the game is the winner.",
+					"text": "The hard cap is the ending of the game once a predetermined time of play has elapsed. At the hard cap, play continues until the current scoring attempt is completed. If, after the current scoring attempt is completed, the score is tied, play continues until one additional goal is scored. Otherwise, the game ends. The team with the most goals at the end of the game is the winner.",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "6.D.2.a",
+							"label": "6.D.2.a.",
+							"html": "If the hard cap occurs during the halftime break, the game is over and the team with the higher score is the winner.",
+							"text": "If the hard cap occurs during the halftime break, the game is over and the team with the higher score is the winner.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				},
+				{
+					"id": "6.D.3",
+					"label": "6.D.3.",
+					"html": "The halftime cap occurs once a predetermined time of play has elapsed. At the halftime cap, play continues until the current <dfn data-rule=\"3.K\">scoring attempt</dfn> is completed. If, after the current scoring attempt is completed, the halftime target has not yet been reached by one team, one is added to the higher score and the resulting number is the new halftime target.",
+					"text": "The halftime cap occurs once a predetermined time of play has elapsed. At the halftime cap, play continues until the current scoring attempt is completed. If, after the current scoring attempt is completed, the halftime target has not yet been reached by one team, one is added to the higher score and the resulting number is the new halftime target.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "6.D.4",
+					"label": "6.D.4.",
+					"html": "If there is a call or dispute surrounding the goal-scoring play and the resolution results in a goal being awarded, the current <dfn data-rule=\"3.K\">scoring attempt</dfn> is considered to be completed at the time of the goal-scoring catch, not after the discussion.",
+					"text": "If there is a call or dispute surrounding the goal-scoring play and the resolution results in a goal being awarded, the current scoring attempt is considered to be completed at the time of the goal-scoring catch, not after the discussion.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}

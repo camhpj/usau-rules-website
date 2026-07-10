@@ -1,0 +1,176 @@
+{
+	"slug": "11",
+	"anchorId": "11",
+	"number": "11",
+	"kind": "section",
+	"title": "In- and Out-of-bounds",
+	"html": null,
+	"rules": [
+		{
+			"id": "11.A",
+			"label": "11.A.",
+			"html": "The entire playing field is in-bounds. The perimeter lines are not part of the playing field and are out-of-bounds.",
+			"text": "The entire playing field is in-bounds. The perimeter lines are not part of the playing field and are out-of-bounds.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "11.B",
+			"label": "11.B.",
+			"html": "The out-of-bounds area consists of the ground which is not in-bounds and everything in contact (direct or indirect) with it except for players. Any non-players other than observers are considered part of the out-of-bounds area. A disc does not change in- or out-of-bounds status when contacted by an <dfn data-rule=\"3.Q.8\">observer</dfn>.",
+			"text": "The out-of-bounds area consists of the ground which is not in-bounds and everything in contact (direct or indirect) with it except for players. Any non-players other than observers are considered part of the out-of-bounds area. A disc does not change in- or out-of-bounds status when contacted by an observer.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "11.C",
+			"label": "11.C.",
+			"html": "A <dfn data-rule=\"3.Q.10\">player</dfn> contacting the out-of-bounds area is out-of-bounds. A player who is not out-of-bounds is in-bounds. An airborne player retains in-bounds or out-of-bounds status until that player contacts the playing field or the out-of-bounds area. The following exceptions apply:",
+			"text": "A player contacting the out-of-bounds area is out-of-bounds. A player who is not out-of-bounds is in-bounds. An airborne player retains in-bounds or out-of-bounds status until that player contacts the playing field or the out-of-bounds area. The following exceptions apply:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "11.C.1",
+					"label": "11.C.1.",
+					"html": "If momentum carries a <dfn data-rule=\"3.Q.10\">player</dfn> out-of-bounds after landing in-bounds with possession of an in-bounds disc, the player is considered in-bounds. For this exception to apply, that player’s first point of <dfn data-rule=\"3.C\">ground contact</dfn> with any area must be completely in-bounds. The disc is put into play at the spot on the edge of the playing field where the player first went out-of-bounds (unless <a href=\"/rules/usau-official-2026-27/12#12.A.2\">12.A.2</a> applies). If the player traversed the end zone being attacked, <a href=\"/rules/usau-official-2026-27/12#12.B\">12.B</a> applies.",
+					"text": "If momentum carries a player out-of-bounds after landing in-bounds with possession of an in-bounds disc, the player is considered in-bounds. For this exception to apply, that player’s first point of ground contact with any area must be completely in-bounds. The disc is put into play at the spot on the edge of the playing field where the player first went out-of-bounds (unless 12.A.2 applies). If the player traversed the end zone being attacked, 12.B applies.",
+					"annotations": [],
+					"refs": [
+						"12.A.2",
+						"12.B"
+					],
+					"children": []
+				},
+				{
+					"id": "11.C.2",
+					"label": "11.C.2.",
+					"html": "A <dfn data-rule=\"3.O\">thrower</dfn> who has established a <dfn data-rule=\"3.H\">pivot</dfn> may contact an out-of-bounds area while pivoting and is considered in-bounds while in <dfn data-rule=\"3.I\">possession of the disc</dfn>.",
+					"text": "A thrower who has established a pivot may contact an out-of-bounds area while pivoting and is considered in-bounds while in possession of the disc.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "11.C.3",
+					"label": "11.C.3.",
+					"html": "Contact between players does not confer the state of being in- or out-of-bounds from one to another.",
+					"text": "Contact between players does not confer the state of being in- or out-of-bounds from one to another.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "11.C.4",
+					"label": "11.C.4.",
+					"html": "If a <dfn data-rule=\"3.Q.10\">player</dfn> catches an in-bounds disc and would reasonably have been able to land in-bounds, but lands on an opposing player in a way that causes their first <dfn data-rule=\"3.C\">ground contact</dfn> to be out-of-bounds, this is to be treated as a force-out <dfn data-rule=\"3.B\">foul</dfn> and <a href=\"/rules/usau-official-2026-27/20#20.E.2.d\">20.E.2.d</a> applies. For this exception to apply, the play resulting in the landing contact cannot be construed as a dangerous play.",
+					"text": "If a player catches an in-bounds disc and would reasonably have been able to land in-bounds, but lands on an opposing player in a way that causes their first ground contact to be out-of-bounds, this is to be treated as a force-out foul and 20.E.2.d applies. For this exception to apply, the play resulting in the landing contact cannot be construed as a dangerous play.",
+					"annotations": [
+						"In this case, calls will be resolved in chronological order with the dangerous play superseding the force-out foul."
+					],
+					"refs": [
+						"20.E.2.d"
+					],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "11.D",
+			"label": "11.D.",
+			"html": "A disc becomes in-bounds when it is put into play, or when play starts or restarts.",
+			"text": "A disc becomes in-bounds when it is put into play, or when play starts or restarts.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "11.E",
+			"label": "11.E.",
+			"html": "A disc becomes out-of-bounds when it first contacts the out-of-bounds area, contacts an out-of-bounds <dfn data-rule=\"3.Q.9\">offensive player</dfn>, or is caught by an out-of-bounds defensive <dfn data-rule=\"3.Q.10\">player</dfn>.",
+			"text": "A disc becomes out-of-bounds when it first contacts the out-of-bounds area, contacts an out-of-bounds offensive player, or is caught by an out-of-bounds defensive player.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "11.F",
+			"label": "11.F.",
+			"html": "The disc may fly outside a perimeter <dfn data-rule=\"3.G\">line</dfn> and return to the playing field, and players may go out-of-bounds to make a play on the disc.",
+			"text": "The disc may fly outside a perimeter line and return to the playing field, and players may go out-of-bounds to make a play on the disc.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "11.G",
+			"label": "11.G.",
+			"html": "If an in-bounds defender gains possession while airborne and becomes out-of-bounds while still in <dfn data-rule=\"3.I\">possession of the disc</dfn>, the play is treated as if the defender was out-of-bounds when possession was gained (<a href=\"/rules/usau-official-2026-27/11#11.E\">11.E</a>).",
+			"text": "If an in-bounds defender gains possession while airborne and becomes out-of-bounds while still in possession of the disc, the play is treated as if the defender was out-of-bounds when possession was gained (11.E).",
+			"annotations": [],
+			"refs": [
+				"11.E"
+			],
+			"children": []
+		},
+		{
+			"id": "11.H",
+			"label": "11.H.",
+			"html": "To continue play after the disc becomes out-of-bounds, a member of the team gaining <dfn data-rule=\"3.I\">possession of the disc</dfn> must carry it to, and put it into play at, the spot on the central zone nearest to where the most recent of the following events occurred: After establishing a <dfn data-rule=\"3.H\">pivot</dfn> at the appropriate spot on the field, the <dfn data-rule=\"3.O\">thrower</dfn> must touch the disc to the ground before putting it into play (<a href=\"/rules/usau-official-2026-27/10#10.C\">10.C</a>).",
+			"text": "To continue play after the disc becomes out-of-bounds, a member of the team gaining possession of the disc must carry it to, and put it into play at, the spot on the central zone nearest to where the most recent of the following events occurred: After establishing a pivot at the appropriate spot on the field, the thrower must touch the disc to the ground before putting it into play (10.C).",
+			"annotations": [],
+			"refs": [
+				"10.C"
+			],
+			"children": [
+				{
+					"id": "11.H.1",
+					"label": "11.H.1.",
+					"html": "the disc completely crossed the inside of the perimeter <dfn data-rule=\"3.G\">line</dfn>;",
+					"text": "the disc completely crossed the inside of the perimeter line;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "11.H.2",
+					"label": "11.H.2.",
+					"html": "the disc contacted an in-bounds <dfn data-rule=\"3.Q.10\">player</dfn>;",
+					"text": "the disc contacted an in-bounds player;",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "11.H.3",
+					"label": "11.H.3.",
+					"html": "the disc contacted a defensive <dfn data-rule=\"3.Q.10\">player</dfn>; or",
+					"text": "the disc contacted a defensive player; or",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "11.H.4",
+					"label": "11.H.4.",
+					"html": "the disc became out-of-bounds due to contact with the out-of-bounds area or a <dfn data-rule=\"3.Q.10\">player</dfn> while any part of the disc was inside the perimeter <dfn data-rule=\"3.G\">line</dfn>.",
+					"text": "the disc became out-of-bounds due to contact with the out-of-bounds area or a player while any part of the disc was inside the perimeter line.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "11.I",
+			"label": "11.I.",
+			"html": "Events occurring after the disc becomes out-of-bounds do not affect where it is put into play.",
+			"text": "Events occurring after the disc becomes out-of-bounds do not affect where it is put into play.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		}
+	]
+}

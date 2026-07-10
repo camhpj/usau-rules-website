@@ -1,0 +1,225 @@
+{
+	"slug": "15",
+	"anchorId": "15",
+	"number": "15",
+	"kind": "section",
+	"title": "Stalling",
+	"html": null,
+	"rules": [
+		{
+			"id": "15.A",
+			"label": "15.A.",
+			"html": "Stalling: The period of time within which a <dfn data-rule=\"3.O\">thrower</dfn> must release a <dfn data-rule=\"3.N\">throw</dfn> may be timed by the stall count.",
+			"text": "Stalling: The period of time within which a thrower must release a throw may be timed by the stall count.",
+			"annotations": [],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "15.B",
+			"label": "15.B.",
+			"html": "The stall count consists of announcing “stalling” and counting from one to ten loudly enough for the <dfn data-rule=\"3.O\">thrower</dfn> to hear.",
+			"text": "The stall count consists of announcing “stalling” and counting from one to ten loudly enough for the thrower to hear.",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "15.B.1",
+					"label": "15.B.1.",
+					"html": "The interval between the first utterance of each number in the stall count must be at least one second.",
+					"text": "The interval between the first utterance of each number in the stall count must be at least one second.",
+					"annotations": [
+						"Thus, a legal count from one to ten will take a minimum of 9 seconds. It is legal to count at intervals greater than one second between numbers"
+					],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "15.B.2",
+					"label": "15.B.2.",
+					"html": "All stall counts initiated, reinitiated or resumed after a <dfn data-rule=\"3.M\">stoppage of play</dfn> must start with the word “stalling.”",
+					"text": "All stall counts initiated, reinitiated or resumed after a stoppage of play must start with the word “stalling.”",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "15.B.3",
+					"label": "15.B.3.",
+					"html": "If the count resets to one during a <dfn data-rule=\"3.M\">stoppage of play</dfn>, it is considered a new count.",
+					"text": "If the count resets to one during a stoppage of play, it is considered a new count.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "15.C",
+			"label": "15.C.",
+			"html": "Only the <dfn data-rule=\"3.Q.6\">marker</dfn> (<a href=\"/rules/usau-official-2026-27/3#3.Q.6\">3.Q.6</a>) may initiate or continue a stall count, and may do so anytime a <dfn data-rule=\"3.O\">thrower</dfn> has possession of a disc that is live or in play.",
+			"text": "Only the marker (3.Q.6) may initiate or continue a stall count, and may do so anytime a thrower has possession of a disc that is live or in play.",
+			"annotations": [],
+			"refs": [
+				"3.Q.6"
+			],
+			"children": [
+				{
+					"id": "15.C.1",
+					"label": "15.C.1.",
+					"html": "Additionally, the <dfn data-rule=\"3.Q.6\">marker</dfn> may initiate or continue a stall count (even before a <dfn data-rule=\"3.O\">thrower</dfn> gains possession) if delay of game or pre-stall rules (<a href=\"/rules/usau-official-2026-27/10#10.B.3\">10.B.3</a>, <a href=\"/rules/usau-official-2026-27/10#10.B.4\">10.B.4</a>, <a href=\"/rules/usau-official-2026-27/12#12.A.2\">10.B.5</a>, or <a href=\"/rules/usau-official-2026-27/7#7.B.4.d\">7.B.4.d</a>) apply and have been satisfied.",
+					"text": "Additionally, the marker may initiate or continue a stall count (even before a thrower gains possession) if delay of game or pre-stall rules (10.B.3, 10.B.4, 10.B.5, or 7.B.4.d) apply and have been satisfied.",
+					"annotations": [],
+					"refs": [
+						"10.B.3",
+						"10.B.4",
+						"12.A.2",
+						"7.B.4.d"
+					],
+					"children": []
+				},
+				{
+					"id": "15.C.2",
+					"label": "15.C.2.",
+					"html": "However, unless <a href=\"/rules/usau-official-2026-27/15#15.C.1\">15.C.1</a> applies, the stall count may not be initiated or resumed before a <dfn data-rule=\"3.H\">pivot</dfn> is established:",
+					"text": "However, unless 15.C.1 applies, the stall count may not be initiated or resumed before a pivot is established:",
+					"annotations": [],
+					"refs": [
+						"15.C.1"
+					],
+					"children": [
+						{
+							"id": "15.C.2.a",
+							"label": "15.C.2.a.",
+							"html": "directly after a turnover,",
+							"text": "directly after a turnover,",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "15.C.2.b",
+							"label": "15.C.2.b.",
+							"html": "when putting the <dfn data-rule=\"3.J\">pull</dfn> into play, and",
+							"text": "when putting the pull into play, and",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "15.C.2.c",
+							"label": "15.C.2.c.",
+							"html": "after a travel is called and no pass has been attempted.",
+							"text": "after a travel is called and no pass has been attempted.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "15.D",
+			"label": "15.D.",
+			"html": "If the <dfn data-rule=\"3.O\">thrower</dfn> has not released the disc at the first utterance of the word “ten,” it is a turnover. The <dfn data-rule=\"3.Q.6\">marker</dfn> loudly announces “stall” and play stops. If the disc is thrown, play continues until the outcome of that pass is determined. A stall is not a <dfn data-rule=\"3.P\">violation</dfn> and the Continuation Rule (<a href=\"/rules/usau-official-2026-27/17#17.C\">17.C</a>) does not apply.",
+			"text": "If the thrower has not released the disc at the first utterance of the word “ten,” it is a turnover. The marker loudly announces “stall” and play stops. If the disc is thrown, play continues until the outcome of that pass is determined. A stall is not a violation and the Continuation Rule (17.C) does not apply.",
+			"annotations": [],
+			"refs": [
+				"17.C"
+			],
+			"children": [
+				{
+					"id": "15.D.1",
+					"label": "15.D.1.",
+					"html": "If the stall is uncontested, the disc is returned to the <dfn data-rule=\"3.O\">thrower</dfn> at the place of the stall. The thrower then places the disc on the ground and loudly announces “3-2-1 disc in” and the disc is in play.",
+					"text": "If the stall is uncontested, the disc is returned to the thrower at the place of the stall. The thrower then places the disc on the ground and loudly announces “3-2-1 disc in” and the disc is in play.",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "15.D.2",
+					"label": "15.D.2.",
+					"html": "The <dfn data-rule=\"3.O\">thrower</dfn> may contest a stall call in the belief that the disc was released before the first utterance of the word “ten” or if the <dfn data-rule=\"3.Q.6\">marker</dfn> committed a fast count such that the thrower did not have a reasonable opportunity to call “fast count” before the first utterance of the word “ten.” If a stall is contested:",
+					"text": "The thrower may contest a stall call in the belief that the disc was released before the first utterance of the word “ten” or if the marker committed a fast count such that the thrower did not have a reasonable opportunity to call “fast count” before the first utterance of the word “ten.” If a stall is contested:",
+					"annotations": [],
+					"refs": [],
+					"children": [
+						{
+							"id": "15.D.2.a",
+							"label": "15.D.2.a.",
+							"html": "If the pass was complete or <a href=\"/rules/usau-official-2026-27/16#16.F.2\">16.F.2</a> applies, play stops, players return to their positions at the time of the <dfn data-rule=\"3.N\">throw</dfn>, and possession reverts to the <dfn data-rule=\"3.O\">thrower</dfn>. After a check, the <dfn data-rule=\"3.Q.6\">marker</dfn> resumes the stall count according to <a href=\"/rules/usau-official-2026-27/15#15.F.2.c\">15.F.2.c</a>.",
+							"text": "If the pass was complete or 16.F.2 applies, play stops, players return to their positions at the time of the throw, and possession reverts to the thrower. After a check, the marker resumes the stall count according to 15.F.2.c.",
+							"annotations": [],
+							"refs": [
+								"16.F.2",
+								"15.F.2.c"
+							],
+							"children": []
+						},
+						{
+							"id": "15.D.2.b",
+							"label": "15.D.2.b.",
+							"html": "If the pass was incomplete, it is a turnover; play stops and resumes with a check.",
+							"text": "If the pass was incomplete, it is a turnover; play stops and resumes with a check.",
+							"annotations": [],
+							"refs": [],
+							"children": []
+						},
+						{
+							"id": "15.D.2.c",
+							"label": "15.D.2.c.",
+							"html": "If a stall call is retracted and the <dfn data-rule=\"3.O\">thrower</dfn> attempted a pass, the outcome of the pass stands and play restarts with a check.",
+							"text": "If a stall call is retracted and the thrower attempted a pass, the outcome of the pass stands and play restarts with a check.",
+							"annotations": [
+								"A marker should not automatically call “stall” because they got to the count of ten. They should be certain that the disc was not yet released and that their count wasn’t fast."
+							],
+							"refs": [],
+							"children": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "15.E",
+			"label": "15.E.",
+			"html": "If the defense switches markers, the new <dfn data-rule=\"3.Q.6\">marker</dfn> must reinitiate the stall count. A marker leaving the ten foot radius and returning is considered a new marker.",
+			"text": "If the defense switches markers, the new marker must reinitiate the stall count. A marker leaving the ten foot radius and returning is considered a new marker.",
+			"annotations": [
+				"Reinitiate the stall count means to start over (“stalling one…”)."
+			],
+			"refs": [],
+			"children": []
+		},
+		{
+			"id": "15.F",
+			"label": "15.F.",
+			"html": "If a stall count is interrupted by a call, the <dfn data-rule=\"3.O\">thrower</dfn> and <dfn data-rule=\"3.Q.6\">marker</dfn> are responsible for agreeing on the correct count before the check. The count reached is the last number fully uttered by the marker before the call. The count is resumed with the word “stalling” followed by the number listed below:",
+			"text": "If a stall count is interrupted by a call, the thrower and marker are responsible for agreeing on the correct count before the check. The count reached is the last number fully uttered by the marker before the call. The count is resumed with the word “stalling” followed by the number listed below:",
+			"annotations": [],
+			"refs": [],
+			"children": [
+				{
+					"id": "15.F.1",
+					"label": "15.F.1.",
+					"html": "General Rules: <table class=\"normal rules\"> <tbody> <tr> <td><a id=\"15.F.1.a\">a.</a> Uncontested defensive <dfn data-rule=\"3.B\">foul</dfn> or <dfn data-rule=\"3.P\">violation</dfn></td> <td>1</td> </tr> <tr> <td><a id=\"15.F.1.b\">b.</a> Uncontested offensive foul or violation</td> <td>Count reached plus 1, or 9 if over 8</td> </tr> <tr> <td><a id=\"15.F.1.c\">c.</a> Contested foul or violation</td> <td>Count reached plus 1, or 6 if over 5</td> </tr> <tr> <td><a id=\"15.F.1.d\">d.</a> Offsetting calls</td> <td>Count reached plus 1, or 6 if over 5</td> </tr> <tr> <td><a id=\"15.F.1.e\">e.</a> Unresolved calls</td> <td>Count reached plus 1, or 6 if over 5</td> </tr> <tr> <td><a id=\"15.F.1.f\">f.</a> Retracted defensive calls</td> <td>1</td> </tr> <tr> <td><a id=\"15.F.1.g\">g.</a> Retracted offensive calls</td> <td>Count reached plus 1, or 9 if over 8</td> </tr> </tbody> </table>",
+					"text": "General Rules: a. Uncontested defensive foul or violation 1 b. Uncontested offensive foul or violation Count reached plus 1, or 9 if over 8 c. Contested foul or violation Count reached plus 1, or 6 if over 5 d. Offsetting calls Count reached plus 1, or 6 if over 5 e. Unresolved calls Count reached plus 1, or 6 if over 5 f. Retracted defensive calls 1 g. Retracted offensive calls Count reached plus 1, or 9 if over 8",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				},
+				{
+					"id": "15.F.2",
+					"label": "15.F.2.",
+					"html": "Specific Rules: <table class=\"normal rules\"> <tbody> <tr> <td><a id=\"15.F.2.a\">a.</a> Pick</td> <td>Count reached plus 1, or 6 if over 5</td> </tr> <tr> <td><a id=\"15.F.2.b\">b.</a> Marking <dfn data-rule=\"3.P\">violation</dfn> (no stoppage)</td> <td>Count reached minus 1, no “stalling”</td> </tr> <tr> <td><a id=\"15.F.2.c\">c.</a> Contested stall</td> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;&nbsp;&nbsp;<a id=\"15.F.2.c.1\">1.</a> First call</td> <td>8</td> </tr> <tr> <td>&nbsp;&nbsp;&nbsp;<a id=\"15.F.2.c.2\">2.</a> Second and subsequent calls when due to a fast count</td> <td>6</td> </tr> <tr> <td><a id=\"15.F.2.d\">d.</a> Technical timeout</td> <td>Count reached plus 1, or 6 if over 5</td> </tr> <tr> <td><a id=\"15.F.2.e\">e.</a> Obstruction within 5 yards of playing field</td> <td>Count reached plus 1, or 9 if over 8</td> </tr> </tbody> </table>",
+					"text": "Specific Rules: a. Pick Count reached plus 1, or 6 if over 5 b. Marking violation (no stoppage) Count reached minus 1, no “stalling” c. Contested stall 1. First call 8 2. Second and subsequent calls when due to a fast count 6 d. Technical timeout Count reached plus 1, or 6 if over 5 e. Obstruction within 5 yards of playing field Count reached plus 1, or 9 if over 8",
+					"annotations": [],
+					"refs": [],
+					"children": []
+				}
+			]
+		}
+	]
+}
