@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import Nav from '$lib/components/Nav.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import SearchDialog from '$lib/components/SearchDialog.svelte';
@@ -8,7 +7,8 @@
 	let searchOpen = $state(false);
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head><link rel="icon" href="/icons/frisbee-favicon.svg" type="image/svg+xml" /></svelte:head
+>
 
 <svelte:window
 	onkeydown={(e) => {
