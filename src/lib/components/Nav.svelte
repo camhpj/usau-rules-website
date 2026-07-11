@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { DropdownMenu } from 'bits-ui';
 	import { page } from '$app/state';
 	import { authClient } from '$lib/auth-client';
@@ -26,7 +27,11 @@
 	}
 
 	function signOut() {
-		void authClient.signOut();
+		void authClient.signOut({
+			fetchOptions: {
+				onSuccess: () => goto('/')
+			}
+		});
 	}
 </script>
 
