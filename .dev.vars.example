@@ -1,0 +1,9 @@
+# Copy to .dev.vars (gitignored). wrangler dev and vite dev both read .dev.vars.
+BETTER_AUTH_SECRET=dev-only-secret-not-for-production
+# Empty on purpose: overrides the production BETTER_AUTH_URL from wrangler.jsonc "vars"
+# so local auth derives its origin from each request (works on :5173 and :8787).
+BETTER_AUTH_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+# Enables the email/password test sign-in used by e2e. NEVER set in production.
+ALLOW_TEST_SIGNIN=1

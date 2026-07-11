@@ -27,6 +27,8 @@ test('cmd+k search jumps to a rule', async ({ page }) => {
 
 test('glossary popover opens with definition link', async ({ page }) => {
 	await page.goto('/rules/usau-official-2026-27/9');
+	// Hydration gate — interactions before hydration are swallowed; see quiz.spec.ts.
+	await page.waitForLoadState('networkidle');
 	const dfn = page.locator('article dfn[data-rule]').first();
 	await dfn.click();
 	await expect(page.getByRole('link', { name: /definition 3\./i })).toBeVisible();
@@ -34,6 +36,8 @@ test('glossary popover opens with definition link', async ({ page }) => {
 
 test('glossary popover opens with the keyboard and restores focus on close', async ({ page }) => {
 	await page.goto('/rules/usau-official-2026-27/9');
+	// Hydration gate — interactions before hydration are swallowed; see quiz.spec.ts.
+	await page.waitForLoadState('networkidle');
 	const dfn = page.locator('article dfn[data-rule]').first();
 	await dfn.focus();
 	await page.keyboard.press('Enter');

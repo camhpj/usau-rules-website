@@ -7,13 +7,10 @@
 	import type { TocEntry } from '$lib/content/types';
 	import { listQuestions, questionCountsBySection } from '$lib/quiz/bank';
 	import { buildQuizItems, mulberry32, type AnswerRecord, type QuizItem } from '$lib/quiz/engine';
-	import {
-		computeSectionMastery,
-		orderForMastery,
-		type MasteryLevel,
-		type SectionMastery
-	} from '$lib/quiz/mastery';
+	import { computeSectionMastery, orderForMastery, type SectionMastery } from '$lib/quiz/mastery';
+	import { LEVEL_LABELS, LEVEL_STYLES } from '$lib/quiz/mastery-ui';
 	import { loadResponses, recordAnswers } from '$lib/quiz/storage';
+	import { buildAttemptPayload, enqueueAttempt } from '$lib/quiz/sync';
 
 	const RUN_LENGTH = 10;
 
@@ -22,24 +19,12 @@
 	const counts = questionCountsBySection(DEFAULT_RULESET_ID);
 	const sections = manifest.sections.filter((s) => (counts.get(s.slug) ?? 0) > 0);
 
-	const LEVEL_STYLES: Record<MasteryLevel, string> = {
-		unseen: 'border-white/15 bg-white/5 text-white/80',
-		learning: 'border-cardinal/60 bg-white/5 text-white',
-		solid: 'border-white/60 bg-white/15 text-white',
-		mastered: 'border-turf bg-turf/25 text-white'
-	};
-	const LEVEL_LABELS: Record<MasteryLevel, string> = {
-		unseen: 'Not started',
-		learning: 'Learning',
-		solid: 'Solid',
-		mastered: 'Mastered'
-	};
-
 	let phase = $state<'grid' | 'playing' | 'done'>('grid');
 	let mastery = $state<Map<string, SectionMastery>>(new Map());
 	let active = $state<TocEntry | null>(null);
 	let items = $state<QuizItem[]>([]);
 	let records = $state<AnswerRecord[]>([]);
+	let startedAt = 0;
 
 	function refresh() {
 		const responses = loadResponses(DEFAULT_RULESET_ID);
@@ -63,12 +48,23 @@
 		items = buildQuizItems(ordered.slice(0, RUN_LENGTH), rng);
 		active = section;
 		records = [];
+		startedAt = Date.now();
 		phase = 'playing';
 	}
 
 	function complete(finished: AnswerRecord[]) {
 		records = finished;
 		recordAnswers(DEFAULT_RULESET_ID, finished);
+		const payload = buildAttemptPayload({
+			rulesetId: DEFAULT_RULESET_ID,
+			mode: 'mastery',
+			sectionSlug: active!.slug,
+			startedAt,
+			durationS: Math.max(0, Math.round((Date.now() - startedAt) / 1000)),
+			items,
+			records: finished
+		});
+		if (payload) enqueueAttempt(payload);
 		refresh();
 		phase = 'done';
 	}

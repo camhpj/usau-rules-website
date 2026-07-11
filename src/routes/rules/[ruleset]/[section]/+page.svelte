@@ -61,7 +61,7 @@
 			<div class="rule-html mt-6 leading-relaxed">{@html data.section.html}</div>
 		{/if}
 		{#each data.section.rules as rule (rule.id)}
-			<RuleNode node={rule} />
+			<RuleNode node={rule} rulesetId={data.manifest.id} />
 		{/each}
 
 		<nav class="mt-10 flex justify-between border-t border-mist pt-6 text-sm font-semibold">

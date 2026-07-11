@@ -3,7 +3,9 @@
 	let { manifest, current }: { manifest: Manifest; current: string } = $props();
 </script>
 
-<nav aria-label="Sections" class="space-y-0.5 text-sm">
+<!-- -mx-3 cancels the rows' px-3 so the text column aligns with the page
+     container edge (and the nav wordmark); the hover pill pads outward. -->
+<nav aria-label="Sections" class="-mx-3 space-y-0.5 text-sm">
 	{#each manifest.sections as s (s.slug)}
 		<a
 			href="/rules/{manifest.id}/{s.slug}"

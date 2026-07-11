@@ -19,6 +19,7 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+.dev.vars
 
 # Vite
 vite.config.js.timestamp-*
@@ -27,3 +28,7 @@ vite.config.ts.timestamp-*
 /test-results
 /playwright-report
 /.playwright-mcp
+
+# npm is the package manager of record (package-lock.json)
+bun.lock
+bun.lockb

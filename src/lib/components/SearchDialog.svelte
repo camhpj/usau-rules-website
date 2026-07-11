@@ -54,6 +54,11 @@
 					.slice(0, 12) as Hit[])
 			: []
 	);
+	// Render the results panel only when it has content — an empty padded list
+	// reads as a stray strip under the input.
+	const showList = $derived(
+		results.length > 0 || loadState === 'error' || (query.length > 1 && loadState !== 'idle')
+	);
 	$effect(() => {
 		query;
 		selected = 0;
@@ -96,50 +101,54 @@
 				aria-controls="search-results"
 				aria-activedescendant={results.length > 0 ? `search-option-${selected}` : undefined}
 				placeholder="Search the rules… (e.g. stall count, travel)"
-				class="w-full border-b border-mist px-5 py-4 text-navy outline-none placeholder:text-navy/40"
+				class="w-full px-5 py-4 text-navy outline-none placeholder:text-navy/40 {showList
+					? 'border-b border-mist'
+					: ''}"
 			/>
-			<ul
-				id="search-results"
-				role="listbox"
-				aria-label="Search results"
-				class="max-h-96 overflow-y-auto p-2"
-			>
-				{#each results as hit, i (hit.id)}
-					<li role="presentation">
-						<button
-							role="option"
-							id="search-option-{i}"
-							aria-selected={i === selected}
-							class="w-full rounded-lg px-3 py-2.5 text-left {i === selected
-								? 'bg-mist'
-								: 'hover:bg-mist/60'}"
-							onmouseenter={() => (selected = i)}
-							onclick={() => go(hit)}
-						>
-							<span class="font-mono text-xs font-semibold text-cardinal">{hit.label}</span>
-							<span class="ml-2 text-xs text-navy/50 uppercase">{hit.sectionTitle}</span>
-							<p class="mt-0.5 line-clamp-2 text-sm text-navy">{hit.text}</p>
-						</button>
-					</li>
-				{:else}
-					{#if loadState === 'error'}
-						<li
-							role="presentation"
-							class="rounded-lg bg-mist/60 px-3 py-6 text-center text-sm text-navy/50"
-						>
-							Search index failed to load — try again.
+			{#if showList}
+				<ul
+					id="search-results"
+					role="listbox"
+					aria-label="Search results"
+					class="max-h-96 overflow-y-auto p-2"
+				>
+					{#each results as hit, i (hit.id)}
+						<li role="presentation">
+							<button
+								role="option"
+								id="search-option-{i}"
+								aria-selected={i === selected}
+								class="w-full rounded-lg px-3 py-2.5 text-left {i === selected
+									? 'bg-mist'
+									: 'hover:bg-mist/60'}"
+								onmouseenter={() => (selected = i)}
+								onclick={() => go(hit)}
+							>
+								<span class="font-mono text-xs font-semibold text-cardinal">{hit.label}</span>
+								<span class="ml-2 text-xs text-navy/50 uppercase">{hit.sectionTitle}</span>
+								<p class="mt-0.5 line-clamp-2 text-sm text-navy">{hit.text}</p>
+							</button>
 						</li>
-					{:else if query.length > 1 && loadState === 'loading'}
-						<li role="presentation" class="px-3 py-6 text-center text-sm text-navy/50">
-							Loading index…
-						</li>
-					{:else if query.length > 1 && mini}
-						<li role="presentation" class="px-3 py-6 text-center text-sm text-navy/50">
-							No rules match “{query}”.
-						</li>
-					{/if}
-				{/each}
-			</ul>
+					{:else}
+						{#if loadState === 'error'}
+							<li
+								role="presentation"
+								class="rounded-lg bg-mist/60 px-3 py-6 text-center text-sm text-navy/50"
+							>
+								Search index failed to load — try again.
+							</li>
+						{:else if query.length > 1 && loadState === 'loading'}
+							<li role="presentation" class="px-3 py-6 text-center text-sm text-navy/50">
+								Loading index…
+							</li>
+						{:else if query.length > 1 && mini}
+							<li role="presentation" class="px-3 py-6 text-center text-sm text-navy/50">
+								No rules match “{query}”.
+							</li>
+						{/if}
+					{/each}
+				</ul>
+			{/if}
 		</Dialog.Content>
 	</Dialog.Portal>
 </Dialog.Root>

@@ -1,11 +1,33 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { DropdownMenu } from 'bits-ui';
 	import { page } from '$app/state';
+	import { authClient } from '$lib/auth-client';
+
 	let { onSearch }: { onSearch?: () => void } = $props();
 	const links = [
 		{ href: '/rules', label: 'Rules' },
 		{ href: '/quiz', label: 'Quiz' },
 		{ href: '/ask', label: 'Ask' }
 	];
+
+	type SessionUser = { name: string; email: string; image?: string | null };
+	let user = $state<SessionUser | null>(null);
+
+	onMount(() => {
+		const store = authClient.useSession();
+		return store.subscribe((s) => {
+			user = s.data?.user ?? null;
+		});
+	});
+
+	function signIn() {
+		void authClient.signIn.social({ provider: 'google', callbackURL: location.pathname });
+	}
+
+	function signOut() {
+		void authClient.signOut();
+	}
 </script>
 
 <header class="sticky top-0 z-40 border-b border-white/10 bg-navy-deep/90 backdrop-blur">
@@ -49,13 +71,58 @@
 					{link.label}
 				</a>
 			{/each}
-			<button
-				type="button"
-				class="rounded-full border border-white/25 px-2 py-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:text-xs"
-				title="Sign-in arrives in a later phase"
-			>
-				Sign in
-			</button>
+			{#if user}
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger
+						aria-label="Account menu"
+						class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/25 text-xs font-bold text-white uppercase hover:border-white/60"
+					>
+						{#if user.image}
+							<img
+								src={user.image}
+								alt=""
+								referrerpolicy="no-referrer"
+								class="h-full w-full object-cover"
+							/>
+						{:else}
+							{user.name?.[0] ?? '?'}
+						{/if}
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Portal>
+						<DropdownMenu.Content
+							sideOffset={8}
+							align="end"
+							class="z-50 min-w-44 rounded-xl border border-mist bg-white p-1.5 text-sm text-navy shadow-xl"
+						>
+							<DropdownMenu.Item>
+								{#snippet child({ props })}
+									<a
+										{...props}
+										href="/me"
+										class="block w-full rounded-lg px-3 py-2 text-left font-semibold hover:bg-mist"
+									>
+										Dashboard
+									</a>
+								{/snippet}
+							</DropdownMenu.Item>
+							<DropdownMenu.Item
+								onSelect={signOut}
+								class="w-full cursor-pointer rounded-lg px-3 py-2 text-left font-semibold hover:bg-mist"
+							>
+								Sign out
+							</DropdownMenu.Item>
+						</DropdownMenu.Content>
+					</DropdownMenu.Portal>
+				</DropdownMenu.Root>
+			{:else}
+				<button
+					type="button"
+					onclick={signIn}
+					class="rounded-full border border-white/25 px-2 py-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:text-xs"
+				>
+					Sign in
+				</button>
+			{/if}
 		</div>
 	</nav>
 </header>

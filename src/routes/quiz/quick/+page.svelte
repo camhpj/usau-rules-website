@@ -13,6 +13,7 @@
 		type AnswerRecord,
 		type QuizItem
 	} from '$lib/quiz/engine';
+	import { buildAttemptPayload, enqueueAttempt } from '$lib/quiz/sync';
 	import { recordAnswers } from '$lib/quiz/storage';
 	import { DIFFICULTY_LABELS } from '$lib/quiz/types';
 
@@ -29,6 +30,7 @@
 	let selectedDifficulties = $state<number[]>([]);
 	let items = $state<QuizItem[]>([]);
 	let records = $state<AnswerRecord[]>([]);
+	let startedAt = 0;
 
 	const pool = $derived(
 		filterQuestions(bank, { sections: selectedSections, difficulties: selectedDifficulties })
@@ -57,12 +59,22 @@
 		const rng = mulberry32(Date.now());
 		items = buildQuizItems(shuffle(pool, rng).slice(0, QUIZ_LENGTH), rng);
 		records = [];
+		startedAt = Date.now();
 		phase = 'playing';
 	}
 
 	function complete(finished: AnswerRecord[]) {
 		records = finished;
 		recordAnswers(DEFAULT_RULESET_ID, finished);
+		const payload = buildAttemptPayload({
+			rulesetId: DEFAULT_RULESET_ID,
+			mode: 'quick',
+			startedAt,
+			durationS: Math.max(0, Math.round((Date.now() - startedAt) / 1000)),
+			items,
+			records: finished
+		});
+		if (payload) enqueueAttempt(payload);
 		phase = 'done';
 	}
 </script>
@@ -113,7 +125,7 @@
 			</div>
 
 			<div class="mt-8 flex items-center justify-between border-t border-mist pt-5">
-				<p class="text-sm text-navy/60">
+				<p class="text-sm text-navy/60" aria-live="polite">
 					{pool.length} question{pool.length === 1 ? '' : 's'} match
 				</p>
 				<button

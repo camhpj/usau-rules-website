@@ -1,4 +1,7 @@
 import type { AnswerRecord } from './engine';
+import { readRaw, writeRaw } from './local';
+
+export { __resetLocal as __resetMemory } from './local';
 
 export interface ResponseRecord {
 	questionId: string;
@@ -23,36 +26,8 @@ interface Stored {
 }
 
 const MAX_RESPONSES = 2000;
-const memory = new Map<string, string>();
-
-/** Test-only: clears the in-memory fallback between tests. */
-export function __resetMemory(): void {
-	memory.clear();
-}
 
 const storageKey = (rulesetId: string) => `bp:quiz:v1:${rulesetId}`;
-
-// Even *referencing* localStorage can throw (sandboxed iframes, privacy-hardened
-// configs) and it's undefined in node, so the entire access — reference and method
-// call — lives inside the try/catch. No typeof guard: a ReferenceError is caught too.
-function readRaw(key: string): string | null {
-	try {
-		const value = localStorage.getItem(key);
-		if (value !== null) return value;
-	} catch {
-		// localStorage unavailable or blocked — fall through to memory
-	}
-	return memory.get(key) ?? null;
-}
-
-function writeRaw(key: string, value: string): void {
-	memory.set(key, value);
-	try {
-		localStorage.setItem(key, value);
-	} catch {
-		// unavailable/quota/blocked — memory fallback already holds the value
-	}
-}
 
 function load(rulesetId: string): Stored {
 	const raw = readRaw(storageKey(rulesetId));
@@ -93,6 +68,14 @@ export function getTimedBest(rulesetId: string): TimedBest | null {
 	return load(rulesetId).timedBest;
 }
 
+function isBetter(result: TimedResult, prev: TimedBest | null): boolean {
+	return (
+		!prev ||
+		result.score > prev.score ||
+		(result.score === prev.score && result.bestStreak > prev.bestStreak)
+	);
+}
+
 export function recordTimedResult(
 	rulesetId: string,
 	result: TimedResult,
@@ -100,13 +83,33 @@ export function recordTimedResult(
 ): { isNewBest: boolean; best: TimedBest } {
 	const state = load(rulesetId);
 	const prev = state.timedBest;
-	const isNewBest =
-		!prev ||
-		result.score > prev.score ||
-		(result.score === prev.score && result.bestStreak > prev.bestStreak);
+	const isNewBest = isBetter(result, prev);
 	if (isNewBest) {
 		state.timedBest = { ...result, at: now };
 		save(rulesetId, state);
 	}
 	return { isNewBest, best: state.timedBest ?? { ...result, at: now } };
+}
+
+/**
+ * Background-sync entry point: folds server history into the local cache.
+ * Local-first — an existing local history is never overwritten; the server
+ * timed best is adopted only when it beats the local one.
+ */
+export function mergeServerState(
+	rulesetId: string,
+	responses: ResponseRecord[],
+	timedBest: TimedBest | null
+): void {
+	const state = load(rulesetId);
+	let changed = false;
+	if (state.responses.length === 0 && responses.length > 0) {
+		state.responses = [...responses].sort((a, b) => a.at - b.at).slice(-MAX_RESPONSES);
+		changed = true;
+	}
+	if (timedBest && isBetter(timedBest, state.timedBest)) {
+		state.timedBest = timedBest;
+		changed = true;
+	}
+	if (changed) save(rulesetId, state);
 }

@@ -47,21 +47,20 @@
 <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
 	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Test yourself</p>
 	<h1 class="display mt-3 text-5xl text-white sm:text-6xl">Pick your game.</h1>
-	<p class="mt-4 max-w-xl text-white/70">
-		Every question is grounded in the official rules, with citations that link straight into the
-		rulebook.
+	<p class="mt-4 max-w-2xl text-white/70">
+		Every question is grounded in the official rules, with citations to relevant rules.
 	</p>
 
 	<div class="mt-10 grid gap-4 md:grid-cols-3">
 		{#each modes as mode (mode.href)}
 			<a
 				href={mode.href}
-				class="group relative rounded-xl bg-white p-6 text-navy transition-transform hover:-translate-y-0.5"
+				class="group relative flex flex-col rounded-xl bg-white p-6 text-navy transition-transform hover:-translate-y-0.5"
 			>
-				<h2 class="display text-2xl">{mode.title}</h2>
+				<h2 class="display pr-10 text-2xl">{mode.title}</h2>
 				<p class="mt-1.5 pr-8 text-sm text-navy/70">{mode.body}</p>
 				{#if mode.stat}
-					<p class="mt-4 text-xs font-semibold tracking-wider text-navy/50 uppercase">
+					<p class="mt-auto pt-4 text-xs font-semibold tracking-wider text-navy/50 uppercase">
 						{mode.stat}
 					</p>
 				{/if}

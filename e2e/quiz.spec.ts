@@ -31,6 +31,8 @@ test('complete a quick quiz from the hub', async ({ page }) => {
 	await page.goto('/quiz');
 	await page.getByRole('link', { name: /quick quiz/i }).click();
 	await expect(page).toHaveURL(/\/quiz\/quick/);
+	// Hydration gate — see the letter-keys test below: clicks before hydration are swallowed.
+	await page.waitForLoadState('networkidle');
 	await page.getByRole('button', { name: /start quiz/i }).click();
 	for (let i = 0; i < 10; i++) {
 		await page.getByTestId('choice').first().click();

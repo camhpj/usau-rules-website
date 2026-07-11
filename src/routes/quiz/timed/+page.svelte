@@ -11,14 +11,15 @@
 		type AnswerRecord,
 		type QuizItem
 	} from '$lib/quiz/engine';
+	import { TIMED_DURATION_S as DURATION_S } from '$lib/quiz/payload';
 	import {
 		getTimedBest,
 		recordAnswers,
 		recordTimedResult,
 		type TimedBest
 	} from '$lib/quiz/storage';
+	import { beginTimedRun, submitTimedRun } from '$lib/quiz/sync';
 
-	const DURATION_S = 60;
 	const bank = listQuestions(DEFAULT_RULESET_ID);
 
 	let phase = $state<'intro' | 'running' | 'done'>('intro');
@@ -30,6 +31,7 @@
 	let best = $state<TimedBest | null>(null);
 	let isNewBest = $state(false);
 	let ticker: ReturnType<typeof setInterval> | undefined;
+	let runToken: Promise<string | null> = Promise.resolve(null);
 
 	onMount(() => {
 		best = getTimedBest(DEFAULT_RULESET_ID);
@@ -37,6 +39,7 @@
 	});
 
 	function start() {
+		runToken = beginTimedRun();
 		const rng = mulberry32(Date.now());
 		items = buildQuizItems(shuffle(bank, rng), rng);
 		records = [];
@@ -46,8 +49,9 @@
 		phase = 'running';
 		const startedAt = Date.now();
 		ticker = setInterval(() => {
-			timeLeft = Math.max(0, DURATION_S - Math.round((Date.now() - startedAt) / 1000));
-			if (timeLeft === 0) finish();
+			const elapsedMs = Date.now() - startedAt;
+			timeLeft = Math.max(0, Math.ceil(DURATION_S - elapsedMs / 1000));
+			if (elapsedMs >= DURATION_S * 1000) finish();
 		}, 250);
 	}
 
@@ -68,6 +72,19 @@
 			const result = recordTimedResult(DEFAULT_RULESET_ID, { score, bestStreak });
 			isNewBest = result.isNewBest;
 			best = result.best;
+			const finishedItems = items;
+			const finishedRecords = records;
+			void (async () => {
+				const token = await runToken;
+				if (token) {
+					await submitTimedRun({
+						token,
+						rulesetId: DEFAULT_RULESET_ID,
+						items: finishedItems,
+						records: finishedRecords
+					});
+				}
+			})();
 		} else {
 			isNewBest = false;
 		}

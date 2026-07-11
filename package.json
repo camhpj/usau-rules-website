@@ -21,9 +21,13 @@
 		"test:e2e": "playwright test",
 		"ingest": "tsx scripts/ingest/index.ts",
 		"validate:content": "tsx scripts/validate-content.ts",
-		"seed:questions": "tsx scripts/seed-questions/index.ts"
+		"seed:questions": "tsx scripts/seed-questions/index.ts",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate:local": "wrangler d1 migrations apply usau-rules-website-db --local",
+		"db:migrate:remote": "wrangler d1 migrations apply usau-rules-website-db --remote"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "^5.20260710.1",
 		"@fontsource-variable/inter": "^5.2.8",
 		"@fontsource/barlow-condensed": "^5.2.8",
 		"@playwright/test": "^1.61.1",
@@ -33,6 +37,7 @@
 		"@tailwindcss/vite": "^4.3.0",
 		"@types/node": "^26.1.1",
 		"cheerio": "^1.2.0",
+		"drizzle-kit": "^0.31.10",
 		"prettier": "^3.8.3",
 		"prettier-plugin-svelte": "^4.1.0",
 		"prettier-plugin-tailwindcss": "^0.8.0",
@@ -46,7 +51,9 @@
 		"wrangler": "^4.110.0"
 	},
 	"dependencies": {
+		"better-auth": "^1.6.23",
 		"bits-ui": "^2.18.1",
+		"drizzle-orm": "^0.45.2",
 		"minisearch": "^7.2.0",
 		"zod": "^4.4.3"
 	}

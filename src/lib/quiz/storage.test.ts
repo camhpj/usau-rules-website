@@ -3,6 +3,7 @@ import {
 	__resetMemory,
 	getTimedBest,
 	loadResponses,
+	mergeServerState,
 	recordAnswers,
 	recordTimedResult
 } from './storage';
@@ -101,5 +102,29 @@ describe('quiz storage', () => {
 		expect(loadResponses('r1')).toEqual([]); // fresh state, no throw
 		expect(() => recordAnswers('r1', [answer('a', true)], 1)).not.toThrow();
 		expect(loadResponses('r1')).toHaveLength(1); // served from memory
+	});
+});
+
+describe('mergeServerState', () => {
+	it('seeds responses only when local history is empty', () => {
+		const server = [
+			{ questionId: '9-01', sectionSlug: '9', correct: true, at: 200 },
+			{ questionId: '2-01', sectionSlug: '2', correct: false, at: 100 }
+		];
+		mergeServerState('r', server, null);
+		expect(loadResponses('r').map((r) => r.questionId)).toEqual(['2-01', '9-01']); // sorted by at
+		mergeServerState(
+			'r',
+			[{ questionId: '15-01', sectionSlug: '15', correct: true, at: 300 }],
+			null
+		);
+		expect(loadResponses('r')).toHaveLength(2); // non-empty local wins — no reseed
+	});
+	it('adopts a better server timed best and keeps a better local one', () => {
+		recordTimedResult('r', { score: 5, bestStreak: 3 }, 1000);
+		mergeServerState('r', [], { score: 4, bestStreak: 4, at: 2000 });
+		expect(getTimedBest('r')).toMatchObject({ score: 5 }); // local wins
+		mergeServerState('r', [], { score: 7, bestStreak: 2, at: 3000 });
+		expect(getTimedBest('r')).toMatchObject({ score: 7, at: 3000 }); // server wins
 	});
 });

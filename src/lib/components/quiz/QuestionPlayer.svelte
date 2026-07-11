@@ -112,7 +112,7 @@
 						{revealed && !isChosen && !isCorrect ? 'border-mist text-navy/50' : ''}"
 				>
 					<span
-						class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border border-current font-mono text-[11px] font-bold"
+						class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border border-current font-mono text-[11px] font-bold"
 					>
 						{CHOICE_KEYS[display]}
 					</span>
