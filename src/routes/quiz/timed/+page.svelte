@@ -116,17 +116,21 @@
 			Start
 		</button>
 	{:else if phase === 'running'}
-		<div class="mt-6 flex items-center justify-between rounded-xl bg-navy px-5 py-3">
+		<div
+			class="relative mt-6 flex flex-wrap items-center justify-between gap-y-1 rounded-xl bg-navy px-5 py-3"
+		>
 			<p class="font-mono text-3xl font-bold {timeLeft <= 10 ? 'text-cardinal' : 'text-white'}">
 				0:{String(timeLeft).padStart(2, '0')}
 			</p>
-			<p class="text-sm font-semibold tracking-wider text-white/70 uppercase">
+			<p
+				class="basis-full text-xs font-semibold tracking-wider whitespace-nowrap text-white/70 uppercase sm:basis-auto sm:text-sm"
+			>
 				Streak {streak} · Score {records.filter((r) => r.correct).length}
 			</p>
 			<button
 				type="button"
 				onclick={finish}
-				class="rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold tracking-wider text-white/80 uppercase hover:border-white"
+				class="absolute top-1/2 right-5 -translate-y-1/2 rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white sm:static sm:translate-y-0"
 			>
 				End run
 			</button>

@@ -37,17 +37,17 @@
 
 <header class="sticky top-0 z-40 border-b border-white/10 bg-navy-deep/90 backdrop-blur">
 	<nav
-		class="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-4 px-4 py-1.5 sm:px-6 sm:py-0"
+		class="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-2 px-4 py-1.5 sm:gap-x-4 sm:px-6 sm:py-0"
 	>
-		<a href="/" class="display text-lg whitespace-nowrap text-white sm:text-2xl">
+		<a href="/" class="display text-base whitespace-nowrap text-white sm:text-2xl">
 			Best <span class="text-cardinal">Perspective</span>
 		</a>
-		<div class="ml-auto flex items-center gap-1.5 sm:gap-6">
+		<div class="ml-auto flex items-center gap-2 sm:gap-6">
 			<button
 				type="button"
 				onclick={onSearch}
 				aria-label="Search"
-				class="flex items-center gap-2 rounded-full border border-white/25 px-2 py-1.5 text-xs font-semibold tracking-wider text-white/70 uppercase hover:border-white/60 hover:text-white sm:px-3.5"
+				class="flex items-center gap-2 rounded-full border border-transparent px-1 py-1.5 text-xs font-semibold tracking-wider text-white/70 uppercase hover:border-white/60 hover:text-white sm:border-white/25 sm:px-3.5"
 			>
 				<svg
 					aria-hidden="true"
@@ -70,7 +70,7 @@
 				<a
 					href={link.href}
 					aria-current={active ? 'page' : undefined}
-					class="px-0.5 text-[11px] font-semibold tracking-[0.08em] whitespace-nowrap uppercase transition-colors sm:px-0 sm:text-xs sm:tracking-[0.18em]
+					class="text-[10px] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors sm:text-xs sm:tracking-[0.18em]
 						{active ? 'text-cardinal' : 'text-white/70 hover:text-white'}"
 				>
 					{link.label}
@@ -123,9 +123,19 @@
 				<button
 					type="button"
 					onclick={signIn}
-					class="rounded-full border border-white/25 px-2 py-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:text-xs"
+					aria-label="Sign in"
+					class="rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs"
 				>
-					Sign in
+					<svg
+						aria-hidden="true"
+						class="h-4 w-4 shrink-0 sm:hidden"
+						viewBox="0 -960 960 960"
+						fill="currentColor"
+						><path
+							d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
+						/></svg
+					>
+					<span class="hidden sm:inline">Sign in</span>
 				</button>
 			{/if}
 		</div>

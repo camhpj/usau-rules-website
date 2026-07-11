@@ -16,3 +16,7 @@ bun.lockb
 # Fixture HTML must retain exact source whitespace semantics (parser tests
 # assert on li text content); prettier's HTML formatter would rewrite it.
 scripts/ingest/fixtures/
+
+# Claude Code session artifacts (worktrees carry their own checkouts).
+.claude/
+.playwright-mcp/

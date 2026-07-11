@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TocSidebar from '$lib/components/rules/TocSidebar.svelte';
+	import MobileToc from '$lib/components/rules/MobileToc.svelte';
 	import RuleNode from '$lib/components/rules/RuleNode.svelte';
 	import GlossaryPopover from '$lib/components/rules/GlossaryPopover.svelte';
 	import { afterNavigate } from '$app/navigation';
@@ -78,3 +79,4 @@
 </div>
 
 <GlossaryPopover glossary={data.glossary} rulesetId={data.manifest.id} container={articleEl} />
+<MobileToc manifest={data.manifest} current={data.section.slug} />
