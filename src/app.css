@@ -55,7 +55,7 @@
 		text-decoration: underline dotted;
 		text-decoration-color: color-mix(in srgb, var(--color-navy) 45%, transparent);
 		text-underline-offset: 2px;
-		cursor: help;
+		cursor: pointer;
 	}
 	.rule-html table {
 		margin-top: 1rem;
