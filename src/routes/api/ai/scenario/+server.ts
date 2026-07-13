@@ -5,14 +5,22 @@ import { ScenarioRequestSchema } from '$lib/ai/payload';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
 import { ruleIdSet } from '$lib/content/rule-id-sets';
 import { listQuestions } from '$lib/quiz/bank';
-import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL } from '$lib/server/ai/config';
+import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL, SCENARIO_DAILY_PER_USER } from '$lib/server/ai/config';
 import { d1CacheStore, generateText } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
-import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
+import { aiAvailable, consumeQuota, d1UsageStore, utcDay } from '$lib/server/ai/guardrails';
 import { systemPolicy } from '$lib/server/ai/prompts';
 import { buildScenarioPrompt, draftToQuestion, validateScenario } from '$lib/server/ai/scenario';
 import { aiQuestions } from '$lib/server/db/schema';
 import { requireUser } from '$lib/server/session';
+
+export const GET: RequestHandler = async (event) => {
+	const user = await requireUser(event);
+	if (!event.locals.db) error(503, 'db unavailable');
+	const day = utcDay(Date.now());
+	const used = await d1UsageStore(event.locals.db).userCount(day, user.id, 'scenario');
+	return json({ remaining: Math.max(0, SCENARIO_DAILY_PER_USER - used) });
+};
 
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);

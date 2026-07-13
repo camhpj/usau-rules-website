@@ -46,6 +46,9 @@ test.describe('scenario mode', () => {
 		await page.getByRole('button', { name: 'Continue', exact: true }).click();
 		await expect(page.getByRole('button', { name: /another scenario/i })).toBeVisible();
 		await expect(page.getByText(/9 scenarios left today/i)).toBeVisible();
+
+		await page.goto('/quiz');
+		await expect(page.getByText(/9 scenarios left today/i)).toBeVisible();
 	});
 
 	test('daily limit: 429 surfaces the message', async ({ page }) => {

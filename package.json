@@ -57,5 +57,13 @@
 		"minisearch": "^7.2.0",
 		"obscenity": "^0.4.6",
 		"zod": "^4.4.3"
+	},
+	"overrides": {
+		"@sveltejs/kit": {
+			"cookie": "^0.7.2"
+		},
+		"@esbuild-kit/core-utils": {
+			"esbuild": "^0.25.0"
+		}
 	}
 }

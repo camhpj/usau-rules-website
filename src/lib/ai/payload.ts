@@ -36,3 +36,6 @@ export const ScenarioResponseSchema: z.ZodType<ScenarioResponse> = z.object({
 	remaining: z.number().int().min(0),
 	question: QuestionSchema
 });
+
+/** GET /api/ai/scenario — remaining daily quota for the signed-in user. */
+export const ScenarioQuotaSchema = z.object({ remaining: z.number().int().min(0) });

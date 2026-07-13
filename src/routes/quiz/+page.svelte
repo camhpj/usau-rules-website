@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { ScenarioQuotaSchema } from '$lib/ai/payload';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { listQuestions, questionCountsBySection } from '$lib/quiz/bank';
 	import { computeSectionMastery } from '$lib/quiz/mastery';
@@ -10,6 +11,7 @@
 
 	let masteredCount = $state<number | null>(null);
 	let bestScore = $state<number | null>(null);
+	let scenarioStat = $state('');
 
 	onMount(() => {
 		const responses = loadResponses(DEFAULT_RULESET_ID);
@@ -17,6 +19,21 @@
 			(slug) => computeSectionMastery(responses, slug).level === 'mastered'
 		).length;
 		bestScore = getTimedBest(DEFAULT_RULESET_ID)?.score ?? null;
+
+		void (async () => {
+			try {
+				const res = await fetch('/api/ai/scenario');
+				const parsed = ScenarioQuotaSchema.safeParse(await res.json().catch(() => null));
+				if (!res.ok || !parsed.success) {
+					scenarioStat = 'Sign in to play';
+					return;
+				}
+				const { remaining } = parsed.data;
+				scenarioStat = `${remaining} scenario${remaining === 1 ? '' : 's'} left today`;
+			} catch {
+				scenarioStat = 'Sign in to play';
+			}
+		})();
 	});
 
 	const modes = $derived([
@@ -37,7 +54,7 @@
 			href: '/quiz/scenario',
 			title: 'Scenario mode',
 			body: 'Realistic game situations. Judge the ruling like an observer.',
-			stat: 'Sign in to play'
+			stat: scenarioStat
 		},
 		{
 			href: '/quiz/timed',
@@ -78,13 +95,4 @@
 			</a>
 		{/each}
 	</div>
-
-	<p class="mt-6 text-sm">
-		<a
-			href="/leaderboard"
-			class="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
-		>
-			Timed challenge has a public leaderboard →
-		</a>
-	</p>
 </section>

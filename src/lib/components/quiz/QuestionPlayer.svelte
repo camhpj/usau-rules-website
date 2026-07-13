@@ -93,9 +93,11 @@
 
 {#if item}
 	<div class="rounded-xl bg-white p-6 text-navy sm:p-8">
-		<p class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
-			Question {index + 1} of {items.length}
-		</p>
+		{#if mode !== 'rapid'}
+			<p class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
+				Question {index + 1} of {items.length}
+			</p>
+		{/if}
 		<h2 class="mt-3 text-lg leading-relaxed font-semibold">{item.question.prompt}</h2>
 
 		<div class="mt-5 grid gap-2.5">

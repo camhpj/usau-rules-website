@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { ASK_MAX_PROMPT_CHARS, AskPayloadSchema, ScenarioRequestSchema } from './payload';
+import {
+	ASK_MAX_PROMPT_CHARS,
+	AskPayloadSchema,
+	ScenarioQuotaSchema,
+	ScenarioRequestSchema
+} from './payload';
 
 describe('AskPayloadSchema', () => {
 	it('trims and accepts a normal question', () => {
@@ -20,5 +25,14 @@ describe('ScenarioRequestSchema', () => {
 		expect(ScenarioRequestSchema.safeParse({}).success).toBe(true);
 		expect(ScenarioRequestSchema.safeParse({ difficulty: 3 }).success).toBe(true);
 		expect(ScenarioRequestSchema.safeParse({ difficulty: 4 }).success).toBe(false);
+	});
+});
+
+describe('ScenarioQuotaSchema', () => {
+	it('accepts a non-negative remaining count', () => {
+		expect(ScenarioQuotaSchema.safeParse({ remaining: 9 }).success).toBe(true);
+	});
+	it('rejects a negative remaining count', () => {
+		expect(ScenarioQuotaSchema.safeParse({ remaining: -1 }).success).toBe(false);
 	});
 });

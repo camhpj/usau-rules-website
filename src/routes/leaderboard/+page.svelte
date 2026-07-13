@@ -147,9 +147,7 @@
 				</tbody>
 			</table>
 			{#if board && board.entries.length === 0}
-				<p class="mt-3 text-center text-sm text-navy/60">
-					No runs on the board yet — set a name and play the timed challenge.
-				</p>
+				<p class="mt-3 text-center text-sm text-navy/60">No data.</p>
 			{/if}
 		{/if}
 	</div>
