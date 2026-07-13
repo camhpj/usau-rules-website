@@ -2,8 +2,7 @@
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 </script>
 
-<svelte:head><title>Best Perspective — USA Ultimate official rules of ultimate.</title></svelte:head
->
+<svelte:head><title>Best Perspective — USA Ultimate rules.</title></svelte:head>
 
 <section
 	class="mx-auto flex min-h-[calc(100vh-4rem-4.5rem)] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:px-6"
