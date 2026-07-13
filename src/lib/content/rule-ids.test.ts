@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { collectRuleIds, sectionSlugForRuleId } from './rule-ids';
+import { collectRuleIds, nearestKnownRuleId, sectionSlugForRuleId } from './rule-ids';
 import type { Section } from './types';
 
 describe('sectionSlugForRuleId (moved from ingest)', () => {
@@ -29,5 +29,21 @@ describe('collectRuleIds', () => {
 		expect(ids.has('9')).toBe(true);
 		expect(ids.has('9.K.4')).toBe(true);
 		expect(ids.has('9.Z')).toBe(false);
+	});
+});
+
+describe('nearestKnownRuleId', () => {
+	const ids = new Set(['15.F.2', '20.E.2.d']);
+
+	it('returns the id itself when it is already known', () => {
+		expect(nearestKnownRuleId('15.F.2', ids)).toBe('15.F.2');
+	});
+
+	it('walks up to the nearest known dotted ancestor', () => {
+		expect(nearestKnownRuleId('15.F.2.b', ids)).toBe('15.F.2');
+	});
+
+	it('returns null when neither the id nor any ancestor is known', () => {
+		expect(nearestKnownRuleId('99.ZZ', ids)).toBe(null);
 	});
 });

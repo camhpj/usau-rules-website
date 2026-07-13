@@ -69,11 +69,13 @@ test('search dialog exposes combobox/listbox semantics', async ({ page }) => {
 	await expect(input).toHaveAttribute('aria-activedescendant', 'search-option-1');
 });
 
-test('quiz hub and ask stub resolve', async ({ page }) => {
+test('quiz hub and ask page resolve', async ({ page }) => {
 	await page.goto('/quiz');
 	await expect(page.getByRole('link', { name: /quick quiz/i })).toBeVisible();
 	await page.goto('/ask');
-	await expect(page.getByText(/later phase/i)).toBeVisible();
+	await page.waitForLoadState('networkidle');
+	await expect(page).toHaveTitle(/Ask · Best Perspective/);
+	await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible();
 });
 
 test('TOC sidebar navigates to another section', async ({ page }) => {

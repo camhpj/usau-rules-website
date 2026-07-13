@@ -177,7 +177,7 @@ describe('timed run sync', () => {
 		fetchMock.mockResolvedValue(okJson({ score: 1, bestStreak: 1 }, 201));
 		const items: QuizItem[] = [];
 		const records: AnswerRecord[] = [];
-		for (let i = 0; i < 70; i++) {
+		for (let i = 0; i < TIMED_MAX_RESPONSES + 10; i++) {
 			const id = `15-${i}`;
 			items.push(item(id));
 			records.push(record(id, 0));

@@ -40,9 +40,9 @@ export const AttemptPayloadSchema: z.ZodType<AttemptPayload> = z.object({
 	responses: z.array(ResponsePayloadSchema).min(1).max(ATTEMPT_MAX_RESPONSES)
 });
 
-export const TIMED_DURATION_S = 60;
+export const TIMED_DURATION_S = 300;
 export const TIMED_GRACE_S = 20; // server-side slack for network + clock skew
-export const TIMED_MAX_RESPONSES = 60;
+export const TIMED_MAX_RESPONSES = 300; // ~1 answer/second ceiling, scaled to the duration
 
 export interface TimedFinishPayload {
 	token: string;

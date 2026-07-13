@@ -112,6 +112,14 @@ describe('grounding + search', () => {
 		expect(g).toContain('## 1. Introduction');
 		expect(g).toContain('[1.B.1]');
 		expect(g).toContain('(annotation) Organizers should announce variations before play.');
+		// Every body line must be citable: a section header, a [id]-prefixed rule,
+		// or an (annotation) attached to one. Uncited prose can't be cited by the AI.
+		const body = g.slice(g.indexOf('## '));
+		const uncited = body.split('\n').filter((line) => {
+			const t = line.trimStart();
+			return t && !t.startsWith('##') && !t.startsWith('[') && !t.startsWith('(annotation)');
+		});
+		expect(uncited).toEqual([]);
 	});
 
 	it('builds a loadable MiniSearch index', () => {

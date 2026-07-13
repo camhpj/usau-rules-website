@@ -23,7 +23,7 @@
 		{
 			href: '/quiz/quick',
 			title: 'Quick quiz',
-			body: 'Ten questions from the bank — pick your sections and difficulty.',
+			body: 'Ten questions. Pick your sections and difficulty.',
 			stat: `${questionTotal} questions in the bank`
 		},
 		{
@@ -34,9 +34,15 @@
 				masteredCount === null ? '' : `${masteredCount}/${sectionSlugs.length} sections mastered`
 		},
 		{
+			href: '/quiz/scenario',
+			title: 'Scenario mode',
+			body: 'Realistic game situations. Judge the ruling like an observer.',
+			stat: 'Sign in to play'
+		},
+		{
 			href: '/quiz/timed',
 			title: 'Timed challenge',
-			body: 'Sixty seconds against the clock. Keep the streak alive.',
+			body: 'Five minutes against the clock. Keep the streak alive.',
 			stat: bestScore === null ? 'No personal best yet' : `Personal best: ${bestScore}`
 		}
 	]);
@@ -51,7 +57,7 @@
 		Every question is grounded in the official rules, with citations to relevant rules.
 	</p>
 
-	<div class="mt-10 grid gap-4 md:grid-cols-3">
+	<div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 		{#each modes as mode (mode.href)}
 			<a
 				href={mode.href}

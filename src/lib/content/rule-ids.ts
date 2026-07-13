@@ -11,6 +11,17 @@ export function sectionSlugForRuleId(id: string): string | null {
 	return null;
 }
 
+/** `id` itself if known, else the nearest dotted ancestor present in `ids`, else null. */
+export function nearestKnownRuleId(id: string, ids: ReadonlySet<string>): string | null {
+	if (ids.has(id)) return id;
+	let ancestor = id;
+	while (ancestor.includes('.')) {
+		ancestor = ancestor.slice(0, ancestor.lastIndexOf('.'));
+		if (ids.has(ancestor)) return ancestor;
+	}
+	return null;
+}
+
 /** Every rule id (all depths) plus every section anchor id. */
 export function collectRuleIds(sections: Section[]): Set<string> {
 	const ids = new Set<string>();

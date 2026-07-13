@@ -9,8 +9,9 @@ Best Perspective is a web app for exploring the USA Ultimate (USAU) rules of ult
 - **Rules explorer** — browse, search, and cross-link the full USAU rulebook.
 - **Quiz** — quick quizzes, section mastery, and a timed challenge, all built on a 212-question human-reviewed bank.
 - **Accounts** — sign in with Google to sync quiz history, section mastery, and timed-challenge bests to the cloud, and to bookmark rules; see it all on the `/me` dashboard.
+- **AI** — ask-the-rules Q&A and on-demand scenario questions, grounded in the rulebook via Gemini; see [AI features](#ai-features).
 
-Signing in is optional: the rules explorer and all three quiz modes work fully signed-out, with progress kept in `localStorage` only. Signing in adds cross-device sync (via a local-first background sync, so quizzing never blocks on the network) plus bookmarks and the dashboard. (AI features — scenario generation and ask-the-rules, Phase 4 — will be the one area that requires being signed in, once shipped.)
+Signing in is optional: the rules explorer and all three quiz modes work fully signed-out, with progress kept in `localStorage` only. Signing in adds cross-device sync (via a local-first background sync, so quizzing never blocks on the network) plus bookmarks and the dashboard. The AI features — scenario generation and ask-the-rules (see [AI features](#ai-features)) — are the one area that requires being signed in.
 
 ## Stack
 
@@ -57,7 +58,7 @@ The app's second pillar is testing yourself, at `/quiz`. Three modes; progress a
 
 - **Quick quiz** (`/quiz/quick`) — 10 questions drawn from the bank, optionally filtered by section and by difficulty tier (**Rookie**, **Veteran**, **Observer** — `difficulty` 1/2/3 in the question schema).
 - **Section mastery** (`/quiz/mastery`) — work the rulebook section by section; missed questions come back first, and a section is "mastered" once your recent answers there hit ≥90%. Every rule section page has a "Quiz me on this section" shortcut that deep-links here via `?section=<slug>`.
-- **Timed challenge** (`/quiz/timed`) — 60 seconds, auto-advancing, tracks your best streak and score.
+- **Timed challenge** (`/quiz/timed`) — five minutes, auto-advancing, tracks your best streak and score.
 
 ### Question bank
 
@@ -77,6 +78,41 @@ npm run seed:questions -- --report                        # print the coverage r
 ```
 
 Each run requests at most `targetsPerSectionPerRun` uncovered targets per section (highest-importance first) and reports how many of those were fulfilled; a target the model repeatedly can't turn into a question stays visible under "requested but unfulfilled" in the report so it can be hand-authored or added to `excludeTargets`. Once every target is covered, the script prints `saturated` and exits without calling the API. **Always review every generated question before committing** — check the rule citations, the correct answer, and the distractors for accuracy — then run `npm run validate:content` to confirm the schema is satisfied.
+
+## AI features
+
+Two AI surfaces, both server-only (the Gemini API key never reaches the client) and both **signed-in only**:
+
+- **Ask** (`/ask`, `POST /api/ai/ask`) — streamed Q&A over the rulebook; answers cite back to specific rules.
+- **Scenario quiz** (`/quiz/scenario`, `POST /api/ai/scenario`) — on-demand, freshly generated scenario questions, validated against the rule-id set and the question schema before being served; if generation fails twice it falls back to a bank question instead of erroring.
+
+Every call goes through `src/lib/server/ai/config.ts`, which pins the model (`gemini-3-flash-preview`) in one place, and uses an explicit Gemini context cache (1 hour TTL) for each ruleset's `grounding.txt` so the ~46k-token rulebook prefix isn't re-sent (and re-billed) on every request.
+
+**Guardrails:**
+
+- Per-user daily caps: 10 asks/day, 10 scenarios/day.
+- Global daily budget: 200 AI requests/day across all users and both kinds combined.
+- Kill-switch: set `AI_DISABLED=1` to take `/api/ai/*` offline immediately (also returns 503 if `GEMINI_API_KEY` is unset).
+- Sign-in is required for both endpoints — there's no signed-out AI usage.
+
+**Setup:** get a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
+
+```bash
+# Local: add to .dev.vars (leave empty to develop without AI — /api/ai/* returns 503, UI shows "offline")
+GEMINI_API_KEY=…
+
+# Prod
+npx wrangler secret put GEMINI_API_KEY
+```
+
+**Curation flywheel.** AI-served scenario questions are logged to the `ai_questions` D1 table but never committed as-is. Review recently served questions with:
+
+```bash
+npx wrangler d1 execute usau-rules-website-db --remote --command \
+  "select id, json_extract(question,'$.prompt') as prompt from ai_questions where status='served' order by created_at desc limit 20"
+```
+
+Good ones graduate into `content/questions/` with a real `<section>-<nn>` id, human-reviewed before commit — the same standard as every other question in the bank (see [Question bank](#question-bank)). `/ask` questions and their final answers are similarly logged to `ai_asks` (thinking summaries are not retained) to improve answer quality over time.
 
 ## Persistence & auth
 
@@ -136,6 +172,6 @@ Best Perspective ships in four phases (full detail in `docs/superpowers/specs/20
 1. [x] **Foundation** _(shipped)_ — scaffold, theme/tokens, ingest pipeline + Official Rules 2026-27 content, rules explorer, landing page, search, e2e coverage.
 2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 212 human-reviewed questions covering all 217 coverage targets across every section.
 3. [x] **Accounts** _(shipped)_ — live at [usaurules.com](https://usaurules.com) — better-auth with Google OAuth, Cloudflare D1 for local-first progress persistence, server-validated timed runs, bookmarks, and the `/me` dashboard.
-4. [ ] **AI** — Gemini-powered scenario generation and ask-the-rules, with rule-citation grounding and cost guardrails.
+4. [x] **AI** _(code-complete)_ — Gemini-powered scenario generation (`/quiz/scenario`) and ask-the-rules (`/ask`), with rule-citation grounding and cost guardrails; see [AI features](#ai-features).
 
 Club/College Guidelines ingest, Spanish content, and social features are out of scope for v1 but the content architecture supports adding them later.

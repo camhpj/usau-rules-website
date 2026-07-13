@@ -141,3 +141,64 @@ export const bookmarks = sqliteTable(
 	},
 	(table) => [primaryKey({ columns: [table.userId, table.rulesetId, table.ruleId] })]
 );
+
+// ---- Phase 4: AI (spec: ai_questions log + usage counters; cache registry is an implementation table) ----
+
+export const aiQuestions = sqliteTable(
+	'ai_questions',
+	{
+		id: text('id').primaryKey(), // uuid; a served AI question's public id is `ai-${id}`
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		rulesetId: text('ruleset_id').notNull(),
+		model: text('model').notNull(),
+		// served = validated AI question returned; fallback = bank question returned after retries
+		status: text('status', { enum: ['served', 'fallback'] }).notNull(),
+		question: text('question'), // JSON of the served Question; NULL on fallback
+		rejectedReasons: text('rejected_reasons'), // draft rejections along the way (curation signal)
+		requestedDifficulty: integer('requested_difficulty'),
+		createdAt: integer('created_at').notNull()
+	},
+	(table) => [index('ai_questions_user_created_idx').on(table.userId, table.createdAt)]
+);
+
+export const aiUsage = sqliteTable(
+	'ai_usage',
+	{
+		day: text('day').notNull(), // UTC YYYY-MM-DD
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		kind: text('kind', { enum: ['ask', 'scenario'] }).notNull(),
+		count: integer('count').notNull().default(0)
+	},
+	(table) => [
+		primaryKey({ columns: [table.day, table.userId, table.kind] }),
+		index('ai_usage_day_idx').on(table.day)
+	]
+);
+
+export const aiAsks = sqliteTable(
+	'ai_asks',
+	{
+		id: text('id').primaryKey(), // uuid
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		rulesetId: text('ruleset_id').notNull(),
+		model: text('model').notNull(),
+		prompt: text('prompt').notNull(), // the user's question (Zod-capped at 500 chars upstream)
+		answer: text('answer'), // final streamed answer; NULL when status = 'error'
+		// answered = stream completed; truncated = MAX_TOKENS cut it short; error = no stream (502 path)
+		status: text('status', { enum: ['answered', 'truncated', 'error'] }).notNull(),
+		createdAt: integer('created_at').notNull()
+	},
+	(table) => [index('ai_asks_user_created_idx').on(table.userId, table.createdAt)]
+);
+
+export const aiCache = sqliteTable('ai_cache', {
+	key: text('key').primaryKey(), // `${model}|${rulesetId}`
+	name: text('name').notNull(), // Gemini cachedContents/<id> resource name
+	expiresAt: integer('expires_at').notNull()
+});

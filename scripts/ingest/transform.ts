@@ -219,7 +219,7 @@ export function buildGrounding(sections: Section[], header: string): string {
 		if (section.html) {
 			const $ = cheerio.load(section.html, null, false);
 			const text = normalize($.text());
-			if (text) lines.push(text);
+			if (text) lines.push(`[${section.anchorId}] ${text}`);
 		}
 	}
 	return lines.join('\n');

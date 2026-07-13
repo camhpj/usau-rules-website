@@ -35,6 +35,23 @@ for (const id of readdirSync(root)) {
 	}
 	z.array(GlossaryEntrySchema).parse(JSON.parse(readFileSync(join(dir, 'glossary.json'), 'utf8')));
 	sectionsByRuleset.set(id, sections);
+
+	// rule-ids.json must exactly mirror collectRuleIds (the app verifies AI citations against it)
+	const ids = z
+		.array(z.string().min(1))
+		.parse(JSON.parse(readFileSync(join(dir, 'rule-ids.json'), 'utf8')));
+	const expected = collectRuleIds(sections);
+	if (ids.length !== expected.size || ids.some((ruleId) => !expected.has(ruleId))) {
+		throw new Error(`${id}: rule-ids.json out of sync — rerun npm run ingest`);
+	}
+	// grounding must stay fully cited (every body line reachable by a citation)
+	const grounding = readFileSync(join(dir, 'grounding.txt'), 'utf8');
+	for (const line of grounding.slice(grounding.indexOf('\n## ')).split('\n')) {
+		const t = line.trimStart();
+		if (t && !t.startsWith('##') && !t.startsWith('[') && !t.startsWith('(annotation)')) {
+			throw new Error(`${id}: uncited grounding line: ${t.slice(0, 60)}…`);
+		}
+	}
 }
 console.log(`✓ content valid (${checked} sections)`);
 

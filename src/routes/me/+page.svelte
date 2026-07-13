@@ -87,7 +87,6 @@
 				<p class="mt-3 text-xs text-navy/50">{setLabel(data.timedBest.at)}</p>
 			{:else}
 				<p class="mt-2 text-sm text-navy/60">No timed runs yet.</p>
-				<p class="mt-1 text-sm text-navy/60">Sixty seconds, one streak. See what you've got.</p>
 			{/if}
 			<div class="mt-auto pt-5">
 				<a
@@ -104,9 +103,7 @@
 				Recent attempts
 			</h2>
 			{#if data.attempts.length === 0}
-				<p class="mt-2 text-sm text-navy/60">
-					Nothing yet — finish a quiz and it lands here automatically.
-				</p>
+				<p class="mt-2 text-sm text-navy/60">Nothing yet. Completed quizzes will appear here.</p>
 			{:else}
 				<ul class="mt-3 max-h-60 divide-y divide-mist overflow-y-auto">
 					{#each data.attempts as attempt (attempt.id)}

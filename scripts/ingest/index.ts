@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { ManifestSchema, SectionSchema, type Manifest } from '../../src/lib/content/types';
+import { collectRuleIds } from '../../src/lib/content/rule-ids';
 import { RULESETS } from './config';
 import { parseRulesHtml } from './parse';
 import {
@@ -85,6 +86,10 @@ for (const cfg of RULESETS) {
 		);
 	}
 	writeFileSync(join(dir, 'glossary.json'), JSON.stringify(glossary, null, '\t'));
+	writeFileSync(
+		join(dir, 'rule-ids.json'),
+		JSON.stringify([...collectRuleIds(sections)].sort(), null, '\t')
+	);
 	writeFileSync(
 		join(dir, 'grounding.txt'),
 		buildGrounding(sections, `${cfg.title} (${cfg.edition})\nSource: ${cfg.sourceUrl}`)

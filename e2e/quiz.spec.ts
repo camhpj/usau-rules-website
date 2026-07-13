@@ -175,7 +175,7 @@ test('timed challenge — full expiry via clock emulation', async ({ page }) => 
 	await page.getByTestId('choice').first().click();
 	await page.clock.fastForward(700);
 
-	await page.clock.fastForward('01:00');
+	await page.clock.fastForward('05:00');
 	await expect(page.getByRole('heading', { name: /time!/i })).toBeVisible();
 	await expect(page.getByText(/best streak/i)).toBeVisible();
 	await expect(page.getByText(/new personal best/i)).toBeVisible();
@@ -216,7 +216,7 @@ test('progress persists across a reload of the quiz hub and mastery grid', async
 	await page.waitForLoadState('networkidle');
 	await page.getByRole('button', { name: /^start$/i }).click();
 	await page.getByTestId('choice').first().click();
-	await page.clock.fastForward('01:00');
+	await page.clock.fastForward('05:00');
 	await expect(page.getByRole('heading', { name: /time!/i })).toBeVisible();
 
 	await page.goto('/quiz');

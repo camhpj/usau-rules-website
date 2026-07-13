@@ -98,7 +98,7 @@
 	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Timed challenge</p>
 
 	{#if phase === 'intro'}
-		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Sixty seconds.</h1>
+		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Five minutes.</h1>
 		<p class="mt-3 max-w-xl text-white/70">
 			Answer as many as you can before the clock runs out. Correct answers build your streak; one
 			miss resets it. Explanations wait for you in the results.
@@ -120,7 +120,7 @@
 			class="relative mt-6 flex flex-wrap items-center justify-between gap-y-1 rounded-xl bg-navy px-5 py-3"
 		>
 			<p class="font-mono text-3xl font-bold {timeLeft <= 10 ? 'text-cardinal' : 'text-white'}">
-				0:{String(timeLeft).padStart(2, '0')}
+				{Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
 			</p>
 			<p
 				class="basis-full text-xs font-semibold tracking-wider whitespace-nowrap text-white/70 uppercase sm:basis-auto sm:text-sm"

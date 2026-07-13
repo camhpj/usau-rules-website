@@ -6,12 +6,14 @@
 		items,
 		rulesetId,
 		mode = 'standard',
+		finishLabel = 'See results',
 		onAnswer,
 		onComplete
 	}: {
 		items: QuizItem[];
 		rulesetId: string;
 		mode?: 'standard' | 'rapid';
+		finishLabel?: string;
 		onAnswer?: (record: AnswerRecord) => void;
 		onComplete: (records: AnswerRecord[]) => void;
 	} = $props();
@@ -139,7 +141,7 @@
 					onclick={next}
 					class="mt-4 rounded-full bg-cardinal px-6 py-2 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-50 disabled:hover:brightness-100"
 				>
-					{index + 1 >= items.length ? 'See results' : 'Next question'}
+					{index + 1 >= items.length ? finishLabel : 'Next question'}
 				</button>
 			</div>
 		{/if}

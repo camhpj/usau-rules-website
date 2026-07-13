@@ -7,3 +7,8 @@ GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 # Enables the email/password test sign-in used by e2e. NEVER set in production.
 ALLOW_TEST_SIGNIN=1
+# Gemini API key for Ask + Scenario mode (create at https://aistudio.google.com/apikey).
+# Leave empty to develop without AI: /api/ai/* returns 503 and the UI shows "offline".
+GEMINI_API_KEY=
+# Global AI kill-switch: set to 1 to disable all /api/ai/* endpoints. Leave empty otherwise.
+AI_DISABLED=
