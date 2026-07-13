@@ -52,11 +52,14 @@ The "First L." suggestion string is derived **server-side** from the session's G
 
 Both routes live under `/api/`, so the existing `hooks.server.ts` dynamic gate covers them — no hooks change.
 
-## UI
+## UI (wireframes user-validated 2026-07-13 in a visual design session; mockups in `.superpowers/brainstorm/`)
 
-1. **`/leaderboard`** — public prerendered shell page; client-fetches the API on mount. Navy shell, white `rounded-xl` card. Table rows: rank, initials chip (first letter of display name), display name, score, best streak, date. Own-rank row pinned beneath the board when `me` is present and outside the top 10. Empty state: "No runs on the board yet — set a name and play the timed challenge." Signed-out UX: full board, no `me` row, nothing broken.
-2. **`/me` "Leaderboard" card** — shows the current name with change/remove controls, or the claim flow: a one-click "Use Cameron J." button (server suggestion, `resolveConflict: true`) plus a custom-name input. Links to `/leaderboard`.
-3. **Post-run nudge** — on the timed results screen, when the just-finished run's server-verified score would place in the top 10 AND the player has no display name: "This run would be #N on the leaderboard — claim your spot", with the same claim controls inline. Dismissable; never blocks the results. (Qualification check: client compares the finish response's score against the fetched board.)
+1. **`/leaderboard`** — public prerendered shell page; client-fetches the API on mount. **Layout: "classic table" (option A of three mocked).** Navy shell, chip "Timed challenge", display headline "Leaderboard.", ONE white `rounded-xl` card containing a dense 10-row table: rank (ranks 1–3 in cardinal), initials chip, display name, score, best streak, date. Own-rank row pinned as the final row in a mist-gray band when `me` is present and outside the top 10. Cardinal CTA below the card: "Play the timed challenge →". Empty state: "No runs on the board yet — set a name and play the timed challenge." Signed-out UX: full board, no `me` row, nothing broken. (Rejected alternatives: podium-top-3, split-hero.)
+2. **`/me` — NO new card.** The claim/manage controls are one quiet line inside the EXISTING "Timed best" card, below the stats, above the CTA, separated by a hairline divider:
+   - opted-in: `On the leaderboard as **Cameron J.** · change · remove`
+   - not opted-in: `Not on the leaderboard — join as “Cameron J.” or use another name`
+   Links are cardinal; the word **"or" is full-strength bold navy** (non-clickable, high-contrast separator between the two actions — user-specified). "use another name" expands a small inline input in place (no modal, no new card). "leaderboard" links to `/leaderboard`.
+3. **Post-run nudge — a single quiet line**, not a boxed callout (user rejected the noisy version): on the timed results screen, below the score stats, when the run's server-verified score would place top-10 AND the player has no display name: `#N on the leaderboard if you claim it — join as “Cameron J.” or use another name ✕`. Same link/or/inline-input treatment as the dashboard line. Dismissable (✕); never blocks or delays the results. (Qualification check: client compares the finish response's score against the fetched board.)
 
 Links: timed intro screen and quiz hub timed card get "See the leaderboard →".
 
