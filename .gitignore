@@ -32,3 +32,6 @@ vite.config.ts.timestamp-*
 # npm is the package manager of record (package-lock.json)
 bun.lock
 bun.lockb
+
+# Claude Code workspace (worktrees, local settings)
+.claude/

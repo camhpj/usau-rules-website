@@ -78,4 +78,13 @@
 			</a>
 		{/each}
 	</div>
+
+	<p class="mt-6 text-sm">
+		<a
+			href="/leaderboard"
+			class="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
+		>
+			Timed challenge has a public leaderboard →
+		</a>
+	</p>
 </section>

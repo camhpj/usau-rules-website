@@ -2,8 +2,9 @@ import { z } from 'zod';
 
 /**
  * Stateless anti-cheat handshake for timed runs: the server signs
- * {userId, runId, startedAt} at run start and only accepts results whose
- * token verifies AND whose elapsed time fits the run window. Replay is
+ * {userId, runId, startedAt, rulesetId} at run start and only accepts
+ * results whose token verifies, whose elapsed time fits the run window,
+ * and whose rulesetId matches the finish payload's ruleset. Replay is
  * blocked by quiz_attempts.client_id = "timed:<runId>" (unique).
  */
 
@@ -11,12 +12,14 @@ export interface RunClaims {
 	userId: string;
 	runId: string;
 	startedAt: number;
+	rulesetId: string;
 }
 
 const ClaimsSchema: z.ZodType<RunClaims> = z.object({
 	userId: z.string().min(1),
 	runId: z.string().min(1),
-	startedAt: z.number().int().positive()
+	startedAt: z.number().int().positive(),
+	rulesetId: z.string().min(1)
 });
 
 const encoder = new TextEncoder();

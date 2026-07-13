@@ -134,9 +134,13 @@ export async function hydrateFromServer(rulesetId: string): Promise<void> {
 }
 
 /** Requests a signed run token; null when signed out/offline (run stays local-only). */
-export async function beginTimedRun(): Promise<string | null> {
+export async function beginTimedRun(rulesetId: string): Promise<string | null> {
 	try {
-		const res = await fetch('/api/timed/start', { method: 'POST' });
+		const res = await fetch('/api/timed/start', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ rulesetId })
+		});
 		if (!res.ok) return null;
 		const data = (await res.json().catch(() => null)) as { token?: string } | null;
 		return data?.token ?? null;
@@ -145,13 +149,17 @@ export async function beginTimedRun(): Promise<string | null> {
 	}
 }
 
-/** Submits a finished timed run for server-side validation. Fire-and-forget. */
+/**
+ * Submits a finished timed run for server-side validation. Fire-and-forget
+ * at existing call sites; resolves the server-accepted `{score, bestStreak}`
+ * on 201, or null on any rejection/duplicate/offline outcome.
+ */
 export async function submitTimedRun(opts: {
 	token: string;
 	rulesetId: string;
 	items: QuizItem[];
 	records: AnswerRecord[];
-}): Promise<void> {
+}): Promise<{ score: number; bestStreak: number } | null> {
 	const byId = new Map(opts.items.map((item) => [item.question.id, item]));
 	const responses = [];
 	for (const record of opts.records) {
@@ -159,15 +167,23 @@ export async function submitTimedRun(opts: {
 		if (!item) continue;
 		responses.push({ questionId: record.questionId, choiceIndex: item.order[record.chosenChoice] });
 	}
-	if (responses.length === 0) return;
+	if (responses.length === 0) return null;
 	const capped = responses.slice(0, TIMED_MAX_RESPONSES);
 	try {
-		await fetch('/api/timed/finish', {
+		const res = await fetch('/api/timed/finish', {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({ token: opts.token, rulesetId: opts.rulesetId, responses: capped })
 		});
+		if (res.status !== 201) return null; // rejected/duplicate — no score to report
+		const data = (await res.json().catch(() => null)) as {
+			score?: number;
+			bestStreak?: number;
+		} | null;
+		if (typeof data?.score !== 'number' || typeof data?.bestStreak !== 'number') return null;
+		return { score: data.score, bestStreak: data.bestStreak };
 	} catch {
 		// offline — the run stays local-only by design
+		return null;
 	}
 }

@@ -6,7 +6,8 @@ import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
 import { questionCountsBySection } from '$lib/quiz/bank';
 import { computeSectionMastery } from '$lib/quiz/mastery';
-import { bookmarks, questionResponses, quizAttempts } from '$lib/server/db/schema';
+import { bookmarks, questionResponses, quizAttempts, user } from '$lib/server/db/schema';
+import { suggestDisplayName } from '$lib/server/profile/display-name';
 
 export const prerender = false;
 
@@ -23,7 +24,7 @@ export const load: PageServerLoad = async (event) => {
 	const manifest = getManifest(rulesetId);
 	const sectionBySlug = new Map(manifest.sections.map((s) => [s.slug, s]));
 
-	const [attemptRows, responseRows, bestRows, bookmarkRows] = await Promise.all([
+	const [attemptRows, responseRows, bestRows, bookmarkRows, profileRows] = await Promise.all([
 		db
 			.select()
 			.from(quizAttempts)
@@ -65,7 +66,12 @@ export const load: PageServerLoad = async (event) => {
 			})
 			.from(bookmarks)
 			.where(eq(bookmarks.userId, userId))
-			.orderBy(desc(bookmarks.createdAt))
+			.orderBy(desc(bookmarks.createdAt)),
+		db
+			.select({ displayName: user.displayName, name: user.name })
+			.from(user)
+			.where(eq(user.id, userId))
+			.limit(1)
 	]);
 
 	const responses = responseRows.reverse(); // chronological for computeSectionMastery
@@ -113,6 +119,10 @@ export const load: PageServerLoad = async (event) => {
 				sectionSlug: slug,
 				sectionTitle: slug ? (sectionBySlug.get(slug)?.title ?? null) : null
 			};
-		})
+		}),
+		profile: {
+			displayName: profileRows[0]?.displayName ?? null,
+			suggestion: suggestDisplayName(profileRows[0]?.name ?? session.user.name ?? '')
+		}
 	};
 };

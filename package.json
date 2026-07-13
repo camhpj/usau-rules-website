@@ -55,6 +55,7 @@
 		"bits-ui": "^2.18.1",
 		"drizzle-orm": "^0.45.2",
 		"minisearch": "^7.2.0",
+		"obscenity": "^0.4.6",
 		"zod": "^4.4.3"
 	}
 }

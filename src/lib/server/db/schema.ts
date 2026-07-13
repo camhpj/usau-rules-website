@@ -1,22 +1,36 @@
 import { sql } from 'drizzle-orm';
-import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+	index,
+	integer,
+	primaryKey,
+	sqliteTable,
+	text,
+	uniqueIndex
+} from 'drizzle-orm/sqlite-core';
 
 // ---- better-auth core tables (shape per better-auth CLI drizzle/sqlite output) ----
 
-export const user = sqliteTable('user', {
-	id: text('id').primaryKey(),
-	name: text('name').notNull(),
-	email: text('email').notNull().unique(),
-	emailVerified: integer('email_verified', { mode: 'boolean' }).default(false).notNull(),
-	image: text('image'),
-	createdAt: integer('created_at', { mode: 'timestamp_ms' })
-		.default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
-		.notNull(),
-	updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
-		.default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
-		.$onUpdate(() => new Date())
-		.notNull()
-});
+export const user = sqliteTable(
+	'user',
+	{
+		id: text('id').primaryKey(),
+		name: text('name').notNull(),
+		email: text('email').notNull().unique(),
+		emailVerified: integer('email_verified', { mode: 'boolean' }).default(false).notNull(),
+		image: text('image'),
+		// Public leaderboard identity. NULL = not on the board. Uniqueness is
+		// case-insensitive via the expression index below.
+		displayName: text('display_name'),
+		createdAt: integer('created_at', { mode: 'timestamp_ms' })
+			.default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+			.notNull(),
+		updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+			.default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [uniqueIndex('user_display_name_lower_idx').on(sql`lower(${table.displayName})`)]
+);
 
 export const session = sqliteTable(
 	'session',

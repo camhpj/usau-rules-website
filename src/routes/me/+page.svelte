@@ -1,7 +1,15 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import Chip from '$lib/components/Chip.svelte';
+	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
 	let { data } = $props();
+
+	// Local, optimistically-updated mirror of the claimed display name so saves/removal reflect
+	// immediately without a reload; the server load value stays the source of truth on refresh.
+	let displayName = $state<string | null>(null);
+	$effect.pre(() => {
+		displayName = data.profile.displayName;
+	});
 
 	const MODE_LABELS = { quick: 'Quick quiz', mastery: 'Section mastery', timed: 'Timed challenge' };
 	// Seed local mutable state from the initial load once; not kept reactively synced to `data`,
@@ -40,6 +48,22 @@
 		} catch {
 			marks = prev;
 		}
+	}
+
+	async function removeName() {
+		const prev = displayName;
+		displayName = null;
+		const res = await fetch('/api/profile/display-name', {
+			method: 'PUT',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ displayName: null })
+		}).catch(() => null);
+		if (!res?.ok) displayName = prev; // revert on failure
+	}
+
+	function startChange() {
+		// change = remove locally then re-open the claim flow prefilled
+		displayName = null;
 	}
 
 	// Progress summary — a compact roll-up of the per-section mastery the server load already
@@ -88,6 +112,38 @@
 			{:else}
 				<p class="mt-2 text-sm text-navy/60">No timed runs yet.</p>
 			{/if}
+			<div class="mt-4 border-t border-mist pt-3">
+				<a
+					href="/leaderboard"
+					class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase hover:text-navy"
+					title="See the leaderboard">Leaderboard →</a
+				>
+				<p class="mt-1.5 text-sm text-navy/70">
+					{#if displayName}
+						<b class="text-navy whitespace-nowrap">{displayName}</b>
+						<span class="whitespace-nowrap">
+							· <button
+								type="button"
+								onclick={startChange}
+								class="text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
+								>change</button
+							>
+							·
+							<button
+								type="button"
+								onclick={removeName}
+								class="text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
+								>remove</button
+							>
+						</span>
+					{:else}
+						<DisplayNameClaim
+							suggestion={data.profile.suggestion}
+							onSaved={(n) => (displayName = n)}
+						/>
+					{/if}
+				</p>
+			</div>
 			<div class="mt-auto pt-5">
 				<a
 					href="/quiz/timed"

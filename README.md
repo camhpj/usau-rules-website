@@ -9,6 +9,7 @@ Best Perspective is a web app for exploring the USA Ultimate (USAU) rules of ult
 - **Rules explorer** — browse, search, and cross-link the full USAU rulebook.
 - **Quiz** — quick quizzes, section mastery, and a timed challenge, all built on a 212-question human-reviewed bank.
 - **Accounts** — sign in with Google to sync quiz history, section mastery, and timed-challenge bests to the cloud, and to bookmark rules; see it all on the `/me` dashboard.
+- **Leaderboard** — an all-time top 10 for the timed challenge (`/leaderboard`), opt-in and profanity-filtered: claim a unique display name to appear, with your own rank shown even off the visible top 10.
 - **AI** — ask-the-rules Q&A and on-demand scenario questions, grounded in the rulebook via Gemini; see [AI features](#ai-features).
 
 Signing in is optional: the rules explorer and all three quiz modes work fully signed-out, with progress kept in `localStorage` only. Signing in adds cross-device sync (via a local-first background sync, so quizzing never blocks on the network) plus bookmarks and the dashboard. The AI features — scenario generation and ask-the-rules (see [AI features](#ai-features)) — are the one area that requires being signed in.
@@ -112,7 +113,7 @@ npx wrangler d1 execute usau-rules-website-db --remote --command \
   "select id, json_extract(question,'$.prompt') as prompt from ai_questions where status='served' order by created_at desc limit 20"
 ```
 
-Good ones graduate into `content/questions/` with a real `<section>-<nn>` id, human-reviewed before commit — the same standard as every other question in the bank (see [Question bank](#question-bank)). `/ask` questions and their final answers are similarly logged to `ai_asks` (thinking summaries are not retained) to improve answer quality over time.
+Good ones graduate into `content/questions/` with a real `<section>-<nn>` id, human-reviewed before commit — the same standard as every other question in the bank (see [Question bank](#question-bank)). `/ask` questions and their final answers are similarly logged to `ai_asks` (thinking summaries are not retained) to improve answer quality over time. In the same spirit of being upfront about what's visible to others: a claimed leaderboard display name is public the moment it's set (shown on `/leaderboard` and to anyone viewing the board), and clearing it (`/me` → remove) drops you off the board immediately — no grace period, no cached row.
 
 ## Persistence & auth
 

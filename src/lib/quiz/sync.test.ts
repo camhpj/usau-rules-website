@@ -151,16 +151,16 @@ describe('timed run sync', () => {
 	it('beginTimedRun returns the token, null on 401/network error', async () => {
 		const { beginTimedRun } = await import('./sync');
 		fetchMock.mockResolvedValueOnce(okJson({ token: 't0k' }));
-		expect(await beginTimedRun()).toBe('t0k');
+		expect(await beginTimedRun('r')).toBe('t0k');
 		fetchMock.mockResolvedValueOnce(okJson({ message: 'no' }, 401));
-		expect(await beginTimedRun()).toBeNull();
+		expect(await beginTimedRun('r')).toBeNull();
 		fetchMock.mockRejectedValueOnce(new Error('offline'));
-		expect(await beginTimedRun()).toBeNull();
+		expect(await beginTimedRun('r')).toBeNull();
 	});
-	it('submitTimedRun posts original choice indices in answer order', async () => {
+	it('submitTimedRun posts original choice indices in answer order and resolves the accepted score', async () => {
 		const { submitTimedRun } = await import('./sync');
 		fetchMock.mockResolvedValue(okJson({ score: 1, bestStreak: 1 }, 201));
-		await submitTimedRun({
+		const accepted = await submitTimedRun({
 			token: 't0k',
 			rulesetId: 'r',
 			items: [item('15-01'), item('15-02')],
@@ -171,6 +171,7 @@ describe('timed run sync', () => {
 			{ questionId: '15-02', choiceIndex: 0 },
 			{ questionId: '15-01', choiceIndex: 2 }
 		]);
+		expect(accepted).toEqual({ score: 1, bestStreak: 1 });
 	});
 	it('caps responses at TIMED_MAX_RESPONSES', async () => {
 		const { submitTimedRun } = await import('./sync');
@@ -185,6 +186,21 @@ describe('timed run sync', () => {
 		await submitTimedRun({ token: 't0k', rulesetId: 'r', items, records });
 		const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
 		expect(body.responses).toHaveLength(TIMED_MAX_RESPONSES);
+	});
+	it('resolves null on duplicate/rejected/offline outcomes', async () => {
+		const { submitTimedRun } = await import('./sync');
+		const args = {
+			token: 't0k',
+			rulesetId: 'r',
+			items: [item('15-01')],
+			records: [record('15-01', 0)]
+		};
+		fetchMock.mockResolvedValueOnce(okJson({ id: 'a1', duplicate: true }, 409));
+		expect(await submitTimedRun(args)).toBeNull();
+		fetchMock.mockResolvedValueOnce(okJson({ message: 'bad' }, 400));
+		expect(await submitTimedRun(args)).toBeNull();
+		fetchMock.mockRejectedValueOnce(new Error('offline'));
+		expect(await submitTimedRun(args)).toBeNull();
 	});
 });
 

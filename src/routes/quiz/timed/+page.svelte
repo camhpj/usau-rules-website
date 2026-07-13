@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
+	import { LEADERBOARD_SIZE, LeaderboardResponseSchema } from '$lib/leaderboard/payload';
+	import { DisplayNameStateSchema } from '$lib/profile/payload';
 	import { listQuestions } from '$lib/quiz/bank';
 	import {
 		buildQuizItems,
@@ -33,13 +36,58 @@
 	let ticker: ReturnType<typeof setInterval> | undefined;
 	let runToken: Promise<string | null> = Promise.resolve(null);
 
+	let nudge = $state<{ rank: number; suggestion: string } | null>(null);
+	let nudgeDismissed = $state(false);
+	let claimedName = $state<string | null>(null);
+	let myRank = $state<number | null>(null);
+
+	// Bumped on every start() so a late-resolving maybeNudge() chain from a
+	// prior run (e.g. "End run" → "Run it back" → "End run" in quick
+	// succession) can detect it's stale and no-op instead of clobbering the
+	// current run's results state.
+	let runGeneration = 0;
+
 	onMount(() => {
 		best = getTimedBest(DEFAULT_RULESET_ID);
 		return () => clearInterval(ticker);
 	});
 
+	/** Server-accepted run → the player's board status for the results screen:
+	 *  has a name → their current rank; no name + would place → the claim nudge. */
+	async function resolveBoardStatus(score: number, streak: number, gen: number) {
+		try {
+			const profileRes = await fetch('/api/profile/display-name');
+			if (gen !== runGeneration) return; // a newer run started while we awaited
+			if (!profileRes.ok) return; // signed out (401) → plain leaderboard link only
+			const profile = DisplayNameStateSchema.safeParse(await profileRes.json().catch(() => null));
+			if (gen !== runGeneration || !profile.success) return;
+			const boardRes = await fetch('/api/leaderboard');
+			if (gen !== runGeneration) return;
+			const board = LeaderboardResponseSchema.safeParse(await boardRes.json().catch(() => null));
+			if (gen !== runGeneration) return;
+			if (!boardRes.ok || !board.success) return;
+			if (profile.data.displayName !== null) {
+				myRank = board.data.me?.rank ?? null;
+				return;
+			}
+			const beats = board.data.entries.filter(
+				(e) => e.score > score || (e.score === score && e.bestStreak >= streak)
+			).length;
+			const rank = beats + 1;
+			if (gen !== runGeneration) return; // final guard right before mutating state
+			if (rank <= LEADERBOARD_SIZE) nudge = { rank, suggestion: profile.data.suggestion };
+		} catch {
+			// network problems never touch the results screen
+		}
+	}
+
 	function start() {
-		runToken = beginTimedRun();
+		runGeneration += 1;
+		nudge = null;
+		nudgeDismissed = false;
+		claimedName = null;
+		myRank = null;
+		runToken = beginTimedRun(DEFAULT_RULESET_ID);
 		const rng = mulberry32(Date.now());
 		items = buildQuizItems(shuffle(bank, rng), rng);
 		records = [];
@@ -74,14 +122,18 @@
 			best = result.best;
 			const finishedItems = items;
 			const finishedRecords = records;
+			const gen = runGeneration;
 			void (async () => {
 				const token = await runToken;
-				if (token) {
-					await submitTimedRun({
+				if (token && gen === runGeneration) {
+					void submitTimedRun({
 						token,
 						rulesetId: DEFAULT_RULESET_ID,
 						items: finishedItems,
 						records: finishedRecords
+					}).then((accepted) => {
+						if (accepted && gen === runGeneration)
+							void resolveBoardStatus(accepted.score, accepted.bestStreak, gen);
 					});
 				}
 			})();
@@ -108,6 +160,14 @@
 				Personal best: {best.score} correct · streak {best.bestStreak}
 			</p>
 		{/if}
+		<p class="mt-3 text-sm">
+			<a
+				href="/leaderboard"
+				class="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
+			>
+				See the leaderboard →
+			</a>
+		</p>
 		<button
 			type="button"
 			onclick={start}
@@ -158,6 +218,50 @@
 						</span>
 					{/if}
 				</p>
+				{#if claimedName}
+					<p class="mt-2 text-sm text-navy/70">
+						On the board as <b class="text-navy">{claimedName}</b> —
+						<a
+							href="/leaderboard"
+							class="font-semibold text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
+							>see the leaderboard →</a
+						>
+					</p>
+				{:else if nudge && !nudgeDismissed}
+					<p class="mt-2 text-sm text-navy/70">
+						#{nudge.rank} on the
+						<a
+							href="/leaderboard"
+							class="font-semibold text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
+							>leaderboard</a
+						>
+						if you claim it —
+						<DisplayNameClaim suggestion={nudge.suggestion} onSaved={(n) => (claimedName = n)} />
+						<button
+							type="button"
+							aria-label="Dismiss"
+							onclick={() => (nudgeDismissed = true)}
+							class="ml-1 text-navy/40 hover:text-navy/70">✕</button
+						>
+					</p>
+				{:else if myRank !== null}
+					<p class="mt-2 text-sm text-navy/70">
+						On the board at <b class="text-navy">#{myRank}</b> —
+						<a
+							href="/leaderboard"
+							class="font-semibold text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
+							>see the leaderboard →</a
+						>
+					</p>
+				{:else}
+					<p class="mt-2 text-sm text-navy/70">
+						<a
+							href="/leaderboard"
+							class="font-semibold text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
+							>See the leaderboard →</a
+						>
+					</p>
+				{/if}
 				<div class="mt-4 flex gap-3">
 					<button
 						type="button"

@@ -15,6 +15,7 @@ export const POST: RequestHandler = async (event) => {
 
 	const claims = await verifyRunToken(payload.token, event.platform!.env.BETTER_AUTH_SECRET);
 	if (!claims || claims.userId !== user.id) error(400, 'invalid run token');
+	if (claims.rulesetId !== payload.rulesetId) error(400, 'run token bound to a different ruleset');
 	const now = Date.now();
 	const elapsedMs = now - claims.startedAt;
 	if (elapsedMs < 1000 || elapsedMs > (TIMED_DURATION_S + TIMED_GRACE_S) * 1000) {
