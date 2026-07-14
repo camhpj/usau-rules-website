@@ -95,7 +95,7 @@
 	<p class="mt-2 text-sm text-white/60">{data.user.name} · {data.user.email}</p>
 
 	<div class="mt-8 grid gap-4 lg:grid-cols-3">
-		<div class="flex flex-col rounded-xl bg-white p-6 text-navy">
+		<div class="card flex flex-col p-6">
 			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Timed best</h2>
 			{#if data.timedBest}
 				<div class="mt-4 flex items-baseline gap-10">
@@ -154,7 +154,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col rounded-xl bg-white p-6 text-navy lg:col-span-2">
+		<div class="card flex flex-col p-6 lg:col-span-2">
 			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
 				Recent attempts
 			</h2>
@@ -190,7 +190,7 @@
 		</div>
 	</div>
 
-	<div class="mt-4 rounded-xl bg-white p-6 text-navy">
+	<div class="card mt-4 p-6">
 		<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Progress</h2>
 		<div class="mt-4 flex flex-wrap items-baseline gap-x-8 gap-y-2">
 			<div>
@@ -245,7 +245,7 @@
 	{:else}
 		<ul class="mt-3 grid gap-2 sm:grid-cols-2">
 			{#each marks as mark (mark.rulesetId + mark.ruleId)}
-				<li class="flex items-center justify-between gap-3 rounded-xl bg-white px-4 py-3 text-navy">
+				<li class="card flex items-center justify-between gap-3 px-4 py-3">
 					<a
 						href="/rules/{mark.rulesetId}/{mark.sectionSlug}#{mark.ruleId}"
 						class="min-w-0 font-mono text-sm font-semibold text-cardinal hover:underline"

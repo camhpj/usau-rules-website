@@ -17,7 +17,7 @@
 	<div class="mt-4 grid w-full max-w-3xl gap-4 text-left sm:grid-cols-2">
 		<a
 			href="/rules/{DEFAULT_RULESET_ID}"
-			class="group relative rounded-xl bg-white p-6 text-navy transition-transform hover:-translate-y-0.5"
+			class="group relative card card-link p-6"
 		>
 			<h2 class="display text-2xl">Explore the rules</h2>
 			<p class="mt-1.5 pr-8 text-sm text-navy/70">
@@ -31,7 +31,7 @@
 		</a>
 		<a
 			href="/quiz"
-			class="group relative rounded-xl bg-white p-6 text-navy transition-transform hover:-translate-y-0.5"
+			class="group relative card card-link p-6"
 		>
 			<h2 class="display text-2xl">Test yourself</h2>
 			<p class="mt-1.5 pr-8 text-sm text-navy/70">

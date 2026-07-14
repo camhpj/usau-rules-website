@@ -78,7 +78,7 @@
 	{#if !sessionReady}
 		<div class="mt-8 h-40 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
 	{:else if !user}
-		<div class="mt-8 rounded-xl bg-white p-8 text-center text-navy">
+		<div class="card mt-8 p-8 text-center">
 			<h2 class="display text-2xl">Sign in to play scenarios</h2>
 			<button
 				type="button"
@@ -89,7 +89,7 @@
 			</button>
 		</div>
 	{:else if phase === 'setup' || phase === 'loading'}
-		<div class="mt-8 rounded-xl bg-white p-6 text-navy sm:p-8">
+		<div class="card mt-8 p-6 sm:p-8">
 			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Difficulty</h2>
 			<div class="mt-3 flex flex-wrap gap-2">
 				<button
@@ -157,7 +157,7 @@
 			/>
 		</div>
 	{:else}
-		<div class="mt-8 rounded-xl bg-white p-8 text-navy">
+		<div class="card mt-8 p-8">
 			<h2 class="display text-2xl">Nice call.</h2>
 			{#if remaining !== null}
 				<p class="mt-2 text-sm text-navy/60">

@@ -78,7 +78,7 @@
 		{#each modes as mode (mode.href)}
 			<a
 				href={mode.href}
-				class="group relative flex flex-col rounded-xl bg-white p-6 text-navy transition-transform hover:-translate-y-0.5"
+				class="group relative flex flex-col card card-link p-6"
 			>
 				<h2 class="display pr-10 text-2xl">{mode.title}</h2>
 				<p class="mt-1.5 pr-8 text-sm text-navy/70">{mode.body}</p>

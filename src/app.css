@@ -39,6 +39,21 @@
 	background-size: 96px 96px;
 }
 
+/* shared white panel styling used throughout the site */
+@utility card {
+	border-radius: var(--radius-xl);
+	background-color: var(--color-white);
+	color: var(--color-navy);
+}
+
+/* hover-lift treatment for clickable cards */
+@utility card-link {
+	transition: transform 150ms;
+	&:hover {
+		transform: translateY(-2px);
+	}
+}
+
 /* rule text content: cross-refs, glossary terms, tables, and images from ingested rule HTML */
 @layer components {
 	.rule-html a {

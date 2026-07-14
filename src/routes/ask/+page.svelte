@@ -134,7 +134,7 @@
 	{#if !sessionReady}
 		<div class="mt-8 h-40 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
 	{:else if !user}
-		<div class="mt-8 rounded-xl bg-white p-8 text-center text-navy">
+		<div class="card mt-8 p-8 text-center">
 			<h2 class="display text-2xl">Sign in to use the ask feature</h2>
 			<button
 				type="button"
@@ -145,7 +145,7 @@
 			</button>
 		</div>
 	{:else}
-		<form onsubmit={submit} class="mt-8 rounded-xl bg-white p-6 text-navy sm:p-8">
+		<form onsubmit={submit} class="card mt-8 p-6 sm:p-8">
 			<label for="ask-input" class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
 				Your question
 			</label>
@@ -180,7 +180,7 @@
 		</form>
 
 		{#if answer || phase === 'streaming'}
-			<div class="mt-6 rounded-xl bg-white p-6 text-navy sm:p-8">
+			<div class="card mt-6 p-6 sm:p-8">
 				<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Answer</h2>
 				{#if phase === 'streaming' && !answer}
 					<p class="mt-3 flex items-center gap-2 text-sm text-navy/50 italic">

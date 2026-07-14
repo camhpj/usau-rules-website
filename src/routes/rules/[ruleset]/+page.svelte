@@ -38,7 +38,7 @@
 				{#each group.items as s (s.slug)}
 					<a
 						href="/rules/{data.manifest.id}/{s.slug}"
-						class="group flex items-center justify-between gap-3 rounded-xl bg-white p-4 text-navy transition hover:-translate-y-0.5"
+						class="group flex items-center justify-between gap-3 card card-link p-4"
 					>
 						<span class="min-w-0">
 							{#if s.number}<span class="mr-1.5 font-mono text-sm font-semibold text-cardinal"

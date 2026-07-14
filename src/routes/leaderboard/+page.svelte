@@ -64,7 +64,7 @@
 		The {LEADERBOARD_SIZE} best five-minute runs, server-verified. One entry per player.
 	</p>
 
-	<div class="mt-8 rounded-xl bg-white p-4 text-navy sm:p-6">
+	<div class="card mt-8 p-4 sm:p-6">
 		{#if failed}
 			<div class="py-10 text-center">
 				<p class="text-sm text-navy/60">Couldn’t load the leaderboard.</p>

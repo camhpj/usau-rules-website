@@ -21,7 +21,7 @@
 	const itemsById = $derived(new Map(items.map((i) => [i.question.id, i])));
 </script>
 
-<div class="rounded-xl bg-white p-6 text-navy sm:p-8">
+<div class="card p-6 sm:p-8">
 	<p class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">{heading}</p>
 	<p class="display mt-2 text-6xl">
 		{score.correct}<span class="text-navy/30">/{score.total}</span>

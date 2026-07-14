@@ -19,7 +19,7 @@
 			{@const ruleCount = ruleset.sections.reduce((sum, s) => sum + s.ruleCount, 0)}
 			<a
 				href="/rules/{ruleset.id}"
-				class="group relative block rounded-xl bg-white p-6 pr-14 text-navy transition hover:-translate-y-0.5"
+				class="group relative block card card-link p-6 pr-14"
 			>
 				<Chip label={ruleset.edition} tone="dark" />
 				<h2 class="display mt-4 text-2xl text-navy">{ruleset.shortTitle}</h2>

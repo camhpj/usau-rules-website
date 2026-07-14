@@ -92,7 +92,7 @@
 <svelte:window onkeydown={onKeydown} />
 
 {#if item}
-	<div class="rounded-xl bg-white p-6 text-navy sm:p-8">
+	<div class="card p-6 sm:p-8">
 		{#if mode !== 'rapid'}
 			<p class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
 				Question {index + 1} of {items.length}

@@ -40,7 +40,7 @@
 		<TocSidebar manifest={data.manifest} current={data.section.slug} />
 	</aside>
 
-	<article bind:this={articleEl} class="min-w-0 flex-1 rounded-xl bg-white p-6 text-navy sm:p-10">
+	<article bind:this={articleEl} class="card min-w-0 flex-1 p-6 sm:p-10">
 		<p class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
 			{data.manifest.title} · {data.manifest.edition}
 		</p>

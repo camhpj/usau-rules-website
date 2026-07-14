@@ -86,7 +86,7 @@
 	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Ten questions.</h1>
 
 	{#if phase === 'setup'}
-		<div class="mt-8 rounded-xl bg-white p-6 text-navy sm:p-8">
+		<div class="card mt-8 p-6 sm:p-8">
 			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Sections</h2>
 			<p class="mt-1 text-sm text-navy/60">Leave everything off to draw from the whole bank.</p>
 			<div class="mt-3 flex flex-wrap gap-2">
