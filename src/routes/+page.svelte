@@ -2,7 +2,7 @@
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 </script>
 
-<svelte:head><title>Best Perspective — USA Ultimate rules.</title></svelte:head>
+<svelte:head><title>Best Perspective — USA Ultimate Rules</title></svelte:head>
 
 <section
 	class="mx-auto flex min-h-[calc(100vh-4rem-4.5rem)] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:px-6"
@@ -11,7 +11,7 @@
 		Know the<br /><span class="text-cardinal">Rules.</span>
 	</h1>
 	<p class="mt-5 mb-3 max-w-xl text-lg text-white/70">
-		Learn the rules of ultimate frisbee and test your knowledge.
+		Learn the rules of Ultimate and test your knowledge.
 	</p>
 
 	<div class="mt-4 grid w-full max-w-3xl gap-4 text-left sm:grid-cols-2">
