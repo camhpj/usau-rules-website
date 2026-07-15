@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@import '@fontsource/barlow-condensed/700-italic.css';
-@import '@fontsource/barlow-condensed/900-italic.css';
 @import '@fontsource-variable/inter';
 
 @theme {
@@ -9,7 +7,6 @@
 	--color-cardinal: #b41f3a;
 	--color-mist: #f0f1f3;
 	--color-turf: #2f7d52;
-	--font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -23,11 +20,11 @@
 }
 
 @utility display {
-	font-family: var(--font-display);
-	font-style: italic;
-	font-weight: 900;
+	font-family: var(--font-sans);
+	font-style: normal;
+	font-weight: 700;
 	text-transform: uppercase;
-	letter-spacing: -0.01em;
+	letter-spacing: -0.04em;
 	line-height: 0.95;
 }
 
@@ -117,5 +114,128 @@
 		to {
 			background-color: transparent;
 		}
+	}
+}
+
+/* ---------- landing motion (see docs/superpowers/specs/2026-07-15-landing-motion-design.md) ---------- */
+
+/* entrance fade-up; stagger with inline style="--stagger: <n>" (n × 80ms) */
+@utility animate-fade-up {
+	@media (prefers-reduced-motion: no-preference) {
+		animation: fade-up 450ms ease-out backwards;
+		animation-delay: calc(var(--stagger, 0) * 80ms);
+	}
+}
+
+@layer components {
+	/* light pulses traveling along landing grid lines; spawned on random gridlines by GridPulses */
+	.grid-pulse {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.grid-pulse-x {
+		left: 0;
+		height: 1px;
+		width: 10rem;
+		background: linear-gradient(to right, transparent, rgb(255 255 255 / 0.45), transparent);
+	}
+	.grid-pulse-y {
+		top: 0;
+		width: 1px;
+		height: 10rem;
+		background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 0.45), transparent);
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.grid-pulse-x {
+			animation: pulse-x 5s linear;
+		}
+		.grid-pulse-y {
+			animation: pulse-y 5s linear;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.disc-flight {
+			display: none;
+		}
+	}
+
+	/* in-flight disc wobble; base tilt comes from the wrapping rotate(-12) group */
+	.disc-body {
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.disc-body {
+			animation: disc-wobble 1.2s ease-in-out infinite alternate;
+		}
+	}
+
+	/* pre-hydration auth hint: the inline script in app.html sets data-auth-hint
+	   from localStorage before first paint, so returning signed-out visitors get
+	   the real button instead of the placeholder with zero layout shift */
+	.auth-signin-optimistic {
+		display: none;
+	}
+	html[data-auth-hint='0'] .auth-pending-placeholder {
+		display: none;
+	}
+	html[data-auth-hint='0'] .auth-signin-optimistic {
+		display: block;
+	}
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pulse-x {
+	0% {
+		transform: translateX(-10rem);
+		opacity: 0;
+	}
+	8% {
+		opacity: 1;
+	}
+	85% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(100vw);
+		opacity: 0;
+	}
+}
+
+@keyframes pulse-y {
+	0% {
+		transform: translateY(-10rem);
+		opacity: 0;
+	}
+	8% {
+		opacity: 1;
+	}
+	85% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(100vh);
+		opacity: 0;
+	}
+}
+
+@keyframes disc-wobble {
+	from {
+		transform: rotate(-3deg);
+	}
+	to {
+		transform: rotate(3deg);
 	}
 }

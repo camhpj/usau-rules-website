@@ -130,7 +130,7 @@
 
 <svelte:head><title>Ask · Best Perspective</title></svelte:head>
 
-<section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
 	{#if !sessionReady}
 		<div class="mt-8 h-40 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
 	{:else if !user}

@@ -6,20 +6,23 @@
 <svelte:head><title>Rulebooks · Best Perspective</title></svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-white/50 uppercase">Explore</p>
-	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">
+	<p class="animate-fade-up text-xs font-semibold tracking-[0.18em] text-white/50 uppercase">
+		Explore
+	</p>
+	<h1 class="display animate-fade-up mt-2 text-4xl text-white sm:text-5xl" style="--stagger: 1">
 		Rule<span class="text-cardinal">books</span>
 	</h1>
-	<p class="mt-3 max-w-xl text-sm text-white/60">
+	<p class="animate-fade-up mt-3 max-w-xl text-sm text-white/60" style="--stagger: 2">
 		Pick a ruleset to browse its full table of contents.
 	</p>
 
 	<div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-		{#each data.rulesets as ruleset (ruleset.id)}
+		{#each data.rulesets as ruleset, i (ruleset.id)}
 			{@const ruleCount = ruleset.sections.reduce((sum, s) => sum + s.ruleCount, 0)}
 			<a
 				href="/rules/{ruleset.id}"
-				class="group relative block card card-link p-6 pr-14"
+				class="group animate-fade-up relative block card card-link p-6 pr-14"
+				style="--stagger: {3 + i}"
 			>
 				<Chip label={ruleset.edition} tone="dark" />
 				<h2 class="display mt-4 text-2xl text-navy">{ruleset.shortTitle}</h2>

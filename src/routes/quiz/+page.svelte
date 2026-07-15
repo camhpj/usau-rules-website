@@ -68,19 +68,30 @@
 <svelte:head><title>Quiz · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Test yourself</p>
-	<h1 class="display mt-3 text-5xl text-white sm:text-6xl">Pick your game.</h1>
-	<p class="mt-4 max-w-2xl text-white/70">
+	<p class="animate-fade-up text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">
+		Test yourself
+	</p>
+	<h1 class="display animate-fade-up mt-3 text-5xl text-white sm:text-6xl" style="--stagger: 1">
+		Pick your game.
+	</h1>
+	<p class="animate-fade-up mt-4 max-w-2xl text-white/70" style="--stagger: 2">
 		Every question is grounded in the official rules, with citations to relevant rules.
 	</p>
 
 	<div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-		{#each modes as mode (mode.href)}
+		{#each modes as mode, i (mode.href)}
 			<a
 				href={mode.href}
-				class="group relative flex flex-col card card-link p-6"
+				class="group animate-fade-up relative flex flex-col card card-link p-6"
+				style="--stagger: {3 + i}"
 			>
-				<h2 class="display pr-10 text-2xl">{mode.title}</h2>
+				<h2 class="display pr-10 text-2xl">
+					{#if mode.href === '/quiz/quick'}
+						Quick <br class="hidden xl:block" />Quiz
+					{:else}
+						{mode.title}
+					{/if}
+				</h2>
 				<p class="mt-1.5 pr-8 text-sm text-navy/70">{mode.body}</p>
 				{#if mode.stat}
 					<p class="mt-auto pt-4 text-xs font-semibold tracking-wider text-navy/50 uppercase">

@@ -13,12 +13,38 @@
 	];
 
 	type SessionUser = { name: string; email: string; image?: string | null };
+	type AuthView = 'pending' | 'signedIn' | 'signedOut';
+	const AUTH_HINT_KEY = 'bp-auth-hint';
+
 	let user = $state<SessionUser | null>(null);
+	let view = $state<AuthView>('pending');
+
+	function readAuthHint(): string | null {
+		try {
+			return localStorage.getItem(AUTH_HINT_KEY);
+		} catch {
+			return null;
+		}
+	}
+
+	function writeAuthHint(value: '1' | '0') {
+		try {
+			localStorage.setItem(AUTH_HINT_KEY, value);
+		} catch {
+			/* storage blocked — hint is best-effort */
+		}
+	}
 
 	onMount(() => {
+		// localStorage hint renders the likely final state before the session
+		// resolves; onMount runs pre-paint, so the correction is never visible
+		if (readAuthHint() === '0') view = 'signedOut';
 		const store = authClient.useSession();
 		return store.subscribe((s) => {
+			if (s.isPending) return;
 			user = s.data?.user ?? null;
+			view = user ? 'signedIn' : 'signedOut';
+			writeAuthHint(user ? '1' : '0');
 		});
 	});
 
@@ -76,7 +102,37 @@
 					{link.label}
 				</a>
 			{/each}
-			{#if user}
+			{#snippet signInButton(extraClass: string)}
+				<button
+					type="button"
+					onclick={signIn}
+					aria-label="Sign in"
+					class={[
+						extraClass,
+						'rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs'
+					]
+						.filter(Boolean)
+						.join(' ')}
+				>
+					<svg
+						aria-hidden="true"
+						class="h-4 w-4 shrink-0 sm:hidden"
+						viewBox="0 -960 960 960"
+						fill="currentColor"
+						><path
+							d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
+						/></svg
+					>
+					<span class="hidden sm:inline">Sign in</span>
+				</button>
+			{/snippet}
+			{#if view === 'pending'}
+				<div
+					aria-hidden="true"
+					class="auth-pending-placeholder h-8 w-8 rounded-full border border-white/15"
+				></div>
+				{@render signInButton('auth-signin-optimistic')}
+			{:else if view === 'signedIn' && user}
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger
 						aria-label="Account menu"
@@ -120,23 +176,7 @@
 					</DropdownMenu.Portal>
 				</DropdownMenu.Root>
 			{:else}
-				<button
-					type="button"
-					onclick={signIn}
-					aria-label="Sign in"
-					class="rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs"
-				>
-					<svg
-						aria-hidden="true"
-						class="h-4 w-4 shrink-0 sm:hidden"
-						viewBox="0 -960 960 960"
-						fill="currentColor"
-						><path
-							d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
-						/></svg
-					>
-					<span class="hidden sm:inline">Sign in</span>
-				</button>
+				{@render signInButton('')}
 			{/if}
 		</div>
 	</nav>

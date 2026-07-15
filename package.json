@@ -29,7 +29,6 @@
 	"devDependencies": {
 		"@cloudflare/workers-types": "^5.20260710.1",
 		"@fontsource-variable/inter": "^5.2.8",
-		"@fontsource/barlow-condensed": "^5.2.8",
 		"@playwright/test": "^1.61.1",
 		"@sveltejs/adapter-cloudflare": "^7.2.9",
 		"@sveltejs/kit": "^2.63.0",
