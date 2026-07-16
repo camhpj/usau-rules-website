@@ -98,17 +98,18 @@
 		"id": "10-06",
 		"rulesetId": "usau-official-2026-27",
 		"type": "multiple-choice",
-		"prompt": "An in-bounds pass hits the ground in the central zone and stops. Under what conditions may a nearby defender initiate the stall count if the offense has not yet picked up the disc?",
+		"prompt": "An in-bounds pass hits the ground in the central zone and stops. No offensive player is unnecessarily delaying, and no delay of game warning has been issued. Under what conditions may a nearby defender initiate the stall count if the offense has not yet picked up the disc?",
 		"choices": [
-			"After ten seconds elapse, and only if the defender has given audible warnings of ten and five seconds.",
-			"After twenty seconds elapse, and only if the defender has given audible warnings of twenty, ten, and five seconds.",
+			"After ten seconds elapse, and only if a defensive player has given audible warnings of ten and five seconds.",
+			"After twenty seconds elapse, and only if a defensive player has given audible warnings of twenty, ten, and five seconds.",
 			"Immediately after a “delay of game” warning is issued and counted down from three to zero.",
 			"As soon as the offense takes more time than reasonably necessary to walk to the disc."
 		],
 		"answerIndex": 0,
-		"explanation": "Rule 10.B.3 states that for an in-bounds disc resting in the central zone, the offense has ten seconds to establish a pivot. A defender within ten feet can initiate the count after ten seconds only if they gave audible warnings at ten and five seconds.",
+		"explanation": "Rule 10.B.3 states that for an in-bounds disc resting in the central zone, the offense has ten seconds to establish a pivot. A defender within ten feet can initiate the count after ten seconds, but only if a defensive player gave audible warnings at ten and five seconds. If the offense were instead unnecessarily delaying, a defender could use the delay of game procedure under 10.B.5, which allows starting the count sooner.",
 		"ruleRefs": [
-			"10.B.3"
+			"10.B.3",
+			"10.B.5"
 		],
 		"sectionSlug": "10",
 		"difficulty": 3
