@@ -69,6 +69,7 @@
 
 	$effect(() => {
 		return () => {
+			viewGeneration += 1; // strand any in-flight send() so it can't replaceState after unmount
 			stopController?.abort();
 			clearStallTimer();
 		};

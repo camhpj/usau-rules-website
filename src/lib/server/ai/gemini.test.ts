@@ -268,6 +268,22 @@ describe('streamText', () => {
 		expect(await drain(bare)).toContain('"t":"text","text":"done"');
 	});
 
+	it('a throwing onClose observer does not error the output stream', async () => {
+		const observer: StreamObserver = {
+			onClose: () => {
+				throw new Error('persistence exploded');
+			}
+		};
+		const stream = await streamText(
+			req(
+				fetchWithBody(closedBody([textChunk('done'), finishChunk('STOP')])) as typeof fetch,
+				memoryStore()
+			),
+			observer
+		);
+		expect(await drain(stream)).toContain('"t":"text","text":"done"'); // drain resolves — stream closed cleanly
+	});
+
 	it('converts an upstream mid-stream failure into an in-band error event', async () => {
 		const body = new ReadableStream<Uint8Array>({
 			start(controller) {

@@ -291,7 +291,11 @@ export async function streamText(
 				void reader.cancel().catch(() => {});
 			} finally {
 				clearTimers();
-				await observer?.onClose?.(outcome);
+				try {
+					await observer?.onClose?.(outcome);
+				} catch (cause) {
+					console.error('gemini stream observer onClose failed', cause);
+				}
 				controller.close();
 			}
 		},
