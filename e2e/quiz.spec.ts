@@ -79,12 +79,12 @@ test('quick quiz section and difficulty filters narrow the pool', async ({ page 
 	await page.goto('/quiz/quick');
 	await page.waitForLoadState('networkidle');
 	const poolText = page.getByText(/question.* match/i);
-	await expect(poolText).toHaveText('212 questions match');
+	await expect(poolText).toHaveText('213 questions match');
 
 	const sectionChip = page.getByRole('button', { name: /^15\. Stalling$/ });
 	await sectionChip.click();
 	await expect(sectionChip).toHaveAttribute('aria-pressed', 'true');
-	await expect(poolText).toHaveText('11 questions match');
+	await expect(poolText).toHaveText('12 questions match');
 
 	const difficultyChip = page.getByRole('button', { name: /^1 · Rookie$/ });
 	await difficultyChip.click();
