@@ -121,11 +121,10 @@
 
 /* ---------- landing motion (see docs/superpowers/specs/2026-07-15-landing-motion-design.md) ---------- */
 
-/* entrance fade-up; stagger with inline style="--stagger: <n>" (n × 80ms) */
+/* entrance fade-up; single quick fade, no per-element stagger */
 @utility animate-fade-up {
 	@media (prefers-reduced-motion: no-preference) {
-		animation: fade-up 450ms ease-out backwards;
-		animation-delay: calc(var(--stagger, 0) * 80ms);
+		animation: fade-up 200ms ease-out backwards;
 	}
 }
 
