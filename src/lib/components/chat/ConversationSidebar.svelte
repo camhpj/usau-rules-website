@@ -36,6 +36,10 @@
 	{/if}
 	{#if conversations.loading}
 		<div class="mx-3 mt-3 h-24 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
+	{:else if conversations.list.length === 0 && !conversations.errorMessage}
+		<div class="flex flex-1 items-center justify-center px-3">
+			<p class="text-xs text-navy/40">No chats yet</p>
+		</div>
 	{:else}
 		<ul class="mt-3 flex-1 space-y-1.5 overflow-y-auto px-3">
 			{#each conversations.list as convo (convo.id)}

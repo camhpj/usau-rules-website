@@ -74,7 +74,7 @@
 			</aside>
 			{#if drawerOpen}
 				<div class="absolute inset-0 z-10 flex flex-col bg-mist lg:hidden">
-					<div class="flex shrink-0 justify-end border-b border-navy/10 p-2">
+					<div class="flex shrink-0 justify-start border-b border-navy/10 p-2">
 						<button
 							type="button"
 							onclick={() => (drawerOpen = false)}
