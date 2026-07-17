@@ -11,7 +11,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const dynamic =
 		event.url.pathname.startsWith('/api/') ||
 		event.url.pathname === '/me' ||
-		event.url.pathname.startsWith('/me/');
+		event.url.pathname.startsWith('/me/') ||
+		event.url.pathname === '/admin' ||
+		event.url.pathname.startsWith('/admin/');
 	if (building || !dynamic || !event.platform?.env) return resolve(event);
 	event.locals.db = createDb(event.platform.env.DB);
 	event.locals.auth = createAuth(event.platform.env);
