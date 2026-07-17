@@ -3,9 +3,9 @@ import { and, asc, eq, isNull } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { ChatPayloadSchema, CONVERSATION_MESSAGE_CAP, deriveTitle } from '$lib/ai/payload';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
-import { toGeminiTurns } from '$lib/server/ai/chat';
+import { statusForStream, toGeminiTurns } from '$lib/server/ai/chat';
 import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL } from '$lib/server/ai/config';
-import { d1CacheStore, streamText } from '$lib/server/ai/gemini';
+import { d1CacheStore, streamText, type StreamOutcome } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
 import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
 import { buildAskPrompt, systemPolicy } from '$lib/server/ai/prompts';
@@ -86,7 +86,6 @@ export const POST: RequestHandler = async (event) => {
 
 	const assistantMessageId = crypto.randomUUID();
 	let answerText = '';
-	let truncated = false;
 	// Persistence must never break the stream; failures are reported and swallowed.
 	const persistAssistant = async (status: 'complete' | 'truncated' | 'error') => {
 		try {
@@ -110,8 +109,7 @@ export const POST: RequestHandler = async (event) => {
 	};
 	const observer = {
 		onText: (t: string) => (answerText += t),
-		onTruncated: () => (truncated = true),
-		onClose: () => persistAssistant(truncated ? 'truncated' : 'complete')
+		onClose: (outcome: StreamOutcome) => persistAssistant(statusForStream(outcome, answerText))
 	};
 
 	const geminiRequest = {

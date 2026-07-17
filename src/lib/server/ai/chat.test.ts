@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { deriveTitle } from '$lib/ai/payload';
-import { toGeminiTurns } from './chat';
+import { statusForStream, toGeminiTurns } from './chat';
 
 describe('deriveTitle', () => {
 	it('trims, collapses internal whitespace, and caps at 80 chars', () => {
@@ -34,5 +34,19 @@ describe('toGeminiTurns', () => {
 			{ role: 'user', text: 'Q1' },
 			{ role: 'model', text: 'partial' }
 		]);
+	});
+});
+
+describe('statusForStream', () => {
+	it('passes outcomes through when answer text exists, downgrading error to truncated', () => {
+		expect(statusForStream('complete', 'full answer')).toBe('complete');
+		expect(statusForStream('truncated', 'partial answer')).toBe('truncated');
+		expect(statusForStream('error', 'partial answer')).toBe('truncated'); // partial answers are kept
+	});
+	it('persists any stream with no answer text as an error row', () => {
+		expect(statusForStream('complete', '')).toBe('error'); // thoughts-only "success"
+		expect(statusForStream('complete', '   ')).toBe('error');
+		expect(statusForStream('truncated', '')).toBe('error');
+		expect(statusForStream('error', '')).toBe('error');
 	});
 });
