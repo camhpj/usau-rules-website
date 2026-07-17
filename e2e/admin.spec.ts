@@ -80,3 +80,26 @@ test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
 	await expect(page.getByText('what is a stall?')).toBeVisible();
 	await expect(page.getByText('👎')).toBeVisible();
 });
+
+test('export: users CSV omits secrets; endpoint 404s for non-admin', async ({ page }) => {
+	// non-admin gets 404 on the csv endpoint
+	await signUpTestUser(page, 'export-nonadmin');
+	const denied = await page.request.get('/admin/export/users.csv');
+	expect(denied.status()).toBe(404);
+
+	// admin download
+	await page.context().clearCookies();
+	await signInAsAdmin(page);
+	const res = await page.request.get('/admin/export/users.csv');
+	expect(res.ok()).toBeTruthy();
+	expect(res.headers()['content-type']).toContain('text/csv');
+	const csv = await res.text();
+	const header = csv.split('\r\n')[0];
+	expect(header).toBe('id,email,name,displayName,createdAt');
+	expect(header).not.toContain('password');
+	expect(csv).toContain(ADMIN_EMAIL);
+
+	// unknown dataset → 404
+	const unknown = await page.request.get('/admin/export/nope.csv');
+	expect(unknown.status()).toBe(404);
+});
