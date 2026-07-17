@@ -21,7 +21,8 @@ function fakeEvent(opts: {
 }): RequestEvent {
 	return {
 		locals: {
-			auth: opts.auth === false ? undefined : { api: { getSession: async () => opts.session ?? null } }
+			auth:
+				opts.auth === false ? undefined : { api: { getSession: async () => opts.session ?? null } }
 		},
 		request: { headers: new Headers() },
 		platform: { env: { ADMIN_EMAILS: opts.adminEmails } }
@@ -38,7 +39,10 @@ describe('requireAdmin', () => {
 		expect(user.id).toBe('u1');
 	});
 	it('404 when signed in but not allowlisted', async () => {
-		const ev = fakeEvent({ session: { user: { id: 'u2', email: 'x@x.com' } }, adminEmails: 'boss@site.com' });
+		const ev = fakeEvent({
+			session: { user: { id: 'u2', email: 'x@x.com' } },
+			adminEmails: 'boss@site.com'
+		});
 		await expect(requireAdmin(ev)).rejects.toMatchObject({ status: 404 });
 	});
 	it('404 when signed out', async () => {
