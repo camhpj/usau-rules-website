@@ -51,3 +51,25 @@ test.describe('admin access', () => {
 		await expect(page.getByText('100.0%').first()).toBeVisible();
 	});
 });
+
+test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
+	await signInAsAdmin(page);
+	// a DIFFERENT user's conversation with a 👎 assistant message
+	const other = (d1Select(`SELECT id FROM user LIMIT 1`)[0] as { id: string }).id;
+	d1(
+		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-ai','${other}','usau-official-2026-27','stall count question',10,10)`
+	);
+	d1(
+		`INSERT INTO ai_messages (id,conversation_id,role,content,created_at) VALUES ('m-u','c-ai','user','what is a stall?',10)`
+	);
+	d1(
+		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-r','c-ai','assistant','A stall per 15.D.','complete','down',11)`
+	);
+
+	await page.goto('/admin/ai?down=1');
+	await expect(page.getByRole('link', { name: 'stall count question' })).toBeVisible();
+
+	await page.getByRole('link', { name: 'stall count question' }).click();
+	await expect(page.getByText('what is a stall?')).toBeVisible();
+	await expect(page.getByText('👎')).toBeVisible();
+});
