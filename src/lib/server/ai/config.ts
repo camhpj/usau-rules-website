@@ -22,3 +22,8 @@ export const ASK_DAILY_PER_USER = 10;
 export const SCENARIO_DAILY_PER_USER = 10;
 /** All AI requests, all users, both kinds combined. */
 export const AI_GLOBAL_DAILY = 200;
+
+/** Watchdog: abort a stream that has produced no answer text (thoughts only) by this point. */
+export const AI_STREAM_NO_ANSWER_MAX_MS = 45_000;
+/** Watchdog: hard wall-clock cap on a single streaming response. */
+export const AI_STREAM_MAX_MS = 120_000;
