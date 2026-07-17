@@ -13,6 +13,9 @@
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
 	import ChatMessageRow from '$lib/components/chat/ChatMessageRow.svelte';
 
+	/** No bytes for this long while streaming → show the stall hint. */
+	const STALL_HINT_MS = 20_000;
+
 	let messages = $state<ChatMessage[]>([]);
 	let input = $state('');
 	let phase = $state<'idle' | 'streaming'>('idle');
@@ -24,6 +27,10 @@
 	let notFound = $state(false);
 	let activeId = $state<string | null>(null);
 	let scrollEl = $state<HTMLElement | null>(null);
+	let stalled = $state(false);
+
+	let stopController: AbortController | null = null;
+	let stallTimer: ReturnType<typeof setTimeout> | null = null;
 
 	// Bumped on every view change; in-flight send() continuations from a previous
 	// view compare against it and discard their results (the server has already
@@ -47,6 +54,9 @@
 		if (param === lastParam) return;
 		lastParam = param;
 		viewGeneration += 1;
+		stopController?.abort(); // a stream for the old view has no reader once we leave
+		stopController = null;
+		clearStallTimer();
 		activeId = param;
 		errorMessage = null;
 		streamingText = '';
@@ -56,6 +66,29 @@
 		notFound = false;
 		if (param) void loadConversation(param);
 	});
+
+	$effect(() => {
+		return () => {
+			stopController?.abort();
+			clearStallTimer();
+		};
+	});
+
+	function armStallTimer() {
+		if (stallTimer) clearTimeout(stallTimer);
+		stalled = false;
+		stallTimer = setTimeout(() => (stalled = true), STALL_HINT_MS);
+	}
+
+	function clearStallTimer() {
+		if (stallTimer) clearTimeout(stallTimer);
+		stallTimer = null;
+		stalled = false;
+	}
+
+	function stop() {
+		stopController?.abort();
+	}
 
 	async function loadConversation(id: string) {
 		const gen = viewGeneration;
@@ -108,12 +141,56 @@
 		];
 		input = '';
 		scrollToEnd();
+
+		const controller = new AbortController();
+		stopController = controller;
 		let truncated = false;
+		let serverError = false;
+		let conversationId: string | null = null;
+		let messageId: string | null = null;
+
+		// The server persisted the exchange the moment the response opened; keep
+		// the URL and sidebar in sync with that on every terminal path.
+		const syncConversation = () => {
+			if (!activeId && conversationId) {
+				activeId = conversationId;
+				replaceState(`/ask/${conversationId}`, {});
+				lastParam = conversationId; // replaceState doesn't update page.params; resync so the route-change effect still fires on the next real navigation (e.g. "New chat")
+				conversations.prepend({
+					id: conversationId,
+					title: deriveTitle(text),
+					updatedAt: Date.now()
+				});
+			} else if (activeId) {
+				conversations.touch(activeId, Date.now());
+			}
+		};
+		const pushAssistant = (status: 'complete' | 'truncated' | 'error') => {
+			messages = [
+				...messages,
+				{
+					id: messageId ?? `local-${crypto.randomUUID()}`,
+					role: 'assistant',
+					content: status === 'error' ? '' : streamingText,
+					status,
+					feedback: null,
+					createdAt: Date.now()
+				}
+			];
+			streamingText = '';
+		};
+		const settle = () => {
+			clearStallTimer();
+			if (stopController === controller) stopController = null;
+			phase = 'idle';
+		};
+
 		try {
 			const res = await fetch('/api/ai/chat', {
 				method: 'POST',
 				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ message: text, ...(activeId ? { conversationId: activeId } : {}) })
+				body: JSON.stringify({ message: text, ...(activeId ? { conversationId: activeId } : {}) }),
+				signal: controller.signal
 			});
 			if (gen !== viewGeneration) return;
 			if (!res.ok || !res.body) {
@@ -131,7 +208,7 @@
 									: 'The rules assistant is unavailable — try again in a minute.';
 				messages = messages.slice(0, -1); // roll back the optimistic user bubble
 				input = text; // keep the message for retry
-				phase = 'idle';
+				settle();
 				return;
 			}
 			const remainingHeader = res.headers.get('x-bp-ai-remaining');
@@ -139,8 +216,9 @@
 				const n = Number(remainingHeader);
 				if (Number.isFinite(n)) remaining = n;
 			}
-			const conversationId = res.headers.get('x-bp-conversation-id');
-			const messageId = res.headers.get('x-bp-message-id');
+			conversationId = res.headers.get('x-bp-conversation-id');
+			messageId = res.headers.get('x-bp-message-id');
+			armStallTimer();
 			const reader = res.body.getReader();
 			const decoder = new TextDecoder();
 			let lineBuffer = '';
@@ -155,6 +233,7 @@
 				if (msg.t === 'think') thoughts += msg.text ?? '';
 				else if (msg.t === 'text') streamingText += msg.text ?? '';
 				else if (msg.t === 'truncated') truncated = true;
+				else if (msg.t === 'error') serverError = true;
 			};
 			for (;;) {
 				const { done, value } = await reader.read();
@@ -163,6 +242,7 @@
 					return;
 				}
 				if (done) break;
+				armStallTimer();
 				lineBuffer += decoder.decode(value, { stream: true });
 				let newline: number;
 				while ((newline = lineBuffer.indexOf('\n')) !== -1) {
@@ -173,59 +253,39 @@
 			lineBuffer += decoder.decode();
 			handleLine(lineBuffer);
 			if (gen !== viewGeneration) return;
-			if (!streamingText.trim()) {
+			if (serverError) {
+				pushAssistant(streamingText.trim() ? 'truncated' : 'error');
+				errorMessage = 'The assistant ran into a problem — try asking again.';
+			} else if (!streamingText.trim()) {
+				pushAssistant('error');
 				errorMessage = 'No answer came back — try again.';
-				phase = 'idle';
-				return;
+			} else {
+				pushAssistant(truncated ? 'truncated' : 'complete');
+				if (truncated) errorMessage = 'The answer was cut short — try asking again.';
 			}
-			messages = [
-				...messages,
-				{
-					id: messageId ?? `local-${crypto.randomUUID()}`,
-					role: 'assistant',
-					content: streamingText,
-					status: truncated ? 'truncated' : 'complete',
-					feedback: null,
-					createdAt: Date.now()
-				}
-			];
-			if (truncated) errorMessage = 'The answer was cut short — try asking again.';
-			streamingText = '';
-			phase = 'idle';
-			if (!activeId && conversationId) {
-				activeId = conversationId;
-				replaceState(`/ask/${conversationId}`, {});
-				lastParam = conversationId; // replaceState doesn't update page.params; resync so the route-change effect still fires on the next real navigation (e.g. "New chat")
-				conversations.prepend({
-					id: conversationId,
-					title: deriveTitle(text),
-					updatedAt: Date.now()
-				});
-			} else if (activeId) {
-				conversations.touch(activeId, Date.now());
-			}
+			syncConversation();
+			settle();
 			scrollToEnd();
 		} catch {
 			if (gen !== viewGeneration) return;
-			if (streamingText) {
-				messages = [
-					...messages,
-					{
-						id: `local-${crypto.randomUUID()}`,
-						role: 'assistant',
-						content: streamingText,
-						status: 'complete',
-						feedback: null,
-						createdAt: Date.now()
-					}
-				];
-				errorMessage = 'The connection dropped mid-answer — what arrived is shown above.';
+			const wasStopped = controller.signal.aborted;
+			if (streamingText.trim()) {
+				pushAssistant('truncated');
+				errorMessage = wasStopped
+					? null
+					: 'The connection dropped mid-answer — what arrived is shown above.';
+				syncConversation();
+			} else if (wasStopped) {
+				// The server keeps generating and persists the full answer; the user
+				// bubble stays so this view matches what a reload will show.
+				errorMessage = 'Stopped.';
+				syncConversation();
 			} else {
 				messages = messages.slice(0, -1);
+				input = text;
 				errorMessage = 'Network error — try again.';
 			}
-			streamingText = '';
-			phase = 'idle';
+			settle();
 		}
 	}
 
@@ -292,6 +352,11 @@
 			{:else}
 				<AskAnswer answer={streamingText} streaming={true} />
 			{/if}
+			{#if stalled}
+				<p class="text-xs text-navy/50 italic">
+					Taking longer than usual — you can stop and ask again.
+				</p>
+			{/if}
 		{/if}
 	</section>
 
@@ -326,26 +391,45 @@
 						{:else}
 							<span aria-hidden="true"></span>
 						{/if}
-						<button
-							type="submit"
-							aria-label="Send"
-							disabled={phase === 'streaming' || input.trim().length < 3}
-							class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cardinal text-white hover:brightness-110 disabled:opacity-40"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								class="h-5 w-5"
-								aria-hidden="true"
+						{#if phase === 'streaming'}
+							<button
+								type="button"
+								onclick={stop}
+								aria-label="Stop"
+								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-white hover:brightness-110"
 							>
-								<path d="M5 12h14M13 6l6 6-6 6" />
-							</svg>
-						</button>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									class="h-4 w-4"
+									aria-hidden="true"
+								>
+									<rect x="6" y="6" width="12" height="12" rx="2" />
+								</svg>
+							</button>
+						{:else}
+							<button
+								type="submit"
+								aria-label="Send"
+								disabled={input.trim().length < 3}
+								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cardinal text-white hover:brightness-110 disabled:opacity-40"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="h-5 w-5"
+									aria-hidden="true"
+								>
+									<path d="M5 12h14M13 6l6 6-6 6" />
+								</svg>
+							</button>
+						{/if}
 					</div>
 				</div>
 			</form>

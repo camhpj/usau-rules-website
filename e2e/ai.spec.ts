@@ -203,6 +203,61 @@ test.describe('ask the rules (chat)', () => {
 		await box.press('Enter');
 		await expect(page.getByText(/that is a turnover/)).toBeVisible();
 	});
+
+	test('mid-stream error event keeps the partial answer and shows a retryable error', async ({
+		page
+	}) => {
+		await signUpTestUser(page, 'chat-err');
+		await page.route('**/api/ai/chat', (route) =>
+			route.fulfill({
+				...CHAT_STREAM('mock-convo-err', 'mock-msg-err'),
+				body: '{"t":"text","text":"Partial answer per [15.D]. "}\n{"t":"error"}\n'
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/partial answer per/i)).toBeVisible();
+		await expect(page.getByText(/this answer was cut short/i)).toBeVisible();
+		await expect(page.getByText(/ran into a problem/i)).toBeVisible();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-err$/); // bookkeeping still ran
+	});
+
+	test('error event with no answer text shows the unavailable bubble', async ({ page }) => {
+		await signUpTestUser(page, 'chat-err-empty');
+		await page.route('**/api/ai/chat', (route) =>
+			route.fulfill({
+				...CHAT_STREAM('mock-convo-err2', 'mock-msg-err2'),
+				body: '{"t":"think","text":"**Stuck**"}\n{"t":"error"}\n'
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/no answer — the assistant was unavailable/i)).toBeVisible();
+		await expect(page.getByText(/ran into a problem/i)).toBeVisible();
+	});
+
+	test('stop button aborts the stream and settles back to idle', async ({ page }) => {
+		await signUpTestUser(page, 'chat-stop');
+		await page.route('**/api/ai/chat', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 3000));
+			// The client may have aborted while we slept — fulfilling then throws; ignore it.
+			await route.fulfill(CHAT_STREAM('mock-convo-stop', 'mock-msg-stop')).catch(() => {});
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		const stopButton = page.getByRole('button', { name: 'Stop', exact: true });
+		await expect(stopButton).toBeVisible();
+		await stopButton.click();
+		await expect(page.getByText('Stopped.')).toBeVisible();
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(page.getByText('Is it a stall at ten?')).toBeVisible(); // user bubble kept
+	});
 });
 
 test.describe('conversation history (seeded D1)', () => {
