@@ -301,7 +301,7 @@
 		{:else}
 			<form onsubmit={send} class="flex flex-col gap-2">
 				<div
-					class="flex flex-col rounded-lg border border-mist bg-white focus-within:border-navy/50"
+					class="flex flex-col rounded-lg border border-mist bg-mist/50 focus-within:border-navy/50 focus-within:bg-white"
 				>
 					<textarea
 						bind:value={input}
@@ -314,7 +314,7 @@
 					></textarea>
 					<div class="flex items-center justify-between px-3 pb-3">
 						{#if remaining !== null}
-							<p class="text-xs text-navy/50">
+							<p class="self-end text-xs text-navy/50">
 								{remaining} question{remaining === 1 ? '' : 's'} left today
 							</p>
 						{:else}

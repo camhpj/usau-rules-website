@@ -15,7 +15,7 @@
 <nav class="flex h-full flex-col" aria-label="Conversations">
 	<a
 		href="/ask"
-		class="mx-3 mt-3 inline-flex items-center justify-center gap-1.5 rounded-full bg-cardinal px-4 py-2.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
+		class="mx-6 mt-5 inline-flex items-center justify-center gap-1.5 rounded-full bg-cardinal px-4 py-2.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -37,13 +37,13 @@
 	{#if conversations.loading}
 		<div class="mx-3 mt-3 h-24 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
 	{:else}
-		<ul class="mt-2 flex-1 space-y-1.5 overflow-y-auto px-1">
+		<ul class="mt-3 flex-1 space-y-1.5 overflow-y-auto px-3">
 			{#each conversations.list as convo (convo.id)}
 				<li class="group relative">
 					<a
 						href="/ask/{convo.id}"
 						aria-current={convo.id === activeId ? 'page' : undefined}
-						class="block rounded-lg px-3 py-2 pr-9 text-sm text-navy hover:bg-navy/5 {convo.id ===
+						class="block rounded-lg px-3 py-2 text-sm text-navy hover:bg-navy/5 {convo.id ===
 						activeId
 							? 'bg-navy/10 font-semibold'
 							: ''}"
@@ -51,11 +51,21 @@
 						<span class="block truncate">{convo.title}</span>
 						<span class="text-xs text-navy/40">{timeAgo(convo.updatedAt)}</span>
 					</a>
+					<!-- On hover, fades in left→right to wipe the title/preview and give the
+					     trash icon a backdrop; gradient end matches the item's own bg tint. -->
+					<div
+						aria-hidden="true"
+						class="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+						style="background-image: linear-gradient(to right, transparent 65%, {convo.id ===
+						activeId
+							? 'color-mix(in srgb, var(--color-navy) 10%, var(--color-mist))'
+							: 'color-mix(in srgb, var(--color-navy) 5%, var(--color-mist))'} 85%)"
+					></div>
 					<button
 						type="button"
 						aria-label="Delete conversation: {convo.title}"
 						onclick={() => remove(convo.id)}
-						class="absolute top-1/2 right-2 -translate-y-1/2 rounded p-1 text-navy/40 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-cardinal"
+						class="group/del absolute top-1/2 right-2 -translate-y-1/2 rounded p-1 text-navy opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus:opacity-100 hover:text-cardinal"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +75,7 @@
 							stroke-width="2"
 							stroke-linecap="round"
 							stroke-linejoin="round"
-							class="h-4 w-4"
+							class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100"
 							aria-hidden="true"
 						>
 							<path d="M3 6h18" />

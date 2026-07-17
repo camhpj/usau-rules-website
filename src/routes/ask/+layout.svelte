@@ -67,9 +67,9 @@
 {:else}
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">
 		<div
-			class="flex h-[calc(100dvh-11rem)] w-full overflow-hidden rounded-xl border border-mist bg-paper shadow-sm"
+			class="flex h-[calc(100dvh-11rem)] w-full overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
 		>
-			<aside class="hidden w-64 shrink-0 overflow-hidden border-r border-mist bg-sand lg:block">
+			<aside class="hidden w-64 shrink-0 overflow-hidden border-r border-mist bg-mist lg:block">
 				<ConversationSidebar {activeId} />
 			</aside>
 			{#if drawerOpen}
@@ -80,12 +80,12 @@
 						onclick={() => (drawerOpen = false)}
 						class="absolute inset-0 bg-navy/40"
 					></button>
-					<aside class="absolute inset-y-0 left-0 z-50 w-72 overflow-hidden bg-sand shadow-xl">
+					<aside class="absolute inset-y-0 left-0 z-50 w-72 overflow-hidden bg-mist shadow-xl">
 						<ConversationSidebar {activeId} />
 					</aside>
 				</div>
 			{/if}
-			<main class="flex min-w-0 flex-1 flex-col bg-paper py-4 pl-4 sm:pl-6">
+			<main class="flex min-w-0 flex-1 flex-col bg-white py-4 pl-4 sm:pl-6">
 				<!--
 					No right padding here: the messages `<section>` and the input area below own
 					their own right inset (`pr-*`) so the scrollbar renders in a clear gutter at the
