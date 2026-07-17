@@ -1,6 +1,6 @@
 <script lang="ts">
 	let { data } = $props();
-	const m = data.metrics;
+	const m = $derived(data.metrics);
 	const pct = (r: number) => `${(r * 100).toFixed(1)}%`;
 	function bars(series: { day: string; count: number }[]) {
 		const max = Math.max(1, ...series.map((s) => s.count));

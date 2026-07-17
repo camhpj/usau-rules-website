@@ -84,13 +84,9 @@ export async function loadDashboardMetrics(db: Db, nowMs: number): Promise<Dashb
 			.where(and(eq(aiUsage.kind, 'ask'), gte(aiUsage.day, since14dDay)))
 			.groupBy(aiUsage.day),
 		db
-			.select({
-				day: sql<string>`strftime('%Y-%m-%d', ${user.createdAt} / 1000, 'unixepoch')`,
-				total: count()
-			})
+			.select({ createdAt: user.createdAt })
 			.from(user)
 			.where(gte(user.createdAt, new Date(since14dMs)))
-			.groupBy(sql`1`)
 	]);
 
 	// asks today / 7d from ai_usage (kind='ask')
@@ -130,7 +126,10 @@ export async function loadDashboardMetrics(db: Db, nowMs: number): Promise<Dashb
 	const asksByDay: Record<string, number> = {};
 	for (const r of usageRows) asksByDay[r.day] = Number(r.total);
 	const signupsByDay: Record<string, number> = {};
-	for (const r of signupRows) signupsByDay[r.day] = Number(r.total);
+	for (const r of signupRows) {
+		const day = utcDay(r.createdAt.getTime());
+		signupsByDay[day] = (signupsByDay[day] ?? 0) + 1;
+	}
 
 	return {
 		totals: { users, conversations, messages, quizAttempts: quizTotal },
