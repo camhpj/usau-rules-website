@@ -4,6 +4,7 @@ import type { PageServerLoad } from './$types';
 import { aiConversations, aiMessages, user } from '$lib/server/db/schema';
 
 export const load: PageServerLoad = async (event) => {
+	await event.parent();
 	const db = event.locals.db;
 	const convo = (
 		await db

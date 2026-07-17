@@ -7,6 +7,9 @@ export function toCsv(headers: string[], rows: readonly (readonly unknown[])[]):
 
 function escapeField(value: unknown): string {
 	if (value === null || value === undefined) return '';
-	const s = String(value);
+	let s = String(value);
+	// Neutralize spreadsheet formula injection: a leading =, +, -, @, tab, or CR
+	// can execute as a formula in Excel/Sheets. Prefix a single quote to defuse it.
+	if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
 	return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }

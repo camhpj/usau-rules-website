@@ -4,6 +4,7 @@ import { pageRows, parseHistoryQuery } from '$lib/server/ai/history';
 import { aiConversations, aiMessages, user } from '$lib/server/db/schema';
 
 export const load: PageServerLoad = async (event) => {
+	await event.parent();
 	const { before, limit } = parseHistoryQuery(event.url.searchParams, 30);
 	const downOnly = event.url.searchParams.get('down') === '1';
 	const db = event.locals.db;

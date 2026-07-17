@@ -24,4 +24,9 @@ describe('toCsv', () => {
 	it('header only when no rows', () => {
 		expect(toCsv(['a', 'b'], [])).toBe('a,b');
 	});
+	it('neutralizes leading spreadsheet-formula characters', () => {
+		expect(toCsv(['x'], [['=1+1'], ['+x'], ['-x'], ['@x']])).toBe(
+			"x\r\n'=1+1\r\n'+x\r\n'-x\r\n'@x"
+		);
+	});
 });

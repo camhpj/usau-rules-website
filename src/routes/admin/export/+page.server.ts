@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { DATASETS, EXPORT_MAX_ROWS } from '$lib/server/admin/datasets';
 
 export const load: PageServerLoad = async (event) => {
+	await event.parent();
 	const db = event.locals.db;
 	const datasets = await Promise.all(
 		Object.entries(DATASETS).map(async ([slug, def]) => ({
