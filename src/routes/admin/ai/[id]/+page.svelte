@@ -3,7 +3,7 @@
 	let { data } = $props();
 </script>
 
-<a href="/admin/ai" class="text-sm text-cardinal hover:underline">← Conversations</a>
+<a href="/admin/ai" class="text-sm text-cardinal hover:underline cursor-pointer">← Conversations</a>
 <div class="mt-2 mb-4">
 	<h2 class="text-lg font-semibold text-navy">{data.convo.title}</h2>
 	<p class="text-xs text-navy/50">

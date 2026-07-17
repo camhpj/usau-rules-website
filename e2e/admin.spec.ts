@@ -65,9 +65,16 @@ test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
 	d1(
 		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-r','c-ai','assistant','A stall per 15.D.','complete','down',11)`
 	);
+	d1(
+		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-nodown','${other}','usau-official-2026-27','no-down conversation',12,12)`
+	);
+	d1(
+		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-nd','c-nodown','assistant','fine answer','complete','up',13)`
+	);
 
 	await page.goto('/admin/ai?down=1');
 	await expect(page.getByRole('link', { name: 'stall count question' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'no-down conversation' })).toHaveCount(0);
 
 	await page.getByRole('link', { name: 'stall count question' }).click();
 	await expect(page.getByText('what is a stall?')).toBeVisible();
