@@ -14,6 +14,7 @@ jobs:
       - run: npx prettier --check .
       - run: npm run check
       - run: npm run check:scripts
+      - run: npm run check:e2e
       - run: npm run test
       - run: npm run validate:content --if-present
       - run: npm run build
