@@ -209,5 +209,25 @@
 			"15.D.2.c"
 		],
 		"difficulty": 3
+	},
+	{
+		"id": "15-12",
+		"rulesetId": "usau-official-2026-27",
+		"type": "multiple-choice",
+		"sectionSlug": "15",
+		"prompt": "The marker reaches a count of three. A player calls a foul, which the opposing team contests. The thrower and marker agree the count reached was three. At what number does the stall count resume after the check?",
+		"choices": [
+			"1",
+			"3",
+			"4",
+			"6"
+		],
+		"answerIndex": 2,
+		"explanation": "Rule 15.F.1.c states that for a contested foul or violation, the count resumes at the count reached plus 1, or 6 if over 5. Since three is not over five, the count resumes with the word “stalling” followed by four.",
+		"ruleRefs": [
+			"15.F.1",
+			"15.F"
+		],
+		"difficulty": 3
 	}
 ]
