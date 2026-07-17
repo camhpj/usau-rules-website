@@ -33,11 +33,16 @@
 	const thoughtHeadline = $derived(latestThoughtHeadline(thoughts));
 	const full = $derived(messages.length >= CONVERSATION_MESSAGE_CAP);
 
-	// React to REAL route changes only (sidebar clicks, back/forward, hard loads).
-	// replaceState after the first send changes the URL but not page.params, so it
-	// never re-enters here — that's what keeps streaming state alive.
+	// React to REAL route changes (sidebar clicks, back/forward, hard loads, "New chat").
+	// replaceState after the first send updates page.url but not page.params, so reading
+	// only page.params.id would miss it: params.id stays undefined the whole time (send
+	// never gives it a value), so Svelte never sees that tracked value change and this
+	// effect would never re-run. Reading page.url too gives it a dependency that always
+	// changes on navigation, so the params check below still runs and can compare against
+	// lastParam (which send() resyncs after its replaceState).
 	let lastParam: string | null | undefined = undefined;
 	$effect(() => {
+		void page.url;
 		const param = page.params.id ?? null;
 		if (param === lastParam) return;
 		lastParam = param;
@@ -190,6 +195,7 @@
 			if (!activeId && conversationId) {
 				activeId = conversationId;
 				replaceState(`/ask/${conversationId}`, {});
+				lastParam = conversationId; // replaceState doesn't update page.params; resync so the route-change effect still fires on the next real navigation (e.g. "New chat")
 				conversations.prepend({
 					id: conversationId,
 					title: deriveTitle(text),
