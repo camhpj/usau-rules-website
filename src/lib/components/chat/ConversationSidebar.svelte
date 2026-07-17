@@ -13,9 +13,10 @@
 </script>
 
 <nav class="flex h-full flex-col" aria-label="Conversations">
+	<!-- Desktop only: the mobile drawer carries its own compact New-chat pill in its header row. -->
 	<a
 		href="/ask"
-		class="mx-6 mt-5 inline-flex items-center justify-center gap-1.5 rounded-full bg-cardinal px-4 py-2.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
+		class="mx-6 mt-5 hidden items-center justify-center gap-1.5 rounded-full bg-cardinal px-4 py-2.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110 lg:inline-flex"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
