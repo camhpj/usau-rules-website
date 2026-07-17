@@ -29,6 +29,20 @@
 			"when": 1783957835214,
 			"tag": "0003_display-name",
 			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "6",
+			"when": 1784236412284,
+			"tag": "0004_ask-history",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "6",
+			"when": 1784292353002,
+			"tag": "0005_ask-chat",
+			"breakpoints": true
 		}
 	]
 }

@@ -116,6 +116,32 @@ describe('generateText', () => {
 	});
 });
 
+describe('priorTurns', () => {
+	it('inserts prior turns before the task prompt in the cached body', async () => {
+		const store = memoryStore();
+		const bodies: Record<string, unknown>[] = [];
+		const fetchMock = vi.fn(async (url: RequestInfo | URL, init?: RequestInit) => {
+			bodies.push(JSON.parse(String(init?.body)) as Record<string, unknown>);
+			if (String(url).includes('cachedContents')) return okJson({ name: 'cachedContents/abc' });
+			return geminiAnswer('ok [1.A]');
+		});
+		const request = {
+			...req(fetchMock as typeof fetch, store),
+			priorTurns: [
+				{ role: 'user' as const, text: 'Q1' },
+				{ role: 'model' as const, text: 'A1' }
+			]
+		};
+		await generateText(request);
+		const call = bodies.find((b) => 'cachedContent' in b)!;
+		expect(call.contents).toEqual([
+			{ role: 'user', parts: [{ text: 'Q1' }] },
+			{ role: 'model', parts: [{ text: 'A1' }] },
+			{ role: 'user', parts: [{ text: 'TASK' }] }
+		]);
+	});
+});
+
 describe('SseTextExtractor', () => {
 	const event = (text: string) =>
 		`data: ${JSON.stringify({ candidates: [{ content: { parts: [{ text }] } }] })}\n\n`;

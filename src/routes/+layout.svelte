@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import SearchDialog from '$lib/components/SearchDialog.svelte';
 	import { authClient } from '$lib/auth-client';
+	import { conversations } from '$lib/ask/conversations.svelte';
 	import { bookmarks } from '$lib/bookmarks.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { flushOutbox, hydrateFromServer } from '$lib/quiz/sync';
@@ -21,7 +22,10 @@
 				void hydrateFromServer(DEFAULT_RULESET_ID); // seed a fresh device from the account
 				void bookmarks.load();
 			}
-			if (!signedIn && wasSignedIn) bookmarks.reset();
+			if (!signedIn && wasSignedIn) {
+				bookmarks.reset();
+				conversations.reset();
+			}
 			wasSignedIn = signedIn;
 		});
 	});

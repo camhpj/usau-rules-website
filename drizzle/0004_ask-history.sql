@@ -1,0 +1,1 @@
+ALTER TABLE `ai_asks` ADD `hidden_at` integer;

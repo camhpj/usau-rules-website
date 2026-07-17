@@ -1,5 +1,20 @@
+import { execSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
 import { signUpTestUser } from './helpers';
+
+// Shells out to wrangler against the same local D1 sqlite file the dev server uses. This is
+// only safe because the e2e suite runs single-worker (playwright.config.ts has no explicit
+// `workers` override for a single spec file) — concurrent writers against the same local D1
+// file are not something these helpers attempt to coordinate.
+const d1 = (sql: string): unknown =>
+	JSON.parse(
+		execSync(
+			`npx wrangler d1 execute usau-rules-website-db --local --json --command "${sql.replace(/"/g, '\\"')}"`,
+			{ cwd: process.cwd(), encoding: 'utf-8' }
+		)
+	);
+const d1Select = (sql: string): Record<string, unknown>[] =>
+	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;
 
 export const AI_QUESTION = {
 	id: 'ai-11111111-1111-1111-1111-111111111111',
@@ -86,42 +101,77 @@ test.describe('scenario mode', () => {
 	});
 });
 
-test.describe('ask the rules', () => {
-	test('signed out: sign-in gate, no question form', async ({ page }) => {
+const CHAT_STREAM = (convoId: string, messageId: string) => ({
+	status: 200,
+	headers: {
+		'content-type': 'application/x-ndjson; charset=utf-8',
+		'x-bp-ai-remaining': '9',
+		'x-bp-conversation-id': convoId,
+		'x-bp-message-id': messageId
+	},
+	body: '{"t":"think","text":"**Checking the stall rules**"}\n{"t":"text","text":"Yes — per [15.D] that is a turnover. "}\n{"t":"text","text":"[99.ZZ] is not a real rule."}\n'
+});
+
+test.describe('ask the rules (chat)', () => {
+	test('signed out: sign-in gate, no message box', async ({ page }) => {
 		await page.goto('/ask');
 		await page.waitForLoadState('networkidle');
 		await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible();
 		await expect(page.getByRole('textbox')).toHaveCount(0);
 	});
 
-	test('signed in: streams an answer; verified ids become explorer links, bogus ids stay text', async ({
+	test('send streams an answer, URL becomes /ask/<id>, sidebar lists it, follow-up appends', async ({
 		page
 	}) => {
-		await signUpTestUser(page, 'ask');
-		await page.route('**/api/ai/ask', (route) =>
-			route.fulfill({
-				status: 200,
-				headers: {
-					'content-type': 'application/x-ndjson; charset=utf-8',
-					'x-bp-ai-remaining': '9'
-				},
-				body: '{"t":"think","text":"**Comparing rules**"}\n{"t":"text","text":"Yes — under [15.D] that is a turnover. "}\n{"t":"text","text":"[99.ZZ] is not a real rule."}\n'
-			})
+		await signUpTestUser(page, 'chat');
+		let calls = 0;
+		await page.route('**/api/ai/chat', (route) => {
+			calls += 1;
+			return route.fulfill(CHAT_STREAM('mock-convo-1', `mock-msg-${calls}`));
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		const link = page.getByRole('link', { name: '15.D' }).first();
+		await expect(link).toHaveAttribute('href', '/rules/usau-official-2026-27/15#15.D');
+		await expect(page).toHaveURL(/\/ask\/mock-convo-1$/);
+		await expect(
+			page.getByRole('navigation', { name: 'Conversations' }).getByText(/is it a stall at ten\?/i)
+		).toBeVisible();
+		await expect(page.getByText(/9 questions left today/)).toBeVisible();
+
+		// Follow-up appends in place (still 1 page, now 2 exchanges).
+		await page.getByRole('textbox', { name: 'Your message' }).fill('And what about nine?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText('And what about nine?')).toBeVisible();
+		await expect(page.getByText(/that is a turnover/)).toHaveCount(2);
+	});
+
+	test('copy and feedback controls respond', async ({ page, context }) => {
+		// Headless Chromium blocks programmatic clipboard access unless the permission is
+		// granted explicitly (real browsers auto-allow it on a user gesture like this click).
+		await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+		await signUpTestUser(page, 'chat-actions');
+		await page.route('**/api/ai/chat', (route) =>
+			route.fulfill(CHAT_STREAM('mock-convo-2', 'mock-msg-a'))
 		);
 		await page.goto('/ask');
 		await page.waitForLoadState('networkidle');
-		await page.getByRole('textbox').fill('Is it a stall at ten?');
-		await page.getByRole('button', { name: /^ask$/i }).click();
-		await expect(page.getByText(/that is a turnover/)).toBeVisible();
-		const link = page.getByRole('link', { name: '15.D' });
-		await expect(link).toHaveAttribute('href', '/rules/usau-official-2026-27/15#15.D');
-		await expect(page.getByText('[99.ZZ]')).toBeVisible();
-		await expect(page.getByText(/9 questions left today/)).toBeVisible();
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		await page.getByRole('button', { name: /^copy$/i }).click();
+		await expect(page.getByRole('button', { name: /^copied$/i })).toBeVisible();
+		const thumbsUp = page.getByRole('button', { name: 'Good answer' });
+		await thumbsUp.click();
+		await expect(thumbsUp).toHaveAttribute('aria-pressed', 'true');
 	});
 
-	test('daily limit: 429 message shows and the form stays usable', async ({ page }) => {
-		await signUpTestUser(page, 'ask-limit');
-		await page.route('**/api/ai/ask', (route) =>
+	test('daily limit: 429 message shows, typed message is preserved', async ({ page }) => {
+		await signUpTestUser(page, 'chat-limit');
+		await page.route('**/api/ai/chat', (route) =>
 			route.fulfill({
 				status: 429,
 				contentType: 'application/json',
@@ -130,32 +180,137 @@ test.describe('ask the rules', () => {
 		);
 		await page.goto('/ask');
 		await page.waitForLoadState('networkidle');
-		await page.getByRole('textbox').fill('Is it a stall at ten?');
-		await page.getByRole('button', { name: /^ask$/i }).click();
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
 		await expect(page.getByText(/daily question limit reached/i)).toBeVisible();
-		await expect(page.getByRole('button', { name: /^ask$/i })).toBeEnabled();
+		await expect(page.getByRole('textbox', { name: 'Your message' })).toHaveValue(
+			'Is it a stall at ten?'
+		);
 	});
 
-	test('Enter submits; Cmd/Ctrl+Enter inserts a newline instead', async ({ page }) => {
-		await signUpTestUser(page, 'ask-keys');
-		await page.route('**/api/ai/ask', (route) =>
-			route.fulfill({
-				status: 200,
-				headers: {
-					'content-type': 'application/x-ndjson; charset=utf-8',
-					'x-bp-ai-remaining': '8'
-				},
-				body: '{"t":"text","text":"Yes — that is a stall per [15.D]."}\n'
-			})
+	test('Enter sends; Cmd/Ctrl+Enter inserts a newline instead', async ({ page }) => {
+		await signUpTestUser(page, 'chat-keys');
+		await page.route('**/api/ai/chat', (route) =>
+			route.fulfill(CHAT_STREAM('mock-convo-3', 'mock-msg-k'))
 		);
 		await page.goto('/ask');
 		await page.waitForLoadState('networkidle');
-		const box = page.getByRole('textbox');
+		const box = page.getByRole('textbox', { name: 'Your message' });
 		await box.fill('First line');
 		await box.press('ControlOrMeta+Enter');
 		await expect(box).toHaveValue('First line\n');
 		await box.pressSequentially('second line');
 		await box.press('Enter');
-		await expect(page.getByText(/that is a stall/)).toBeVisible();
+		await expect(page.getByText(/that is a turnover/)).toBeVisible();
+	});
+});
+
+test.describe('conversation history (seeded D1)', () => {
+	test('seeded rows: real list scopes and paginates; detail loads; DELETE soft-deletes; feedback writes', async ({
+		page
+	}) => {
+		test.setTimeout(60_000);
+		const { email } = await signUpTestUser(page, 'chat-db');
+		d1(`DELETE FROM ai_messages WHERE id LIKE 'seedc-%'`);
+		d1(`DELETE FROM ai_conversations WHERE id LIKE 'seedc-%'`);
+		const userId = (d1Select(`SELECT id FROM user WHERE email = '${email}'`)[0] as { id: string })
+			.id;
+		d1(
+			`INSERT OR IGNORE INTO user (id, name, email, email_verified) VALUES ('seedc-other-user', 'Other', 'seedc-other@example.com', 1)`
+		);
+		const base = Date.now();
+		// 21 visible conversations forces pagination past the 20-row page.
+		const convoValues: string[] = [];
+		const msgValues: string[] = [];
+		for (let i = 1; i <= 21; i++) {
+			convoValues.push(
+				`('seedc-v${i}', '${userId}', 'usau-official-2026-27', 'Seeded convo ${i}', ${base - i * 1000}, ${base - i * 1000}, NULL)`
+			);
+			msgValues.push(
+				`('seedc-v${i}-u', 'seedc-v${i}', 'user', 'Seeded question ${i}', NULL, NULL, NULL, ${base - i * 1000})`,
+				`('seedc-v${i}-a', 'seedc-v${i}', 'assistant', 'Seeded answer ${i} [15.D]', 'complete', 'seed', NULL, ${base - i * 1000 + 1})`
+			);
+		}
+		// Deleted convo NEWEST of this user's rows (falsifiable filter check) + another user's convo.
+		convoValues.push(
+			`('seedc-del', '${userId}', 'usau-official-2026-27', 'Deleted convo', ${base - 100}, ${base - 100}, ${base})`,
+			`('seedc-other', 'seedc-other-user', 'usau-official-2026-27', 'Other users convo', ${base - 200}, ${base - 200}, NULL)`
+		);
+		msgValues.push(
+			`('seedc-other-a', 'seedc-other', 'assistant', 'Foreign answer', 'complete', 'seed', NULL, ${base - 200})`
+		);
+		d1(
+			`INSERT INTO ai_conversations (id, user_id, ruleset_id, title, created_at, updated_at, deleted_at) VALUES ${convoValues.join(', ')}`
+		);
+		d1(
+			`INSERT INTO ai_messages (id, conversation_id, role, content, status, model, feedback, created_at) VALUES ${msgValues.join(', ')}`
+		);
+
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		await expect(sidebar.getByText('Seeded convo 1', { exact: true })).toBeVisible();
+		await expect(sidebar.getByText('Deleted convo')).toHaveCount(0);
+		await expect(sidebar.getByText('Other users convo')).toHaveCount(0);
+		await expect(sidebar.getByText('Seeded convo 21', { exact: true })).toHaveCount(0); // beyond page 1
+		await sidebar.getByRole('button', { name: 'Load more' }).click();
+		await expect(sidebar.getByText('Seeded convo 21', { exact: true })).toBeVisible();
+		await expect(sidebar.getByRole('button', { name: 'Load more' })).toHaveCount(0);
+
+		// Detail page loads real messages; feedback writes to the DB.
+		await sidebar.getByText('Seeded convo 2', { exact: true }).click();
+		await expect(page.getByText('Seeded question 2')).toBeVisible();
+		await expect(page.getByText(/Seeded answer 2/)).toBeVisible();
+		await page.getByRole('button', { name: 'Good answer' }).click();
+		await expect
+			.poll(
+				() =>
+					(
+						d1Select(`SELECT feedback FROM ai_messages WHERE id = 'seedc-v2-a'`)[0] as {
+							feedback: string | null;
+						}
+					).feedback
+			)
+			.toBe('up');
+
+		// Real soft delete persists across reload; row still exists with deleted_at set.
+		await sidebar
+			.getByRole('button', { name: 'Delete conversation: Seeded convo 2', exact: true })
+			.click();
+		await expect(page).toHaveURL(/\/ask$/); // deleting the open conversation navigates home
+		await page.reload();
+		await page.waitForLoadState('networkidle');
+		await expect(sidebar.getByText('Seeded convo 2', { exact: true })).toHaveCount(0);
+		const del = d1Select(`SELECT deleted_at FROM ai_conversations WHERE id = 'seedc-v2'`)[0] as {
+			deleted_at: number | null;
+		};
+		expect(del.deleted_at).not.toBeNull();
+
+		// Owner scoping negatives: foreign delete and foreign feedback are silent no-ops.
+		const delRes = await page.request.delete('/api/ai/conversations/seedc-other');
+		expect(delRes.ok()).toBeTruthy();
+		expect(
+			(
+				d1Select(`SELECT deleted_at FROM ai_conversations WHERE id = 'seedc-other'`)[0] as {
+					deleted_at: number | null;
+				}
+			).deleted_at
+		).toBeNull();
+		const fbRes = await page.request.post('/api/ai/messages/seedc-other-a/feedback', {
+			data: { feedback: 'down' }
+		});
+		expect(fbRes.ok()).toBeTruthy();
+		expect(
+			(
+				d1Select(`SELECT feedback FROM ai_messages WHERE id = 'seedc-other-a'`)[0] as {
+					feedback: string | null;
+				}
+			).feedback
+		).toBeNull();
+
+		// Foreign conversation page → not-found state.
+		await page.goto('/ask/seedc-other');
+		await page.waitForLoadState('networkidle');
+		await expect(page.getByText('Conversation not found')).toBeVisible();
 	});
 });

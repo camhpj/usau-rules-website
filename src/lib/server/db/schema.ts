@@ -193,22 +193,38 @@ export const aiUsage = sqliteTable(
 	]
 );
 
-export const aiAsks = sqliteTable(
-	'ai_asks',
+export const aiConversations = sqliteTable(
+	'ai_conversations',
 	{
 		id: text('id').primaryKey(), // uuid
 		userId: text('user_id')
 			.notNull()
 			.references(() => user.id, { onDelete: 'cascade' }),
-		rulesetId: text('ruleset_id').notNull(),
-		model: text('model').notNull(),
-		prompt: text('prompt').notNull(), // the user's question (Zod-capped at 500 chars upstream)
-		answer: text('answer'), // final streamed answer; NULL when status = 'error'
-		// answered = stream completed; truncated = MAX_TOKENS cut it short; error = no stream (502 path)
-		status: text('status', { enum: ['answered', 'truncated', 'error'] }).notNull(),
+		rulesetId: text('ruleset_id').notNull(), // conversation is pinned to one ruleset
+		title: text('title').notNull(), // first user message, truncated to 80 chars
+		createdAt: integer('created_at').notNull(),
+		updatedAt: integer('updated_at').notNull(), // last-message time; drives sidebar ordering
+		deletedAt: integer('deleted_at') // ms epoch; NULL = visible (soft delete)
+	},
+	(table) => [index('ai_conversations_user_updated_idx').on(table.userId, table.updatedAt)]
+);
+
+export const aiMessages = sqliteTable(
+	'ai_messages',
+	{
+		id: text('id').primaryKey(), // uuid; public id used by the feedback endpoint
+		conversationId: text('conversation_id')
+			.notNull()
+			.references(() => aiConversations.id, { onDelete: 'cascade' }),
+		role: text('role', { enum: ['user', 'assistant'] }).notNull(),
+		content: text('content').notNull(), // '' allowed for status='error' assistant rows
+		// assistant only: complete = stream finished; truncated = MAX_TOKENS; error = no stream
+		status: text('status', { enum: ['complete', 'truncated', 'error'] }),
+		model: text('model'), // assistant only; per message so model changes stay accurate
+		feedback: text('feedback', { enum: ['up', 'down'] }), // assistant only; NULL = none
 		createdAt: integer('created_at').notNull()
 	},
-	(table) => [index('ai_asks_user_created_idx').on(table.userId, table.createdAt)]
+	(table) => [index('ai_messages_convo_created_idx').on(table.conversationId, table.createdAt)]
 );
 
 export const aiCache = sqliteTable('ai_cache', {

@@ -47,6 +47,8 @@ export interface GeminiRequest {
 	grounding: string;
 	taskPrompt: string;
 	generationConfig: Record<string, unknown>;
+	/** Prior conversation turns, oldest first; sent before taskPrompt. */
+	priorTurns?: { role: 'user' | 'model'; text: string }[];
 	fetchImpl?: typeof fetch; // test seam
 	now?: () => number; // test seam
 }
@@ -89,16 +91,17 @@ export async function ensureGroundingCache(req: GeminiRequest): Promise<string |
 }
 
 function buildBody(req: GeminiRequest, cacheName: string | null): Record<string, unknown> {
+	const turns = (req.priorTurns ?? []).map((t) => ({ role: t.role, parts: [{ text: t.text }] }));
 	// With a cache, systemInstruction/grounding live IN the cache and must not repeat here.
 	return cacheName
 		? {
 				cachedContent: cacheName,
-				contents: [userText(req.taskPrompt)],
+				contents: [...turns, userText(req.taskPrompt)],
 				generationConfig: req.generationConfig
 			}
 		: {
 				systemInstruction: { parts: [{ text: req.systemPolicy }] },
-				contents: [userText(req.grounding), userText(req.taskPrompt)],
+				contents: [userText(req.grounding), ...turns, userText(req.taskPrompt)],
 				generationConfig: req.generationConfig
 			};
 }
