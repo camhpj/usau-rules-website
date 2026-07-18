@@ -258,6 +258,102 @@ test.describe('ask the rules (chat)', () => {
 		await expect(page.getByText('Is it a stall at ten?')).toBeVisible(); // user bubble kept
 		await expect(page.getByRole('alert')).toHaveCount(0);
 	});
+
+	test('an in-flight answer survives navigating away and back', async ({ page }) => {
+		await signUpTestUser(page, 'chat-bg');
+		await page.route('**/api/ai/chat', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 2000));
+			await route.fulfill(CHAT_STREAM('mock-convo-bg', 'mock-msg-bg')).catch(() => {});
+		});
+		await page.route('**/api/ai/conversations/mock-convo-bg', (route) =>
+			route.fulfill({
+				status: 200,
+				contentType: 'application/json',
+				body: JSON.stringify({
+					id: 'mock-convo-bg',
+					title: 'Is it a stall at ten?',
+					rulesetId: 'usau-official-2026-27',
+					messages: [
+						{
+							id: 'mock-user-bg',
+							role: 'user',
+							content: 'Is it a stall at ten?',
+							status: null,
+							feedback: null,
+							createdAt: Date.now()
+						}
+					]
+				})
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		// Leave while the request is still pending — SPA navigation keeps the fetch alive.
+		await page.getByRole('link', { name: 'Quiz' }).first().click();
+		await expect(page).toHaveURL(/\/quiz/);
+		// Come back: the conversation is in the sidebar and the finished answer is there.
+		await page.getByRole('link', { name: 'Ask' }).first().click();
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		await expect(sidebar.getByText(/is it a stall at ten\?/i)).toBeVisible({ timeout: 10_000 });
+		await sidebar.getByText(/is it a stall at ten\?/i).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+	});
+
+	test('two conversations can stream concurrently', async ({ page }) => {
+		await signUpTestUser(page, 'chat-multi');
+		let calls = 0;
+		await page.route('**/api/ai/chat', async (route) => {
+			calls += 1;
+			if (calls === 1) {
+				await new Promise((resolve) => setTimeout(resolve, 4000));
+				await route.fulfill(CHAT_STREAM('mock-convo-m1', 'mock-msg-m1')).catch(() => {});
+			} else {
+				await route.fulfill(CHAT_STREAM('mock-convo-m2', 'mock-msg-m2'));
+			}
+		});
+		await page.route('**/api/ai/conversations/mock-convo-m1', (route) =>
+			route.fulfill({
+				status: 200,
+				contentType: 'application/json',
+				body: JSON.stringify({
+					id: 'mock-convo-m1',
+					title: 'First question about stalls',
+					rulesetId: 'usau-official-2026-27',
+					messages: [
+						{
+							id: 'mock-user-m1',
+							role: 'user',
+							content: 'First question about stalls',
+							status: null,
+							feedback: null,
+							createdAt: Date.now()
+						}
+					]
+				})
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('First question about stalls');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		// Start a second conversation from a fresh blank view while the first is pending.
+		await page.getByRole('link', { name: 'Quiz' }).first().click();
+		await expect(page).toHaveURL(/\/quiz/);
+		await page.getByRole('link', { name: 'Ask' }).first().click();
+		await expect(page).toHaveURL(/\/ask$/);
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Second question about fouls');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-m2$/);
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		await expect(sidebar.getByText(/first question about stalls/i)).toBeVisible({
+			timeout: 10_000
+		});
+		await sidebar.getByText(/first question about stalls/i).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+	});
 });
 
 test.describe('conversation history (seeded D1)', () => {

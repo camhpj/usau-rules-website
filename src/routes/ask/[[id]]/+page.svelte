@@ -4,41 +4,32 @@
 	import {
 		CHAT_MAX_MESSAGE_CHARS,
 		CONVERSATION_MESSAGE_CAP,
-		deriveTitle,
 		type ChatMessage,
 		type ConversationDetail
 	} from '$lib/ai/payload';
 	import { latestThoughtHeadline } from '$lib/ai/thoughts';
-	import { conversations } from '$lib/ask/conversations.svelte';
+	import { chatStream } from '$lib/ask/chat-stream.svelte';
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
 	import ChatMessageRow from '$lib/components/chat/ChatMessageRow.svelte';
 
-	/** No bytes for this long while streaming → show the stall hint. */
-	const STALL_HINT_MS = 20_000;
-
 	let messages = $state<ChatMessage[]>([]);
 	let input = $state('');
-	let phase = $state<'idle' | 'streaming'>('idle');
-	let streamingText = $state('');
-	let thoughts = $state('');
 	let errorMessage = $state<string | null>(null);
-	let remaining = $state<number | null>(null);
 	let loadingConvo = $state(false);
 	let notFound = $state(false);
 	let activeId = $state<string | null>(null);
 	let scrollEl = $state<HTMLElement | null>(null);
-	let stalled = $state(false);
+	/** Regenerated per view session; ties a send to the view that initiated it. */
+	let myToken = $state<symbol>(Symbol());
 
-	let stopController: AbortController | null = null;
-	let stallTimer: ReturnType<typeof setTimeout> | null = null;
-
-	// Bumped on every view change; in-flight send() continuations from a previous
-	// view compare against it and discard their results (the server has already
-	// persisted them — they'll appear on next load of that conversation).
+	// Guards page-local mutations (bubble rollback, load results) against view
+	// changes. Stream continuations live in chatStream and need no guard.
 	let viewGeneration = 0;
 
-	const thoughtHeadline = $derived(latestThoughtHeadline(thoughts));
 	const full = $derived(messages.length >= CONVERSATION_MESSAGE_CAP);
+	/** The live stream belonging to what this view shows, if any. */
+	const activeJob = $derived(chatStream.jobForView(activeId, myToken));
+	const thoughtHeadline = $derived(activeJob ? latestThoughtHeadline(activeJob.thoughts) : null);
 
 	// React to REAL route changes (sidebar clicks, back/forward, hard loads, "New chat").
 	// replaceState after the first send updates page.url but not page.params, so reading
@@ -46,7 +37,7 @@
 	// never gives it a value), so Svelte never sees that tracked value change and this
 	// effect would never re-run. Reading page.url too gives it a dependency that always
 	// changes on navigation, so the params check below still runs and can compare against
-	// lastParam (which send() resyncs after its replaceState).
+	// lastParam (which the adoption effect resyncs after its replaceState).
 	let lastParam: string | null | undefined = undefined;
 	$effect(() => {
 		void page.url;
@@ -54,42 +45,38 @@
 		if (param === lastParam) return;
 		lastParam = param;
 		viewGeneration += 1;
-		stopController?.abort(); // a stream for the old view has no reader once we leave
-		stopController = null;
-		clearStallTimer();
+		myToken = Symbol(); // a background send from the old view must not adopt this view's URL
 		activeId = param;
 		errorMessage = null;
-		streamingText = '';
-		thoughts = '';
-		phase = 'idle';
 		messages = []; // clear immediately so a conversation switch never flashes the old thread
 		notFound = false;
 		if (param) void loadConversation(param);
 	});
 
+	// Adopt the conversation id once headers arrive for a send initiated from
+	// THIS view's blank composer: morph the URL and selection in place.
 	$effect(() => {
-		return () => {
-			viewGeneration += 1; // strand any in-flight send() so it can't replaceState after unmount
-			stopController?.abort();
-			clearStallTimer();
-		};
+		if (activeId !== null) return;
+		const cid = chatStream.jobForView(null, myToken)?.conversationId ?? null;
+		if (!cid) return;
+		activeId = cid;
+		replaceState(`/ask/${cid}`, {});
+		lastParam = cid; // replaceState doesn't update page.params; resync so the route effect still fires on the next real navigation
 	});
 
-	function armStallTimer() {
-		if (stallTimer) clearTimeout(stallTimer);
-		stalled = false;
-		stallTimer = setTimeout(() => (stalled = true), STALL_HINT_MS);
-	}
-
-	function clearStallTimer() {
-		if (stallTimer) clearTimeout(stallTimer);
-		stallTimer = null;
-		stalled = false;
-	}
-
-	function stop() {
-		stopController?.abort();
-	}
+	// Pick up an exchange that finished (possibly while this view was unmounted).
+	// Defers until the transcript load settles, so it never races loadConversation's
+	// own assignment; the server row may already be in the loaded transcript — dedupe by id.
+	$effect(() => {
+		if (!activeId || loadingConvo) return;
+		const done = chatStream.completed.get(activeId);
+		if (!done) return;
+		if (!messages.some((m) => m.id === done.id)) {
+			messages = [...messages, done];
+			scrollToEnd();
+		}
+		chatStream.consumeCompleted(activeId);
+	});
 
 	async function loadConversation(id: string) {
 		const gen = viewGeneration;
@@ -122,13 +109,9 @@
 
 	async function send(event?: SubmitEvent) {
 		event?.preventDefault();
-		const gen = viewGeneration;
 		const text = input.trim();
-		if (text.length < 3 || phase === 'streaming' || full) return;
-		phase = 'streaming';
-		errorMessage = null;
-		streamingText = '';
-		thoughts = '';
+		if (text.length < 3 || activeJob || chatStream.atCap || full) return;
+		const gen = viewGeneration;
 		messages = [
 			...messages,
 			{
@@ -142,151 +125,13 @@
 		];
 		input = '';
 		scrollToEnd();
-
-		const controller = new AbortController();
-		stopController = controller;
-		let truncated = false;
-		let serverError = false;
-		let conversationId: string | null = null;
-		let messageId: string | null = null;
-
-		// The server persisted the exchange the moment the response opened; keep
-		// the URL and sidebar in sync with that on every terminal path.
-		const syncConversation = () => {
-			if (!activeId && conversationId) {
-				activeId = conversationId;
-				replaceState(`/ask/${conversationId}`, {});
-				lastParam = conversationId; // replaceState doesn't update page.params; resync so the route-change effect still fires on the next real navigation (e.g. "New chat")
-				conversations.prepend({
-					id: conversationId,
-					title: deriveTitle(text),
-					updatedAt: Date.now()
-				});
-			} else if (activeId) {
-				conversations.touch(activeId, Date.now());
-			}
-		};
-		const pushAssistant = (status: 'complete' | 'truncated' | 'error') => {
-			messages = [
-				...messages,
-				{
-					id: messageId ?? `local-${crypto.randomUUID()}`,
-					role: 'assistant',
-					content: status === 'error' ? '' : streamingText,
-					status,
-					feedback: null,
-					createdAt: Date.now()
-				}
-			];
-			streamingText = '';
-		};
-		const settle = () => {
-			clearStallTimer();
-			if (stopController === controller) stopController = null;
-			phase = 'idle';
-		};
-
-		try {
-			const res = await fetch('/api/ai/chat', {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ message: text, ...(activeId ? { conversationId: activeId } : {}) }),
-				signal: controller.signal
-			});
-			if (gen !== viewGeneration) return;
-			if (!res.ok || !res.body) {
-				const serverMessage = (await res.json().catch(() => null))?.message;
-				if (gen !== viewGeneration) return;
-				errorMessage =
-					res.status === 429 || res.status === 400
-						? (serverMessage ?? 'That message could not be sent.')
-						: res.status === 503
-							? 'AI features are offline right now.'
-							: res.status === 401
-								? 'Your session expired — sign in again.'
-								: res.status === 404
-									? 'Conversation not found — start a new chat.'
-									: 'The rules assistant is unavailable — try again in a minute.';
-				messages = messages.slice(0, -1); // roll back the optimistic user bubble
-				input = text; // keep the message for retry
-				settle();
-				return;
-			}
-			const remainingHeader = res.headers.get('x-bp-ai-remaining');
-			if (remainingHeader !== null) {
-				const n = Number(remainingHeader);
-				if (Number.isFinite(n)) remaining = n;
-			}
-			conversationId = res.headers.get('x-bp-conversation-id');
-			messageId = res.headers.get('x-bp-message-id');
-			armStallTimer();
-			const reader = res.body.getReader();
-			const decoder = new TextDecoder();
-			let lineBuffer = '';
-			const handleLine = (line: string) => {
-				if (!line) return;
-				let msg: { t?: string; text?: string };
-				try {
-					msg = JSON.parse(line);
-				} catch {
-					return;
-				}
-				if (msg.t === 'think') thoughts += msg.text ?? '';
-				else if (msg.t === 'text') streamingText += msg.text ?? '';
-				else if (msg.t === 'truncated') truncated = true;
-				else if (msg.t === 'error') serverError = true;
-			};
-			for (;;) {
-				const { done, value } = await reader.read();
-				if (gen !== viewGeneration) {
-					void reader.cancel();
-					return;
-				}
-				if (done) break;
-				armStallTimer();
-				lineBuffer += decoder.decode(value, { stream: true });
-				let newline: number;
-				while ((newline = lineBuffer.indexOf('\n')) !== -1) {
-					handleLine(lineBuffer.slice(0, newline));
-					lineBuffer = lineBuffer.slice(newline + 1);
-				}
-			}
-			lineBuffer += decoder.decode();
-			handleLine(lineBuffer);
-			if (gen !== viewGeneration) return;
-			if (serverError) {
-				pushAssistant(streamingText.trim() ? 'truncated' : 'error');
-				errorMessage = 'The assistant ran into a problem — try asking again.';
-			} else if (!streamingText.trim()) {
-				pushAssistant('error');
-				errorMessage = 'No answer came back — try again.';
-			} else {
-				pushAssistant(truncated ? 'truncated' : 'complete');
-				if (truncated) errorMessage = 'The answer was cut short — try asking again.';
-			}
-			syncConversation();
-			settle();
-			scrollToEnd();
-		} catch {
-			if (gen !== viewGeneration) return;
-			const wasStopped = controller.signal.aborted;
-			if (streamingText.trim()) {
-				pushAssistant('truncated');
-				errorMessage = wasStopped
-					? null
-					: 'The connection dropped mid-answer — what arrived is shown above.';
-				syncConversation();
-			} else if (wasStopped) {
-				// The server keeps generating and persists the full answer; the user
-				// bubble stays so this view matches what a reload will show.
-				syncConversation();
-			} else {
-				messages = messages.slice(0, -1);
-				input = text;
-				errorMessage = 'Network error — try again.';
-			}
-			settle();
+		const result = await chatStream.send(text, { conversationId: activeId, viewToken: myToken });
+		if (gen !== viewGeneration) return;
+		if (result.kind === 'failed' || result.kind === 'rejected') {
+			messages = messages.slice(0, -1); // roll back the optimistic user bubble
+			input = text; // keep the message for retry
 		}
+		errorMessage = result.message;
 	}
 
 	function onKeydown(event: KeyboardEvent) {
@@ -317,7 +162,7 @@
 		bind:this={scrollEl}
 		style="scrollbar-gutter: stable;"
 		class="flex-1 overflow-y-auto pr-4 pb-4 sm:pr-6 {messages.length === 0 &&
-		phase === 'idle' &&
+		!activeJob &&
 		!loadingConvo
 			? 'flex items-center justify-center'
 			: 'space-y-5'}"
@@ -331,7 +176,7 @@
 				<div class="h-4 w-4/5 animate-pulse rounded bg-navy/10"></div>
 				<div class="h-4 w-3/5 animate-pulse rounded bg-navy/10"></div>
 			</div>
-		{:else if messages.length === 0 && phase === 'idle'}
+		{:else if messages.length === 0 && !activeJob}
 			<div class="text-center">
 				<p class="text-sm text-navy/60">Ask anything about the rules</p>
 				<p class="mt-1 text-xs text-navy/40">Ask is powered by AI and can make mistakes</p>
@@ -340,8 +185,8 @@
 		{#each messages as message (message.id)}
 			<ChatMessageRow {message} />
 		{/each}
-		{#if phase === 'streaming'}
-			{#if !streamingText}
+		{#if activeJob}
+			{#if !activeJob.streamingText}
 				<p class="flex items-center gap-2 text-sm text-navy/60 italic">
 					<span
 						class="inline-block h-2 w-2 animate-pulse rounded-full bg-cardinal/60"
@@ -350,9 +195,9 @@
 					{thoughtHeadline ? `Thinking — ${thoughtHeadline}` : 'Thinking…'}
 				</p>
 			{:else}
-				<AskAnswer answer={streamingText} streaming={true} />
+				<AskAnswer answer={activeJob.streamingText} streaming={true} />
 			{/if}
-			{#if stalled}
+			{#if activeJob.stalled}
 				<p class="text-xs text-navy/50 italic">
 					Taking longer than usual — you can stop and ask again.
 				</p>
@@ -384,17 +229,17 @@
 						class="min-h-0 w-full resize-none rounded-lg bg-transparent p-3 text-sm text-navy placeholder:text-navy/40 focus:outline-none"
 					></textarea>
 					<div class="flex items-center justify-between px-3 pb-3">
-						{#if remaining !== null}
+						{#if chatStream.remaining !== null}
 							<p class="self-end text-xs text-navy/50">
-								{remaining} question{remaining === 1 ? '' : 's'} left today
+								{chatStream.remaining} question{chatStream.remaining === 1 ? '' : 's'} left today
 							</p>
 						{:else}
 							<span aria-hidden="true"></span>
 						{/if}
-						{#if phase === 'streaming'}
+						{#if activeJob}
 							<button
 								type="button"
-								onclick={stop}
+								onclick={() => activeJob && chatStream.stop(activeJob)}
 								aria-label="Stop"
 								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-white hover:brightness-110"
 							>
@@ -412,7 +257,7 @@
 							<button
 								type="submit"
 								aria-label="Send"
-								disabled={input.trim().length < 3}
+								disabled={chatStream.atCap || input.trim().length < 3}
 								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cardinal text-white hover:brightness-110 disabled:opacity-40"
 							>
 								<svg
