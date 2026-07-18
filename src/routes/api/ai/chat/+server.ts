@@ -149,9 +149,9 @@ export const POST: RequestHandler = async (event) => {
 		}
 	}
 
-	// No tee/drain: a client disconnect must propagate as cancellation so the
-	// server stops Gemini and persists only what was generated (owner decision
-	// 2026-07-18 — stopping an answer must not produce a full transcript later).
+	// The response body is the stream itself, so a client disconnect (Stop,
+	// reload, tab close) propagates as cancellation: Gemini stops generating
+	// and onClose persists only the text produced so far.
 	return new Response(stream, {
 		headers: {
 			'content-type': 'application/x-ndjson; charset=utf-8',

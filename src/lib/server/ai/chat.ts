@@ -23,7 +23,7 @@ export function toGeminiTurns(messages: StoredTurn[]): { role: 'user' | 'model';
  * errored or cancelled stream that produced text persists as truncated; a
  * stream with no answer text at all (thoughts only) is an error row
  * regardless of how it ended. Cancelled = the client went away (Stop,
- * reload); by owner decision the transcript keeps only what was generated.
+ * reload); the transcript keeps only what was generated.
  */
 export function statusForStream(
 	outcome: StreamOutcome,
