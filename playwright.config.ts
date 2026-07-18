@@ -3,6 +3,12 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
 	testDir: 'e2e',
 	timeout: 30_000,
+	// The suite shares ONE wrangler dev server + ONE local D1 sqlite file, and several
+	// specs shell out to `wrangler d1 execute` to seed/read D1 mid-test. Concurrent
+	// workers corrupt that shared state and crash the dev server (ECONNREFUSED cascade),
+	// so the suite MUST run single-worker. CI happened to get this from low core counts;
+	// pin it so many-core dev machines behave the same.
+	workers: 1,
 	use: { baseURL: 'http://127.0.0.1:8787' },
 	webServer: {
 		// Local runs reuse the on-disk D1 store across invocations (CI always starts from a
