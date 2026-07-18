@@ -2,253 +2,45 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Make Stop actually cancel server-side generation (what you see is what's saved), surface new conversations in the sidebar the moment they exist, and keep an in-flight answer streaming across route changes.
+**Goal:** Make Stop actually cancel server-side generation (what you see is what's saved), surface new conversations in the sidebar the moment they exist, and keep in-flight answers streaming across route changes — with support for multiple concurrent streams (one per conversation, capped app-wide).
 
-**Architecture:** Owner feedback on PR #3: stopping an answer then reloading later revealed the full AI response (the route's tee+drain deliberately finished generation after client disconnect), and new conversations only appeared in the sidebar after the stream ended. Fix: (1) server — remove the tee/drain; let client disconnect propagate as consumer cancellation into `streamText`, which reports a new `'cancelled'` outcome so the route persists exactly what was generated (partial → `truncated`, nothing → `error`), with `ctx.waitUntil` keeping the isolate alive for the D1 write; (2) client — move all send/stream state from the page component into a module-scope `chatStream` store (`chat-stream.svelte.ts`), so SPA navigation never aborts the fetch; only the Stop button (or leaving the app: reload/tab close) cancels. The store prepends the conversation to the sidebar as soon as response headers deliver the id; the page becomes a view that renders loaded messages plus the store's live exchange when it belongs to the current view.
+**Architecture:** (1) Server — remove the chat route's tee/drain; client disconnect propagates as consumer cancellation into `streamText`, which reports a `'cancelled'` outcome so the route persists exactly what was generated (partial → `truncated`, nothing → `error`), with `ctx.waitUntil` keeping the isolate alive for the D1 write. (2) Client — send/stream state moves from the page component into a module-scope `chatStream` store (`chat-stream.svelte.ts`) holding a map of stream jobs keyed per conversation, so SPA navigation never aborts a fetch and several conversations can stream at once (at most one stream per conversation; app-wide cap `MAX_CONCURRENT_STREAMS`). The store prepends a new conversation to the sidebar as soon as response headers deliver its id; the page is a view that renders loaded messages plus the live job belonging to the current view, and picks up finished answers from a completed-map (dedup by message id).
 
-**Tech Stack:** SvelteKit 2 / Svelte 5 runes (module-scope `$state` store, same pattern as `conversations.svelte.ts`), Cloudflare Workers, Vitest 4, Playwright.
+**Tech Stack:** SvelteKit 2 / Svelte 5 runes (module-scope `$state` classes + `SvelteMap` from `svelte/reactivity`), Cloudflare Workers, Vitest 4, Playwright.
 
 ## Global Constraints
 
 - Branch: `chat-stream-reliability` (PR #3). Commit locally; do NOT push — the owner verifies locally first.
 - No new dependencies. No schema changes; persisted assistant `status` stays `'complete' | 'truncated' | 'error'`.
-- Semantics (owner-driven): client abort = real cancel. Server persists partial answer text as `truncated`, or an `error` row (content `''`) when no answer text was generated. The old "persist the full answer after client disconnect" behavior is REMOVED on purpose.
-- One in-flight stream at a time, app-wide (composer disabled elsewhere while streaming).
+- Semantics (owner-driven): client abort = real cancel. Server persists partial answer text as `truncated`, or an `error` row (content `''`) when no answer text was generated.
+- Concurrency (owner-driven): multiple streams allowed — at most ONE per conversation, capped app-wide by `MAX_CONCURRENT_STREAMS = 3` (exported constant in the store; changing the cap is a one-line edit).
+- Comment hygiene (owner-driven): code comments must describe the code as it is — no references to prior in-PR states, removed mechanisms, decision dates, or "owner decision" attributions.
 - Wire protocol unchanged: NDJSON `{t: 'think'|'text'|'truncated'|'error', text?}`.
-- `observer.onClose(outcome)` still fires exactly once per successfully-opened stream (now also on consumer cancellation) and the output stream never errors.
-- Copy strings stay verbatim (stall hint "Taking longer than usual — you can stop and ask again."; server-error "The assistant ran into a problem — try asking again."; no message on stop). One NEW copy string: post-headers connection drop with no text → "The connection dropped — reload to see what was saved."
-- All 13 existing `e2e/ai.spec.ts` tests are the regression net and must pass (plus the new one).
+- `observer.onClose(outcome)` still fires exactly once per successfully-opened stream (including consumer cancellation) and the output stream never errors.
+- Copy strings (verbatim): stall hint "Taking longer than usual — you can stop and ask again."; server-error "The assistant ran into a problem — try asking again."; no message on stop; post-headers drop with no text "The connection dropped — reload to see what was saved."; same-conversation guard "This conversation is already answering — wait for it to finish."; cap guard "You have too many answers streaming — wait for one to finish."
+- All 13 existing `e2e/ai.spec.ts` tests are the regression net and must pass (plus the two new ones).
 - Verification: `npm run test`, `npm run check`, `npx playwright test e2e/ai.spec.ts`, `npm run lint` (run `npm run format` if needed).
 - Top-nav accessible link names (verified): "Rules", "Quiz", "Ask". Sidebar nav is `role=navigation` name "Conversations".
 
 ## File Map
 
-- Modify: `src/lib/server/ai/gemini.ts` — `'cancelled'` outcome, cancel-aware pump finalization (Task 1)
-- Modify: `src/lib/server/ai/gemini.test.ts` — consumer-cancel test (Task 1)
-- Modify: `src/lib/server/ai/chat.ts` + `chat.test.ts` — `statusForStream` handles `'cancelled'` (Task 1)
-- Modify: `src/routes/api/ai/chat/+server.ts` — drop tee/drain, waitUntil persistence (Task 1)
-- Create: `src/lib/ask/chat-stream.svelte.ts` — module-scope streaming store (Task 2)
+- Modify: `src/lib/server/ai/gemini.ts` — `'cancelled'` outcome, cancel-aware pump finalization (Task 1 — DONE, commit 868fca8)
+- Modify: `src/lib/server/ai/gemini.test.ts` — consumer-cancel test (Task 1 — DONE)
+- Modify: `src/lib/server/ai/chat.ts` + `chat.test.ts` — `statusForStream` handles `'cancelled'` (Task 1 — DONE)
+- Modify: `src/routes/api/ai/chat/+server.ts` — drop tee/drain, waitUntil persistence (Task 1 — DONE)
+- Create: `src/lib/ask/chat-stream.svelte.ts` — module-scope multi-stream store (Task 2)
 - Modify: `src/routes/ask/[[id]]/+page.svelte` — page becomes a view over the store (Task 2)
-- Modify: `e2e/ai.spec.ts` — background-continuation test (Task 2)
+- Modify: `e2e/ai.spec.ts` — background-continuation + concurrency tests (Task 2)
 
 ---
 
 ### Task 1: Server — client disconnect is a real cancel
 
-**Files:**
-- Modify: `src/lib/server/ai/gemini.ts`
-- Modify: `src/lib/server/ai/chat.ts`
-- Modify: `src/routes/api/ai/chat/+server.ts`
-- Test: `src/lib/server/ai/gemini.test.ts`, `src/lib/server/ai/chat.test.ts`
-
-**Interfaces:**
-- Consumes: existing pump-loop `streamText`, `statusForStream`, route observer.
-- Produces: `StreamOutcome` union gains `'cancelled'`; consumer cancellation of the returned stream → upstream abort + `onClose('cancelled')`; `statusForStream('cancelled', text)` → `'truncated'` if text else `'error'`; route returns the stream directly (no tee) and wraps the persistence promise in `ctx.waitUntil`.
-
-- [ ] **Step 1: Failing tests**
-
-1a. In `src/lib/server/ai/gemini.test.ts`, append inside `describe('streamText', ...)` (after the throwing-observer test, before the `watchdog` describe):
-
-```ts
-	it('consumer cancellation aborts upstream, reports cancelled, and never errors', async () => {
-		const body = new ReadableStream<Uint8Array>({
-			start(controller) {
-				controller.enqueue(enc(textChunk('partial ')));
-				// never closes — cancellation must come from the consumer side
-			}
-		});
-		const { seen, observer } = observing();
-		const stream = await streamText(req(fetchWithBody(body) as typeof fetch, memoryStore()), observer);
-		const reader = stream.getReader();
-		await reader.read(); // first NDJSON line delivered
-		await reader.cancel(); // client went away (stop / reload / tab close)
-		await vi.waitFor(() => expect(seen.outcomes).toEqual(['cancelled']));
-		expect(seen.textDeltas).toEqual(['partial ']);
-	});
-```
-
-1b. In `src/lib/server/ai/chat.test.ts`, extend the `statusForStream` describe with:
-
-```ts
-	it('treats a cancelled stream like an errored one', () => {
-		expect(statusForStream('cancelled', 'partial answer')).toBe('truncated'); // keep what the user saw
-		expect(statusForStream('cancelled', '')).toBe('error');
-		expect(statusForStream('cancelled', '   ')).toBe('error');
-	});
-```
-
-- [ ] **Step 2: Run to verify failure**
-
-Run: `npm run test -- src/lib/server/ai/gemini.test.ts src/lib/server/ai/chat.test.ts`
-Expected: FAIL — `'cancelled'` is not assignable to `StreamOutcome` (type error) and/or the cancel test times out with `seen.outcomes` = `[]` or `['complete']`.
-
-- [ ] **Step 3: Implement in `gemini.ts`**
-
-3a. Widen the outcome union:
-
-```ts
-export type StreamOutcome = 'complete' | 'truncated' | 'error' | 'cancelled';
-```
-
-3b. In `streamText`, the closure state and the returned stream change as follows (the fetch/reader/extractor/timer setup above them is untouched). Add a `consumerCancelled` flag next to `outcome`:
-
-```ts
-	let outcome: StreamOutcome = 'complete';
-	let consumerCancelled = false;
-```
-
-3c. Replace the returned `new ReadableStream<Uint8Array>({ ... })` with:
-
-```ts
-	return new ReadableStream<Uint8Array>({
-		async start(controller) {
-			// After the consumer cancels, enqueue/close throw; keep pumping only to finalize.
-			const push = (chunk: Uint8Array) => {
-				if (consumerCancelled) return;
-				try {
-					controller.enqueue(chunk);
-				} catch {
-					consumerCancelled = true;
-				}
-			};
-			try {
-				for (;;) {
-					const next = reader.read();
-					next.catch(() => {}); // the race may abandon this promise; keep its rejection handled
-					const { done, value } = await Promise.race([next, aborted]);
-					if (done) break;
-					for (const event of extractor.feed(value)) {
-						if (event.kind === 'delta') {
-							if (!event.thought) {
-								if (noAnswerTimer) clearTimeout(noAnswerTimer);
-								noAnswerTimer = null;
-								observer?.onText?.(event.text);
-							}
-							push(line({ t: event.thought ? 'think' : 'text', text: event.text }));
-						} else if (event.reason === 'MAX_TOKENS') {
-							console.error('gemini stream truncated: MAX_TOKENS');
-							outcome = 'truncated';
-							push(line({ t: 'truncated' }));
-						} else if (event.reason !== 'STOP') {
-							console.error(`gemini stream finished with unexpected reason: ${event.reason}`);
-						}
-					}
-				}
-			} catch (cause) {
-				console.error('gemini stream failed mid-answer', cause);
-				if (outcome !== 'cancelled') outcome = 'error';
-				push(line({ t: 'error' }));
-				void reader.cancel().catch(() => {});
-			} finally {
-				clearTimers();
-				try {
-					await observer?.onClose?.(outcome);
-				} catch (cause) {
-					console.error('gemini stream observer onClose failed', cause);
-				}
-				try {
-					controller.close();
-				} catch {
-					// consumer already cancelled the stream
-				}
-			}
-		},
-		cancel() {
-			// The client is gone (Stop, reload, tab close): this is a real cancel.
-			// Abort upstream so Gemini stops generating; the pump's pending read
-			// resolves done and the finally block reports the cancelled outcome.
-			consumerCancelled = true;
-			outcome = 'cancelled';
-			clearTimers();
-			void reader.cancel().catch(() => {});
-		}
-	});
-```
-
-(Deltas from the current code: `push` wrapper instead of raw `enqueue`, `consumerCancelled` flag, `outcome !== 'cancelled'` guard in the catch, guarded `controller.close()`, and the `cancel()` hook now sets the outcome instead of only cleaning up. The docblock above `streamText` should note that consumer cancellation reports `'cancelled'` via `onClose`.)
-
-- [ ] **Step 4: Implement in `chat.ts`**
-
-Replace `statusForStream` (and its doc comment) with:
-
-```ts
-/**
- * DB status for a finished stream. Partial answers are worth keeping — an
- * errored or cancelled stream that produced text persists as truncated; a
- * stream with no answer text at all (thoughts only) is an error row
- * regardless of how it ended. Cancelled = the client went away (Stop,
- * reload); by owner decision the transcript keeps only what was generated.
- */
-export function statusForStream(
-	outcome: StreamOutcome,
-	answerText: string
-): 'complete' | 'truncated' | 'error' {
-	if (!answerText.trim()) return 'error';
-	if (outcome === 'error' || outcome === 'cancelled') return 'truncated';
-	return outcome;
-}
-```
-
-- [ ] **Step 5: Run the unit tests**
-
-Run: `npm run test -- src/lib/server/ai/gemini.test.ts src/lib/server/ai/chat.test.ts`
-Expected: PASS (17 in gemini.test.ts, all in chat.test.ts).
-
-- [ ] **Step 6: Rewire `src/routes/api/ai/chat/+server.ts`**
-
-6a. Replace the `observer` object with:
-
-```ts
-	const observer = {
-		onText: (t: string) => (answerText += t),
-		onClose: (outcome: StreamOutcome) => {
-			// A client disconnect cancels the stream mid-request; waitUntil keeps
-			// the isolate alive until the transcript row is persisted.
-			const persisted = persistAssistant(statusForStream(outcome, answerText));
-			event.platform?.ctx?.waitUntil?.(persisted);
-			return persisted;
-		}
-	};
-```
-
-6b. Delete the tee/drain block:
-
-```ts
-	// Tee so the upstream Gemini stream is always fully consumed server-side:
-	// flush()/onClose persistence must run even if the client disconnects mid-answer.
-	const [clientBranch, drainBranch] = stream.tee();
-	const drained = drainBranch.pipeTo(new WritableStream()).catch(() => {});
-	event.platform?.ctx?.waitUntil?.(drained);
-
-	return new Response(clientBranch, {
-```
-
-becomes:
-
-```ts
-	// No tee/drain: a client disconnect must propagate as cancellation so the
-	// server stops Gemini and persists only what was generated (owner decision
-	// 2026-07-18 — stopping an answer must not produce a full transcript later).
-	return new Response(stream, {
-```
-
-(headers object unchanged).
-
-- [ ] **Step 7: Full verification**
-
-Run: `npm run test` then `npm run check`
-Expected: all PASS, 0 type errors.
-
-- [ ] **Step 8: Commit**
-
-```bash
-git add src/lib/server/ai/gemini.ts src/lib/server/ai/gemini.test.ts src/lib/server/ai/chat.ts src/lib/server/ai/chat.test.ts src/routes/api/ai/chat/+server.ts
-git commit -m "feat: treat client disconnect as a real cancel that persists only generated text"
-```
+**COMPLETE** (commit 868fca8; reviewed and approved). Preserved here for reference: `StreamOutcome` gained `'cancelled'`; the pump's `cancel()` hook sets the outcome and cancels the upstream reader; enqueues go through a guarded `push`; `controller.close()` is guarded; `statusForStream('cancelled', text)` → text ? `'truncated'` : `'error'`; the route returns the stream directly and wraps the persistence promise from `onClose` in `event.platform?.ctx?.waitUntil`.
 
 ---
 
-### Task 2: Client — module-scope streaming store, immediate sidebar, navigation-proof streams
+### Task 2: Client — multi-stream store, immediate sidebar, navigation-proof streams
 
 **Files:**
 - Create: `src/lib/ask/chat-stream.svelte.ts`
@@ -257,16 +49,23 @@ git commit -m "feat: treat client disconnect as a real cancel that persists only
 
 **Interfaces:**
 - Consumes: `conversations` store (`prepend`/`touch`), `deriveTitle`, `ChatMessage`, wire events incl. `{"t":"error"}`.
-- Produces: singleton `chatStream` with `$state` fields `phase`, `conversationId`, `viewToken`, `streamingText`, `thoughts`, `stalled`, `remaining`, `errorMessage`, `failedText`, `completed` and methods `send(text, {conversationId, viewToken}): Promise<'done' | 'failed'>`, `stop()`, `consumeCompleted()`.
+- Produces: singleton `chatStream` with:
+  - `jobs: SvelteMap<string, StreamJob>` — live streams; `StreamJob` exposes `$state` fields `conversationId`, `viewToken`, `streamingText`, `thoughts`, `stalled`
+  - `completed: SvelteMap<string, ChatMessage>` — finished assistant messages keyed by conversation id, awaiting pickup
+  - `remaining: number | null`
+  - `jobFor(conversationId)`, `jobForView(activeId, viewToken)`, `atCap` getter
+  - `send(text, {conversationId, viewToken}): Promise<SendResult>` where `SendResult = { kind: 'done'; message: string | null } | { kind: 'failed'; message: string } | { kind: 'rejected'; message: string }`
+  - `stop(job)`, `consumeCompleted(conversationId)`
+  - exported `MAX_CONCURRENT_STREAMS = 3`
 
 Behavior spec:
-1. Send state lives in the store; SPA navigation neither aborts the fetch nor loses the answer. Only `stop()` aborts (server now treats that as a real cancel per Task 1).
-2. The conversation appears in the sidebar (and the URL becomes `/ask/<id>` when the initiating blank view is still mounted) as soon as response headers deliver the id — not when the stream ends.
-3. When a stream finishes while its conversation is not being viewed, the finished assistant bubble is held in `completed`; the conversation view picks it up on mount (dedup by message id, since the server row may already be in the loaded transcript).
-4. One stream at a time: the composer's Send is disabled app-wide while streaming; the Stop button appears only on the view whose exchange is streaming.
-5. Stop remains silent (no message). New: a post-headers connection drop with no text shows "The connection dropped — reload to see what was saved." and does NOT restore the input (the exchange is persisted server-side; a retry would duplicate it). A pre-headers failure still rolls back the optimistic bubble and restores the input.
+1. Send state lives in the store; SPA navigation neither aborts fetches nor loses answers. Only `stop(job)` aborts (a real cancel server-side per Task 1).
+2. Multiple conversations may stream concurrently. Hard rules: one stream per conversation (`'rejected'` with the same-conversation copy string), app-wide cap of `MAX_CONCURRENT_STREAMS` (`'rejected'` with the cap copy string). The composer's Send is disabled when the current view's conversation is streaming or the cap is reached; the Stop button appears only on a view whose exchange is streaming.
+3. A new conversation appears in the sidebar (and the URL becomes `/ask/<id>` when the initiating blank view is still mounted) as soon as response headers deliver the id.
+4. A stream finishing while its conversation isn't being viewed parks the assistant bubble in `completed`; the conversation view picks it up on mount, deduping by message id (the server row may already be in the loaded transcript).
+5. Error/status messages: the transient `errorMessage` is page-local, set from the send result only when the view that initiated the send is still current; background outcomes are conveyed by the bubble's own status (`truncated` → "cut short" note, `error` → unavailable note). Stop remains silent. A post-headers connection drop with no text returns done-with-message "The connection dropped — reload to see what was saved." and does NOT restore the input (the exchange is persisted server-side; retrying would duplicate it). A pre-headers failure returns `'failed'`: the page rolls back the optimistic bubble and restores the input.
 
-- [ ] **Step 1: Add the failing e2e test**
+- [ ] **Step 1: Add the two failing e2e tests**
 
 In `e2e/ai.spec.ts`, inside `test.describe('ask the rules (chat)', ...)` after the stop-button test:
 
@@ -312,120 +111,196 @@ In `e2e/ai.spec.ts`, inside `test.describe('ask the rules (chat)', ...)` after t
 		await sidebar.getByText(/is it a stall at ten\?/i).click();
 		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
 	});
+
+	test('two conversations can stream concurrently', async ({ page }) => {
+		await signUpTestUser(page, 'chat-multi');
+		let calls = 0;
+		await page.route('**/api/ai/chat', async (route) => {
+			calls += 1;
+			if (calls === 1) {
+				await new Promise((resolve) => setTimeout(resolve, 4000));
+				await route.fulfill(CHAT_STREAM('mock-convo-m1', 'mock-msg-m1')).catch(() => {});
+			} else {
+				await route.fulfill(CHAT_STREAM('mock-convo-m2', 'mock-msg-m2'));
+			}
+		});
+		await page.route('**/api/ai/conversations/mock-convo-m1', (route) =>
+			route.fulfill({
+				status: 200,
+				contentType: 'application/json',
+				body: JSON.stringify({
+					id: 'mock-convo-m1',
+					title: 'First question about stalls',
+					rulesetId: 'usau-official-2026-27',
+					messages: [
+						{
+							id: 'mock-user-m1',
+							role: 'user',
+							content: 'First question about stalls',
+							status: null,
+							feedback: null,
+							createdAt: Date.now()
+						}
+					]
+				})
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('First question about stalls');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		// Start a second conversation from a fresh blank view while the first is pending.
+		await page.getByRole('link', { name: 'Quiz' }).first().click();
+		await page.getByRole('link', { name: 'Ask' }).first().click();
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Second question about fouls');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-m2$/);
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		await expect(sidebar.getByText(/first question about stalls/i)).toBeVisible({ timeout: 10_000 });
+		await sidebar.getByText(/first question about stalls/i).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+	});
 ```
 
-(If a nav link's accessible name differs — check `src/lib/components/Nav.svelte`, links are `Rules` / `Quiz` / `Ask` — adjust the `getByRole('link', ...)` names, nothing else.)
+(If a nav link's accessible name differs — links in `src/lib/components/Nav.svelte` are `Rules` / `Quiz` / `Ask` — adjust only the `getByRole('link', ...)` names.)
 
-- [ ] **Step 2: Run it to verify failure**
+- [ ] **Step 2: Run them to verify failure**
 
-Run: `npx playwright test e2e/ai.spec.ts -g "survives navigating"`
-Expected: FAIL — today the page teardown aborts the fetch on navigation, so the conversation never completes and the sidebar entry never appears.
+Run: `npx playwright test e2e/ai.spec.ts -g "survives navigating|stream concurrently"`
+Expected: both FAIL — today navigation aborts the fetch and the composer forbids a second concurrent send.
 
 - [ ] **Step 3: Create `src/lib/ask/chat-stream.svelte.ts`**
 
 ```ts
+import { SvelteMap } from 'svelte/reactivity';
 import { deriveTitle, type ChatMessage } from '$lib/ai/payload';
 import { conversations } from './conversations.svelte';
 
 /** No bytes for this long while streaming → show the stall hint. */
 const STALL_HINT_MS = 20_000;
 
-export interface CompletedExchange {
-	conversationId: string;
-	message: ChatMessage;
-}
+/** App-wide ceiling on simultaneous streams (each also holds a daily-quota unit). */
+export const MAX_CONCURRENT_STREAMS = 3;
 
-export type SendResult = 'done' | 'failed';
-
-/**
- * Module-scope chat streaming state. Lives outside the page component so an
- * in-flight send keeps streaming across route changes — leaving the page never
- * interrupts a request. Only stop() aborts, and the server treats a client
- * abort as a real cancel: Gemini stops and only generated text is persisted.
- * One stream at a time, app-wide.
- */
-class ChatStreamState {
-	phase = $state<'idle' | 'streaming'>('idle');
+/** One in-flight exchange. Alive only while streaming; removed on settle. */
+export class StreamJob {
 	/** Set once response headers arrive; null while a new conversation's id is pending. */
 	conversationId = $state<string | null>(null);
-	/** Identifies the view instance that initiated the current send (URL-adoption ownership). */
+	/** Identifies the view instance that initiated the send (URL-adoption ownership). */
 	viewToken = $state<symbol | null>(null);
 	streamingText = $state('');
 	thoughts = $state('');
 	stalled = $state(false);
+	readonly controller = new AbortController();
+	stallTimer: ReturnType<typeof setTimeout> | null = null;
+
+	constructor(
+		readonly key: string,
+		conversationId: string | null,
+		viewToken: symbol
+	) {
+		this.conversationId = conversationId;
+		this.viewToken = viewToken;
+	}
+}
+
+export type SendResult =
+	| { kind: 'done'; message: string | null }
+	| { kind: 'failed'; message: string }
+	| { kind: 'rejected'; message: string };
+
+/**
+ * Module-scope chat streaming state. Lives outside the page component so
+ * in-flight sends keep streaming across route changes — leaving the page never
+ * interrupts a request. Only stop() aborts, and the server treats a client
+ * abort as a real cancel: Gemini stops and only generated text is persisted.
+ * Multiple conversations may stream at once (one stream per conversation,
+ * MAX_CONCURRENT_STREAMS overall).
+ */
+class ChatStreamState {
+	/** Live streams by job key (conversation id, or a temp key until headers arrive). */
+	jobs = new SvelteMap<string, StreamJob>();
+	/** Finished assistant messages by conversation id, awaiting pickup by that view. */
+	completed = new SvelteMap<string, ChatMessage>();
 	remaining = $state<number | null>(null);
-	errorMessage = $state<string | null>(null);
-	/** Composer text to restore after a send that persisted nothing. */
-	failedText = $state<string | null>(null);
-	/** Finished assistant message awaiting pickup by the conversation view. */
-	completed = $state<CompletedExchange | null>(null);
 
-	#controller: AbortController | null = null;
-	#stallTimer: ReturnType<typeof setTimeout> | null = null;
-
-	stop(): void {
-		this.#controller?.abort();
-	}
-
-	consumeCompleted(): void {
-		this.completed = null;
-	}
-
-	#armStall(): void {
-		if (this.#stallTimer) clearTimeout(this.#stallTimer);
-		this.stalled = false;
-		this.#stallTimer = setTimeout(() => (this.stalled = true), STALL_HINT_MS);
-	}
-
-	#clearStall(): void {
-		if (this.#stallTimer) clearTimeout(this.#stallTimer);
-		this.#stallTimer = null;
-		this.stalled = false;
-	}
-
-	#settle(): void {
-		this.#clearStall();
-		this.#controller = null;
-		this.streamingText = '';
-		this.thoughts = '';
-		this.viewToken = null;
-		this.phase = 'idle';
-	}
-
-	/** Hold the finished assistant bubble for pickup and bump the sidebar. */
-	#finish(status: 'complete' | 'truncated' | 'error', messageId: string | null): void {
-		if (this.conversationId) {
-			this.completed = {
-				conversationId: this.conversationId,
-				message: {
-					id: messageId ?? `local-${crypto.randomUUID()}`,
-					role: 'assistant',
-					content: status === 'error' ? '' : this.streamingText,
-					status,
-					feedback: null,
-					createdAt: Date.now()
-				}
-			};
-			conversations.touch(this.conversationId, Date.now());
+	jobFor(conversationId: string | null): StreamJob | null {
+		if (!conversationId) return null;
+		for (const job of this.jobs.values()) {
+			if (job.conversationId === conversationId) return job;
 		}
-		this.#settle();
+		return null;
+	}
+
+	/** The job belonging to what a view shows: its conversation, or a send it initiated. */
+	jobForView(activeId: string | null, viewToken: symbol): StreamJob | null {
+		for (const job of this.jobs.values()) {
+			if (job.conversationId !== null && job.conversationId === activeId) return job;
+			if (job.viewToken === viewToken) return job;
+		}
+		return null;
+	}
+
+	get atCap(): boolean {
+		return this.jobs.size >= MAX_CONCURRENT_STREAMS;
+	}
+
+	stop(job: StreamJob): void {
+		job.controller.abort();
+	}
+
+	consumeCompleted(conversationId: string): void {
+		this.completed.delete(conversationId);
+	}
+
+	#armStall(job: StreamJob): void {
+		if (job.stallTimer) clearTimeout(job.stallTimer);
+		job.stalled = false;
+		job.stallTimer = setTimeout(() => (job.stalled = true), STALL_HINT_MS);
+	}
+
+	#settle(job: StreamJob): void {
+		if (job.stallTimer) clearTimeout(job.stallTimer);
+		job.stallTimer = null;
+		this.jobs.delete(job.key);
+	}
+
+	/** Park the finished assistant bubble for pickup and bump the sidebar. */
+	#finish(job: StreamJob, status: 'complete' | 'truncated' | 'error', messageId: string | null): void {
+		if (job.conversationId) {
+			this.completed.set(job.conversationId, {
+				id: messageId ?? `local-${crypto.randomUUID()}`,
+				role: 'assistant',
+				content: status === 'error' ? '' : job.streamingText,
+				status,
+				feedback: null,
+				createdAt: Date.now()
+			});
+			conversations.touch(job.conversationId, Date.now());
+		}
+		this.#settle(job);
 	}
 
 	async send(
 		text: string,
 		opts: { conversationId: string | null; viewToken: symbol }
 	): Promise<SendResult> {
-		if (this.phase === 'streaming') return 'done';
-		this.phase = 'streaming';
-		this.errorMessage = null;
-		this.failedText = null;
-		this.completed = null;
-		this.streamingText = '';
-		this.thoughts = '';
-		this.conversationId = opts.conversationId;
-		this.viewToken = opts.viewToken;
-		const controller = new AbortController();
-		this.#controller = controller;
+		if (this.jobFor(opts.conversationId)) {
+			return {
+				kind: 'rejected',
+				message: 'This conversation is already answering — wait for it to finish.'
+			};
+		}
+		if (this.atCap) {
+			return {
+				kind: 'rejected',
+				message: 'You have too many answers streaming — wait for one to finish.'
+			};
+		}
+		const key = opts.conversationId ?? `new-${crypto.randomUUID()}`;
+		const job = new StreamJob(key, opts.conversationId, opts.viewToken);
+		this.jobs.set(key, job);
 		let truncated = false;
 		let serverError = false;
 		let messageId: string | null = null;
@@ -437,23 +312,24 @@ class ChatStreamState {
 					message: text,
 					...(opts.conversationId ? { conversationId: opts.conversationId } : {})
 				}),
-				signal: controller.signal
+				signal: job.controller.signal
 			});
 			if (!res.ok || !res.body) {
 				const serverMessage = (await res.json().catch(() => null))?.message;
-				this.errorMessage =
-					res.status === 429 || res.status === 400
-						? (serverMessage ?? 'That message could not be sent.')
-						: res.status === 503
-							? 'AI features are offline right now.'
-							: res.status === 401
-								? 'Your session expired — sign in again.'
-								: res.status === 404
-									? 'Conversation not found — start a new chat.'
-									: 'The rules assistant is unavailable — try again in a minute.';
-				this.failedText = text;
-				this.#settle();
-				return 'failed';
+				this.#settle(job);
+				return {
+					kind: 'failed',
+					message:
+						res.status === 429 || res.status === 400
+							? (serverMessage ?? 'That message could not be sent.')
+							: res.status === 503
+								? 'AI features are offline right now.'
+								: res.status === 401
+									? 'Your session expired — sign in again.'
+									: res.status === 404
+										? 'Conversation not found — start a new chat.'
+										: 'The rules assistant is unavailable — try again in a minute.'
+				};
 			}
 			const remainingHeader = res.headers.get('x-bp-ai-remaining');
 			if (remainingHeader !== null) {
@@ -464,12 +340,12 @@ class ChatStreamState {
 			messageId = res.headers.get('x-bp-message-id');
 			if (cid && !opts.conversationId) {
 				// The server has persisted the conversation — surface it immediately.
-				this.conversationId = cid;
+				job.conversationId = cid;
 				conversations.prepend({ id: cid, title: deriveTitle(text), updatedAt: Date.now() });
 			} else if (cid) {
 				conversations.touch(cid, Date.now());
 			}
-			this.#armStall();
+			this.#armStall(job);
 			const reader = res.body.getReader();
 			const decoder = new TextDecoder();
 			let lineBuffer = '';
@@ -481,15 +357,15 @@ class ChatStreamState {
 				} catch {
 					return;
 				}
-				if (msg.t === 'think') this.thoughts += msg.text ?? '';
-				else if (msg.t === 'text') this.streamingText += msg.text ?? '';
+				if (msg.t === 'think') job.thoughts += msg.text ?? '';
+				else if (msg.t === 'text') job.streamingText += msg.text ?? '';
 				else if (msg.t === 'truncated') truncated = true;
 				else if (msg.t === 'error') serverError = true;
 			};
 			for (;;) {
 				const { done, value } = await reader.read();
 				if (done) break;
-				this.#armStall();
+				this.#armStall(job);
 				lineBuffer += decoder.decode(value, { stream: true });
 				let newline: number;
 				while ((newline = lineBuffer.indexOf('\n')) !== -1) {
@@ -500,39 +376,38 @@ class ChatStreamState {
 			lineBuffer += decoder.decode();
 			handleLine(lineBuffer);
 			if (serverError) {
-				this.errorMessage = 'The assistant ran into a problem — try asking again.';
-				this.#finish(this.streamingText.trim() ? 'truncated' : 'error', messageId);
-			} else if (!this.streamingText.trim()) {
-				this.errorMessage = 'No answer came back — try again.';
-				this.#finish('error', messageId);
-			} else {
-				if (truncated) this.errorMessage = 'The answer was cut short — try asking again.';
-				this.#finish(truncated ? 'truncated' : 'complete', messageId);
+				this.#finish(job, job.streamingText.trim() ? 'truncated' : 'error', messageId);
+				return { kind: 'done', message: 'The assistant ran into a problem — try asking again.' };
 			}
-			return 'done';
+			if (!job.streamingText.trim()) {
+				this.#finish(job, 'error', messageId);
+				return { kind: 'done', message: 'No answer came back — try again.' };
+			}
+			this.#finish(job, truncated ? 'truncated' : 'complete', messageId);
+			return {
+				kind: 'done',
+				message: truncated ? 'The answer was cut short — try asking again.' : null
+			};
 		} catch {
-			const wasStopped = controller.signal.aborted;
-			if (this.streamingText.trim()) {
+			const wasStopped = job.controller.signal.aborted;
+			if (job.streamingText.trim()) {
 				// Keep the partial — it matches what the server persisted (truncated).
-				if (!wasStopped)
-					this.errorMessage = 'The connection dropped mid-answer — what arrived is shown above.';
-				this.#finish('truncated', messageId);
-				return 'done';
+				this.#finish(job, 'truncated', messageId);
+				return {
+					kind: 'done',
+					message: wasStopped
+						? null
+						: 'The connection dropped mid-answer — what arrived is shown above.'
+				};
 			}
-			if (wasStopped) {
-				this.#settle(); // silent: composer returns, the user bubble stays
-				return 'done';
-			}
-			this.#settle();
+			this.#settle(job);
+			if (wasStopped) return { kind: 'done', message: null };
 			if (messageId) {
 				// Headers arrived, so the exchange is persisted server-side; restoring
 				// the input would invite a duplicate retry.
-				this.errorMessage = 'The connection dropped — reload to see what was saved.';
-				return 'done';
+				return { kind: 'done', message: 'The connection dropped — reload to see what was saved.' };
 			}
-			this.errorMessage = 'Network error — try again.';
-			this.failedText = text;
-			return 'failed';
+			return { kind: 'failed', message: 'Network error — try again.' };
 		}
 	}
 }
@@ -561,6 +436,7 @@ export const chatStream = new ChatStreamState();
 
 	let messages = $state<ChatMessage[]>([]);
 	let input = $state('');
+	let errorMessage = $state<string | null>(null);
 	let loadingConvo = $state(false);
 	let notFound = $state(false);
 	let activeId = $state<string | null>(null);
@@ -572,15 +448,10 @@ export const chatStream = new ChatStreamState();
 	// changes. Stream continuations live in chatStream and need no guard.
 	let viewGeneration = 0;
 
-	const thoughtHeadline = $derived(latestThoughtHeadline(chatStream.thoughts));
 	const full = $derived(messages.length >= CONVERSATION_MESSAGE_CAP);
-	/** The store's live exchange belongs to what this view is showing. */
-	const streamVisible = $derived(
-		chatStream.phase === 'streaming' &&
-			(chatStream.conversationId !== null
-				? chatStream.conversationId === activeId
-				: chatStream.viewToken === myToken)
-	);
+	/** The live stream belonging to what this view shows, if any. */
+	const activeJob = $derived(chatStream.jobForView(activeId, myToken));
+	const thoughtHeadline = $derived(activeJob ? latestThoughtHeadline(activeJob.thoughts) : null);
 
 	// React to REAL route changes (sidebar clicks, back/forward, hard loads, "New chat").
 	// replaceState after the first send updates page.url but not page.params, so reading
@@ -598,17 +469,18 @@ export const chatStream = new ChatStreamState();
 		viewGeneration += 1;
 		myToken = Symbol(); // a background send from the old view must not adopt this view's URL
 		activeId = param;
-		chatStream.errorMessage = null;
+		errorMessage = null;
 		messages = []; // clear immediately so a conversation switch never flashes the old thread
 		notFound = false;
 		if (param) void loadConversation(param);
 	});
 
 	// Adopt the conversation id once headers arrive for a send initiated from
-	// THIS view's blank composer: morph the URL and sidebar-selection in place.
+	// THIS view's blank composer: morph the URL and selection in place.
 	$effect(() => {
-		const cid = chatStream.conversationId;
-		if (!cid || activeId !== null || chatStream.viewToken !== myToken) return;
+		if (activeId !== null) return;
+		const cid = chatStream.jobForView(null, myToken)?.conversationId ?? null;
+		if (!cid) return;
 		activeId = cid;
 		replaceState(`/ask/${cid}`, {});
 		lastParam = cid; // replaceState doesn't update page.params; resync so the route effect still fires on the next real navigation
@@ -617,13 +489,14 @@ export const chatStream = new ChatStreamState();
 	// Pick up an exchange that finished (possibly while this view was unmounted).
 	// The server row may already be in the loaded transcript — dedupe by id.
 	$effect(() => {
-		const done = chatStream.completed;
-		if (!done || done.conversationId !== activeId) return;
-		if (!messages.some((m) => m.id === done.message.id)) {
-			messages = [...messages, done.message];
+		if (!activeId) return;
+		const done = chatStream.completed.get(activeId);
+		if (!done) return;
+		if (!messages.some((m) => m.id === done.id)) {
+			messages = [...messages, done];
 			scrollToEnd();
 		}
-		chatStream.consumeCompleted();
+		chatStream.consumeCompleted(activeId);
 	});
 
 	async function loadConversation(id: string) {
@@ -645,7 +518,7 @@ export const chatStream = new ChatStreamState();
 			scrollToEnd();
 		} catch {
 			if (gen !== viewGeneration) return;
-			chatStream.errorMessage = "Couldn't load this conversation — try again.";
+			errorMessage = "Couldn't load this conversation — try again.";
 		} finally {
 			if (gen === viewGeneration) loadingConvo = false; // a stale load must not clear the new load's skeleton
 		}
@@ -658,7 +531,7 @@ export const chatStream = new ChatStreamState();
 	async function send(event?: SubmitEvent) {
 		event?.preventDefault();
 		const text = input.trim();
-		if (text.length < 3 || chatStream.phase === 'streaming' || full) return;
+		if (text.length < 3 || activeJob || chatStream.atCap || full) return;
 		const gen = viewGeneration;
 		messages = [
 			...messages,
@@ -675,11 +548,11 @@ export const chatStream = new ChatStreamState();
 		scrollToEnd();
 		const result = await chatStream.send(text, { conversationId: activeId, viewToken: myToken });
 		if (gen !== viewGeneration) return;
-		if (result === 'failed') {
+		if (result.kind === 'failed' || result.kind === 'rejected') {
 			messages = messages.slice(0, -1); // roll back the optimistic user bubble
-			input = chatStream.failedText ?? text; // keep the message for retry
-			chatStream.failedText = null;
+			input = text; // keep the message for retry
 		}
+		errorMessage = result.message;
 	}
 
 	function onKeydown(event: KeyboardEvent) {
@@ -699,21 +572,22 @@ export const chatStream = new ChatStreamState();
 </script>
 ```
 
-4b. Template updates (structure unchanged otherwise):
-- Every template reference to `phase === 'streaming'` in the MESSAGES section becomes `streamVisible`; `streamingText` → `chatStream.streamingText`; `stalled` → `chatStream.stalled`; `errorMessage` → `chatStream.errorMessage`; `remaining` → `chatStream.remaining`. `thoughtHeadline` stays (now derived from the store).
-- The empty-state condition `messages.length === 0 && phase === 'idle'` (both occurrences) becomes `messages.length === 0 && !streamVisible`.
-- Composer buttons: Stop shows when `chatStream.phase === 'streaming' && streamVisible` with `onclick={() => chatStream.stop()}`; otherwise the Send branch renders with `disabled={chatStream.phase === 'streaming' || input.trim().length < 3}` (streaming elsewhere = visible but disabled Send).
+4b. Template updates (structure otherwise unchanged):
+- Messages section: every `phase === 'streaming'` condition becomes `activeJob`; `streamingText` → `activeJob.streamingText`; `stalled` → `activeJob.stalled`. Inside the `{#if activeJob}` block the thinking-indicator branch is `{#if !activeJob.streamingText}` and the streaming branch renders `<AskAnswer answer={activeJob.streamingText} streaming={true} />`. `thoughtHeadline` usage unchanged.
+- Empty-state condition `messages.length === 0 && phase === 'idle'` (both occurrences) becomes `messages.length === 0 && !activeJob`.
+- Composer buttons: Stop renders when `activeJob` with `onclick={() => activeJob && chatStream.stop(activeJob)}`; otherwise Send renders with `disabled={chatStream.atCap || input.trim().length < 3}` (the `activeJob` case is covered because Stop replaces Send).
+- `errorMessage` and `remaining` render as before (`errorMessage` page-local; `remaining` → `chatStream.remaining`).
 
 - [ ] **Step 5: Verify**
 
 Run: `npm run check`, then `npx playwright test e2e/ai.spec.ts`, then `npm run test`
-Expected: 0 type errors; ALL 14 e2e tests pass (13 existing + the new background test); unit suite untouched and green.
+Expected: 0 type errors; ALL 15 e2e tests pass (13 existing + 2 new); unit suite untouched and green.
 
 - [ ] **Step 6: Commit**
 
 ```bash
 git add src/lib/ask/chat-stream.svelte.ts src/routes/ask/[[id]]/+page.svelte e2e/ai.spec.ts
-git commit -m "feat: background chat streaming with immediate sidebar entry and real stop"
+git commit -m "feat: concurrent background chat streams with immediate sidebar entry and real stop"
 ```
 
 ---
@@ -723,5 +597,6 @@ git commit -m "feat: background chat streaming with immediate sidebar entry and 
 - [ ] `npm run test` — full unit suite passes
 - [ ] `npm run check` — no svelte-check errors
 - [ ] `npm run lint` — prettier clean
-- [ ] `npx playwright test e2e/ai.spec.ts` — 14/14
-- [ ] Do NOT push — owner verifies locally (real-Gemini manual check of: stop mid-thinking → reload shows no materialized answer; send → sidebar entry appears immediately; navigate away/back mid-answer → answer completes)
+- [ ] `npx playwright test e2e/ai.spec.ts` — 15/15
+- [ ] Comment-hygiene pass over the whole branch diff vs origin/main (no intra-PR history references)
+- [ ] Do NOT push — owner verifies locally (real-Gemini manual check of: stop mid-thinking → reload shows no materialized answer; send → sidebar entry appears immediately; navigate away/back mid-answer → answer completes; two conversations streaming at once)
