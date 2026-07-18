@@ -254,9 +254,9 @@ test.describe('ask the rules (chat)', () => {
 		const stopButton = page.getByRole('button', { name: 'Stop', exact: true });
 		await expect(stopButton).toBeVisible();
 		await stopButton.click();
-		await expect(page.getByText('Stopped.')).toBeVisible();
 		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
 		await expect(page.getByText('Is it a stall at ten?')).toBeVisible(); // user bubble kept
+		await expect(page.getByRole('alert')).toHaveCount(0);
 	});
 });
 

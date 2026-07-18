@@ -279,7 +279,6 @@
 			} else if (wasStopped) {
 				// The server keeps generating and persists the full answer; the user
 				// bubble stays so this view matches what a reload will show.
-				errorMessage = 'Stopped.';
 				syncConversation();
 			} else {
 				messages = messages.slice(0, -1);
