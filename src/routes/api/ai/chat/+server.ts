@@ -109,7 +109,13 @@ export const POST: RequestHandler = async (event) => {
 	};
 	const observer = {
 		onText: (t: string) => (answerText += t),
-		onClose: (outcome: StreamOutcome) => persistAssistant(statusForStream(outcome, answerText))
+		onClose: (outcome: StreamOutcome) => {
+			// A client disconnect cancels the stream mid-request; waitUntil keeps
+			// the isolate alive until the transcript row is persisted.
+			const persisted = persistAssistant(statusForStream(outcome, answerText));
+			event.platform?.ctx?.waitUntil?.(persisted);
+			return persisted;
+		}
 	};
 
 	const geminiRequest = {
@@ -143,13 +149,10 @@ export const POST: RequestHandler = async (event) => {
 		}
 	}
 
-	// Tee so the upstream Gemini stream is always fully consumed server-side:
-	// flush()/onClose persistence must run even if the client disconnects mid-answer.
-	const [clientBranch, drainBranch] = stream.tee();
-	const drained = drainBranch.pipeTo(new WritableStream()).catch(() => {});
-	event.platform?.ctx?.waitUntil?.(drained);
-
-	return new Response(clientBranch, {
+	// No tee/drain: a client disconnect must propagate as cancellation so the
+	// server stops Gemini and persists only what was generated (owner decision
+	// 2026-07-18 — stopping an answer must not produce a full transcript later).
+	return new Response(stream, {
 		headers: {
 			'content-type': 'application/x-ndjson; charset=utf-8',
 			'cache-control': 'no-store',

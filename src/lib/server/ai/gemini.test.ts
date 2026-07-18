@@ -307,6 +307,25 @@ describe('streamText', () => {
 		expect(seen.outcomes).toEqual(['error']);
 	});
 
+	it('consumer cancellation aborts upstream, reports cancelled, and never errors', async () => {
+		const body = new ReadableStream<Uint8Array>({
+			start(controller) {
+				controller.enqueue(enc(textChunk('partial ')));
+				// never closes — cancellation must come from the consumer side
+			}
+		});
+		const { seen, observer } = observing();
+		const stream = await streamText(
+			req(fetchWithBody(body) as typeof fetch, memoryStore()),
+			observer
+		);
+		const reader = stream.getReader();
+		await reader.read(); // first NDJSON line delivered
+		await reader.cancel(); // client went away (stop / reload / tab close)
+		await vi.waitFor(() => expect(seen.outcomes).toEqual(['cancelled']));
+		expect(seen.textDeltas).toEqual(['partial ']);
+	});
+
 	describe('watchdog', () => {
 		afterEach(() => {
 			vi.useRealTimers();

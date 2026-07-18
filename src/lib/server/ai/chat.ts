@@ -20,14 +20,16 @@ export function toGeminiTurns(messages: StoredTurn[]): { role: 'user' | 'model';
 
 /**
  * DB status for a finished stream. Partial answers are worth keeping — an
- * errored stream that produced text persists as truncated; a stream that
- * produced no answer text at all (thoughts only) is an error row regardless
- * of how it ended.
+ * errored or cancelled stream that produced text persists as truncated; a
+ * stream with no answer text at all (thoughts only) is an error row
+ * regardless of how it ended. Cancelled = the client went away (Stop,
+ * reload); by owner decision the transcript keeps only what was generated.
  */
 export function statusForStream(
 	outcome: StreamOutcome,
 	answerText: string
 ): 'complete' | 'truncated' | 'error' {
 	if (!answerText.trim()) return 'error';
-	return outcome === 'error' ? 'truncated' : outcome;
+	if (outcome === 'error' || outcome === 'cancelled') return 'truncated';
+	return outcome;
 }

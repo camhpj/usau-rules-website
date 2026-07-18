@@ -49,4 +49,9 @@ describe('statusForStream', () => {
 		expect(statusForStream('truncated', '')).toBe('error');
 		expect(statusForStream('error', '')).toBe('error');
 	});
+	it('treats a cancelled stream like an errored one', () => {
+		expect(statusForStream('cancelled', 'partial answer')).toBe('truncated'); // keep what the user saw
+		expect(statusForStream('cancelled', '')).toBe('error');
+		expect(statusForStream('cancelled', '   ')).toBe('error');
+	});
 });
