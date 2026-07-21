@@ -162,7 +162,7 @@ class ChatStreamState {
 				return {
 					kind: 'failed',
 					message:
-						res.status === 429 || res.status === 400
+						res.status === 429 || res.status === 400 || res.status === 409
 							? (serverMessage ?? 'That message could not be sent.')
 							: res.status === 503
 								? 'AI features are offline right now.'

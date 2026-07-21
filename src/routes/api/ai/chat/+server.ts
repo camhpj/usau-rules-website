@@ -106,7 +106,14 @@ export const POST: RequestHandler = async (event) => {
 	const now = Date.now();
 	const conversationId = existingId ?? crypto.randomUUID();
 	if (retryTarget) {
-		await db.delete(aiMessages).where(eq(aiMessages.id, retryTarget.errorRowId));
+		// The delete is the serialization point for concurrent retries of the same
+		// row: only the request whose delete actually removes a row proceeds to
+		// regenerate; a request that finds the row already gone loses the race.
+		const deleted = await db
+			.delete(aiMessages)
+			.where(eq(aiMessages.id, retryTarget.errorRowId))
+			.returning({ id: aiMessages.id });
+		if (deleted.length === 0) error(409, 'This answer is already being regenerated');
 	} else {
 		if (!existingId) {
 			await db.insert(aiConversations).values({
