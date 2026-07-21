@@ -56,6 +56,8 @@ export interface ConversationSummary {
 	id: string;
 	title: string;
 	updatedAt: number; // ms epoch of last message
+	/** Client-only: optimistic sidebar entry awaiting its server id. */
+	pending?: boolean;
 }
 
 export interface ConversationListResponse {

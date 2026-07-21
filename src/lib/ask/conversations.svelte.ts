@@ -60,6 +60,16 @@ class ConversationsState {
 		this.list = [{ ...convo, updatedAt }, ...this.list.filter((c) => c.id !== id)];
 	}
 
+	/** Swap an optimistic entry for the server's real conversation, in place. */
+	resolve(tempId: string, convo: ConversationSummary): void {
+		this.list = this.list.map((c) => (c.id === tempId ? convo : c));
+	}
+
+	/** Remove a local-only entry (no server call). */
+	drop(id: string): void {
+		this.list = this.list.filter((c) => c.id !== id);
+	}
+
 	async remove(id: string): Promise<boolean> {
 		const prev = this.list;
 		this.list = this.list.filter((c) => c.id !== id); // optimistic

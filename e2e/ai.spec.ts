@@ -149,6 +149,38 @@ test.describe('ask the rules (chat)', () => {
 		await expect(page.getByText(/that is a turnover/)).toHaveCount(2);
 	});
 
+	test('a new conversation appears in the sidebar the moment it is sent', async ({ page }) => {
+		await signUpTestUser(page, 'chat-optimistic');
+		let releaseFulfill: () => void = () => {};
+		const gate = new Promise<void>((resolve) => {
+			releaseFulfill = resolve;
+		});
+		await page.route('**/api/ai/chat', async (route) => {
+			await gate;
+			await route.fulfill(CHAT_STREAM('mock-convo-optimistic', 'mock-msg-optimistic'));
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		// The entry appears immediately — before headers, let alone the stream, arrive — as a
+		// non-clickable placeholder.
+		await expect(sidebar.getByText(/is it a stall at ten\?/i)).toBeVisible();
+		await expect(sidebar.getByText('Sending…')).toBeVisible();
+		await expect(sidebar.getByRole('link', { name: /is it a stall at ten\?/i })).toHaveCount(0);
+
+		releaseFulfill();
+		// Headers arrive: the placeholder resolves into a real link to the conversation.
+		await expect(sidebar.getByRole('link', { name: /is it a stall at ten\?/i })).toBeVisible();
+		await expect(sidebar.getByText('Sending…')).toHaveCount(0);
+		await expect(sidebar.getByRole('link', { name: /is it a stall at ten\?/i })).toHaveAttribute(
+			'href',
+			'/ask/mock-convo-optimistic'
+		);
+	});
+
 	test('copy and feedback controls respond', async ({ page, context }) => {
 		// Headless Chromium blocks programmatic clipboard access unless the permission is
 		// granted explicitly (real browsers auto-allow it on a user gesture like this click).
@@ -296,8 +328,11 @@ test.describe('ask the rules (chat)', () => {
 		// Come back: the conversation is in the sidebar and the finished answer is there.
 		await page.getByRole('link', { name: 'Ask' }).first().click();
 		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
-		await expect(sidebar.getByText(/is it a stall at ten\?/i)).toBeVisible({ timeout: 10_000 });
-		await sidebar.getByText(/is it a stall at ten\?/i).click();
+		// The entry may still be the optimistic "Sending…" placeholder — wait for it to
+		// resolve into a real link once headers arrive before clicking it.
+		const entry = sidebar.getByRole('link', { name: /is it a stall at ten\?/i });
+		await expect(entry).toBeVisible({ timeout: 10_000 });
+		await entry.click();
 		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
 	});
 
@@ -348,10 +383,12 @@ test.describe('ask the rules (chat)', () => {
 		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
 		await expect(page).toHaveURL(/\/ask\/mock-convo-m2$/);
 		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
-		await expect(sidebar.getByText(/first question about stalls/i)).toBeVisible({
-			timeout: 10_000
-		});
-		await sidebar.getByText(/first question about stalls/i).click();
+		// The entry may still be the optimistic "Sending…" placeholder — wait for it to
+		// resolve into a real link once headers arrive before clicking it.
+		const firstEntry = sidebar.getByRole('link', { name: /first question about stalls/i });
+		await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+		await firstEntry.click();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-m1$/);
 		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
 	});
 
@@ -371,13 +408,18 @@ test.describe('ask the rules (chat)', () => {
 		await page.waitForLoadState('networkidle');
 		await page.getByRole('textbox', { name: 'Your message' }).fill('Where does a pull start from?');
 		await page.getByRole('button', { name: /^send$/i }).click();
-		await expect(page.getByText('Where does a pull start from?')).toBeVisible();
+		// Scoped to the message thread: the same text now also appears in the sidebar's
+		// optimistic "Sending…" entry, which would otherwise make this ambiguous.
+		const messages = page.getByLabel('Messages');
+		await expect(messages.getByText('Where does a pull start from?')).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Stop', exact: true })).toBeVisible();
 
 		const conversationsNav = page.getByRole('navigation', { name: 'Conversations' });
 		await conversationsNav.getByRole('link', { name: 'New chat' }).click();
 		await expect(page).toHaveURL(/\/ask$/);
-		await expect(page.getByText('Where does a pull start from?')).toHaveCount(0);
+		await expect(
+			page.getByLabel('Messages').getByText('Where does a pull start from?')
+		).toHaveCount(0);
 		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
 
 		// Headers for the background send arrive: sidebar picks it up, but this

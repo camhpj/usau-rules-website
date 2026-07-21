@@ -130,6 +130,18 @@ class ChatStreamState {
 		const key = opts.conversationId ?? `new-${crypto.randomUUID()}`;
 		const job = new StreamJob(key, opts.conversationId, opts.viewToken);
 		this.jobs.set(key, job);
+		if (!opts.conversationId) {
+			// Optimistic sidebar entry; resolved to the real id at headers-time. If the
+			// send dies before headers the entry is dropped — the server may still have
+			// persisted the conversation, in which case the next full sidebar load
+			// surfaces it.
+			conversations.prepend({
+				id: key,
+				title: deriveTitle(text),
+				updatedAt: Date.now(),
+				pending: true
+			});
+		}
 		let truncated = false;
 		let serverError = false;
 		let messageId: string | null = null;
@@ -145,6 +157,7 @@ class ChatStreamState {
 			});
 			if (!res.ok || !res.body) {
 				const serverMessage = (await res.json().catch(() => null))?.message;
+				if (!opts.conversationId) conversations.drop(key);
 				this.#settle(job);
 				return {
 					kind: 'failed',
@@ -168,9 +181,9 @@ class ChatStreamState {
 			const cid = res.headers.get('x-bp-conversation-id');
 			messageId = res.headers.get('x-bp-message-id');
 			if (cid && !opts.conversationId) {
-				// The server has persisted the conversation — surface it immediately.
+				// The server has persisted the conversation — swap in its real id.
 				job.conversationId = cid;
-				conversations.prepend({ id: cid, title: deriveTitle(text), updatedAt: Date.now() });
+				conversations.resolve(key, { id: cid, title: deriveTitle(text), updatedAt: Date.now() });
 			} else if (cid) {
 				conversations.touch(cid, Date.now());
 			}
@@ -218,6 +231,8 @@ class ChatStreamState {
 				message: truncated ? 'The answer was cut short — try asking again.' : null
 			};
 		} catch {
+			// Pre-headers death (stop or network): the optimistic entry has no real id.
+			if (!opts.conversationId && !messageId) conversations.drop(key);
 			const wasStopped = job.controller.signal.aborted;
 			if (job.streamingText.trim()) {
 				// Keep the partial — it matches what the server persisted (truncated).

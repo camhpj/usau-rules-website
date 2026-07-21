@@ -45,50 +45,57 @@
 		<ul class="mt-3 flex-1 space-y-1.5 overflow-y-auto px-3">
 			{#each conversations.list as convo (convo.id)}
 				<li class="group relative">
-					<a
-						href="/ask/{convo.id}"
-						aria-current={convo.id === activeId ? 'page' : undefined}
-						class="block rounded-lg px-3 py-2 text-sm text-navy hover:bg-navy/5 {convo.id ===
-						activeId
-							? 'bg-navy/10 font-semibold'
-							: ''}"
-					>
-						<span class="block truncate">{convo.title}</span>
-						<span class="text-xs text-navy/40">{timeAgo(convo.updatedAt)}</span>
-					</a>
-					<!-- On hover, fades in left→right to wipe the title/preview and give the
-					     trash icon a backdrop; gradient end matches the item's own bg tint. -->
-					<div
-						aria-hidden="true"
-						class="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-						style="background-image: linear-gradient(to right, transparent 65%, {convo.id ===
-						activeId
-							? 'color-mix(in srgb, var(--color-navy) 10%, var(--color-mist))'
-							: 'color-mix(in srgb, var(--color-navy) 5%, var(--color-mist))'} 85%)"
-					></div>
-					<button
-						type="button"
-						aria-label="Delete conversation: {convo.title}"
-						onclick={() => remove(convo.id)}
-						class="group/del absolute top-1/2 right-2 -translate-y-1/2 rounded p-1 text-navy opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus:opacity-100 hover:text-cardinal"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100"
-							aria-hidden="true"
+					{#if convo.pending}
+						<div class="block rounded-lg px-3 py-2 text-sm text-navy/70">
+							<span class="block truncate">{convo.title}</span>
+							<span class="text-xs text-navy/40">Sending…</span>
+						</div>
+					{:else}
+						<a
+							href="/ask/{convo.id}"
+							aria-current={convo.id === activeId ? 'page' : undefined}
+							class="block rounded-lg px-3 py-2 text-sm text-navy hover:bg-navy/5 {convo.id ===
+							activeId
+								? 'bg-navy/10 font-semibold'
+								: ''}"
 						>
-							<path d="M3 6h18" />
-							<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-							<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-							<path d="M10 11v6M14 11v6" />
-						</svg>
-					</button>
+							<span class="block truncate">{convo.title}</span>
+							<span class="text-xs text-navy/40">{timeAgo(convo.updatedAt)}</span>
+						</a>
+						<!-- On hover, fades in left→right to wipe the title/preview and give the
+						     trash icon a backdrop; gradient end matches the item's own bg tint. -->
+						<div
+							aria-hidden="true"
+							class="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+							style="background-image: linear-gradient(to right, transparent 65%, {convo.id ===
+							activeId
+								? 'color-mix(in srgb, var(--color-navy) 10%, var(--color-mist))'
+								: 'color-mix(in srgb, var(--color-navy) 5%, var(--color-mist))'} 85%)"
+						></div>
+						<button
+							type="button"
+							aria-label="Delete conversation: {convo.title}"
+							onclick={() => remove(convo.id)}
+							class="group/del absolute top-1/2 right-2 -translate-y-1/2 rounded p-1 text-navy opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus:opacity-100 hover:text-cardinal"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100"
+								aria-hidden="true"
+							>
+								<path d="M3 6h18" />
+								<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+								<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+								<path d="M10 11v6M14 11v6" />
+							</svg>
+						</button>
+					{/if}
 				</li>
 			{/each}
 		</ul>
