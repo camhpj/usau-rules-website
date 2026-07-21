@@ -98,15 +98,15 @@
 		"id": "20-06",
 		"rulesetId": "usau-official-2026-27",
 		"type": "multiple-choice",
-		"prompt": "When is a dangerous play treated ONLY as a general foul (unless elected otherwise under 20.B.2.b)?",
+		"prompt": "A defender makes dangerous, reckless contact with a receiver just as a badly overthrown pass sails well out of anyone's reach, making the disc obviously uncatchable. By default, how is this dangerous contact treated?",
 		"choices": [
-			"When it occurs when the disc is not in the air, occurs far away from the disc, or when the disc is obviously uncatchable.",
-			"When it occurs immediately after the disc is released by the thrower.",
-			"When it involves two players who are actively vying for the same unoccupied space.",
-			"When the contact is initiated by the thrower against a legally positioned marker."
+			"As a general foul, because the dangerous contact occurred when the disc was obviously uncatchable, though the calling player may still elect to treat it as a dangerous-play foul.",
+			"As a receiving foul, sending the disc back to the thrower and awarding it to the fouled receiver.",
+			"As a throwing foul, because the disc was in the air when the contact occurred.",
+			"It is not a foul at all, because the disc was uncatchable and the play could not have been affected."
 		],
 		"answerIndex": 0,
-		"explanation": "Rule 20.B.2.c specifies that dangerous play is treated as a general foul only if it occurs when the disc is not in the air, occurs far away from the disc, when the disc is obviously uncatchable, or when elected by the calling player.",
+		"explanation": "Under 20.B.2.c, dangerous play is treated as a general foul only when it occurs when the disc is not in the air, far away from the disc, or when the disc is obviously uncatchable (or when the calling player elects such treatment under 20.B.2.b). Because the disc was obviously uncatchable, the default treatment is a general foul; the calling player then determines whether the play was affected. Note that it remains a foul regardless of effect (20.B) — it is simply classified as a general one.",
 		"ruleRefs": [
 			"20.B.2.c"
 		],
