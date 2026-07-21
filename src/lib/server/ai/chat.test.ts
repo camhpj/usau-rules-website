@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { deriveTitle } from '$lib/ai/payload';
-import { statusForStream, toGeminiTurns } from './chat';
+import { pickRetryTarget, statusForStream, toGeminiTurns } from './chat';
 
 describe('deriveTitle', () => {
 	it('trims, collapses internal whitespace, and caps at 80 chars', () => {
@@ -60,5 +60,40 @@ describe('statusForStream', () => {
 		expect(statusForStream('error', '')).toBe('error');
 		expect(statusForStream('complete', '')).toBe('error');
 		expect(statusForStream('truncated', '')).toBe('error');
+	});
+});
+
+describe('pickRetryTarget', () => {
+	const u = (id: string, content: string) => ({ id, role: 'user' as const, content, status: null });
+	const a = (id: string, content: string, status: string | null) => ({
+		id,
+		role: 'assistant' as const,
+		content,
+		status
+	});
+
+	it('targets a trailing failed row and the question before it', () => {
+		const rows = [
+			u('m1', 'first?'),
+			a('m2', 'answer', 'complete'),
+			u('m3', 'second?'),
+			a('m4', '', 'error')
+		];
+		expect(pickRetryTarget(rows)).toEqual({
+			errorRowId: 'm4',
+			question: 'second?',
+			prior: [u('m1', 'first?'), a('m2', 'answer', 'complete')]
+		});
+	});
+
+	it('returns null when the conversation does not end in a failed row', () => {
+		expect(pickRetryTarget([])).toBeNull();
+		expect(pickRetryTarget([u('m1', 'q?')])).toBeNull(); // stopped-with-no-answer leaves no row
+		expect(pickRetryTarget([u('m1', 'q?'), a('m2', 'fine', 'complete')])).toBeNull();
+		expect(pickRetryTarget([u('m1', 'q?'), a('m2', 'partial', 'truncated')])).toBeNull();
+	});
+
+	it('returns null when no user question precedes the failed row', () => {
+		expect(pickRetryTarget([a('m1', '', 'error')])).toBeNull();
 	});
 });
