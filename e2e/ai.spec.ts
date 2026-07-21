@@ -256,7 +256,9 @@ test.describe('ask the rules (chat)', () => {
 		await expect(page).toHaveURL(/\/ask\/mock-convo-err$/); // bookkeeping still ran
 	});
 
-	test('error event with no answer text shows the unavailable bubble', async ({ page }) => {
+	test('error event with no answer text shows the something-went-wrong bubble', async ({
+		page
+	}) => {
 		await signUpTestUser(page, 'chat-err-empty');
 		await page.route('**/api/ai/chat', (route) =>
 			route.fulfill({
@@ -268,8 +270,41 @@ test.describe('ask the rules (chat)', () => {
 		await page.waitForLoadState('networkidle');
 		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
 		await page.getByRole('button', { name: /^send$/i }).click();
-		await expect(page.getByText(/no answer — the assistant was unavailable/i)).toBeVisible();
+		await expect(page.getByText('Something went wrong')).toBeVisible();
 		await expect(page.getByText(/ran into a problem/i)).toBeVisible();
+	});
+
+	test('retry regenerates a failed answer in place', async ({ page }) => {
+		await signUpTestUser(page, 'chat-retry');
+		let calls = 0;
+		let secondBody: unknown = null;
+		await page.route('**/api/ai/chat', async (route) => {
+			calls += 1;
+			if (calls === 1) {
+				await route.fulfill({
+					...CHAT_STREAM('mock-convo-retry', 'mock-msg-retry-1'),
+					body: '{"t":"error"}\n'
+				});
+			} else {
+				secondBody = route.request().postDataJSON();
+				await route.fulfill(CHAT_STREAM('mock-convo-retry', 'mock-msg-retry-2'));
+			}
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText('Something went wrong')).toBeVisible();
+		const retryButton = page.getByRole('button', { name: 'Retry', exact: true });
+		await expect(retryButton).toBeVisible();
+
+		await retryButton.click();
+		await expect(page.getByText('Something went wrong')).toHaveCount(0);
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		// Scoped to the transcript: the same question text also appears in the sidebar's
+		// conversation entry, which would otherwise make this ambiguous.
+		await expect(page.getByLabel('Messages').getByText('Is it a stall at ten?')).toHaveCount(1);
+		expect(secondBody).toEqual({ conversationId: 'mock-convo-retry', retry: true });
 	});
 
 	test('stop button aborts the stream and settles back to idle', async ({ page }) => {

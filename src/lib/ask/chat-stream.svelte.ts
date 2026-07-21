@@ -113,7 +113,7 @@ class ChatStreamState {
 
 	async send(
 		text: string,
-		opts: { conversationId: string | null; viewToken: symbol }
+		opts: { conversationId: string | null; viewToken: symbol; retry?: boolean }
 	): Promise<SendResult> {
 		if (this.jobFor(opts.conversationId)) {
 			return {
@@ -149,10 +149,14 @@ class ChatStreamState {
 			const res = await fetch('/api/ai/chat', {
 				method: 'POST',
 				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({
-					message: text,
-					...(opts.conversationId ? { conversationId: opts.conversationId } : {})
-				}),
+				body: JSON.stringify(
+					opts.retry
+						? { conversationId: opts.conversationId, retry: true }
+						: {
+								message: text,
+								...(opts.conversationId ? { conversationId: opts.conversationId } : {})
+							}
+				),
 				signal: job.controller.signal
 			});
 			if (!res.ok || !res.body) {

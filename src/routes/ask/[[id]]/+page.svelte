@@ -33,6 +33,13 @@
 	/** The live stream belonging to what this view shows, if any. */
 	const activeJob = $derived(chatStream.jobForView(activeId, myToken));
 	const thoughtHeadline = $derived(activeJob ? latestThoughtHeadline(activeJob.thoughts) : null);
+	const lastMessage = $derived(messages[messages.length - 1] ?? null);
+	const canRetry = $derived(
+		!activeJob &&
+			activeId !== null &&
+			lastMessage?.role === 'assistant' &&
+			lastMessage?.status === 'error'
+	);
 
 	// This component only mounts once the auth check in +layout.svelte resolves
 	// (an async session fetch), which is always after SvelteKit's one-time
@@ -141,6 +148,25 @@
 		errorMessage = result.message;
 	}
 
+	async function retry() {
+		if (!canRetry || !activeId) return;
+		const gen = viewGeneration;
+		const failedRow = messages[messages.length - 1];
+		// The server deletes the failed row before regenerating — mirror it here.
+		messages = messages.slice(0, -1);
+		errorMessage = null;
+		const result = await chatStream.send('', {
+			conversationId: activeId,
+			viewToken: myToken,
+			retry: true
+		});
+		if (gen !== viewGeneration) return;
+		if (result.kind === 'failed' || result.kind === 'rejected') {
+			messages = [...messages, failedRow]; // the send never started; the row is still persisted
+		}
+		errorMessage = result.message;
+	}
+
 	function onKeydown(event: KeyboardEvent) {
 		if (event.key !== 'Enter') return;
 		// Cmd/Ctrl+Enter inserts a newline; Shift+Enter keeps its native newline; bare Enter sends.
@@ -190,7 +216,10 @@
 			</div>
 		{/if}
 		{#each messages as message (message.id)}
-			<ChatMessageRow {message} />
+			<ChatMessageRow
+				{message}
+				onretry={canRetry && message.id === lastMessage?.id ? retry : null}
+			/>
 		{/each}
 		{#if activeJob}
 			{#if !activeJob.streamingText}
