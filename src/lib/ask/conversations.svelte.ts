@@ -60,9 +60,13 @@ class ConversationsState {
 		this.list = [{ ...convo, updatedAt }, ...this.list.filter((c) => c.id !== id)];
 	}
 
-	/** Swap an optimistic entry for the server's real conversation, in place. */
+	/** Swap an optimistic entry for the server's real conversation, in place.
+	 * A background load() may have already fetched the real row while the send
+	 * was pre-headers — drop that copy so the resolved entry's id stays unique. */
 	resolve(tempId: string, convo: ConversationSummary): void {
-		this.list = this.list.map((c) => (c.id === tempId ? convo : c));
+		this.list = this.list
+			.filter((c) => c.id !== convo.id)
+			.map((c) => (c.id === tempId ? convo : c));
 	}
 
 	/** Remove a local-only entry (no server call). */
