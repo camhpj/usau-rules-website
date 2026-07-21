@@ -49,9 +49,16 @@ describe('statusForStream', () => {
 		expect(statusForStream('truncated', '')).toBe('error');
 		expect(statusForStream('error', '')).toBe('error');
 	});
-	it('treats a cancelled stream like an errored one', () => {
+	it('treats a cancelled stream with partial text like an errored one', () => {
 		expect(statusForStream('cancelled', 'partial answer')).toBe('truncated'); // keep what the user saw
-		expect(statusForStream('cancelled', '')).toBe('error');
-		expect(statusForStream('cancelled', '   ')).toBe('error');
+	});
+	it('persists nothing for a cancelled stream with no answer text', () => {
+		expect(statusForStream('cancelled', '')).toBeNull();
+		expect(statusForStream('cancelled', '  \n')).toBeNull();
+	});
+	it('still records an error row when a non-cancelled stream produced no text', () => {
+		expect(statusForStream('error', '')).toBe('error');
+		expect(statusForStream('complete', '')).toBe('error');
+		expect(statusForStream('truncated', '')).toBe('error');
 	});
 });

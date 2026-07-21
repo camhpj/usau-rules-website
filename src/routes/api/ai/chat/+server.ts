@@ -87,18 +87,20 @@ export const POST: RequestHandler = async (event) => {
 	const assistantMessageId = crypto.randomUUID();
 	let answerText = '';
 	// Persistence must never break the stream; failures are reported and swallowed.
-	const persistAssistant = async (status: 'complete' | 'truncated' | 'error') => {
+	const persistAssistant = async (status: 'complete' | 'truncated' | 'error' | null) => {
 		try {
 			const at = Date.now();
-			await db.insert(aiMessages).values({
-				id: assistantMessageId,
-				conversationId,
-				role: 'assistant',
-				content: status === 'error' ? '' : answerText,
-				status,
-				model: GEMINI_MODEL,
-				createdAt: at
-			});
+			if (status !== null) {
+				await db.insert(aiMessages).values({
+					id: assistantMessageId,
+					conversationId,
+					role: 'assistant',
+					content: status === 'error' ? '' : answerText,
+					status,
+					model: GEMINI_MODEL,
+					createdAt: at
+				});
+			}
 			await db
 				.update(aiConversations)
 				.set({ updatedAt: at })
