@@ -354,6 +354,68 @@ test.describe('ask the rules (chat)', () => {
 		await sidebar.getByText(/first question about stalls/i).click();
 		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
 	});
+
+	test('new chat gives a fresh composer while a send is still pending', async ({ page }) => {
+		await signUpTestUser(page, 'chat-newchat-pending');
+		let releaseFulfill: () => void = () => {};
+		const gate = new Promise<void>((resolve) => {
+			releaseFulfill = resolve;
+		});
+		await page.route('**/api/ai/chat', async (route) => {
+			await gate;
+			await route
+				.fulfill(CHAT_STREAM('mock-convo-newchat-pending', 'mock-msg-newchat-pending'))
+				.catch(() => {});
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Where does a pull start from?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText('Where does a pull start from?')).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Stop', exact: true })).toBeVisible();
+
+		const conversationsNav = page.getByRole('navigation', { name: 'Conversations' });
+		await conversationsNav.getByRole('link', { name: 'New chat' }).click();
+		await expect(page).toHaveURL(/\/ask$/);
+		await expect(page.getByText('Where does a pull start from?')).toHaveCount(0);
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+
+		// Headers for the background send arrive: sidebar picks it up, but this
+		// fresh view — a different viewToken now — must not adopt it.
+		releaseFulfill();
+		await expect(conversationsNav.getByText(/where does a pull start from\?/i)).toBeVisible({
+			timeout: 10_000
+		});
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Stop', exact: true })).toHaveCount(0);
+	});
+
+	test('new chat clears a stopped pre-headers send', async ({ page }) => {
+		await signUpTestUser(page, 'chat-newchat-stopped');
+		await page.route('**/api/ai/chat', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 5000));
+			// The client aborts well before this fires — fulfilling an aborted route throws; ignore it.
+			await route
+				.fulfill(CHAT_STREAM('mock-convo-newchat-stopped', 'mock-msg-newchat-stopped'))
+				.catch(() => {});
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Where does a pull start from?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		const stopButton = page.getByRole('button', { name: 'Stop', exact: true });
+		await expect(stopButton).toBeVisible();
+		await stopButton.click();
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+
+		await page
+			.getByRole('navigation', { name: 'Conversations' })
+			.getByRole('link', { name: 'New chat' })
+			.click();
+		await expect(page.getByText('Where does a pull start from?')).toHaveCount(0);
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(page.getByRole('textbox', { name: 'Your message' })).toHaveValue('');
+	});
 });
 
 test.describe('conversation history (seeded D1)', () => {

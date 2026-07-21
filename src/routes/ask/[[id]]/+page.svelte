@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { replaceState } from '$app/navigation';
+	import { afterNavigate, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import {
 		CHAT_MAX_MESSAGE_CHARS,
@@ -17,7 +17,10 @@
 	let errorMessage = $state<string | null>(null);
 	let loadingConvo = $state(false);
 	let notFound = $state(false);
-	let activeId = $state<string | null>(null);
+	// Seeded from the URL directly (not via afterNavigate — see below) so a hard
+	// navigation straight to /ask/<id> starts with the right id.
+	const initialId = page.params.id ?? null;
+	let activeId = $state<string | null>(initialId);
 	let scrollEl = $state<HTMLElement | null>(null);
 	/** Regenerated per view session; ties a send to the view that initiated it. */
 	let myToken = $state<symbol>(Symbol());
@@ -31,19 +34,23 @@
 	const activeJob = $derived(chatStream.jobForView(activeId, myToken));
 	const thoughtHeadline = $derived(activeJob ? latestThoughtHeadline(activeJob.thoughts) : null);
 
-	// React to REAL route changes (sidebar clicks, back/forward, hard loads, "New chat").
-	// replaceState after the first send updates page.url but not page.params, so reading
-	// only page.params.id would miss it: params.id stays undefined the whole time (send
-	// never gives it a value), so Svelte never sees that tracked value change and this
-	// effect would never re-run. Reading page.url too gives it a dependency that always
-	// changes on navigation, so the params check below still runs and can compare against
-	// lastParam (which the adoption effect resyncs after its replaceState).
-	let lastParam: string | null | undefined = undefined;
-	$effect(() => {
-		void page.url;
-		const param = page.params.id ?? null;
-		if (param === lastParam) return;
-		lastParam = param;
+	// This component only mounts once the auth check in +layout.svelte resolves
+	// (an async session fetch), which is always after SvelteKit's one-time
+	// hydration "enter" callback for a hard navigation has already fired and
+	// been missed — afterNavigate below would never run for it. So a hard
+	// navigation straight to /ask/<id> (page reload, deep link, shared URL)
+	// needs its own load, using the id already seeded above from page.params.
+	if (initialId) void loadConversation(initialId);
+
+	// Reset the view on every completed navigation — including same-URL ones,
+	// like clicking "New chat" while already on a blank /ask with a send in
+	// flight (a params compare would miss those). Covers every navigation that
+	// happens once this component is mounted — the hard-navigation entry case
+	// above is the one gap, handled separately. URL adoption below uses
+	// replaceState, which is not a navigation, so adopting an id never resets
+	// the view.
+	afterNavigate((nav) => {
+		const param = nav.to?.params?.id ?? null;
 		viewGeneration += 1;
 		myToken = Symbol(); // a background send from the old view must not adopt this view's URL
 		activeId = param;
@@ -62,7 +69,6 @@
 		if (!cid) return;
 		activeId = cid;
 		replaceState(`/ask/${cid}`, {});
-		lastParam = cid; // replaceState doesn't update page.params; resync so the route effect still fires on the next real navigation
 	});
 
 	// Pick up an exchange that finished (possibly while this view was unmounted).
