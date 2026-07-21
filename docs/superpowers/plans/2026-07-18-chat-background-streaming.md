@@ -472,6 +472,7 @@ export const chatStream = new ChatStreamState();
 		errorMessage = null;
 		messages = []; // clear immediately so a conversation switch never flashes the old thread
 		notFound = false;
+		loadingConvo = false;
 		if (param) void loadConversation(param);
 	});
 
@@ -531,7 +532,7 @@ export const chatStream = new ChatStreamState();
 	async function send(event?: SubmitEvent) {
 		event?.preventDefault();
 		const text = input.trim();
-		if (text.length < 3 || activeJob || chatStream.atCap || full) return;
+		if (text.length < 3 || activeJob || full) return;
 		const gen = viewGeneration;
 		messages = [
 			...messages,

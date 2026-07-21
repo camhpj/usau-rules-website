@@ -8,16 +8,18 @@
 
 **Tech Stack:** SvelteKit 2 / Svelte 5 runes, Cloudflare Workers (D1 via drizzle), Vitest 4 (fake timers), Playwright e2e.
 
+**Superseded in part:** the stop/cancel semantics below were revised by [2026-07-18-chat-background-streaming.md](2026-07-18-chat-background-streaming.md) — Stop now cancels server-side generation and only generated text is persisted, the route's tee/drain was replaced by direct cancellation propagation, and no "Stopped." message is shown. Where the two plans disagree, the 2026-07-18 plan governs.
+
 ## Global Constraints
 
 - No new dependencies. Node >= 22.
 - Wire protocol stays NDJSON lines `{t: 'think'|'text'|'truncated'|'error', text?}` — existing `think`/`text`/`truncated` shapes must not change.
-- The output `ReadableStream` returned by `streamText` must always close cleanly; failures are reported in-band via `{"t":"error"}`, never by erroring the stream (the tee/drain persistence in the route depends on this).
+- The output `ReadableStream` returned by `streamText` must always close cleanly; failures are reported in-band via `{"t":"error"}`, never by erroring the stream (consumers depend on this).
 - `observer.onClose(outcome)` fires exactly once per successfully-opened stream, before the output stream closes, and is awaited.
 - Persisted assistant `status` values remain `'complete' | 'truncated' | 'error'` (schema unchanged; no migration).
 - Server behavior spec (user-approved): stream with zero answer text (thoughts only, any outcome) persists as `error`; errored stream with partial answer text persists as `truncated`.
-- Client Stop is a client-side abort only; the server drain branch keeps consuming and persists the full answer. Accepted tradeoff, do not add a cancel endpoint.
-- Copy strings (verbatim): stall hint "Taking longer than usual — you can stop and ask again."; server-error message "The assistant ran into a problem — try asking again."; stop message "Stopped."
+- ~~Client Stop is a client-side abort only; the server drain branch keeps consuming and persists the full answer. Accepted tradeoff, do not add a cancel endpoint.~~ *(superseded — see note above)*
+- Copy strings (verbatim): stall hint "Taking longer than usual — you can stop and ask again."; server-error message "The assistant ran into a problem — try asking again." (the stop message was later removed — see note above)
 - Verification commands: `npm run test` (vitest), `npm run check` (svelte-check), `npx playwright test e2e/ai.spec.ts` (e2e; requires the dev stack that `npm run test:e2e` normally provisions).
 - Commit style: conventional commits (`feat:`/`fix:`/`test:`), match existing history.
 
