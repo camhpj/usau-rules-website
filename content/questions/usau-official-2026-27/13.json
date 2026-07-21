@@ -99,18 +99,20 @@
 		"rulesetId": "usau-official-2026-27",
 		"type": "multiple-choice",
 		"sectionSlug": "13",
-		"prompt": "According to Rule 13.E, what action is explicitly subject to rule 3.I.2?",
+		"prompt": "An airborne receiver catches a pass above the end zone, but the disc is jarred loose during the catch and they briefly lose possession. They re-secure the disc before it hits the ground or a turnover occurs, but their first point of ground contact on this second possession is on the field of play, outside the end zone. What is the result?",
 		"choices": [
-			"The act of scoring a goal.",
-			"The act of calling a timeout.",
-			"The act of establishing a pivot foot.",
-			"The act of retracting a goal call."
+			"No goal; the initial possession ended when the disc came loose, so the goal depends on the subsequent possession, whose first ground contact was outside the end zone. The receiver retains possession and play continues.",
+			"A goal, because the receiver's original catch was made above the end zone.",
+			"A goal, because the receiver re-secured the disc before it ever touched the ground.",
+			"A turnover, because losing possession during a catch always results in a turnover."
 		],
 		"answerIndex": 0,
-		"explanation": "Rule 13.E explicitly states that the act of scoring a goal is subject to rule 3.I.2.",
+		"explanation": "Under 13.E, scoring a goal is subject to 3.I.2: if a player loses possession during movement related to a catch, the initial possession ends. The goal is then judged on the subsequent possession, and because its first point of ground contact was outside the end zone, no goal is scored. Since the receiver regained the disc before a turnover, they retain possession and play continues — the mirror of 13.A.1, which awards a goal only when that first contact is completely in the end zone.",
 		"ruleRefs": [
-			"13.E"
+			"13.E",
+			"3.I.2",
+			"13.A.1"
 		],
-		"difficulty": 1
+		"difficulty": 3
 	}
 ]
