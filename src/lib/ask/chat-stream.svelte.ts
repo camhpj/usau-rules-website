@@ -222,12 +222,20 @@ class ChatStreamState {
 			lineBuffer += decoder.decode();
 			handleLine(lineBuffer);
 			if (serverError) {
-				this.#finish(job, job.streamingText.trim() ? 'truncated' : 'error', messageId);
-				return { kind: 'done', message: 'The assistant ran into a problem — try asking again.' };
+				const hasText = job.streamingText.trim();
+				this.#finish(job, hasText ? 'truncated' : 'error', messageId);
+				// A truncated bubble has no retry affordance, so it still needs the composer
+				// message; an error bubble carries its own Retry button, so none is needed.
+				return {
+					kind: 'done',
+					message: hasText ? 'The assistant ran into a problem — try asking again.' : null
+				};
 			}
 			if (!job.streamingText.trim()) {
+				// The error bubble carries the Retry affordance, so no composer message
+				// accompanies it.
 				this.#finish(job, 'error', messageId);
-				return { kind: 'done', message: 'No answer came back — try again.' };
+				return { kind: 'done', message: null };
 			}
 			this.#finish(job, truncated ? 'truncated' : 'complete', messageId);
 			return {

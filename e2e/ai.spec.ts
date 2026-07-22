@@ -271,7 +271,8 @@ test.describe('ask the rules (chat)', () => {
 		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
 		await page.getByRole('button', { name: /^send$/i }).click();
 		await expect(page.getByText('Something went wrong')).toBeVisible();
-		await expect(page.getByText(/ran into a problem/i)).toBeVisible();
+		// The error bubble carries its own Retry affordance, so no composer alert accompanies it.
+		await expect(page.getByRole('alert')).toHaveCount(0);
 	});
 
 	test('retry regenerates a failed answer in place', async ({ page }) => {
