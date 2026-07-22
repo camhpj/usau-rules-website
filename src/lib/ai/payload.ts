@@ -47,6 +47,18 @@ export const ChatPayloadSchema: z.ZodType<ChatPayload> = z.object({
 	rulesetId: z.string().min(1).max(64).optional()
 });
 
+/** Regenerate the answer to a conversation's trailing failed exchange. */
+export interface ChatRetryPayload {
+	conversationId: string;
+	retry: true;
+}
+
+export const ChatRetryPayloadSchema: z.ZodType<ChatRetryPayload> = z.object({
+	// NOT z.string().uuid(): migrated conversations have derived ids like 'conv-<uuid>'.
+	conversationId: z.string().min(1).max(64),
+	retry: z.literal(true)
+});
+
 /** Sidebar title derived from the first message. */
 export function deriveTitle(message: string): string {
 	return message.trim().replace(/\s+/g, ' ').slice(0, 80);
@@ -56,6 +68,8 @@ export interface ConversationSummary {
 	id: string;
 	title: string;
 	updatedAt: number; // ms epoch of last message
+	/** Client-only: optimistic sidebar entry awaiting its server id. */
+	pending?: boolean;
 }
 
 export interface ConversationListResponse {

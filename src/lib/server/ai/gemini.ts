@@ -1,7 +1,14 @@
 import { eq } from 'drizzle-orm';
 import type { Db } from '$lib/server/db';
 import { aiCache } from '$lib/server/db/schema';
-import { CACHE_MIN_REMAINING_MS, CACHE_TTL_S, GEMINI_BASE, GEMINI_MODEL } from './config';
+import {
+	AI_STREAM_MAX_MS,
+	AI_STREAM_NO_ANSWER_MAX_MS,
+	CACHE_MIN_REMAINING_MS,
+	CACHE_TTL_S,
+	GEMINI_BASE,
+	GEMINI_MODEL
+} from './config';
 
 /**
  * Thin Gemini REST client with explicit context caching for the rulebook prefix.
@@ -109,13 +116,15 @@ function buildBody(req: GeminiRequest, cacheName: string | null): Record<string,
 function callGemini(
 	req: GeminiRequest,
 	endpoint: string,
-	cacheName: string | null
+	cacheName: string | null,
+	signal?: AbortSignal
 ): Promise<Response> {
 	const f = req.fetchImpl ?? fetch;
 	return f(`${GEMINI_BASE}/models/${GEMINI_MODEL}:${endpoint}`, {
 		method: 'POST',
 		headers: { 'content-type': 'application/json', 'x-goog-api-key': req.apiKey },
-		body: JSON.stringify(buildBody(req, cacheName))
+		body: JSON.stringify(buildBody(req, cacheName)),
+		signal
 	});
 }
 
@@ -125,13 +134,17 @@ function callGemini(
  * happens, the final attempt runs inline (uncached) so a cache problem can
  * never take the feature down.
  */
-async function callWithCacheFallback(req: GeminiRequest, endpoint: string): Promise<Response> {
+async function callWithCacheFallback(
+	req: GeminiRequest,
+	endpoint: string,
+	signal?: AbortSignal
+): Promise<Response> {
 	const cacheName = await ensureGroundingCache(req);
-	let res = await callGemini(req, endpoint, cacheName);
+	let res = await callGemini(req, endpoint, cacheName, signal);
 	if (cacheName && !res.ok && res.status >= 400 && res.status < 500) {
 		await req.store.del(cacheKey(req.rulesetId));
 		const fresh = await ensureGroundingCache(req);
-		res = await callGemini(req, endpoint, fresh);
+		res = await callGemini(req, endpoint, fresh, signal);
 	}
 	return res;
 }
@@ -195,46 +208,121 @@ export class SseTextExtractor {
 	}
 }
 
+export type StreamOutcome = 'complete' | 'truncated' | 'error' | 'cancelled';
+
 export interface StreamObserver {
 	onText?(text: string): void; // answer deltas only — never thought deltas
-	onTruncated?(): void; // upstream finishReason MAX_TOKENS
-	onClose?(): void | Promise<void>; // upstream ended; awaited before the output stream closes
+	/** Fires exactly once, before the output stream ends; awaited. */
+	onClose?(outcome: StreamOutcome): void | Promise<void>;
 }
 
-/** Streaming call; resolves once the upstream stream is open. Throws pre-stream. */
+/**
+ * Streaming call; resolves once the upstream stream is open. Throws pre-stream.
+ *
+ * Post-stream, the returned stream NEVER errors: watchdog aborts and upstream
+ * failures are reported in-band as a `{"t":"error"}` line followed by a clean
+ * close, so downstream consumers always run to completion. Watchdog: a model
+ * stuck generating thoughts never emits answer text, so thought-only time is
+ * capped separately from the wall clock. Consumer cancellation (client Stop,
+ * reload, tab close) aborts the upstream Gemini request and reports the
+ * `'cancelled'` outcome via `onClose`, same as any other stream end.
+ */
 export async function streamText(
 	req: GeminiRequest,
 	observer?: StreamObserver
 ): Promise<ReadableStream<Uint8Array>> {
-	const res = await callWithCacheFallback(req, 'streamGenerateContent?alt=sse');
+	const abort = new AbortController();
+	const res = await callWithCacheFallback(req, 'streamGenerateContent?alt=sse', abort.signal);
 	if (!res.ok || !res.body) {
 		throw new Error(`${res.status} from Gemini: ${(await res.text()).slice(0, 300)}`);
 	}
+	const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
 	const extractor = new SseTextExtractor();
-	return res.body
-		.pipeThrough(new TextDecoderStream())
-		.pipeThrough(
-			new TransformStream<string, string>({
-				transform(chunk, controller) {
-					for (const event of extractor.feed(chunk)) {
+	const encoder = new TextEncoder();
+	const line = (obj: unknown) => encoder.encode(JSON.stringify(obj) + '\n');
+
+	let outcome: StreamOutcome = 'complete';
+	let consumerCancelled = false;
+	let noAnswerTimer: ReturnType<typeof setTimeout> | null = setTimeout(
+		() => abort.abort(new Error('watchdog: no answer text within budget')),
+		AI_STREAM_NO_ANSWER_MAX_MS
+	);
+	const hardTimer = setTimeout(
+		() => abort.abort(new Error('watchdog: stream exceeded max duration')),
+		AI_STREAM_MAX_MS
+	);
+	const clearTimers = () => {
+		if (noAnswerTimer) clearTimeout(noAnswerTimer);
+		noAnswerTimer = null;
+		clearTimeout(hardTimer);
+	};
+	// A test-seam fetch body may ignore the abort signal; racing read() against
+	// the signal guarantees the pump loop unblocks on abort regardless.
+	const aborted = new Promise<never>((_, reject) => {
+		abort.signal.addEventListener('abort', () => reject(abort.signal.reason), { once: true });
+	});
+
+	return new ReadableStream<Uint8Array>({
+		async start(controller) {
+			// After the consumer cancels, enqueue/close throw; keep pumping only to finalize.
+			const push = (chunk: Uint8Array) => {
+				if (consumerCancelled) return;
+				try {
+					controller.enqueue(chunk);
+				} catch {
+					consumerCancelled = true;
+				}
+			};
+			try {
+				for (;;) {
+					const next = reader.read();
+					next.catch(() => {}); // the race may abandon this promise; keep its rejection handled
+					const { done, value } = await Promise.race([next, aborted]);
+					if (done) break;
+					for (const event of extractor.feed(value)) {
 						if (event.kind === 'delta') {
-							if (!event.thought) observer?.onText?.(event.text);
-							controller.enqueue(
-								JSON.stringify({ t: event.thought ? 'think' : 'text', text: event.text }) + '\n'
-							);
+							if (!event.thought) {
+								if (noAnswerTimer) clearTimeout(noAnswerTimer);
+								noAnswerTimer = null;
+								observer?.onText?.(event.text);
+							}
+							push(line({ t: event.thought ? 'think' : 'text', text: event.text }));
 						} else if (event.reason === 'MAX_TOKENS') {
 							console.error('gemini stream truncated: MAX_TOKENS');
-							observer?.onTruncated?.();
-							controller.enqueue(JSON.stringify({ t: 'truncated' }) + '\n');
+							outcome = 'truncated';
+							push(line({ t: 'truncated' }));
 						} else if (event.reason !== 'STOP') {
 							console.error(`gemini stream finished with unexpected reason: ${event.reason}`);
 						}
 					}
-				},
-				async flush() {
-					await observer?.onClose?.();
 				}
-			})
-		)
-		.pipeThrough(new TextEncoderStream());
+			} catch (cause) {
+				console.error('gemini stream failed mid-answer', cause);
+				if (outcome !== 'cancelled') outcome = 'error';
+				push(line({ t: 'error' }));
+				void reader.cancel().catch(() => {});
+			} finally {
+				clearTimers();
+				try {
+					await observer?.onClose?.(outcome);
+				} catch (cause) {
+					console.error('gemini stream observer onClose failed', cause);
+				}
+				try {
+					controller.close();
+				} catch {
+					// consumer already cancelled the stream
+				}
+			}
+		},
+		cancel() {
+			// The client is gone (Stop, reload, tab close): this is a real cancel.
+			// Abort upstream so Gemini stops generating; the pump's pending read
+			// resolves done and the finally block reports the cancelled outcome.
+			consumerCancelled = true;
+			outcome = 'cancelled';
+			clearTimers();
+			void reader.cancel().catch(() => {});
+		}
+	});
 }

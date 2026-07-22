@@ -1,12 +1,11 @@
 /**
  * Every Gemini call goes through this configuration; the model is pinned HERE and
- * nowhere else. Verified 2026-07-11 against https://ai.google.dev/gemini-api/docs/models:
- * current Gemini 3 Flash id is `gemini-3-flash-preview` ($0.50/M input, $3.00/M output,
- * $0.05/M cached input, $1.00/M/h cache storage). Stable-but-3x-price alternative:
- * `gemini-3.5-flash`. Swapping models is a one-line change (new caches are created
- * automatically because the model is part of the cache key).
+ * nowhere else. Current model is the GA `gemini-3.6-flash`, which supports the same
+ * thinkingConfig thinkingLevel values and includeThoughts we rely on. Swapping models
+ * is a one-line change (new caches are created automatically because the model is
+ * part of the cache key).
  */
-export const GEMINI_MODEL = 'gemini-3-flash-preview';
+export const GEMINI_MODEL = 'gemini-3.6-flash';
 export const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 
 /** Thinking tokens share this budget; 8k starved answers on think-heavy runs (prod bug 2026-07-13). */
@@ -22,3 +21,8 @@ export const ASK_DAILY_PER_USER = 10;
 export const SCENARIO_DAILY_PER_USER = 10;
 /** All AI requests, all users, both kinds combined. */
 export const AI_GLOBAL_DAILY = 200;
+
+/** Watchdog: abort a stream that has produced no answer text (thoughts only) by this point. */
+export const AI_STREAM_NO_ANSWER_MAX_MS = 45_000;
+/** Watchdog: hard wall-clock cap on a single streaming response. */
+export const AI_STREAM_MAX_MS = 120_000;

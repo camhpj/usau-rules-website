@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
-import { GEMINI_MODEL } from './config';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { AI_STREAM_MAX_MS, AI_STREAM_NO_ANSWER_MAX_MS, GEMINI_MODEL } from './config';
 import {
 	ensureGroundingCache,
 	generateText,
@@ -184,23 +184,27 @@ describe('streamText', () => {
 	function sseLine(body: unknown) {
 		return `data: ${JSON.stringify(body)}\n\n`;
 	}
+	const enc = (s: string) => new TextEncoder().encode(s);
+	const thoughtChunk = sseLine({
+		candidates: [{ content: { parts: [{ text: 'thinking...', thought: true }] } }]
+	});
+	const textChunk = (t: string) => sseLine({ candidates: [{ content: { parts: [{ text: t }] } }] });
+	const finishChunk = (reason: string) =>
+		sseLine({ candidates: [{ content: { parts: [] }, finishReason: reason }] });
 
-	function sseFetchImpl() {
-		const lines = [
-			sseLine({ candidates: [{ content: { parts: [{ text: 'thinking...', thought: true }] } }] }),
-			sseLine({ candidates: [{ content: { parts: [{ text: 'Hello ' }] } }] }),
-			sseLine({ candidates: [{ content: { parts: [{ text: 'world' }] } }] }),
-			sseLine({ candidates: [{ content: { parts: [] }, finishReason: 'MAX_TOKENS' }] })
-		];
-		const body = new ReadableStream<Uint8Array>({
-			start(controller) {
-				for (const line of lines) controller.enqueue(new TextEncoder().encode(line));
-				controller.close();
-			}
-		});
+	function fetchWithBody(body: ReadableStream<Uint8Array>) {
 		return vi.fn(async (url: RequestInfo | URL) => {
 			if (String(url).includes('/cachedContents')) return new Response('no', { status: 500 });
 			return new Response(body, { status: 200, headers: { 'content-type': 'text/event-stream' } });
+		});
+	}
+
+	function closedBody(lines: string[]) {
+		return new ReadableStream<Uint8Array>({
+			start(controller) {
+				for (const line of lines) controller.enqueue(enc(line));
+				controller.close();
+			}
 		});
 	}
 
@@ -216,43 +220,161 @@ describe('streamText', () => {
 		return out;
 	}
 
-	it('notifies the observer of text deltas only, truncation, and close — wire output unchanged', async () => {
-		const store = memoryStore();
-		const fetchMock = sseFetchImpl();
-		const textDeltas: string[] = [];
-		let truncatedCount = 0;
-		let closeCount = 0;
-		let lastTextAtClose = '';
+	function observing() {
+		const seen = { textDeltas: [] as string[], outcomes: [] as string[] };
 		const observer: StreamObserver = {
-			onText: (text) => textDeltas.push(text),
-			onTruncated: () => truncatedCount++,
-			onClose: () => {
-				closeCount++;
-				lastTextAtClose = textDeltas.join('');
+			onText: (text) => seen.textDeltas.push(text),
+			onClose: (outcome) => {
+				seen.outcomes.push(outcome);
 			}
 		};
+		return { seen, observer };
+	}
 
-		const stream = await streamText(req(fetchMock as typeof fetch, store), observer);
+	it('streams deltas, reports a truncated outcome, and keeps the wire shapes', async () => {
+		const { seen, observer } = observing();
+		const fetchMock = fetchWithBody(
+			closedBody([thoughtChunk, textChunk('Hello '), textChunk('world'), finishChunk('MAX_TOKENS')])
+		);
+		const stream = await streamText(req(fetchMock as typeof fetch, memoryStore()), observer);
 		const output = await drain(stream);
 
-		expect(textDeltas).toEqual(['Hello ', 'world']); // thought delta excluded
-		expect(truncatedCount).toBe(1);
-		expect(closeCount).toBe(1);
-		expect(lastTextAtClose).toBe('Hello world'); // onClose fired after the last delta
-
-		expect(output).toContain('"t":"think"');
-		expect(output).toContain('"t":"text"');
-		expect(output).toContain('"t":"truncated"');
-	});
-
-	it('behaves byte-identical to today when no observer is passed', async () => {
-		const store = memoryStore();
-		const fetchMock = sseFetchImpl();
-		const stream = await streamText(req(fetchMock as typeof fetch, store));
-		const output = await drain(stream);
+		expect(seen.textDeltas).toEqual(['Hello ', 'world']); // thought delta excluded
+		expect(seen.outcomes).toEqual(['truncated']); // exactly once, truncation folded into outcome
 		expect(output).toContain('"t":"think"');
 		expect(output).toContain('"t":"text","text":"Hello "');
-		expect(output).toContain('"t":"text","text":"world"');
 		expect(output).toContain('"t":"truncated"');
+		expect(output).not.toContain('"t":"error"');
+	});
+
+	it('reports a complete outcome on STOP and works without an observer', async () => {
+		const { seen, observer } = observing();
+		const stream = await streamText(
+			req(
+				fetchWithBody(closedBody([textChunk('done'), finishChunk('STOP')])) as typeof fetch,
+				memoryStore()
+			),
+			observer
+		);
+		await drain(stream);
+		expect(seen.outcomes).toEqual(['complete']);
+
+		const bare = await streamText(
+			req(
+				fetchWithBody(closedBody([textChunk('done'), finishChunk('STOP')])) as typeof fetch,
+				memoryStore()
+			)
+		);
+		expect(await drain(bare)).toContain('"t":"text","text":"done"');
+	});
+
+	it('a throwing onClose observer does not error the output stream', async () => {
+		const observer: StreamObserver = {
+			onClose: () => {
+				throw new Error('persistence exploded');
+			}
+		};
+		const stream = await streamText(
+			req(
+				fetchWithBody(closedBody([textChunk('done'), finishChunk('STOP')])) as typeof fetch,
+				memoryStore()
+			),
+			observer
+		);
+		expect(await drain(stream)).toContain('"t":"text","text":"done"'); // drain resolves — stream closed cleanly
+	});
+
+	it('converts an upstream mid-stream failure into an in-band error event', async () => {
+		const body = new ReadableStream<Uint8Array>({
+			start(controller) {
+				controller.enqueue(enc(textChunk('partial ')));
+				// Deferred to a macrotask: per the streams spec, error() resets the
+				// internal queue, so calling it in the same synchronous tick as
+				// enqueue() (before any reader exists) discards the chunk outright —
+				// not the "data arrived, then the connection later failed" case this
+				// test means to exercise.
+				setTimeout(() => controller.error(new Error('upstream died')), 0);
+			}
+		});
+		const { seen, observer } = observing();
+		const stream = await streamText(
+			req(fetchWithBody(body) as typeof fetch, memoryStore()),
+			observer
+		);
+		const output = await drain(stream); // resolves — the failure is in-band, the stream closes cleanly
+		expect(output).toContain('"t":"text","text":"partial "');
+		expect(output).toContain('"t":"error"');
+		expect(seen.outcomes).toEqual(['error']);
+	});
+
+	it('consumer cancellation aborts upstream, reports cancelled, and never errors', async () => {
+		const body = new ReadableStream<Uint8Array>({
+			start(controller) {
+				controller.enqueue(enc(textChunk('partial ')));
+				// never closes — cancellation must come from the consumer side
+			}
+		});
+		const { seen, observer } = observing();
+		const stream = await streamText(
+			req(fetchWithBody(body) as typeof fetch, memoryStore()),
+			observer
+		);
+		const reader = stream.getReader();
+		await reader.read(); // first NDJSON line delivered
+		await reader.cancel(); // client went away (stop / reload / tab close)
+		await vi.waitFor(() => expect(seen.outcomes).toEqual(['cancelled']));
+		expect(seen.textDeltas).toEqual(['partial ']);
+	});
+
+	describe('watchdog', () => {
+		afterEach(() => {
+			vi.useRealTimers();
+		});
+
+		it('aborts a thoughts-only stream after AI_STREAM_NO_ANSWER_MAX_MS', async () => {
+			vi.useFakeTimers();
+			const body = new ReadableStream<Uint8Array>({
+				start(controller) {
+					controller.enqueue(enc(thoughtChunk)); // never closes: the runaway-thinking shape
+				}
+			});
+			const { seen, observer } = observing();
+			const stream = await streamText(
+				req(fetchWithBody(body) as typeof fetch, memoryStore()),
+				observer
+			);
+			const drained = drain(stream);
+			await vi.advanceTimersByTimeAsync(AI_STREAM_NO_ANSWER_MAX_MS + 1);
+			const output = await drained;
+			expect(output).toContain('"t":"think"');
+			expect(output).toContain('"t":"error"');
+			expect(seen.outcomes).toEqual(['error']);
+		});
+
+		it('answer text disarms the no-answer timer; the hard cap still bounds the stream', async () => {
+			vi.useFakeTimers();
+			const body = new ReadableStream<Uint8Array>({
+				start(controller) {
+					controller.enqueue(enc(textChunk('early answer'))); // then hangs forever
+				}
+			});
+			const { seen, observer } = observing();
+			const stream = await streamText(
+				req(fetchWithBody(body) as typeof fetch, memoryStore()),
+				observer
+			);
+			let settled = false;
+			const drained = drain(stream).then((out) => {
+				settled = true;
+				return out;
+			});
+			await vi.advanceTimersByTimeAsync(AI_STREAM_NO_ANSWER_MAX_MS + 1);
+			expect(settled).toBe(false); // disarmed: answer text arrived before the no-answer deadline
+			await vi.advanceTimersByTimeAsync(AI_STREAM_MAX_MS);
+			const output = await drained;
+			expect(settled).toBe(true);
+			expect(output).toContain('"t":"error"');
+			expect(seen.outcomes).toEqual(['error']);
+		});
 	});
 });

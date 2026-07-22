@@ -3,7 +3,8 @@
 	import type { ChatMessage } from '$lib/ai/payload';
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
 
-	let { message }: { message: ChatMessage } = $props();
+	let { message, onretry = null }: { message: ChatMessage; onretry?: (() => void) | null } =
+		$props();
 
 	let copied = $state(false);
 
@@ -43,7 +44,18 @@
 		</p>
 	</div>
 {:else if message.status === 'error'}
-	<p class="text-sm text-navy/50 italic">No answer — the assistant was unavailable.</p>
+	<div class="flex items-center gap-3">
+		<p class="text-sm text-navy/50 italic">Something went wrong</p>
+		{#if onretry}
+			<button
+				type="button"
+				onclick={onretry}
+				class="text-xs font-semibold tracking-wider text-cardinal uppercase hover:underline"
+			>
+				Retry
+			</button>
+		{/if}
+	</div>
 {:else}
 	<div>
 		<AskAnswer answer={message.content} />

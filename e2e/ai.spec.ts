@@ -149,6 +149,38 @@ test.describe('ask the rules (chat)', () => {
 		await expect(page.getByText(/that is a turnover/)).toHaveCount(2);
 	});
 
+	test('a new conversation appears in the sidebar the moment it is sent', async ({ page }) => {
+		await signUpTestUser(page, 'chat-optimistic');
+		let releaseFulfill: () => void = () => {};
+		const gate = new Promise<void>((resolve) => {
+			releaseFulfill = resolve;
+		});
+		await page.route('**/api/ai/chat', async (route) => {
+			await gate;
+			await route.fulfill(CHAT_STREAM('mock-convo-optimistic', 'mock-msg-optimistic'));
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		// The entry appears immediately — before headers, let alone the stream, arrive — as a
+		// non-clickable placeholder.
+		await expect(sidebar.getByText(/is it a stall at ten\?/i)).toBeVisible();
+		await expect(sidebar.getByText('Sending…')).toBeVisible();
+		await expect(sidebar.getByRole('link', { name: /is it a stall at ten\?/i })).toHaveCount(0);
+
+		releaseFulfill();
+		// Headers arrive: the placeholder resolves into a real link to the conversation.
+		await expect(sidebar.getByRole('link', { name: /is it a stall at ten\?/i })).toBeVisible();
+		await expect(sidebar.getByText('Sending…')).toHaveCount(0);
+		await expect(sidebar.getByRole('link', { name: /is it a stall at ten\?/i })).toHaveAttribute(
+			'href',
+			'/ask/mock-convo-optimistic'
+		);
+	});
+
 	test('copy and feedback controls respond', async ({ page, context }) => {
 		// Headless Chromium blocks programmatic clipboard access unless the permission is
 		// granted explicitly (real browsers auto-allow it on a user gesture like this click).
@@ -202,6 +234,265 @@ test.describe('ask the rules (chat)', () => {
 		await box.pressSequentially('second line');
 		await box.press('Enter');
 		await expect(page.getByText(/that is a turnover/)).toBeVisible();
+	});
+
+	test('mid-stream error event keeps the partial answer and shows a retryable error', async ({
+		page
+	}) => {
+		await signUpTestUser(page, 'chat-err');
+		await page.route('**/api/ai/chat', (route) =>
+			route.fulfill({
+				...CHAT_STREAM('mock-convo-err', 'mock-msg-err'),
+				body: '{"t":"text","text":"Partial answer per [15.D]. "}\n{"t":"error"}\n'
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/partial answer per/i)).toBeVisible();
+		await expect(page.getByText(/this answer was cut short/i)).toBeVisible();
+		await expect(page.getByText(/ran into a problem/i)).toBeVisible();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-err$/); // bookkeeping still ran
+	});
+
+	test('error event with no answer text shows the something-went-wrong bubble', async ({
+		page
+	}) => {
+		await signUpTestUser(page, 'chat-err-empty');
+		await page.route('**/api/ai/chat', (route) =>
+			route.fulfill({
+				...CHAT_STREAM('mock-convo-err2', 'mock-msg-err2'),
+				body: '{"t":"think","text":"**Stuck**"}\n{"t":"error"}\n'
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText('Something went wrong')).toBeVisible();
+		// The error bubble carries its own Retry affordance, so no composer alert accompanies it.
+		await expect(page.getByRole('alert')).toHaveCount(0);
+	});
+
+	test('retry regenerates a failed answer in place', async ({ page }) => {
+		await signUpTestUser(page, 'chat-retry');
+		let calls = 0;
+		let secondBody: unknown = null;
+		await page.route('**/api/ai/chat', async (route) => {
+			calls += 1;
+			if (calls === 1) {
+				await route.fulfill({
+					...CHAT_STREAM('mock-convo-retry', 'mock-msg-retry-1'),
+					body: '{"t":"error"}\n'
+				});
+			} else {
+				secondBody = route.request().postDataJSON();
+				await route.fulfill(CHAT_STREAM('mock-convo-retry', 'mock-msg-retry-2'));
+			}
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText('Something went wrong')).toBeVisible();
+		const retryButton = page.getByRole('button', { name: 'Retry', exact: true });
+		await expect(retryButton).toBeVisible();
+
+		await retryButton.click();
+		await expect(page.getByText('Something went wrong')).toHaveCount(0);
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		// Scoped to the transcript: the same question text also appears in the sidebar's
+		// conversation entry, which would otherwise make this ambiguous.
+		await expect(page.getByLabel('Messages').getByText('Is it a stall at ten?')).toHaveCount(1);
+		expect(secondBody).toEqual({ conversationId: 'mock-convo-retry', retry: true });
+	});
+
+	test('stop button aborts the stream and settles back to idle', async ({ page }) => {
+		await signUpTestUser(page, 'chat-stop');
+		await page.route('**/api/ai/chat', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 3000));
+			// The client may have aborted while we slept — fulfilling then throws; ignore it.
+			await route.fulfill(CHAT_STREAM('mock-convo-stop', 'mock-msg-stop')).catch(() => {});
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		const stopButton = page.getByRole('button', { name: 'Stop', exact: true });
+		await expect(stopButton).toBeVisible();
+		await stopButton.click();
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(page.getByText('Is it a stall at ten?')).toBeVisible(); // user bubble kept
+		await expect(page.getByRole('alert')).toHaveCount(0);
+	});
+
+	test('an in-flight answer survives navigating away and back', async ({ page }) => {
+		await signUpTestUser(page, 'chat-bg');
+		await page.route('**/api/ai/chat', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 2000));
+			await route.fulfill(CHAT_STREAM('mock-convo-bg', 'mock-msg-bg')).catch(() => {});
+		});
+		await page.route('**/api/ai/conversations/mock-convo-bg', (route) =>
+			route.fulfill({
+				status: 200,
+				contentType: 'application/json',
+				body: JSON.stringify({
+					id: 'mock-convo-bg',
+					title: 'Is it a stall at ten?',
+					rulesetId: 'usau-official-2026-27',
+					messages: [
+						{
+							id: 'mock-user-bg',
+							role: 'user',
+							content: 'Is it a stall at ten?',
+							status: null,
+							feedback: null,
+							createdAt: Date.now()
+						}
+					]
+				})
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		// Leave while the request is still pending — SPA navigation keeps the fetch alive.
+		await page.getByRole('link', { name: 'Quiz' }).first().click();
+		await expect(page).toHaveURL(/\/quiz/);
+		// Come back: the conversation is in the sidebar and the finished answer is there.
+		await page.getByRole('link', { name: 'Ask' }).first().click();
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		// The entry may still be the optimistic "Sending…" placeholder — wait for it to
+		// resolve into a real link once headers arrive before clicking it.
+		const entry = sidebar.getByRole('link', { name: /is it a stall at ten\?/i });
+		await expect(entry).toBeVisible({ timeout: 10_000 });
+		await entry.click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+	});
+
+	test('two conversations can stream concurrently', async ({ page }) => {
+		await signUpTestUser(page, 'chat-multi');
+		let calls = 0;
+		await page.route('**/api/ai/chat', async (route) => {
+			calls += 1;
+			if (calls === 1) {
+				await new Promise((resolve) => setTimeout(resolve, 4000));
+				await route.fulfill(CHAT_STREAM('mock-convo-m1', 'mock-msg-m1')).catch(() => {});
+			} else {
+				await route.fulfill(CHAT_STREAM('mock-convo-m2', 'mock-msg-m2'));
+			}
+		});
+		await page.route('**/api/ai/conversations/mock-convo-m1', (route) =>
+			route.fulfill({
+				status: 200,
+				contentType: 'application/json',
+				body: JSON.stringify({
+					id: 'mock-convo-m1',
+					title: 'First question about stalls',
+					rulesetId: 'usau-official-2026-27',
+					messages: [
+						{
+							id: 'mock-user-m1',
+							role: 'user',
+							content: 'First question about stalls',
+							status: null,
+							feedback: null,
+							createdAt: Date.now()
+						}
+					]
+				})
+			})
+		);
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('First question about stalls');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		// Start a second conversation from a fresh blank view while the first is pending.
+		await page.getByRole('link', { name: 'Quiz' }).first().click();
+		await expect(page).toHaveURL(/\/quiz/);
+		await page.getByRole('link', { name: 'Ask' }).first().click();
+		await expect(page).toHaveURL(/\/ask$/);
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Second question about fouls');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-m2$/);
+		const sidebar = page.getByRole('navigation', { name: 'Conversations' });
+		// The entry may still be the optimistic "Sending…" placeholder — wait for it to
+		// resolve into a real link once headers arrive before clicking it.
+		const firstEntry = sidebar.getByRole('link', { name: /first question about stalls/i });
+		await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+		await firstEntry.click();
+		await expect(page).toHaveURL(/\/ask\/mock-convo-m1$/);
+		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+	});
+
+	test('new chat gives a fresh composer while a send is still pending', async ({ page }) => {
+		await signUpTestUser(page, 'chat-newchat-pending');
+		let releaseFulfill: () => void = () => {};
+		const gate = new Promise<void>((resolve) => {
+			releaseFulfill = resolve;
+		});
+		await page.route('**/api/ai/chat', async (route) => {
+			await gate;
+			await route
+				.fulfill(CHAT_STREAM('mock-convo-newchat-pending', 'mock-msg-newchat-pending'))
+				.catch(() => {});
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Where does a pull start from?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		// Scoped to the message thread: the same text now also appears in the sidebar's
+		// optimistic "Sending…" entry, which would otherwise make this ambiguous.
+		const messages = page.getByLabel('Messages');
+		await expect(messages.getByText('Where does a pull start from?')).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Stop', exact: true })).toBeVisible();
+
+		const conversationsNav = page.getByRole('navigation', { name: 'Conversations' });
+		await conversationsNav.getByRole('link', { name: 'New chat' }).click();
+		await expect(page).toHaveURL(/\/ask$/);
+		await expect(
+			page.getByLabel('Messages').getByText('Where does a pull start from?')
+		).toHaveCount(0);
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+
+		// Headers for the background send arrive: sidebar picks it up, but this
+		// fresh view — a different viewToken now — must not adopt it.
+		releaseFulfill();
+		await expect(conversationsNav.getByText(/where does a pull start from\?/i)).toBeVisible({
+			timeout: 10_000
+		});
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Stop', exact: true })).toHaveCount(0);
+	});
+
+	test('new chat clears a stopped pre-headers send', async ({ page }) => {
+		await signUpTestUser(page, 'chat-newchat-stopped');
+		await page.route('**/api/ai/chat', async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 5000));
+			// The client aborts well before this fires — fulfilling an aborted route throws; ignore it.
+			await route
+				.fulfill(CHAT_STREAM('mock-convo-newchat-stopped', 'mock-msg-newchat-stopped'))
+				.catch(() => {});
+		});
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('textbox', { name: 'Your message' }).fill('Where does a pull start from?');
+		await page.getByRole('button', { name: /^send$/i }).click();
+		const stopButton = page.getByRole('button', { name: 'Stop', exact: true });
+		await expect(stopButton).toBeVisible();
+		await stopButton.click();
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+
+		await page
+			.getByRole('navigation', { name: 'Conversations' })
+			.getByRole('link', { name: 'New chat' })
+			.click();
+		await expect(page.getByText('Where does a pull start from?')).toHaveCount(0);
+		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(page.getByRole('textbox', { name: 'Your message' })).toHaveValue('');
 	});
 });
 
