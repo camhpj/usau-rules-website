@@ -174,5 +174,3 @@ Best Perspective ships in four phases (full detail in `docs/superpowers/specs/20
 2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 212 human-reviewed questions covering all 217 coverage targets across every section.
 3. [x] **Accounts** _(shipped)_ — live at [usaurules.com](https://usaurules.com) — better-auth with Google OAuth, Cloudflare D1 for local-first progress persistence, server-validated timed runs, bookmarks, and the `/me` dashboard.
 4. [x] **AI** _(code-complete)_ — Gemini-powered scenario generation (`/quiz/scenario`) and ask-the-rules (`/ask`), with rule-citation grounding and cost guardrails; see [AI features](#ai-features).
-
-Club/College Guidelines ingest, Spanish content, and social features are out of scope for v1 but the content architecture supports adding them later.
