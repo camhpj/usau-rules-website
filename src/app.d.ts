@@ -20,6 +20,7 @@ declare global {
 				ALLOW_TEST_SIGNIN?: string;
 				GEMINI_API_KEY?: string;
 				AI_DISABLED?: string;
+				ADMIN_EMAILS?: string;
 			};
 		}
 	}

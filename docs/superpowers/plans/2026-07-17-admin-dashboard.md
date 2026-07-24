@@ -785,13 +785,35 @@ export const load: PageServerLoad = async (event) => {
 {/if}
 ```
 
-- [ ] **Step 4: Append seeded-metrics e2e**
+- [ ] **Step 4: Idempotent admin sign-in helper**
+
+Every admin test signs in as the single allowlisted `ADMIN_EMAIL`, but they share one e2e D1 within a run and better-auth emails are unique — so a second *sign-up* of that email fails. Add an idempotent helper to `e2e/helpers.ts` (sign up once, otherwise sign in):
+
+```ts
+export const ADMIN_PASSWORD = 'test-password-123';
+
+/** Signs in as the single allowlisted admin, creating the account once if absent. */
+export async function signInAsAdmin(page: Page): Promise<void> {
+	const signUp = await page.request.post('/api/auth/sign-up/email', {
+		data: { email: ADMIN_EMAIL, password: ADMIN_PASSWORD, name: 'Admin' }
+	});
+	if (signUp.ok()) return;
+	const signIn = await page.request.post('/api/auth/sign-in/email', {
+		data: { email: ADMIN_EMAIL, password: ADMIN_PASSWORD }
+	});
+	expect(signIn.ok(), `admin sign-in failed: ${signIn.status()} ${await signIn.text()}`).toBeTruthy();
+}
+```
+
+Then retrofit Task 4's existing `admin → dashboard renders` test in `e2e/admin.spec.ts` to call `await signInAsAdmin(page);` instead of `await signUpTestUser(page, 'admin', { email: ADMIN_EMAIL });`, and update that spec's import to pull `signInAsAdmin` from `./helpers`. This removes any cross-test ordering/collision coupling.
+
+- [ ] **Step 5: Append seeded-metrics e2e**
 
 Add to `e2e/admin.spec.ts` (uses the `d1` helper pattern from `ai.spec.ts` — copy the `d1`/`d1Select` helpers to the top of this spec):
 
 ```ts
 test('dashboard reflects seeded data', async ({ page }) => {
-	await signUpTestUser(page, 'admin-metrics', { email: ADMIN_EMAIL });
+	await signInAsAdmin(page);
 	// seed a conversation + a thumbed-down assistant message for this admin user
 	const uid = (
 		d1Select(`SELECT id FROM user WHERE email = '${ADMIN_EMAIL}'`)[0] as { id: string }
@@ -824,15 +846,15 @@ const d1Select = (sql: string): Record<string, unknown>[] =>
 	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;
 ```
 
-- [ ] **Step 5: Run + verify**
+- [ ] **Step 6: Run + verify**
 
 Run: `npm test && npm run check && npm run test:e2e -- admin.spec.ts`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/lib/server/admin/metrics.ts src/routes/admin/+page.server.ts src/routes/admin/+page.svelte e2e/admin.spec.ts
+git add src/lib/server/admin/metrics.ts src/routes/admin/+page.server.ts src/routes/admin/+page.svelte e2e/helpers.ts e2e/admin.spec.ts
 git commit -m "feat(admin): metrics dashboard
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
@@ -1033,7 +1055,7 @@ Append to `e2e/admin.spec.ts`:
 
 ```ts
 test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
-	await signUpTestUser(page, 'admin-ai', { email: ADMIN_EMAIL });
+	await signInAsAdmin(page);
 	// a DIFFERENT user's conversation with a 👎 assistant message
 	const other = (d1Select(`SELECT id FROM user LIMIT 1`)[0] as { id: string }).id;
 	d1(`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-ai','${other}','usau-official-2026-27','stall count question',10,10)`);
@@ -1288,7 +1310,7 @@ test('export: users CSV omits secrets; endpoint 404s for non-admin', async ({ pa
 
 	// admin download
 	await page.context().clearCookies();
-	await signUpTestUser(page, 'export-admin', { email: ADMIN_EMAIL });
+	await signInAsAdmin(page);
 	const res = await page.request.get('/admin/export/users.csv');
 	expect(res.ok()).toBeTruthy();
 	expect(res.headers()['content-type']).toContain('text/csv');
