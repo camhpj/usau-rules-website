@@ -115,6 +115,15 @@ npx wrangler d1 execute usau-rules-website-db --remote --command \
 
 Good ones graduate into `content/questions/` with a real `<section>-<nn>` id, human-reviewed before commit — the same standard as every other question in the bank (see [Question bank](#question-bank)). `/ask` conversations and their messages are similarly logged to `ai_conversations`/`ai_messages` (thinking summaries are not retained) to improve answer quality over time. In the same spirit of being upfront about what's visible to others: a claimed leaderboard display name is public the moment it's set (shown on `/leaderboard` and to anyone viewing the board), and clearing it (`/me` → remove) drops you off the board immediately — no grace period, no cached row.
 
+## Admin
+
+A private, read-only admin area lives at `/admin` (dashboard, AI conversation
+review, CSV export). Access is an email allowlist: set `ADMIN_EMAILS`
+(comma-separated, case-insensitive) in `wrangler.jsonc` `vars` — anyone else,
+signed in or not, gets a 404. Exports are newest-first CSV capped at 10,000 rows
+per file; the `users` export includes only id, email, name, display name, and
+created-at (never sessions, tokens, or passwords).
+
 ## Persistence & auth
 
 Sign-in is Google OAuth only, via [better-auth](https://www.better-auth.com/) (`src/lib/server/auth.ts`, `src/lib/auth-client.ts`), backed by Cloudflare D1 (`src/lib/server/db/`, schema + migrations under `drizzle/`).
