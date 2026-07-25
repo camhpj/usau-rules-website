@@ -45,7 +45,7 @@ export const DATASETS: Record<string, DatasetDef> = {
 		count: (db) => total(db, aiConversations)
 	},
 	messages: {
-		label: 'Messages (with feedback)',
+		label: 'Messages',
 		columns: [
 			'id',
 			'conversationId',

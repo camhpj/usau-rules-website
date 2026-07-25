@@ -2,9 +2,6 @@
 	let { data } = $props();
 </script>
 
-<p class="mb-4 text-sm text-navy/60">
-	Newest-first CSV, capped at {data.max.toLocaleString()} rows per file.
-</p>
 <ul class="space-y-2">
 	{#each data.datasets as d (d.slug)}
 		<li class="flex items-center justify-between rounded-lg border border-navy/10 bg-white p-3">
@@ -17,7 +14,7 @@
 			</div>
 			<a
 				class="cursor-pointer rounded bg-cardinal px-3 py-1.5 text-sm font-medium text-white"
-				href="/admin/export/{d.slug}.csv">Download CSV</a
+				href="/admin/export/{d.slug}.csv">Download</a
 			>
 		</li>
 	{/each}

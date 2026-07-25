@@ -43,11 +43,11 @@ test.describe('admin access', () => {
 			`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-metrics','${uid}','usau-official-2026-27','seed',1,1)`
 		);
 		d1(
-			`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-a','c-metrics','assistant','ans','complete','down',2)`
+			`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-a','c-metrics','assistant','ans','complete','down',${Date.now()})`
 		);
 		await page.goto('/admin');
-		await expect(page.getByText('Conversations')).toBeVisible();
-		// downRatio tile shows 100.0% when the only feedback row is a down
+		await expect(page.getByText('Active users').first()).toBeVisible();
+		// thumbs-down rate tile shows 100.0% — the one in-range answer is a down
 		await expect(page.getByText('100.0%').first()).toBeVisible();
 	});
 });
@@ -78,7 +78,7 @@ test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
 
 	await page.getByRole('link', { name: 'stall count question' }).click();
 	await expect(page.getByText('what is a stall?')).toBeVisible();
-	await expect(page.getByText('👎')).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Bad answer', pressed: true })).toBeVisible();
 });
 
 test('export: users CSV omits secrets; endpoint 404s for non-admin', async ({ page }) => {

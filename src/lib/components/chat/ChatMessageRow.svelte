@@ -2,9 +2,13 @@
 	import { fade } from 'svelte/transition';
 	import type { ChatMessage } from '$lib/ai/payload';
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
+	import ThumbIcon from '$lib/components/icons/ThumbIcon.svelte';
 
-	let { message, onretry = null }: { message: ChatMessage; onretry?: (() => void) | null } =
-		$props();
+	let {
+		message,
+		onretry = null,
+		readonly = false
+	}: { message: ChatMessage; onretry?: (() => void) | null; readonly?: boolean } = $props();
 
 	let copied = $state(false);
 
@@ -113,53 +117,29 @@
 				type="button"
 				aria-label="Good answer"
 				aria-pressed={message.feedback === 'up'}
+				disabled={readonly}
 				onclick={() => setFeedback('up')}
 				class="flex h-7 w-7 items-center justify-center rounded {message.feedback === 'up'
 					? 'text-cardinal'
-					: 'text-[#758395] hover:text-navy'}"
+					: readonly
+						? 'cursor-default text-[#758395]'
+						: 'text-[#758395] hover:text-navy'}"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill={message.feedback === 'up' ? 'currentColor' : 'none'}
-					stroke="currentColor"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="block h-4 w-4"
-					aria-hidden="true"
-				>
-					<path
-						d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"
-					/>
-					<path d="M7 10v12" />
-				</svg>
+				<ThumbIcon direction="up" filled={message.feedback === 'up'} class="block h-4 w-4" />
 			</button>
 			<button
 				type="button"
 				aria-label="Bad answer"
 				aria-pressed={message.feedback === 'down'}
+				disabled={readonly}
 				onclick={() => setFeedback('down')}
 				class="flex h-7 w-7 items-center justify-center rounded {message.feedback === 'down'
 					? 'text-cardinal'
-					: 'text-[#758395] hover:text-navy'}"
+					: readonly
+						? 'cursor-default text-[#758395]'
+						: 'text-[#758395] hover:text-navy'}"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill={message.feedback === 'down' ? 'currentColor' : 'none'}
-					stroke="currentColor"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="block h-4 w-4 rotate-180"
-					aria-hidden="true"
-				>
-					<path
-						d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"
-					/>
-					<path d="M7 10v12" />
-				</svg>
+				<ThumbIcon direction="down" filled={message.feedback === 'down'} class="block h-4 w-4" />
 			</button>
 		</div>
 	</div>
