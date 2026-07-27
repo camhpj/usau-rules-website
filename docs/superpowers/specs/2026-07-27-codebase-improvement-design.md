@@ -112,12 +112,15 @@ Ordered by user impact.
   instead of the stale one. Add a regression test that seeds a successful write
   first, which is the case the current test omits.
 - **Gemini calls without timeouts.** `src/lib/server/ai/gemini.ts:66-86,137-175`.
-  `createCache` and `generateText` have no abort or timeout, so a hang in either
-  runs until the platform kills the request. `streamText` creates its watchdogs
-  at line 246, after `callWithCacheFallback` resolves at line 235, leaving the
-  cache-creation phase unprotected even for chat. Give the non-streaming paths
-  their own controller and timeout, and move `streamText`'s controller ahead of
-  the cache-fallback call.
+  `createCache` takes no `AbortSignal` and `generateText` calls
+  `callWithCacheFallback` without one, so a hang in either runs until the
+  platform kills the request. `streamText` does create its `AbortController`
+  before the cache-fallback call and passes the signal down, but it arms the
+  `noAnswerTimer` and `hardTimer` watchdogs only after that call resolves, so
+  nothing fires the abort during cache creation. Thread a signal through
+  `createCache` and `ensureGroundingCache`, give `generateText` its own
+  controller and timeout, and arm `streamText`'s timers before the
+  cache-fallback call rather than after.
 - **Display-name writes misreport failures.** `src/routes/api/profile/display-name/+server.ts:66-79`.
   The catch-all treats any write failure as a name conflict, so a transient D1
   error tells the user their chosen name is taken. Inspect the error for the
