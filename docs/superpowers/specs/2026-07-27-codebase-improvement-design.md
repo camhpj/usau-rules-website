@@ -43,7 +43,10 @@ The existing test misses this because it never seeds a prior successful write.
 uncached, and filters `mode` and `ruleset_id` against an index covering neither,
 so each request scans `quiz_attempts` in full. Admin metrics pulls two entire
 tables into the Worker to compute distinct users in a JavaScript `Set`. Neither
-cost is bounded by the requesting user's own data.
+cost is bounded by the requesting user's own data. The admin area compounds
+this: the AI review page is paginated but its two aggregate subqueries are not,
+so every page costs a full pass over `ai_messages`, and the export page runs six
+full-table counts per load.
 
 **Roughly 350 lines are duplication.** Around 15 interface and Zod schema pairs
 are maintained by hand where `z.infer` would derive one from the other. Five
@@ -82,6 +85,14 @@ handling is unified.
 handler deleting rows where `expires_at` has passed. This is the project's first
 scheduled Worker. Analytics tables are left alone.
 
+**CSV exports stream in full, with no row cap.** Today the export returns the
+newest 10,000 rows and buffers the whole file into one string. Older rows are
+unreachable through the UI. The intended design was to split large exports
+across numbered files, but no offset support was ever implemented. Streaming the
+response removes the memory limit that motivated splitting, so the export
+becomes one complete file: a `ReadableStream` emitting CSV rows while a keyset
+cursor pages D1 in chunks. `EXPORT_MAX_ROWS` is removed.
+
 **Merged git state is deleted.** Three worktrees under `.claude/worktrees/` and
 five remote branches, all verified as already in `main`. The `admin-dashboard`
 worktree looks unmerged to `git merge-base` but was squash-merged as `f3b3dd8`;
@@ -114,6 +125,16 @@ Ordered by user impact.
   update at line 78 is unguarded.
 - **Timed-run leaderboard nudge fails silently.** `src/routes/quiz/timed/+page.svelte:76-79`.
   A failed rank lookup after a scored run shows the user nothing. Surface it.
+- **Keyset pagination can skip rows silently.** `src/lib/server/ai/history.ts`
+  pages on `updatedAt` alone via `lt(updatedAt, before)`, and `updatedAt` is a
+  plain ms-epoch integer with no uniqueness constraint. Two conversations
+  sharing a millisecond across a page boundary means the later one appears on no
+  page at all. Tie-break the cursor on `(updatedAt, id)`. This helper backs both
+  `/admin/ai` and the user-facing sidebar at `GET /api/ai/conversations`, where a
+  user silently losing their own conversation is the more visible failure.
+- **CSV export truncates at 10,000 rows with no way to reach the rest.** Covered
+  by the streaming decision above. Grouped here because the current behavior
+  loses access to data in a tool whose purpose is retrieving it.
 - **Screen readers miss both dynamic surfaces.** The ask transcript
   (`src/routes/ask/[[id]]/+page.svelte:194`) has no `aria-live`, so a streaming
   answer is never announced. The quiz reveal (`QuestionPlayer.svelte:134-148`,
@@ -152,10 +173,29 @@ Ordered by user impact.
   two unfiltered `selectDistinct` scans and the JavaScript `Set` union with a
   single counting query, and push day bucketing into `GROUP BY`. Add an index on
   `user.created_at`.
-- **Admin AI review.** `src/routes/admin/ai/+page.server.ts:12-22`. Replace the
-  unbounded derived-table joins with correlated per-row subqueries the existing
-  `(conversation_id, created_at)` index can serve. Add an index supporting the
-  `feedback = 'down'` filter.
+- **Admin AI review.** `src/routes/admin/ai/+page.server.ts:12-22`. The page is
+  already paginated, but `limit` bounds nothing that matters: `msgCount` groups
+  over all of `ai_messages` and `downFlag` scans every `feedback = 'down'` row,
+  both materialized before the join. Page 1 and page 50 cost the same full-table
+  pass. Replace the derived-table joins with correlated per-row subqueries the
+  existing `(conversation_id, created_at)` index can serve, and add an index
+  supporting the `feedback` filter. The query also orders by `updated_at`
+  globally with no user filter, which the `(user_id, updated_at)` index cannot
+  serve, so add `(updated_at)`.
+- **Admin AI review paging control.** `src/routes/admin/ai/+page.svelte:41-46`.
+  "Load more" is a link that navigates to a fresh page of the next 30 and
+  replaces the current rows rather than appending, with no previous link and no
+  position indicator. Relabel it and add backward navigation.
+- **Admin export page counts.** `src/routes/admin/export/+page.server.ts:6-13`
+  runs six full-table `COUNT(*)` queries per page load, one per dataset, via the
+  `total` helper in `datasets.ts:21-22`. Cache them briefly or drop exact counts.
+- **CSV export.** `src/lib/server/admin/datasets.ts` and
+  `src/lib/server/admin/csv.ts`. Implement the streaming, uncapped export from
+  the decisions above: `rows` gains a keyset cursor, `toCsv` yields rows instead
+  of joining them, and the route returns a `ReadableStream`. The global
+  `ORDER BY created_at DESC` in each dataset has no supporting index, so add
+  single-column indexes on `created_at` for `quiz_attempts`, `ai_messages`, and
+  `user`, and on `at` for `question_responses`.
 - **Attempt lookups.** Extend `quiz_attempts`'s `(user_id, created_at)` index to
   `(user_id, ruleset_id, mode, created_at)`, which covers the existing uses too.
 - **Session pruning cron.** `triggers.crons` in `wrangler.jsonc` plus a scheduled
@@ -225,6 +265,11 @@ Largest reductions first.
 - Concurrent duplicate submissions to `/api/timed/finish` and concurrent retries
   in `/api/ai/chat`, whose race-handling branches only sequential tests reach.
 - The conversation message cap and `/api/attempts`'s section-mismatch check.
+- Keyset paging across a tie: two rows sharing an `updatedAt` straddling a page
+  boundary must both appear. `history.ts` has tests today, but none covering
+  duplicate cursor values.
+- The streaming CSV export: a dataset larger than one internal chunk emits every
+  row exactly once, with the header emitted once.
 - Delete the `DIFFICULTY_LABELS[3]` assertion in `quiz/types.test.ts:27-29`,
   which restates a constant. It is the only test worth removing.
 
@@ -236,7 +281,9 @@ accepted risk rather than adding a live call to CI.
 
 - README corrections: the model is `gemini-3.6-flash`, not `gemini-3-flash-preview`
   (line 92); the bank holds 213 questions, not 212 (lines 10 and 185); the
-  roadmap omits the shipped Admin feature the README documents elsewhere.
+  roadmap omits the shipped Admin feature the README documents elsewhere; the
+  export description at line 126 must drop the 10,000-row cap once exports
+  stream.
 - Delete `src/lib/index.ts`, scaffold boilerplate never imported. Move
   `grid-pulse-lines.ts` beside its only consumer. Move `collectRuleIds` into
   `scripts/ingest/`, its only caller.
@@ -276,6 +323,14 @@ same wall further out. A prepaid balance with auto-reload off already bounds
 total spend. The tradeoff accepted: the global counter also limited how fast a
 runaway retry loop could drain the balance, so removal trades a slower drain for
 a faster one at the same total.
+
+**Streamed single-file exports rather than numbered parts.** The original design
+called for splitting exports across files past 10,000 rows, which was never
+built. Splitting existed to keep any one buffered file small, and streaming
+removes that constraint. A single file also cannot be partially collected, and
+avoids `OFFSET` paging, whose cost grows with depth so that later parts are
+slower than earlier ones. Rejected alternative: implement the numbered parts as
+originally intended.
 
 **No retention policy beyond sessions.** Archival or rollup of
 `question_responses` would mean choosing what history to discard permanently,
