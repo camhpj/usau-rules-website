@@ -1,0 +1,14 @@
+{
+	"autoMode": {
+		"environment": [
+			"$defaults",
+			"Primary use: development of usau-rules-website (\"Best Perspective\"), a SvelteKit app on Cloudflare Workers with D1 + Drizzle, better-auth, and Gemini-backed AI features.",
+			"Source control (replaces the default source control entry): github.com/camhpj/usau-rules-website. Pushes, PRs, and reads against that repository are routine, not exfiltration.",
+			"Package registry: npm (registry.npmjs.org). Installing already-declared dependencies (`npm ci`, bare `npm install`) is routine. Adding new packages (`npm install <package>`, `npm add`, and any other invocation that introduces a new dependency into package.json) requires explicit user confirmation each time — do not run these without asking first, as they have supply-chain implications.",
+			"Local development is routine and unrestricted: `npm run dev`, `wrangler dev` on 127.0.0.1:8787, Vitest, Playwright e2e against that local server, and the local D1 database (`npm run db:migrate:local`, `wrangler d1 execute --local`, `drizzle-kit generate`). The local D1 store under `.wrangler/state` is disposable — wiping and re-migrating it is expected, and the e2e suite does exactly that.",
+			"Production is gated: `wrangler deploy`, `npm run db:migrate:remote`, and any `wrangler d1` invocation with `--remote` act on the live usaurules.com worker and its production database. These require explicit user confirmation each time — never run them as an incidental step.",
+			"Secrets live in .dev.vars (gitignored, dev-only dummy values plus optional real Google OAuth and Gemini keys). Reading and editing .dev.vars is routine; never commit it or echo its contents into a PR, issue, or commit message.",
+			"Environment: this Claude Code session runs inside a sandboxed dev container with egress restricted to an allowlist."
+		]
+	}
+}

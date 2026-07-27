@@ -40,6 +40,8 @@ npm run dev                      # http://localhost:5173, hot-reloading
 
 Google sign-in requires real OAuth credentials in `.dev.vars` (`GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`) — see [Deploy](#deploy). Without them, the app still runs: everything except sign-in and its synced features works, and `ALLOW_TEST_SIGNIN=1` (set by default in `.dev.vars.example`, **never** set this in production) enables an email/password test sign-in used by e2e and local auth testing.
 
+A sandboxed dev container for running Claude Code against this repo lives in [`.devcontainer/`](.devcontainer/README.md) — egress is locked to an allowlist, and production commands (`wrangler deploy`, remote D1 migrations) are gated behind explicit confirmation. It's configured for worktree checkouts; see that README before opening the repo root in it.
+
 ## Content pipeline
 
 Rule content isn't fetched at request time — it's scraped and parsed once by an ingest script into structured JSON that's committed to the repo and read directly by the app.
