@@ -8,8 +8,17 @@ A SvelteKit app for exploring the USA Ultimate rules of ultimate and quizzing yo
 
 These apply to everything: chat replies, code comments, commit messages, PR bodies, and docs.
 
-- Write plain language, in the sense of the [US Plain Language Act](https://digital.gov/guides/plain-language).
+Write plain language, in the sense of the [US Plain Language Act](https://digital.gov/guides/plain-language). In practice:
+
+- Lead with the point. The first sentence of a paragraph carries it, and the rest supports it.
+- Use active voice and name the actor. "The worker rejects the request," not "requests are rejected."
+- Use a verb rather than a noun built from one. "Decide," not "make a determination."
+- Choose the common word. Keep a technical term where it is precise, and define it at first use when the reader may not know it.
 - Prefer short declarative sentences, one idea each. Vary the length. A short sentence after a long one gives the reader room to breathe.
+- Cut words that carry no information: "in order to," "it should be noted that," "very," "simply."
+
+Beyond sentence-level style:
+
 - Give every fact one home. Cross-reference it elsewhere rather than restating it.
 - Let detail track risk. Specify contracts, security boundaries, data invariants, and anything expensive to change later. For the rest, state the requirement and leave the approach open.
 - State decisions without defending them inline.
