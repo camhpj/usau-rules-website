@@ -67,6 +67,7 @@ test('feedback and citation chip deep-link into the rules', async ({ page, conte
 	await page.getByRole('button', { name: /start quiz/i }).click();
 	await page.getByTestId('choice').first().click();
 	await expect(page.getByText(/^correct$|^not quite$/i)).toBeVisible();
+	await expect(page.getByRole('status')).toContainText(/correct|not quite/i);
 
 	const citation = page.getByRole('link', { name: /↗/ }).first();
 	await expect(citation).toBeVisible();

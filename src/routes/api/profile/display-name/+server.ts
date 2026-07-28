@@ -7,6 +7,7 @@ import {
 	suggestDisplayName,
 	validateDisplayName
 } from '$lib/server/profile/display-name';
+import { isUniqueConstraintError } from '$lib/server/profile/errors';
 import { user } from '$lib/server/db/schema';
 import { requireUser } from '$lib/server/session';
 import type { Db } from '$lib/server/db';
@@ -65,7 +66,8 @@ export const PUT: RequestHandler = async (event) => {
 	// The unique index is the backstop for set-set races: retry once with a re-resolve.
 	try {
 		await db.update(user).set({ displayName: finalName }).where(eq(user.id, me.id));
-	} catch {
+	} catch (err) {
+		if (!isUniqueConstraintError(err)) throw err;
 		const retry = await resolveUniqueName(validated.name, taken);
 		if (!parsed.data.resolveConflict) {
 			return json(
@@ -75,7 +77,12 @@ export const PUT: RequestHandler = async (event) => {
 		}
 		if (!retry) error(409, 'that name is taken');
 		finalName = retry;
-		await db.update(user).set({ displayName: finalName }).where(eq(user.id, me.id));
+		try {
+			await db.update(user).set({ displayName: finalName }).where(eq(user.id, me.id));
+		} catch (retryErr) {
+			if (isUniqueConstraintError(retryErr)) error(409, 'that name is taken');
+			throw retryErr;
+		}
 	}
 	return json({ displayName: finalName });
 };

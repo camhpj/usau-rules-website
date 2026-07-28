@@ -40,6 +40,8 @@
 	let nudgeDismissed = $state(false);
 	let claimedName = $state<string | null>(null);
 	let myRank = $state<number | null>(null);
+	let boardError = $state<string | null>(null);
+	const BOARD_ERROR_MESSAGE = "Couldn't check the leaderboard — your score is saved.";
 
 	// Bumped on every start() so a late-resolving maybeNudge() chain from a
 	// prior run (e.g. "End run" → "Run it back" → "End run" in quick
@@ -65,7 +67,11 @@
 			if (gen !== runGeneration) return;
 			const board = LeaderboardResponseSchema.safeParse(await boardRes.json().catch(() => null));
 			if (gen !== runGeneration) return;
-			if (!boardRes.ok || !board.success) return;
+			if (!boardRes.ok || !board.success) {
+				if (gen === runGeneration) boardError = BOARD_ERROR_MESSAGE;
+				return;
+			}
+			boardError = null;
 			if (profile.data.displayName !== null) {
 				myRank = board.data.me?.rank ?? null;
 				return;
@@ -77,7 +83,10 @@
 			if (gen !== runGeneration) return; // final guard right before mutating state
 			if (rank <= LEADERBOARD_SIZE) nudge = { rank, suggestion: profile.data.suggestion };
 		} catch {
-			// network problems never touch the results screen
+			// A network-level failure (abort, DNS, CORS, etc). Same user-facing
+			// message as a bad response above — the user can't tell them apart
+			// and shouldn't have to.
+			if (gen === runGeneration) boardError = BOARD_ERROR_MESSAGE;
 		}
 	}
 
@@ -87,6 +96,7 @@
 		nudgeDismissed = false;
 		claimedName = null;
 		myRank = null;
+		boardError = null;
 		runToken = beginTimedRun(DEFAULT_RULESET_ID);
 		const rng = mulberry32(Date.now());
 		items = buildQuizItems(shuffle(bank, rng), rng);
@@ -262,6 +272,7 @@
 						>
 					</p>
 				{/if}
+				<p class="mt-2 text-sm text-navy/60" role="status" aria-live="polite">{boardError ?? ''}</p>
 				<div class="mt-4 flex gap-3">
 					<button
 						type="button"

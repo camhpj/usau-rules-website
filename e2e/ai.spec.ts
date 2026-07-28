@@ -134,6 +134,9 @@ test.describe('ask the rules (chat)', () => {
 		await page.getByRole('textbox', { name: 'Your message' }).fill('Is it a stall at ten?');
 		await page.getByRole('button', { name: /^send$/i }).click();
 		await expect(page.getByText(/that is a turnover/).first()).toBeVisible();
+		// The live region wraps only the in-flight answer, not the whole transcript
+		// — once the exchange settles into a message row, it goes quiet again.
+		await expect(page.locator('[aria-live="polite"]')).toHaveAttribute('aria-busy', 'false');
 		const link = page.getByRole('link', { name: '15.D' }).first();
 		await expect(link).toHaveAttribute('href', '/rules/usau-official-2026-27/15#15.D');
 		await expect(page).toHaveURL(/\/ask\/mock-convo-1$/);
@@ -321,8 +324,13 @@ test.describe('ask the rules (chat)', () => {
 		await page.getByRole('button', { name: /^send$/i }).click();
 		const stopButton = page.getByRole('button', { name: 'Stop', exact: true });
 		await expect(stopButton).toBeVisible();
+		// The 3s route delay above gives a real window to observe the live region
+		// busy while the answer is in flight, then quiet again once stop settles it.
+		const liveAnswer = page.locator('[aria-live="polite"]');
+		await expect(liveAnswer).toHaveAttribute('aria-busy', 'true');
 		await stopButton.click();
 		await expect(page.getByRole('button', { name: /^send$/i })).toBeVisible();
+		await expect(liveAnswer).toHaveAttribute('aria-busy', 'false');
 		await expect(page.getByText('Is it a stall at ten?')).toBeVisible(); // user bubble kept
 		await expect(page.getByRole('alert')).toHaveCount(0);
 	});
@@ -552,6 +560,10 @@ test.describe('conversation history (seeded D1)', () => {
 		await sidebar.getByText('Seeded convo 2', { exact: true }).click();
 		await expect(page.getByText('Seeded question 2')).toBeVisible();
 		await expect(page.getByText(/Seeded answer 2/)).toBeVisible();
+		// Opening a conversation clears then repopulates `messages` in one render —
+		// the live region must not have wrapped the loaded transcript, or a screen
+		// reader would hear the whole thing announced as if it just arrived.
+		await expect(page.locator('[aria-live="polite"]')).toBeEmpty();
 		await page.getByRole('button', { name: 'Good answer' }).click();
 		await expect
 			.poll(

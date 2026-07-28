@@ -122,16 +122,18 @@
 					</span>
 					<span class="min-w-0">{item.question.choices[choiceIndex]}</span>
 					{#if revealed && isCorrect}
-						<span class="ml-auto shrink-0 font-bold text-turf">✓</span>
+						<span class="ml-auto shrink-0 font-bold text-turf" aria-hidden="true">✓</span>
+						<span class="sr-only">Correct answer</span>
 					{:else if revealed && isChosen}
-						<span class="ml-auto shrink-0 font-bold text-cardinal">✗</span>
+						<span class="ml-auto shrink-0 font-bold text-cardinal" aria-hidden="true">✗</span>
+						<span class="sr-only">Your answer, incorrect</span>
 					{/if}
 				</button>
 			{/each}
 		</div>
 
 		{#if revealed && mode === 'standard'}
-			<div class="mt-5 rounded-lg bg-mist p-4">
+			<div class="mt-5 rounded-lg bg-mist p-4" role="status" aria-live="polite">
 				<p class="display text-lg {chosen === item.correctChoice ? 'text-turf' : 'text-cardinal'}">
 					{chosen === item.correctChoice ? 'Correct' : 'Not quite'}
 				</p>

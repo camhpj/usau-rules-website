@@ -208,19 +208,25 @@ class ChatStreamState {
 				else if (msg.t === 'truncated') truncated = true;
 				else if (msg.t === 'error') serverError = true;
 			};
-			for (;;) {
-				const { done, value } = await reader.read();
-				if (done) break;
-				this.#armStall(job);
-				lineBuffer += decoder.decode(value, { stream: true });
-				let newline: number;
-				while ((newline = lineBuffer.indexOf('\n')) !== -1) {
-					handleLine(lineBuffer.slice(0, newline));
-					lineBuffer = lineBuffer.slice(newline + 1);
+			try {
+				for (;;) {
+					const { done, value } = await reader.read();
+					if (done) break;
+					this.#armStall(job);
+					lineBuffer += decoder.decode(value, { stream: true });
+					let newline: number;
+					while ((newline = lineBuffer.indexOf('\n')) !== -1) {
+						handleLine(lineBuffer.slice(0, newline));
+						lineBuffer = lineBuffer.slice(newline + 1);
+					}
 				}
+				lineBuffer += decoder.decode();
+				handleLine(lineBuffer);
+			} finally {
+				// The abort controller normally tears this down; cancel explicitly so a
+				// non-abort throw cannot leave the reader holding its lock.
+				reader.cancel().catch(() => {});
 			}
-			lineBuffer += decoder.decode();
-			handleLine(lineBuffer);
 			if (serverError) {
 				const hasText = job.streamingText.trim();
 				this.#finish(job, hasText ? 'truncated' : 'error', messageId);

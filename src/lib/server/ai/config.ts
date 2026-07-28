@@ -26,3 +26,5 @@ export const AI_GLOBAL_DAILY = 200;
 export const AI_STREAM_NO_ANSWER_MAX_MS = 45_000;
 /** Watchdog: hard wall-clock cap on a single streaming response. */
 export const AI_STREAM_MAX_MS = 120_000;
+/** Watchdog: hard cap on a single non-streaming Gemini call, including cache creation. */
+export const AI_REQUEST_MAX_MS = 30_000;

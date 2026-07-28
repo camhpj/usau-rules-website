@@ -3,13 +3,30 @@ import { pageRows, parseHistoryQuery } from './history';
 
 describe('parseHistoryQuery', () => {
 	it('defaults to no cursor and limit 10', () => {
-		expect(parseHistoryQuery(new URLSearchParams())).toEqual({ before: null, limit: 10 });
+		expect(parseHistoryQuery(new URLSearchParams())).toEqual({
+			before: null,
+			beforeId: null,
+			limit: 10
+		});
 	});
 	it('parses a valid before cursor and limit', () => {
 		expect(parseHistoryQuery(new URLSearchParams('before=1752600000000&limit=25'))).toEqual({
 			before: 1752600000000,
+			beforeId: null,
 			limit: 25
 		});
+	});
+	it('parses a compound cursor', () => {
+		const params = new URLSearchParams('before=1700000000000&beforeId=abc');
+		expect(parseHistoryQuery(params)).toEqual({
+			before: 1700000000000,
+			beforeId: 'abc',
+			limit: 10
+		});
+	});
+	it('reports a null beforeId when the parameter is absent', () => {
+		const params = new URLSearchParams('before=1700000000000');
+		expect(parseHistoryQuery(params).beforeId).toBeNull();
 	});
 	it('ignores garbage, non-positive, and fractional cursors', () => {
 		expect(parseHistoryQuery(new URLSearchParams('before=abc')).before).toBeNull();

@@ -6,11 +6,20 @@ import { questionResponses, quizAttempts } from '$lib/server/db/schema';
 import { bankById, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
 
+// Clock skew allowance for a client whose time runs ahead of the server's.
+const CLOCK_SKEW_MS = 5 * 60 * 1000;
+
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const parsed = AttemptPayloadSchema.safeParse(await event.request.json().catch(() => null));
 	if (!parsed.success) error(400, 'invalid attempt payload');
 	const payload = parsed.data;
+
+	const now = Date.now();
+	if (payload.startedAt > now + CLOCK_SKEW_MS) error(400, 'startedAt is in the future');
+	if (payload.responses.some((r) => r.at > now + CLOCK_SKEW_MS)) {
+		error(400, 'response timestamp is in the future');
+	}
 
 	const bank = bankById(payload.rulesetId);
 	if (bank.size === 0) error(400, 'unknown ruleset');

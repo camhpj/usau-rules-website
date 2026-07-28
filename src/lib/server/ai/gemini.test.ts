@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { AI_STREAM_MAX_MS, AI_STREAM_NO_ANSWER_MAX_MS, GEMINI_MODEL } from './config';
+import {
+	AI_REQUEST_MAX_MS,
+	AI_STREAM_MAX_MS,
+	AI_STREAM_NO_ANSWER_MAX_MS,
+	GEMINI_MODEL
+} from './config';
 import {
 	ensureGroundingCache,
 	generateText,
@@ -47,6 +52,21 @@ function req(fetchImpl: typeof fetch, store: CacheStore, now = 1_000_000): Gemin
 		fetchImpl,
 		now: () => now
 	};
+}
+
+/** Never settles on its own; rejects once the caller's signal aborts (matches real fetch). */
+function hangingFetch(): typeof fetch {
+	return ((_url: RequestInfo | URL, init?: RequestInit) =>
+		new Promise<Response>((_resolve, reject) => {
+			const signal = init?.signal;
+			if (signal?.aborted) {
+				reject(signal.reason ?? new Error('aborted'));
+				return;
+			}
+			signal?.addEventListener('abort', () => reject(signal.reason ?? new Error('aborted')), {
+				once: true
+			});
+		})) as typeof fetch;
 }
 
 describe('ensureGroundingCache', () => {
@@ -113,6 +133,15 @@ describe('generateText', () => {
 			});
 		});
 		await expect(generateText(req(fetchMock as typeof fetch, store))).rejects.toThrow(/MAX_TOKENS/);
+	});
+
+	it('aborts when the upstream never responds', async () => {
+		vi.useFakeTimers();
+		const promise = generateText(req(hangingFetch(), memoryStore()));
+		const assertion = expect(promise).rejects.toThrow();
+		await vi.advanceTimersByTimeAsync(AI_REQUEST_MAX_MS + 1_000);
+		await assertion;
+		vi.useRealTimers();
 	});
 });
 
@@ -375,6 +404,14 @@ describe('streamText', () => {
 			expect(settled).toBe(true);
 			expect(output).toContain('"t":"error"');
 			expect(seen.outcomes).toEqual(['error']);
+		});
+
+		it('aborts when cache creation hangs before the stream opens', async () => {
+			vi.useFakeTimers();
+			const promise = streamText(req(hangingFetch(), memoryStore()));
+			const assertion = expect(promise).rejects.toThrow();
+			await vi.advanceTimersByTimeAsync(AI_STREAM_MAX_MS + 1_000);
+			await assertion;
 		});
 	});
 });

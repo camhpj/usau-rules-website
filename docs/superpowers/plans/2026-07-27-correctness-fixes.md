@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Fix the eight correctness bugs found by the codebase review, each with a regression test that fails before the fix.
+**Goal:** Fix the ten correctness bugs found by the codebase review, each with a regression test that fails before the fix.
 
 **Architecture:** Independent, mostly small fixes across the client storage layer, the Gemini client, pagination helpers, one API route, and two Svelte components. Tasks share no state and can be reviewed separately. Tranche 1 of five; see `docs/superpowers/specs/2026-07-27-codebase-improvement-design.md`.
 
@@ -85,21 +85,45 @@ Expected: FAIL. The second assertion receives only the first answer, because `ge
 
 - [ ] **Step 3: Write the implementation**
 
-Replace `writeRaw` in `src/lib/quiz/local.ts:21-28`:
+Track which keys hold an unpersisted newer value, and have `readRaw` prefer memory for exactly those. Do not delete the stored value.
+
+`readRaw`/`writeRaw` back two different things: quiz history under `bp:quiz:v1:*`, which `/api/sync` can rehydrate from D1, and the sync outbox under `bp:sync:v1:outbox`, which holds attempts with no server copy yet. Deleting a failed key would leave the outbox empty on the next reload, losing every queued attempt rather than just the newest one. Keeping the last value that genuinely persisted is strictly safer.
 
 ```ts
+const memory = new Map<string, string>();
+/** Keys whose memory value never reached localStorage, so storage holds something older. */
+const unpersisted = new Set<string>();
+
+/** Test-only: clears the in-memory fallback between tests. */
+export function __resetLocal(): void {
+	memory.clear();
+	unpersisted.clear();
+}
+```
+
+```ts
+export function readRaw(key: string): string | null {
+	// A failed write leaves an older value in storage; memory is authoritative until
+	// a write succeeds again.
+	if (unpersisted.has(key)) return memory.get(key) ?? null;
+	try {
+		const value = localStorage.getItem(key);
+		if (value !== null) return value;
+	} catch {
+		// localStorage unavailable or blocked — fall through to memory
+	}
+	return memory.get(key) ?? null;
+}
+
 export function writeRaw(key: string, value: string): void {
 	memory.set(key, value);
 	try {
 		localStorage.setItem(key, value);
+		unpersisted.delete(key);
 	} catch {
-		// Quota, unavailable, or blocked. The memory mirror holds the current value,
-		// but a stale entry under this key would win in readRaw, so drop it.
-		try {
-			localStorage.removeItem(key);
-		} catch {
-			// Storage is fully unavailable; readRaw already falls through to memory.
-		}
+		// Quota, unavailable, or blocked. Leave whatever is stored alone: for the sync
+		// outbox it is the only copy that survives a reload.
+		unpersisted.add(key);
 	}
 }
 ```
@@ -114,7 +138,7 @@ Expected: PASS, including the two pre-existing fallback tests at lines 80 and 93
 
 ```bash
 git add src/lib/quiz/local.ts src/lib/quiz/storage.test.ts
-git commit -m "fix(quiz): drop stale localStorage entry when a write hits quota"
+git commit -m "fix(quiz): track unpersisted keys instead of deleting on quota failure"
 ```
 
 ---
@@ -330,6 +354,7 @@ This helper backs both `/admin/ai` and the user-facing sidebar at `GET /api/ai/c
 - Modify: `src/routes/api/ai/conversations/+server.ts:10-24`
 - Modify: `src/routes/admin/ai/+page.server.ts:8,42,48`
 - Modify: `src/routes/admin/ai/+page.svelte:41-46` (cursor now has two parts)
+- Modify: `src/lib/ask/conversations.svelte.ts` (sidebar client — sends the `beforeId` cursor; without this change the server fix is unreachable from the sidebar)
 - Test: `src/lib/server/ai/history.test.ts`
 
 **Interfaces:**
@@ -754,14 +779,21 @@ Match the field lists to the existing interfaces exactly. If they differ from th
 
 - [ ] **Step 4: Validate in the fetch path**
 
-Replace `#fetchPage` in `src/lib/ask/conversations.svelte.ts:11-21`:
+Replace `#fetchPage` in `src/lib/ask/conversations.svelte.ts:11-21`. Task 3 already changed this method's signature to take both cursor parts and build the query with `URLSearchParams` — add the response validation on top of that shape rather than the single-argument, template-string version this task started from:
 
 ```ts
-async #fetchPage(before: number | null): Promise<ConversationListResponse | null> {
+async #fetchPage(
+	before: number | null,
+	beforeId: string | null
+): Promise<ConversationListResponse | null> {
 	try {
-		const res = await fetch(
-			before === null ? '/api/ai/conversations' : `/api/ai/conversations?before=${before}`
-		);
+		const params = new URLSearchParams();
+		if (before !== null) {
+			params.set('before', String(before));
+			if (beforeId !== null) params.set('beforeId', beforeId);
+		}
+		const query = params.toString();
+		const res = await fetch(`/api/ai/conversations${query ? `?${query}` : ''}`);
 		if (!res.ok) return null;
 		const parsed = ConversationListResponseSchema.safeParse(await res.json());
 		return parsed.success ? parsed.data : null;
@@ -877,7 +909,7 @@ Two dynamic surfaces update without announcing themselves. In `QuestionPlayer.sv
 **Files:**
 
 - Modify: `src/lib/components/quiz/QuestionPlayer.svelte:124-128,133-135`
-- Modify: `src/routes/ask/[[id]]/+page.svelte:194`
+- Modify: `src/routes/ask/[[id]]/+page.svelte:224-256`
 - Modify: `src/lib/components/DisplayNameClaim.svelte:57-63`
 - Test: `e2e/quiz.spec.ts`, `e2e/ai.spec.ts`
 
@@ -935,17 +967,32 @@ In `QuestionPlayer.svelte:133-135`:
 
 - [ ] **Step 5: Announce the streaming answer**
 
-In `src/routes/ask/[[id]]/+page.svelte:194`, add live-region attributes to the messages `<section>`:
+Putting `aria-live` on the messages `<section>` itself is the wrong approach: loading a saved conversation clears `messages` and repopulates it in one render, so a section-wide live region announces the entire transcript on every conversation open, not just the new answer. Scope the live region to the in-flight answer instead.
+
+In `src/routes/ask/[[id]]/+page.svelte`, after the `{#each messages as message}` block and before the closing `</section>`, wrap the existing `{#if activeJob}` block (the thinking indicator, the streaming answer, and the stall notice) in a `<div>` that carries the live-region attributes:
 
 ```svelte
-<section
-	bind:this={scrollEl}
-	aria-live="polite"
-	aria-busy={!!activeJob}
-	style="scrollbar-gutter: stable;"
+<div aria-live="polite" aria-busy={!!activeJob} class="space-y-5 {activeJob ? '' : '-mt-5'}">
+	{#if activeJob}
+		{#if !activeJob.streamingText}
+			<p class="flex items-center gap-2 text-sm text-navy/60 italic">
+				<!-- thinking indicator -->
+			</p>
+		{:else}
+			<AskAnswer answer={activeJob.streamingText} streaming={true} />
+		{/if}
+		{#if activeJob.stalled}
+			<p class="text-xs text-navy/50 italic">
+				Taking longer than usual — you can stop and ask again.
+			</p>
+		{/if}
+	{/if}
+</div>
 ```
 
-Keep every existing attribute and class expression on that element unchanged.
+Render the wrapper `<div>` itself unconditionally, with `{#if activeJob}` inside it rather than around it. Assistive tech needs the live region to already be in the DOM before its content changes; a region that appears at the same moment as its content is not reliably announced. History rows stay outside the wrapper, so they are never part of what gets announced.
+
+The wrapper is the section's last child, and the section uses Tailwind's `space-y-5`, which adds top margin to every child but the first. An idle wrapper has no visible content but still counts as a sibling, so it still picks up that margin and leaves a trailing gap under the last message row that isn't there today. The `-mt-5` on the idle wrapper cancels that margin through collapsing, and becomes a no-op once `activeJob` is truthy and the class switches away from it.
 
 - [ ] **Step 6: Label the display-name input**
 
@@ -1103,7 +1150,7 @@ try {
 
 Run: `npm run check && npm run build && npx playwright test e2e/ai.spec.ts`
 
-Expected: clean check and a passing suite. `e2e/ai.spec.ts` covers Stop mid-stream, navigating away, and network failure, which are exactly the paths this `finally` now runs on. There is no unit test for this module yet; the centralization and test plans add one.
+Expected: clean check and a passing suite. `e2e/ai.spec.ts` covers a Stop-button abort and a server-signalled mid-stream error, both of which exercise this `finally`. It has no case for a raw network drop — nothing in that file calls `route.abort()` — so the mid-stream network-drop branches stay untested end to end. That gap is intentional here: tranche 4 (Tests) adds a `chat-stream.svelte.ts` unit test with a stubbed `fetch`, which can simulate a dropped connection more reliably than Playwright can.
 
 - [ ] **Step 4: Commit**
 
@@ -1132,7 +1179,7 @@ Expected: every command exits zero. Unit tests should now number more than the 2
 
 - [ ] **Step 2: Confirm each fix has a test that would have caught it**
 
-Walk tasks 1 through 10 and confirm each has an accompanying test that fails without the fix. Tasks 10 relies on existing e2e coverage rather than a new test, which is deliberate and noted in that task.
+Walk tasks 1 through 10 and confirm each has an accompanying test that fails without the fix. Task 10 relies on existing e2e coverage for the abort and server-error paths rather than a new test; the mid-stream network-drop path is not covered here and is picked up by tranche 4 (Tests), as noted in that task.
 
 - [ ] **Step 3: Report**
 

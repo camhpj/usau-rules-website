@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 import type { Db } from '$lib/server/db';
 import { aiCache } from '$lib/server/db/schema';
 import {
+	AI_REQUEST_MAX_MS,
 	AI_STREAM_MAX_MS,
 	AI_STREAM_NO_ANSWER_MAX_MS,
 	CACHE_MIN_REMAINING_MS,
@@ -64,7 +65,8 @@ const cacheKey = (rulesetId: string) => `${GEMINI_MODEL}|${rulesetId}`;
 const userText = (text: string) => ({ role: 'user', parts: [{ text }] });
 
 async function createCache(
-	req: GeminiRequest
+	req: GeminiRequest,
+	signal?: AbortSignal
 ): Promise<{ name: string; expiresAt: number } | null> {
 	const f = req.fetchImpl ?? fetch;
 	const now = req.now?.() ?? Date.now();
@@ -77,7 +79,8 @@ async function createCache(
 			systemInstruction: { parts: [{ text: req.systemPolicy }] },
 			contents: [userText(req.grounding)],
 			ttl: `${CACHE_TTL_S}s`
-		})
+		}),
+		signal
 	}).catch(() => null);
 	if (!res?.ok) return null;
 	const data = (await res.json()) as { name?: string };
@@ -86,12 +89,15 @@ async function createCache(
 }
 
 /** Resolve a usable cached-rulebook name, creating/refreshing as needed. Null → call inline. */
-export async function ensureGroundingCache(req: GeminiRequest): Promise<string | null> {
+export async function ensureGroundingCache(
+	req: GeminiRequest,
+	signal?: AbortSignal
+): Promise<string | null> {
 	const key = cacheKey(req.rulesetId);
 	const now = req.now?.() ?? Date.now();
 	const existing = await req.store.get(key);
 	if (existing && existing.expiresAt - now > CACHE_MIN_REMAINING_MS) return existing.name;
-	const created = await createCache(req);
+	const created = await createCache(req, signal);
 	if (!created) return null;
 	await req.store.put(key, created.name, created.expiresAt);
 	return created.name;
@@ -139,11 +145,11 @@ async function callWithCacheFallback(
 	endpoint: string,
 	signal?: AbortSignal
 ): Promise<Response> {
-	const cacheName = await ensureGroundingCache(req);
+	const cacheName = await ensureGroundingCache(req, signal);
 	let res = await callGemini(req, endpoint, cacheName, signal);
 	if (cacheName && !res.ok && res.status >= 400 && res.status < 500) {
 		await req.store.del(cacheKey(req.rulesetId));
-		const fresh = await ensureGroundingCache(req);
+		const fresh = await ensureGroundingCache(req, signal);
 		res = await callGemini(req, endpoint, fresh, signal);
 	}
 	return res;
@@ -158,7 +164,17 @@ interface GeminiJson {
 
 /** Non-streaming call; returns the model text. Throws on any upstream failure. */
 export async function generateText(req: GeminiRequest): Promise<string> {
-	const res = await callWithCacheFallback(req, 'generateContent');
+	const abort = new AbortController();
+	const timer = setTimeout(
+		() => abort.abort(new Error('watchdog: Gemini request exceeded max duration')),
+		AI_REQUEST_MAX_MS
+	);
+	let res: Response;
+	try {
+		res = await callWithCacheFallback(req, 'generateContent', abort.signal);
+	} finally {
+		clearTimeout(timer);
+	}
 	if (!res.ok) throw new Error(`${res.status} from Gemini: ${(await res.text()).slice(0, 300)}`);
 	const data = (await res.json()) as GeminiJson;
 	const candidate = data.candidates?.[0];
@@ -232,17 +248,9 @@ export async function streamText(
 	observer?: StreamObserver
 ): Promise<ReadableStream<Uint8Array>> {
 	const abort = new AbortController();
-	const res = await callWithCacheFallback(req, 'streamGenerateContent?alt=sse', abort.signal);
-	if (!res.ok || !res.body) {
-		throw new Error(`${res.status} from Gemini: ${(await res.text()).slice(0, 300)}`);
-	}
-	const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
-	const extractor = new SseTextExtractor();
-	const encoder = new TextEncoder();
-	const line = (obj: unknown) => encoder.encode(JSON.stringify(obj) + '\n');
-
 	let outcome: StreamOutcome = 'complete';
 	let consumerCancelled = false;
+	// Armed before the upstream call so a hang in cache creation is covered too.
 	let noAnswerTimer: ReturnType<typeof setTimeout> | null = setTimeout(
 		() => abort.abort(new Error('watchdog: no answer text within budget')),
 		AI_STREAM_NO_ANSWER_MAX_MS
@@ -256,6 +264,22 @@ export async function streamText(
 		noAnswerTimer = null;
 		clearTimeout(hardTimer);
 	};
+
+	let res: Response;
+	try {
+		res = await callWithCacheFallback(req, 'streamGenerateContent?alt=sse', abort.signal);
+		if (!res.ok || !res.body) {
+			throw new Error(`${res.status} from Gemini: ${(await res.text()).slice(0, 300)}`);
+		}
+	} catch (err) {
+		clearTimers();
+		throw err;
+	}
+	const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+	const extractor = new SseTextExtractor();
+	const encoder = new TextEncoder();
+	const line = (obj: unknown) => encoder.encode(JSON.stringify(obj) + '\n');
+
 	// A test-seam fetch body may ignore the abort signal; racing read() against
 	// the signal guarantees the pump loop unblocks on abort regardless.
 	const aborted = new Promise<never>((_, reject) => {

@@ -59,6 +59,7 @@
 				bind:value
 				maxlength={30}
 				placeholder="Display name"
+				aria-label="Display name"
 				class="w-36 rounded-md border border-mist px-2 py-1 text-xs focus:border-navy/50 focus:outline-none"
 			/>
 			<button

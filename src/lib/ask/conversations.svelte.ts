@@ -1,20 +1,34 @@
-import type { ConversationListResponse, ConversationSummary } from '$lib/ai/payload';
+import {
+	ConversationListResponseSchema,
+	type ConversationListResponse,
+	type ConversationSummary
+} from '$lib/ai/payload';
 
 /** Sidebar conversation list. Optimistic delete, silent-degrading fetches. */
-class ConversationsState {
+export class ConversationsState {
 	list = $state<ConversationSummary[]>([]);
 	hasMore = $state(false);
 	loading = $state(true);
 	loadingMore = $state(false);
 	errorMessage = $state<string | null>(null);
 
-	async #fetchPage(before: number | null): Promise<ConversationListResponse | null> {
+	async #fetchPage(
+		before: number | null,
+		beforeId: string | null
+	): Promise<ConversationListResponse | null> {
 		try {
-			const res = await fetch(
-				before === null ? '/api/ai/conversations' : `/api/ai/conversations?before=${before}`
-			);
+			// updated_at is not unique, so beforeId breaks ties; it is meaningless
+			// without before, and the server ignores it if before is absent.
+			const params = new URLSearchParams();
+			if (before !== null) {
+				params.set('before', String(before));
+				if (beforeId !== null) params.set('beforeId', beforeId);
+			}
+			const query = params.toString();
+			const res = await fetch(`/api/ai/conversations${query ? `?${query}` : ''}`);
 			if (!res.ok) return null;
-			return (await res.json()) as ConversationListResponse;
+			const parsed = ConversationListResponseSchema.safeParse(await res.json());
+			return parsed.success ? parsed.data : null;
 		} catch {
 			return null;
 		}
@@ -22,7 +36,7 @@ class ConversationsState {
 
 	async load(): Promise<void> {
 		this.loading = true;
-		const page = await this.#fetchPage(null);
+		const page = await this.#fetchPage(null, null);
 		this.loading = false;
 		if (!page) {
 			this.errorMessage = "Couldn't load your conversations.";
@@ -38,7 +52,8 @@ class ConversationsState {
 	async loadMore(): Promise<void> {
 		if (this.loadingMore || this.list.length === 0) return;
 		this.loadingMore = true;
-		const page = await this.#fetchPage(this.list[this.list.length - 1].updatedAt);
+		const last = this.list[this.list.length - 1];
+		const page = await this.#fetchPage(last.updatedAt, last.id);
 		this.loadingMore = false;
 		if (!page) {
 			this.errorMessage = "Couldn't load your conversations.";

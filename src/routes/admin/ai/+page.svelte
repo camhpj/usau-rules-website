@@ -41,7 +41,9 @@
 		{#if data.hasMore}
 			<a
 				class="mt-3 inline-block cursor-pointer text-sm text-cardinal"
-				href="/admin/ai?{data.downOnly ? 'down=1&' : ''}before={data.nextBefore}">Load more</a
+				href="/admin/ai?{data.downOnly
+					? 'down=1&'
+					: ''}before={data.nextBefore}&beforeId={data.nextBeforeId}">Load more</a
 			>
 		{/if}
 	{/if}

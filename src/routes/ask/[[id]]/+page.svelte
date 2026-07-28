@@ -221,24 +221,39 @@
 				onretry={canRetry && message.id === lastMessage?.id ? retry : null}
 			/>
 		{/each}
-		{#if activeJob}
-			{#if !activeJob.streamingText}
-				<p class="flex items-center gap-2 text-sm text-navy/60 italic">
-					<span
-						class="inline-block h-2 w-2 animate-pulse rounded-full bg-cardinal/60"
-						aria-hidden="true"
-					></span>
-					{thoughtHeadline ? `Thinking — ${thoughtHeadline}` : 'Thinking…'}
-				</p>
-			{:else}
-				<AskAnswer answer={activeJob.streamingText} streaming={true} />
+		<!--
+			Live region for the in-flight answer only — never wrap the whole section.
+			Opening a conversation clears `messages` then repopulates it in one render,
+			so a section-wide aria-live would announce the entire loaded transcript.
+			Rendered unconditionally so assistive tech has the region before content
+			appears in it (a region added at the same time as its content is not
+			reliably announced). Idle, it's an empty node the {#if} below leaves with
+			no children — that would still count as a real DOM sibling and, being the
+			section's last child, would flip the previous message row out of
+			`:not(:last-child)` and onto `space-y-5`'s bottom margin, adding a trailing
+			gap that isn't there today. `-mt-5` when idle cancels exactly that margin
+			via collapsing; it's a no-op once the wrapper has content of its own.
+		-->
+		<div aria-live="polite" aria-busy={!!activeJob} class="space-y-5 {activeJob ? '' : '-mt-5'}">
+			{#if activeJob}
+				{#if !activeJob.streamingText}
+					<p class="flex items-center gap-2 text-sm text-navy/60 italic">
+						<span
+							class="inline-block h-2 w-2 animate-pulse rounded-full bg-cardinal/60"
+							aria-hidden="true"
+						></span>
+						{thoughtHeadline ? `Thinking — ${thoughtHeadline}` : 'Thinking…'}
+					</p>
+				{:else}
+					<AskAnswer answer={activeJob.streamingText} streaming={true} />
+				{/if}
+				{#if activeJob.stalled}
+					<p class="text-xs text-navy/50 italic">
+						Taking longer than usual — you can stop and ask again.
+					</p>
+				{/if}
 			{/if}
-			{#if activeJob.stalled}
-				<p class="text-xs text-navy/50 italic">
-					Taking longer than usual — you can stop and ask again.
-				</p>
-			{/if}
-		{/if}
+		</div>
 	</section>
 
 	<div class="border-t border-mist pt-4 pr-4 sm:pr-6">

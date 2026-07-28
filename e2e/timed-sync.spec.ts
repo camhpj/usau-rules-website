@@ -66,3 +66,37 @@ test('timed finish endpoint enforces token integrity, window, and replay', async
 	});
 	expect(replay.status()).toBe(409);
 });
+
+test('shows a notice when the leaderboard check fails after a run (network error)', async ({
+	page
+}) => {
+	await signUpTestUser(page, 'timedboard');
+	await page.route('**/api/leaderboard*', (route) => route.abort('failed'));
+	await page.goto('/quiz/timed');
+	await page.waitForLoadState('networkidle'); // hydration race — see quiz.spec.ts
+	await page.getByRole('button', { name: /^start$/i }).click();
+	for (let i = 0; i < 3; i++) {
+		await page.getByTestId('choice').first().click();
+		await page.waitForTimeout(750); // rapid mode auto-advances (~600ms)
+	}
+	await page.getByRole('button', { name: /end run/i }).click();
+	await expect(page.getByText(/time!/i)).toBeVisible();
+	await expect(page.getByText(/couldn't check the leaderboard/i)).toBeVisible();
+});
+
+test('shows a notice when the leaderboard check fails after a run (bad response)', async ({
+	page
+}) => {
+	await signUpTestUser(page, 'timedboard500');
+	await page.route('**/api/leaderboard*', (route) => route.fulfill({ status: 500, body: '' }));
+	await page.goto('/quiz/timed');
+	await page.waitForLoadState('networkidle'); // hydration race — see quiz.spec.ts
+	await page.getByRole('button', { name: /^start$/i }).click();
+	for (let i = 0; i < 3; i++) {
+		await page.getByTestId('choice').first().click();
+		await page.waitForTimeout(750); // rapid mode auto-advances (~600ms)
+	}
+	await page.getByRole('button', { name: /end run/i }).click();
+	await expect(page.getByText(/time!/i)).toBeVisible();
+	await expect(page.getByText(/couldn't check the leaderboard/i)).toBeVisible();
+});

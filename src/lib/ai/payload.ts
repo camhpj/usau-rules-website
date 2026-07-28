@@ -72,10 +72,22 @@ export interface ConversationSummary {
 	pending?: boolean;
 }
 
+export const ConversationSummarySchema: z.ZodType<ConversationSummary> = z.object({
+	id: z.string(),
+	title: z.string(),
+	updatedAt: z.number(),
+	pending: z.boolean().optional()
+});
+
 export interface ConversationListResponse {
 	conversations: ConversationSummary[];
 	hasMore: boolean;
 }
+
+export const ConversationListResponseSchema: z.ZodType<ConversationListResponse> = z.object({
+	conversations: z.array(ConversationSummarySchema),
+	hasMore: z.boolean()
+});
 
 export interface ChatMessage {
 	id: string;

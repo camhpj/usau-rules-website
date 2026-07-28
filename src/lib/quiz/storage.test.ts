@@ -90,6 +90,53 @@ describe('quiz storage', () => {
 		expect(loadResponses('r1')).toMatchObject([{ questionId: 'a', correct: true, at: 1 }]); // memory mirror
 	});
 
+	it('does not return stale localStorage data after a quota-exceeded write', () => {
+		const backing = fakeLocalStorage();
+		let failWrites = false;
+		(globalThis as { localStorage?: Storage }).localStorage = {
+			...backing,
+			getItem: (k: string) => backing.getItem(k),
+			setItem: (k: string, v: string) => {
+				if (failWrites) throw new DOMException('quota exceeded', 'QuotaExceededError');
+				backing.setItem(k, v);
+			},
+			removeItem: (k: string) => backing.removeItem(k)
+		} as Storage;
+
+		// First write succeeds and lands in localStorage.
+		recordAnswers('r1', [answer('a', true)], 1);
+		expect(loadResponses('r1')).toMatchObject([{ questionId: 'a', correct: true, at: 1 }]);
+
+		// Second write hits quota. The newer answer must still be readable.
+		failWrites = true;
+		recordAnswers('r1', [answer('b', false)], 2);
+		expect(loadResponses('r1')).toMatchObject([
+			{ questionId: 'a', correct: true, at: 1 },
+			{ questionId: 'b', correct: false, at: 2 }
+		]);
+	});
+
+	it('leaves the last persisted value in storage when a write fails', () => {
+		const backing = fakeLocalStorage();
+		let failWrites = false;
+		(globalThis as { localStorage?: Storage }).localStorage = {
+			...backing,
+			setItem: (k: string, v: string) => {
+				if (failWrites) throw new DOMException('quota exceeded', 'QuotaExceededError');
+				backing.setItem(k, v);
+			}
+		} as Storage;
+
+		recordAnswers('r1', [answer('a', true)], 1);
+		const persisted = backing.getItem('bp:quiz:v1:r1');
+		failWrites = true;
+		recordAnswers('r1', [answer('b', false)], 2);
+
+		// The failed write must not destroy the last good copy — it is the only one
+		// that survives a reload.
+		expect(backing.getItem('bp:quiz:v1:r1')).toBe(persisted);
+	});
+
 	it('falls back to memory when getItem throws (blocked storage)', () => {
 		(globalThis as { localStorage?: Storage }).localStorage = {
 			getItem: () => {
