@@ -81,9 +81,12 @@ build output today. Moving them to server load functions would un-prerender them
 and turn every page view into a Worker invocation plus a D1 query. Only the error
 handling is unified.
 
-**Sessions get a pruning cron.** A `triggers.crons` entry plus a scheduled
-handler deleting rows where `expires_at` has passed. This is the project's first
-scheduled Worker. Analytics tables are left alone.
+**Session pruning is deferred.** The plan was a `triggers.crons` entry plus a
+scheduled handler. Research during planning found no supported way to add one:
+`adapter-cloudflare` exposes no option for it, the generated `_worker.js` exports
+only `fetch`, and the adapter deletes and regenerates that file on every build.
+Every workaround costs more than the problem, which is years away at current
+traffic. See the decision log.
 
 **CSV exports stream in full, with no row cap.** Today the export returns the
 newest 10,000 rows and buffers the whole file into one string. Older rows are
@@ -162,11 +165,19 @@ Ordered by user impact.
 
 - **Load sections lazily.** `src/lib/content/load.ts:7-12`. Switch to a
   non-eager glob and parse only the requested ruleset and slug, memoized per
-  key. Removes 65KB gzipped from every rules page. `manifests.ts` keeps its
-  eager glob, since listing every ruleset is a genuine full scan of small data.
-- **Load questions lazily.** `src/lib/quiz/bank.ts:4-14`. Same change. Removes
-  roughly 56KB gzipped from every quiz page, and removes the cold-start Zod
-  validation of the whole bank.
+  key. The only caller is the section route's `+page.ts` load, so this needs no
+  UI change. Removes 65KB gzipped from every rules page. `manifests.ts` keeps
+  its eager glob, since listing every ruleset is a genuine full scan of small
+  data.
+- **Keep the question bank off the client entirely.** `src/lib/quiz/bank.ts`
+  moves under `src/lib/server/`, where SvelteKit's server-only enforcement makes
+  it impossible for client code to import the eager glob again. The three quiz
+  setup screens get their section counts from a server load function, and the
+  three gameplay modes fetch questions lazily when the user presses Start:
+  mastery and section-filtered quick quiz pull one section, timed and unfiltered
+  quick pull the whole bank. Removes roughly 56KB gzipped from every quiz page.
+  The cost is a brief loading state between Start and the first question, which
+  the four synchronous component call sites do not have today.
 - **Leaderboard index and cache.** Add a composite index on
   `(ruleset_id, mode, user_id, score, best_streak, created_at)` and cache the
   public entries at the edge for 30 to 60 seconds. The per-user row stays live,
@@ -201,8 +212,7 @@ Ordered by user impact.
   `user`, and on `at` for `question_responses`.
 - **Attempt lookups.** Extend `quiz_attempts`'s `(user_id, created_at)` index to
   `(user_id, ruleset_id, mode, created_at)`, which covers the existing uses too.
-- **Session pruning cron.** `triggers.crons` in `wrangler.jsonc` plus a scheduled
-  handler.
+Session pruning is not in this tranche; see the decision above.
 
 Index changes need a migration. `db:migrate:remote` applies to production and is
 a separate, deliberate step.
@@ -334,6 +344,16 @@ removes that constraint. A single file also cannot be partially collected, and
 avoids `OFFSET` paging, whose cost grows with depth so that later parts are
 slower than earlier ones. Rejected alternative: implement the numbered parts as
 originally intended.
+
+**Session pruning dropped rather than worked around.** Three approaches were
+considered and rejected. A custom worker entry that re-exports the adapter's
+`fetch` and adds `scheduled` is the most elegant, but it sits in the deploy path
+of the live site, so a mistake breaks the whole app rather than the cleanup. A
+separate cron Worker bound to the same database is safe but adds a second deploy
+target. Opportunistic pruning on a fraction of requests needs no infrastructure
+but puts cleanup work in a user-facing path. The session table grows by one row
+per sign-in, so the problem is years away. Revisit when D1 storage shows up in
+billing.
 
 **No retention policy beyond sessions.** Archival or rollup of
 `question_responses` would mean choosing what history to discard permanently,
