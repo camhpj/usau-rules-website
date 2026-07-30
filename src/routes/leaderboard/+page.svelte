@@ -31,24 +31,38 @@
 
 	const dateLabel = (at: number) =>
 		new Date(at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-	const showMeRow = $derived(
-		board?.me != null &&
-			!board.entries.some(
-				(e) => e.rank === board!.me!.rank && e.displayName === board!.me!.displayName
-			)
+
+	// `entries` comes from a shared cache that can be up to 60s stale; `me` is resolved live per
+	// request (see leaderboard/+server.ts) and can disagree with it — the caller's own row in
+	// `entries` may show an old rank, an old score, or both. Matching on rank + displayName (as
+	// this used to) assumes those two rows are drawn from the same snapshot, so it breaks in
+	// exactly the cases this fix is for: a changed rank makes the match fail, showing the player
+	// twice (stale row + fresh pin); an unchanged rank with only the score stale makes the match
+	// falsely succeed, hiding the fresh score behind the stale one. displayName is unique per
+	// user (see the `user_display_name_lower_idx` schema constraint), so it alone is enough to
+	// find the caller's row in `entries` regardless of whether its rank or score has drifted —
+	// and once found, we substitute `me`'s fresher fields into that same slot rather than
+	// trusting the stale ones.
+	const meIndexInEntries = $derived(
+		board?.me ? board.entries.findIndex((e) => e.displayName === board!.me!.displayName) : -1
 	);
+	const showMeRow = $derived(board?.me != null && meIndexInEntries === -1);
 
 	// Always LEADERBOARD_SIZE rows total — placeholders fill open slots (and the
 	// whole board while loading) so the card never changes height when data lands.
 	// When the caller's own rank falls outside the top LEADERBOARD_SIZE, the pinned
-	// "me" summary row (rendered after this list, see showMeRow below) needs a slot
+	// "me" summary row (rendered after this list, see showMeRow above) needs a slot
 	// of its own — reserve it by trimming the last visible entry, rather than
 	// appending an 11th row that would grow the table only after load resolves.
 	const rows = $derived<(LeaderboardEntry | null)[]>(
 		board
 			? (() => {
 					const capacity = showMeRow ? LEADERBOARD_SIZE - 1 : LEADERBOARD_SIZE;
-					const visible = board.entries.slice(0, capacity);
+					// The caller's own slot (if present) shows their live `me` data, not the
+					// possibly-stale entries row at that same position — see meIndexInEntries above.
+					const visible = board.entries
+						.slice(0, capacity)
+						.map((e, i) => (i === meIndexInEntries && board!.me ? board!.me : e));
 					return [...visible, ...Array(Math.max(0, capacity - visible.length)).fill(null)];
 				})()
 			: Array(LEADERBOARD_SIZE).fill(null)

@@ -81,6 +81,77 @@ test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
 	await expect(page.getByRole('button', { name: 'Bad answer', pressed: true })).toBeVisible();
 });
 
+test('AI review: paging (Next/Previous/position) round-trips through the URL', async ({ page }) => {
+	await signInAsAdmin(page);
+	const uid = (d1Select(`SELECT id FROM user WHERE email = '${ADMIN_EMAIL}'`)[0] as { id: string })
+		.id;
+
+	// 31 rows span two 30-row pages. `base` namespaces both the ids and the updated_at
+	// values to this run: distinct from every other spec's fixtures (small fixed
+	// timestamps) and, since Date.now() only grows, distinct from a prior run of this
+	// same test against the same persistent local D1 — so no cleanup is needed and a
+	// second run stays collision-free.
+	const base = Date.now();
+	const n = 31;
+	const title = (i: number) => `paging-test-${base}-${i}`;
+	const convId = (i: number) => `paging-conv-${base}-${i}`;
+
+	const conversations = Array.from(
+		{ length: n },
+		(_, i) =>
+			`('${convId(i)}','${uid}','usau-official-2026-27','${title(i)}',${base + i},${base + i})`
+	).join(',');
+	d1(
+		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ${conversations}`
+	);
+	// Every row also gets a 👎 message, so the ?down=1 filtered list spans the same
+	// two pages as the unfiltered one.
+	const messages = Array.from(
+		{ length: n },
+		(_, i) =>
+			`('paging-msg-${base}-${i}','${convId(i)}','assistant','ans','complete','down',${base + i})`
+	).join(',');
+	d1(
+		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ${messages}`
+	);
+
+	// Page 1: the 30 newest of the 31 seeded rows, "Page 1", no Previous.
+	await page.goto('/admin/ai');
+	await expect(page.getByRole('link', { name: title(30), exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: title(0), exact: true })).toHaveCount(0);
+	await expect(page.getByText('Page 1', { exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Previous' })).toHaveCount(0);
+
+	// Next: the 31st (oldest) row, "Page 2", Previous appears.
+	await page.getByRole('link', { name: 'Next' }).click();
+	await expect(page.getByRole('link', { name: title(0), exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: title(30), exact: true })).toHaveCount(0);
+	await expect(page.getByText('Page 2', { exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Previous' })).toBeVisible();
+	const page2Url = page.url();
+
+	// Reloading the page-2 URL directly reproduces the same rows and label: state
+	// lives in the URL, not client memory — the reason for choosing a cursor stack.
+	await page.goto(page2Url);
+	await expect(page.getByRole('link', { name: title(0), exact: true })).toBeVisible();
+	await expect(page.getByText('Page 2', { exact: true })).toBeVisible();
+
+	// Previous returns to page 1's original row set.
+	await page.getByRole('link', { name: 'Previous' }).click();
+	await expect(page.getByRole('link', { name: title(30), exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: title(0), exact: true })).toHaveCount(0);
+	await expect(page.getByText('Page 1', { exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Previous' })).toHaveCount(0);
+
+	// ?down=1 hrefs still carry the filter across Next and Previous.
+	await page.goto('/admin/ai?down=1');
+	const nextHref = await page.getByRole('link', { name: 'Next' }).getAttribute('href');
+	expect(nextHref).toContain('down=1');
+	await page.getByRole('link', { name: 'Next' }).click();
+	const prevHref = await page.getByRole('link', { name: 'Previous' }).getAttribute('href');
+	expect(prevHref).toContain('down=1');
+});
+
 test('export: users CSV omits secrets; endpoint 404s for non-admin', async ({ page }) => {
 	// non-admin gets 404 on the csv endpoint
 	await signUpTestUser(page, 'export-nonadmin');

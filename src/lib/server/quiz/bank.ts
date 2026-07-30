@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { QuestionSchema, type Question } from './types';
+import { QuestionSchema, type Question } from '$lib/quiz/types';
 
 const files = import.meta.glob('$content/questions/*/*.json', {
 	eager: true

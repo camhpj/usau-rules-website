@@ -122,8 +122,8 @@ Good ones graduate into `content/questions/` with a real `<section>-<nn>` id, hu
 A private, read-only admin area lives at `/admin` (dashboard, AI conversation
 review, CSV export). Access is an email allowlist: set `ADMIN_EMAILS`
 (comma-separated, case-insensitive) in `wrangler.jsonc` `vars` — anyone else,
-signed in or not, gets a 404. Exports are newest-first CSV capped at 10,000 rows
-per file; the `users` export includes only id, email, name, display name, and
+signed in or not, gets a 404. Exports are streamed, newest-first CSV files with
+no row cap; the `users` export includes only id, email, name, display name, and
 created-at (never sessions, tokens, or passwords).
 
 ## Persistence & auth

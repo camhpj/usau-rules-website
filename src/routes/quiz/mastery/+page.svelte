@@ -5,19 +5,19 @@
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { getManifest } from '$lib/content/manifests';
 	import type { TocEntry } from '$lib/content/types';
-	import { listQuestions, questionCountsBySection } from '$lib/quiz/bank';
+	import { loadSectionQuestions } from '$lib/quiz/bank-lazy';
 	import { buildQuizItems, mulberry32, type AnswerRecord, type QuizItem } from '$lib/quiz/engine';
 	import { computeSectionMastery, orderForMastery, type SectionMastery } from '$lib/quiz/mastery';
 	import { LEVEL_LABELS, LEVEL_STYLES } from '$lib/quiz/mastery-ui';
 	import { loadResponses, recordAnswers } from '$lib/quiz/storage';
 	import { buildAttemptPayload, enqueueAttempt } from '$lib/quiz/sync';
 
+	let { data } = $props();
+
 	const RUN_LENGTH = 10;
 
 	const manifest = getManifest(DEFAULT_RULESET_ID);
-	const bank = listQuestions(DEFAULT_RULESET_ID);
-	const counts = questionCountsBySection(DEFAULT_RULESET_ID);
-	const sections = manifest.sections.filter((s) => (counts.get(s.slug) ?? 0) > 0);
+	const sections = manifest.sections.filter((s) => (data.counts[s.slug] ?? 0) > 0);
 
 	let phase = $state<'grid' | 'playing' | 'done'>('grid');
 	let mastery = $state<Map<string, SectionMastery>>(new Map());
@@ -25,6 +25,8 @@
 	let items = $state<QuizItem[]>([]);
 	let records = $state<AnswerRecord[]>([]);
 	let startedAt = 0;
+	let loadingBank = $state(false);
+	let errorMessage = $state<string | null>(null);
 
 	function refresh() {
 		const responses = loadResponses(DEFAULT_RULESET_ID);
@@ -35,21 +37,26 @@
 		refresh();
 		const slug = new URLSearchParams(location.search).get('section');
 		const target = sections.find((s) => s.slug === slug);
-		if (target) startSection(target);
+		if (target) void startSection(target);
 	});
 
-	function startSection(section: TocEntry) {
-		const rng = mulberry32(Date.now());
-		const ordered = orderForMastery(
-			bank.filter((q) => q.sectionSlug === section.slug),
-			loadResponses(DEFAULT_RULESET_ID),
-			rng
-		);
-		items = buildQuizItems(ordered.slice(0, RUN_LENGTH), rng);
-		active = section;
-		records = [];
-		startedAt = Date.now();
-		phase = 'playing';
+	async function startSection(section: TocEntry) {
+		loadingBank = true;
+		errorMessage = null;
+		try {
+			const sectionBank = await loadSectionQuestions(DEFAULT_RULESET_ID, section.slug);
+			const rng = mulberry32(Date.now());
+			const ordered = orderForMastery(sectionBank, loadResponses(DEFAULT_RULESET_ID), rng);
+			items = buildQuizItems(ordered.slice(0, RUN_LENGTH), rng);
+			active = section;
+			records = [];
+			startedAt = Date.now();
+			phase = 'playing';
+		} catch {
+			errorMessage = "Couldn't load this section's questions — try again.";
+		} finally {
+			loadingBank = false;
+		}
 	}
 
 	function complete(finished: AnswerRecord[]) {
@@ -81,13 +88,22 @@
 			Miss a question and it comes back first next time. Answer 90% of a section's questions
 			correctly to master it.
 		</p>
+		{#if loadingBank}
+			<p class="mt-4 text-sm font-semibold tracking-wider text-white/60 uppercase">
+				Loading questions…
+			</p>
+		{/if}
+		{#if errorMessage}
+			<p class="mt-4 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+		{/if}
 		<div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
 			{#each sections as section (section.slug)}
 				{@const m = mastery.get(section.slug)}
 				<button
 					type="button"
+					disabled={loadingBank}
 					onclick={() => startSection(section)}
-					class="rounded-xl border p-4 text-left transition-transform hover:-translate-y-0.5 {LEVEL_STYLES[
+					class="rounded-xl border p-4 text-left transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 {LEVEL_STYLES[
 						m?.level ?? 'unseen'
 					]}"
 				>
@@ -120,11 +136,15 @@
 						{m.attempts} answers
 					</p>
 				{/if}
+				{#if errorMessage}
+					<p class="mt-3 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+				{/if}
 				<div class="mt-4 flex gap-3">
 					<button
 						type="button"
+						disabled={loadingBank}
 						onclick={() => startSection(active!)}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
+						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
 					>
 						Run it again
 					</button>

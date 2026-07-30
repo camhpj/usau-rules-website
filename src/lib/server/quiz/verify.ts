@@ -1,4 +1,4 @@
-import { listQuestions } from '$lib/quiz/bank';
+import { listQuestions } from '$lib/server/quiz/bank';
 import type { Question } from '$lib/quiz/types';
 
 /** Server-authoritative scoring: the client's idea of "correct" is never persisted. */

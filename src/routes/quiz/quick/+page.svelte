@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
+	import { loadAllQuestions, loadSectionQuestions } from '$lib/quiz/bank-lazy';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { getManifest } from '$lib/content/manifests';
-	import { listQuestions, questionCountsBySection } from '$lib/quiz/bank';
 	import {
 		buildQuizItems,
 		filterQuestions,
@@ -17,13 +17,13 @@
 	import { recordAnswers } from '$lib/quiz/storage';
 	import { DIFFICULTY_LABELS } from '$lib/quiz/types';
 
+	let { data } = $props();
+
 	const QUIZ_LENGTH = 10;
 	const DIFFICULTIES = [1, 2, 3] as const;
 
 	const manifest = getManifest(DEFAULT_RULESET_ID);
-	const bank = listQuestions(DEFAULT_RULESET_ID);
-	const counts = questionCountsBySection(DEFAULT_RULESET_ID);
-	const sections = manifest.sections.filter((s) => (counts.get(s.slug) ?? 0) > 0);
+	const sections = manifest.sections.filter((s) => (data.counts[s.slug] ?? 0) > 0);
 
 	let phase = $state<'setup' | 'playing' | 'done'>('setup');
 	let selectedSections = $state<string[]>([]);
@@ -31,15 +31,24 @@
 	let items = $state<QuizItem[]>([]);
 	let records = $state<AnswerRecord[]>([]);
 	let startedAt = 0;
+	let loadingBank = $state(false);
+	let errorMessage = $state<string | null>(null);
 
-	const pool = $derived(
-		filterQuestions(bank, { sections: selectedSections, difficulties: selectedDifficulties })
-	);
+	// Setup needs the match count before any question loads, so it comes from the
+	// server's section-by-difficulty breakdown rather than a fetched bank.
+	const matchCount = $derived.by(() => {
+		const sectionSlugs = selectedSections.length > 0 ? selectedSections : Object.keys(data.counts);
+		const difficulties = selectedDifficulties.length > 0 ? selectedDifficulties : [1, 2, 3];
+		return sectionSlugs.reduce((sum, slug) => {
+			const bySection = data.bySectionDifficulty[slug] ?? {};
+			return sum + difficulties.reduce((s, d) => s + (bySection[d] ?? 0), 0);
+		}, 0);
+	});
 
 	onMount(() => {
 		const preset = new URLSearchParams(location.search)
 			.getAll('section')
-			.filter((slug) => counts.has(slug));
+			.filter((slug) => Object.hasOwn(data.counts, slug));
 		if (preset.length > 0) selectedSections = preset;
 	});
 
@@ -55,12 +64,29 @@
 			: [...selectedDifficulties, d];
 	}
 
-	function start() {
-		const rng = mulberry32(Date.now());
-		items = buildQuizItems(shuffle(pool, rng).slice(0, QUIZ_LENGTH), rng);
-		records = [];
-		startedAt = Date.now();
-		phase = 'playing';
+	async function start() {
+		loadingBank = true;
+		errorMessage = null;
+		try {
+			const bank =
+				selectedSections.length > 0
+					? (
+							await Promise.all(
+								selectedSections.map((slug) => loadSectionQuestions(DEFAULT_RULESET_ID, slug))
+							)
+						).flat()
+					: await loadAllQuestions(DEFAULT_RULESET_ID);
+			const pool = filterQuestions(bank, { difficulties: selectedDifficulties });
+			const rng = mulberry32(Date.now());
+			items = buildQuizItems(shuffle(pool, rng).slice(0, QUIZ_LENGTH), rng);
+			records = [];
+			startedAt = Date.now();
+			phase = 'playing';
+		} catch {
+			errorMessage = "Couldn't load questions — try again.";
+		} finally {
+			loadingBank = false;
+		}
 	}
 
 	function complete(finished: AnswerRecord[]) {
@@ -124,13 +150,20 @@
 				{/each}
 			</div>
 
+			{#if errorMessage}
+				<p class="mt-4 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+			{/if}
 			<div class="mt-8 flex items-center justify-between border-t border-mist pt-5">
 				<p class="text-sm text-navy/60" aria-live="polite">
-					{pool.length} question{pool.length === 1 ? '' : 's'} match
+					{#if loadingBank}
+						Loading questions…
+					{:else}
+						{matchCount} question{matchCount === 1 ? '' : 's'} match
+					{/if}
 				</p>
 				<button
 					type="button"
-					disabled={pool.length === 0}
+					disabled={matchCount === 0 || loadingBank}
 					onclick={start}
 					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
 				>
@@ -145,11 +178,15 @@
 	{:else}
 		<div class="mt-8">
 			<QuizSummary {items} {records} rulesetId={DEFAULT_RULESET_ID}>
+				{#if errorMessage}
+					<p class="mt-3 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+				{/if}
 				<div class="mt-4 flex gap-3">
 					<button
 						type="button"
+						disabled={loadingBank}
 						onclick={start}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
+						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
 					>
 						Play again
 					</button>

@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
 import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
-import { questionCountsBySection } from '$lib/quiz/bank';
+import { questionCountsBySection } from '$lib/server/quiz/bank';
 import { computeSectionMastery } from '$lib/quiz/mastery';
 import { bookmarks, questionResponses, quizAttempts, user } from '$lib/server/db/schema';
 import { suggestDisplayName } from '$lib/server/profile/display-name';

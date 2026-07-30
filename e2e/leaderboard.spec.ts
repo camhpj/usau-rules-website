@@ -31,6 +31,89 @@ async function playTimedRun(page: import('@playwright/test').Page) {
 	await expect(page.getByRole('heading', { name: /time!/i })).toBeVisible();
 }
 
+// Regression test for the +page.svelte dedupe bug: it used to match the pinned "me" row against
+// `entries` on rank + displayName, which assumed both were drawn from the same snapshot. Once
+// `me` became a live per-request lookup (fix round 1) while `entries` stays on the 60s cache,
+// that assumption broke for a player who improves an already-cached score: a changed rank made
+// the match fail (rendered twice — stale row + fresh pin); an unchanged rank falsely "matched"
+// and hid the fresh score behind the stale one. This constructs exactly that: a first (low-score)
+// run that lands in the shared cache, then a second, strictly better run, live-visible before
+// that cache entry expires.
+//
+// Placed first in this file, before anything else touches /api/leaderboard: this suite always
+// boots a fresh dev server (see playwright.config.ts), so the first poll below is very likely
+// this process's first-ever request to the endpoint, guaranteeing a cache miss that bakes in the
+// first run's (low) score. The poll's generous timeout is a correctness fallback, not the
+// expected cost, for orderings where that assumption doesn't hold (e.g. run alongside other spec
+// files that reach this endpoint first) — it then genuinely waits out the 60s TTL instead.
+test('a player who improves an already-cached score is shown exactly once, with the fresh value', async ({
+	page
+}) => {
+	test.setTimeout(110_000);
+	const name = `Improver ${Date.now() % 100000}`;
+	await signUpTestUser(page, 'lb-improve');
+	expect((await setName(page, name)).ok()).toBeTruthy();
+
+	// Question 15-01's answerIndex is 1 (see content/questions/usau-official-2026-27/15.json),
+	// so choiceIndex 0 is a controlled wrong answer (score 0) and choiceIndex 1 a controlled
+	// right one (score 1) — deterministic, unlike the UI helper's "click the first choice".
+	const finishWith = async (choiceIndex: number) => {
+		const start = await page.request.post('/api/timed/start', { data: { rulesetId: RULESET } });
+		expect(start.ok()).toBeTruthy();
+		const { token } = (await start.json()) as { token: string };
+		await page.waitForTimeout(1100); // /api/timed/finish requires >=1s since the mint
+		const finish = await page.request.post('/api/timed/finish', {
+			data: { token, rulesetId: RULESET, responses: [{ questionId: '15-01', choiceIndex }] }
+		});
+		expect(finish.status()).toBe(201);
+		return (await finish.json()) as { score: number };
+	};
+
+	const first = await finishWith(0);
+	expect(first.score).toBe(0);
+
+	// Wait for the shared cache to actually bake in this (stale, score-0) row. Without this, the
+	// bug can't occur at all: it only shows up once `entries` already contains the player — a
+	// brand-new player absent from `entries` was already covered by the "sees a live rank" test
+	// above and doesn't exercise the dedupe match.
+	await expect
+		.poll(
+			async () => {
+				const res = await page.request.get('/api/leaderboard');
+				if (!res.ok()) return false;
+				const board = (await res.json()) as { entries: { displayName: string; score: number }[] };
+				return board.entries.some((e) => e.displayName === name && e.score === 0);
+			},
+			{ timeout: 75_000, intervals: [1000] }
+		)
+		.toBe(true);
+
+	// Second run: strictly better, and live-visible via `me` before the cache entry holding the
+	// score-0 row expires.
+	const second = await finishWith(1);
+	expect(second.score).toBe(1);
+
+	await expect
+		.poll(
+			async () => {
+				const res = await page.request.get('/api/leaderboard');
+				if (!res.ok()) return null;
+				const board = (await res.json()) as { me: { score: number } | null };
+				return board.me?.score ?? null;
+			},
+			{ timeout: 10_000 }
+		)
+		.toBe(1);
+
+	await page.goto('/leaderboard');
+	await page.waitForLoadState('networkidle');
+	// Exactly one row for this player — not the stale row plus a fresh pin, and not zero because
+	// the fresh pin got suppressed by a stale-but-matching row — showing the fresh score.
+	const playerRows = page.locator('tbody tr', { hasText: name });
+	await expect(playerRows).toHaveCount(1);
+	await expect(playerRows.locator('td').nth(2)).toHaveText('1');
+});
+
 test('signed out: board loads with empty state or entries, no me row', async ({ page }) => {
 	await page.goto('/leaderboard');
 	await page.waitForLoadState('networkidle');
@@ -38,31 +121,103 @@ test('signed out: board loads with empty state or entries, no me row', async ({ 
 	await expect(page.getByText(/you —/i)).toHaveCount(0);
 });
 
-test('claim via API + play run → row appears on the board', async ({ page }) => {
+// /api/leaderboard caches the shared `entries` for 60s (see leaderboard/+server.ts), but a
+// signed-in caller's own `me` row is resolved live (see the "sees a live rank" test below) — so
+// in practice this resolves within a few seconds. The generous poll timeout is a safety margin,
+// not an expected wait: it only gets exercised if the live lookup itself were ever broken, in
+// which case `me` would fall back to (eventually) reflecting the run once the cache naturally
+// refreshes. A second signed-in caller plays alongside the first so we can also confirm — the
+// security-relevant property from the task brief — that neither caller's `me` row leaked into
+// the other's response.
+test('claim via API + play run → row appears on the board; another caller never inherits it', async ({
+	page,
+	browser
+}) => {
+	// Generous margin over the 60s cache TTL in case the fast (live `me`) path is ever broken;
+	// see the comment above. The suite's default per-test timeout (30s) is too tight to allow for
+	// that fallback.
+	test.setTimeout(100_000);
 	const name = `Boarder ${Date.now() % 100000}`;
 	await signUpTestUser(page, 'lb-claim');
 	expect((await setName(page, name)).ok()).toBeTruthy();
 	await playTimedRun(page);
+
+	const context2 = await browser.newContext();
+	const page2 = await context2.newPage();
+	const name2 = `Boarder2 ${Date.now() % 100000}`;
+	await signUpTestUser(page2, 'lb-claim-2');
+	expect((await setName(page2, name2)).ok()).toBeTruthy();
+	await playTimedRun(page2);
+
 	// The "Time!" heading renders before submitTimedRun's POST /api/timed/finish resolves
-	// (fire-and-forget from the client) — poll the API for the write to land before asserting
-	// on the rendered page, rather than racing a single fetch against it.
+	// (fire-and-forget from the client), and the cache above may still be serving a pre-run
+	// snapshot — poll for both to have landed rather than racing a single fetch.
 	await expect
 		.poll(
 			async () => {
 				const res = await page.request.get('/api/leaderboard');
-				if (!res.ok()) return false;
-				const board = (await res.json()) as {
-					me: { displayName: string } | null;
-					entries: { displayName: string }[];
-				};
-				return board.me?.displayName === name || board.entries.some((e) => e.displayName === name);
+				if (!res.ok()) return null;
+				const board = (await res.json()) as { me: { displayName: string } | null };
+				return board.me?.displayName ?? null;
 			},
-			{ timeout: 10_000 }
+			{ timeout: 75_000, intervals: [1000] }
 		)
-		.toBe(true);
+		.toBe(name);
 	await page.goto('/leaderboard');
 	await page.waitForLoadState('networkidle');
 	await expect(page.getByText(name).first()).toBeVisible();
+
+	// The board is now cached fresh (page's last poll just repopulated it). page2's own request
+	// against that same shared entry must resolve its own row, never page's.
+	const res2 = await page2.request.get('/api/leaderboard');
+	const board2 = (await res2.json()) as { me: { displayName: string } | null };
+	expect(board2.me?.displayName).toBe(name2);
+
+	await context2.close();
+});
+
+// Product fix: a signed-in caller's `me` must reflect a run played in the last 60s even though
+// the shared `entries` snapshot can be that stale. Proven by comparing `entries` before and after
+// the run — they must stay byte-for-byte identical (the shared cache never saw this run) — while
+// `me` resolves within a few seconds, not the cache's TTL.
+test('signed-in caller sees a live rank for a run just played, even while cached entries stay stale', async ({
+	page
+}) => {
+	const before = await page.request.get('/api/leaderboard');
+	const boardBefore = (await before.json()) as { entries: unknown };
+
+	const name = `Fresh ${Date.now() % 100000}`;
+	await signUpTestUser(page, 'lb-live-rank');
+	expect((await setName(page, name)).ok()).toBeTruthy();
+	await playTimedRun(page);
+
+	// The "Time!" heading renders before submitTimedRun's POST /api/timed/finish resolves
+	// (fire-and-forget) — this short poll accounts for that write landing, not for the cache TTL:
+	// the live per-caller lookup means `me` should reflect the run within a few seconds.
+	await expect
+		.poll(
+			async () => {
+				const res = await page.request.get('/api/leaderboard');
+				if (!res.ok()) return null;
+				const board = (await res.json()) as { me: { displayName: string } | null };
+				return board.me?.displayName ?? null;
+			},
+			{ timeout: 10_000 }
+		)
+		.toBe(name);
+
+	const after = await page.request.get('/api/leaderboard');
+	const boardAfter = (await after.json()) as {
+		me: { displayName: string; rank: number } | null;
+		entries: unknown;
+	};
+	expect(boardAfter.me?.displayName).toBe(name);
+	expect(boardAfter.me?.rank).toBeGreaterThan(0);
+	// The cache warmed by the very first request above predates this run. If `me` came from that
+	// same cached snapshot rather than a live lookup, this run's row would have had to enter the
+	// shared cache to be visible here — which the security fix already rules out. Since `me`
+	// still resolves, and `entries` is unchanged, the live lookup is what's making this work.
+	expect(boardAfter.entries).toEqual(boardBefore.entries);
 });
 
 test('duplicate custom name 409s; resolveConflict appends a suffix', async ({ page, browser }) => {

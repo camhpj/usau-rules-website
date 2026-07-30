@@ -2,12 +2,13 @@
 	import { onMount } from 'svelte';
 	import { ScenarioQuotaSchema } from '$lib/ai/payload';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
-	import { listQuestions, questionCountsBySection } from '$lib/quiz/bank';
 	import { computeSectionMastery } from '$lib/quiz/mastery';
 	import { getTimedBest, loadResponses } from '$lib/quiz/storage';
 
-	const questionTotal = listQuestions(DEFAULT_RULESET_ID).length;
-	const sectionSlugs = [...questionCountsBySection(DEFAULT_RULESET_ID).keys()];
+	let { data } = $props();
+
+	const questionTotal = $derived(data.questionTotal);
+	const sectionSlugs = $derived(Object.keys(data.counts));
 
 	let masteredCount = $state<number | null>(null);
 	let bestScore = $state<number | null>(null);

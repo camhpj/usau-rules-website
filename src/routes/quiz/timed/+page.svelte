@@ -3,10 +3,10 @@
 	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
+	import { loadAllQuestions } from '$lib/quiz/bank-lazy';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { LEADERBOARD_SIZE, LeaderboardResponseSchema } from '$lib/leaderboard/payload';
 	import { DisplayNameStateSchema } from '$lib/profile/payload';
-	import { listQuestions } from '$lib/quiz/bank';
 	import {
 		buildQuizItems,
 		mulberry32,
@@ -22,8 +22,10 @@
 		type TimedBest
 	} from '$lib/quiz/storage';
 	import { beginTimedRun, submitTimedRun } from '$lib/quiz/sync';
+	import type { Question } from '$lib/quiz/types';
 
-	const bank = listQuestions(DEFAULT_RULESET_ID);
+	let loadingBank = $state(false);
+	let errorMessage = $state<string | null>(null);
 
 	let phase = $state<'intro' | 'running' | 'done'>('intro');
 	let items = $state<QuizItem[]>([]);
@@ -51,7 +53,13 @@
 
 	onMount(() => {
 		best = getTimedBest(DEFAULT_RULESET_ID);
-		return () => clearInterval(ticker);
+		return () => {
+			clearInterval(ticker);
+			// Invalidates any start() awaiting loadAllQuestions when the component is
+			// destroyed mid-fetch, so its post-await guard sees a stale generation and
+			// never starts a ticker on a torn-down component.
+			runGeneration += 1;
+		};
 	});
 
 	/** Server-accepted run → the player's board status for the results screen:
@@ -90,13 +98,30 @@
 		}
 	}
 
-	function start() {
+	async function start() {
 		runGeneration += 1;
+		const gen = runGeneration;
 		nudge = null;
 		nudgeDismissed = false;
 		claimedName = null;
 		myRank = null;
 		boardError = null;
+		errorMessage = null;
+		// The clock waits on the bank fetch, or the user loses run time to the network.
+		loadingBank = true;
+		let bank: Question[];
+		try {
+			bank = await loadAllQuestions(DEFAULT_RULESET_ID);
+		} catch {
+			if (gen === runGeneration) errorMessage = "Couldn't load questions — try again.";
+			return;
+		} finally {
+			if (gen === runGeneration) loadingBank = false;
+		}
+		if (gen !== runGeneration) return; // a newer start() fired while this one awaited
+		// Minted only now, once the bank is in hand: the server measures its finish
+		// window from this request, so starting it here keeps that window aligned
+		// with the clock below instead of also spending it on the download above.
 		runToken = beginTimedRun(DEFAULT_RULESET_ID);
 		const rng = mulberry32(Date.now());
 		items = buildQuizItems(shuffle(bank, rng), rng);
@@ -178,12 +203,16 @@
 				See the leaderboard →
 			</a>
 		</p>
+		{#if errorMessage}
+			<p class="mt-4 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+		{/if}
 		<button
 			type="button"
+			disabled={loadingBank}
 			onclick={start}
-			class="mt-8 rounded-full bg-cardinal px-8 py-3 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
+			class="mt-8 rounded-full bg-cardinal px-8 py-3 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
 		>
-			Start
+			{loadingBank ? 'Loading…' : 'Start'}
 		</button>
 	{:else if phase === 'running'}
 		<div
@@ -273,13 +302,17 @@
 					</p>
 				{/if}
 				<p class="mt-2 text-sm text-navy/60" role="status" aria-live="polite">{boardError ?? ''}</p>
+				{#if errorMessage}
+					<p class="mt-2 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+				{/if}
 				<div class="mt-4 flex gap-3">
 					<button
 						type="button"
+						disabled={loadingBank}
 						onclick={start}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
+						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
 					>
-						Run it back
+						{loadingBank ? 'Loading…' : 'Run it back'}
 					</button>
 					<a
 						href="/quiz"

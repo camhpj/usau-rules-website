@@ -380,6 +380,8 @@ Expected: PASS, four cases.
 
 `src/routes/quiz/mastery/+page.svelte` quizzes one section at a time. Read the file in full first. Where it currently reads `bank`, it should instead await `loadSectionQuestions(rulesetId, selectedSection)` at the moment the user starts that section, and show a loading state until it resolves.
 
+There are two entry points into starting a section, not one. Besides clicking the grid, an `onMount` at roughly line 36 calls `startSection()` directly when the URL carries `?section=<slug>`, which is how the "Quiz me on this section" shortcut on every rule page arrives. Both paths must load the bank. Putting the await inside `startSection` itself covers both; putting it only in the click handler leaves the deep link broken.
+
 Requirements for all three components in this task:
 
 - Add `let loadingBank = $state(false)` and set it around the await.
@@ -389,7 +391,29 @@ Requirements for all three components in this task:
 
 - [ ] **Step 6: Wire up quick quiz**
 
-`src/routes/quiz/quick/+page.svelte` lets the user filter by section and difficulty before starting. When a single section is selected, call `loadSectionQuestions` for just that one. When the filter is "all sections", call `loadAllQuestions`. Same loading and error requirements as step 5.
+Quick quiz needs more care than the other two. Its setup screen shows how many questions match the current filters, and it disables Start when that count is zero. Both read `pool.length`, which comes from the bank. If the bank is empty until Start, Start is permanently disabled and the mode is unreachable.
+
+So the match count must come from the counts payload, not the bank. Extend `src/routes/quiz/quick/+page.server.ts` to return counts broken down by section and difficulty:
+
+```ts
+// Setup needs match counts before any question loads, so the server sends the
+// breakdown rather than the questions themselves.
+export const load: PageServerLoad = () => {
+	const bySectionDifficulty: Record<string, Record<number, number>> = {};
+	for (const q of listQuestions(DEFAULT_RULESET_ID)) {
+		(bySectionDifficulty[q.sectionSlug] ??= {})[q.difficulty] =
+			(bySectionDifficulty[q.sectionSlug][q.difficulty] ?? 0) + 1;
+	}
+	// ...alongside the existing counts and questionTotal
+	return { counts, questionTotal, bySectionDifficulty };
+};
+```
+
+That payload is 23 sections by 3 difficulties, so tens of numbers rather than tens of kilobytes. Derive the match count and the Start button's disabled state from it.
+
+Then on Start: when one section is selected, call `loadSectionQuestions` for that section; when the filter is all sections, call `loadAllQuestions`. Same loading and error requirements as step 5.
+
+While you are in this file, fix a related bug the review of Task 2 found at roughly line 43: `slug in data.counts` walks the prototype chain, so `?section=toString` passes the filter and yields an empty pool. Use `Object.hasOwn(data.counts, slug)`.
 
 - [ ] **Step 7: Wire up timed**
 
@@ -489,15 +513,14 @@ Column order is load-bearing. `quiz_attempts_ruleset_mode_idx` leads with the tw
 Replace `index('quiz_attempts_user_created_idx').on(table.userId, table.createdAt)` with:
 
 ```ts
-index('quiz_attempts_user_created_idx').on(
-	table.userId,
-	table.rulesetId,
-	table.mode,
-	table.createdAt
-),
+index('quiz_attempts_user_created_idx').on(table.userId, table.rulesetId, table.createdAt),
 ```
 
-This still serves every query the old index served, because `user_id` remains the leading column, and it additionally covers the `/me` and `/api/sync` lookups that filter `ruleset_id` and `mode`. Keeping the name means drizzle-kit emits a drop and recreate rather than leaving an orphan.
+Keeping the name means drizzle-kit emits a drop and recreate rather than leaving an orphan.
+
+Do not add `mode` to this index. An earlier draft of this plan included it, on the theory that it would also serve the `/me` and `/api/sync` lookups filtering `ruleset_id` and `mode`. That was wrong twice over. Those lookups are already served, better, by `quiz_attempts_ruleset_mode_idx`. And `mode` sitting unconstrained between the equality filters and the sort key stops SQLite producing rows in `created_at` order, which forces a temp B-tree sort on the `/me` attempts list — a query the original two-column index served sort-free.
+
+The shape above keeps every current query sort-free. Record in a schema comment that a future query filtering `user_id` alone and sorting by `created_at` would hit the same hazard through `ruleset_id`. No such query exists today.
 
 - [ ] **Step 3: Generate the migration**
 

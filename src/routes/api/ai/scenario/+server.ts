@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 import { ScenarioRequestSchema } from '$lib/ai/payload';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
 import { ruleIdSet } from '$lib/content/rule-id-sets';
-import { listQuestions } from '$lib/quiz/bank';
+import { listQuestions } from '$lib/server/quiz/bank';
 import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL, SCENARIO_DAILY_PER_USER } from '$lib/server/ai/config';
 import { d1CacheStore, generateText } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';

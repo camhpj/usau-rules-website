@@ -2,6 +2,42 @@
 	import { timeAgo } from '$lib/time';
 	import ThumbIcon from '$lib/components/icons/ThumbIcon.svelte';
 	let { data } = $props();
+
+	/** Encode a page's fetch cursor as a single URL-safe token. */
+	function encodeCursor(before: number | null, beforeId: string | null): string {
+		return before === null ? 'start' : `${before}:${beforeId ?? ''}`;
+	}
+
+	/** Decode a token pushed by encodeCursor back into a cursor. */
+	function decodeCursor(token: string): { before: number | null; beforeId: string | null } {
+		if (token === 'start') return { before: null, beforeId: null };
+		const [before, beforeId] = token.split(':');
+		return { before: Number(before), beforeId: beforeId === '' ? null : beforeId };
+	}
+
+	function buildHref(before: number | null, beforeId: string | null, stack: string[]): string {
+		const params = new URLSearchParams();
+		if (data.downOnly) params.set('down', '1');
+		if (before !== null) {
+			params.set('before', String(before));
+			params.set('beforeId', beforeId ?? '');
+		}
+		if (stack.length) params.set('stack', stack.join(','));
+		return `/admin/ai?${params.toString()}`;
+	}
+
+	let nextHref = $derived(
+		buildHref(data.nextBefore, data.nextBeforeId, [
+			...data.stack,
+			encodeCursor(data.before, data.beforeId)
+		])
+	);
+	let prevHref = $derived.by(() => {
+		if (data.stack.length === 0) return null;
+		const prevStack = data.stack.slice(0, -1);
+		const { before, beforeId } = decodeCursor(data.stack[data.stack.length - 1]);
+		return buildHref(before, beforeId, prevStack);
+	});
 </script>
 
 <div class="rounded-lg border border-navy/10 bg-white p-4">
@@ -38,13 +74,14 @@
 				{/each}
 			</tbody>
 		</table>
-		{#if data.hasMore}
-			<a
-				class="mt-3 inline-block cursor-pointer text-sm text-cardinal"
-				href="/admin/ai?{data.downOnly
-					? 'down=1&'
-					: ''}before={data.nextBefore}&beforeId={data.nextBeforeId}">Load more</a
-			>
-		{/if}
+		<div class="mt-3 flex items-center gap-3 text-sm">
+			{#if prevHref}
+				<a class="cursor-pointer text-cardinal" href={prevHref}>Previous</a>
+			{/if}
+			{#if data.hasMore}
+				<a class="cursor-pointer text-cardinal" href={nextHref}>Next</a>
+			{/if}
+			<span class="text-navy/50">Page {data.pageNumber}</span>
+		</div>
 	{/if}
 </div>

@@ -110,6 +110,7 @@ test('play again restarts and change settings returns to setup', async ({ page }
 	// first click or it can land before the listener (and preset) are attached.
 	await page.waitForLoadState('networkidle');
 	await page.getByRole('button', { name: /start quiz/i }).click();
+	await expect(page.getByText(/question 1 of 4/i)).toBeVisible();
 	while (await page.getByTestId('choice').count()) {
 		await page.getByTestId('choice').first().click();
 		await page.getByRole('button', { name: /next question|see results/i }).click();

@@ -3,23 +3,23 @@ import type { PageServerLoad } from './$types';
 import { pageRows, parseHistoryQuery } from '$lib/server/ai/history';
 import { aiConversations, aiMessages, user } from '$lib/server/db/schema';
 
+/** Cursor stack from the URL: 'start' for page 1, else '<before>:<beforeId>'. */
+function parseStack(raw: string | null): string[] {
+	return raw ? raw.split(',').filter((entry) => entry.length > 0) : [];
+}
+
 export const load: PageServerLoad = async (event) => {
 	await event.parent();
 	const { before, beforeId, limit } = parseHistoryQuery(event.url.searchParams, 30);
 	const downOnly = event.url.searchParams.get('down') === '1';
+	const stack = parseStack(event.url.searchParams.get('stack'));
 	const db = event.locals.db;
 
-	const msgCount = db
-		.select({ conversationId: aiMessages.conversationId, n: sql<number>`count(*)`.as('n') })
-		.from(aiMessages)
-		.groupBy(aiMessages.conversationId)
-		.as('msg_count');
-	const downFlag = db
-		.select({ conversationId: aiMessages.conversationId, has: sql<number>`1`.as('has') })
-		.from(aiMessages)
-		.where(eq(aiMessages.feedback, 'down'))
-		.groupBy(aiMessages.conversationId)
-		.as('down_flag');
+	// Correlated subqueries, one per displayed row, instead of grouping all of
+	// ai_messages up front. Both ride ai_messages_convo_created_idx, so cost scales
+	// with the page size, not the table size.
+	const messagesCount = sql<number>`(select count(*) from ${aiMessages} where ${aiMessages.conversationId} = ${aiConversations.id})`;
+	const downExists = sql`exists (select 1 from ${aiMessages} where ${aiMessages.conversationId} = ${aiConversations.id} and ${aiMessages.feedback} = 'down')`;
 
 	let q = db
 		.select({
@@ -29,13 +29,11 @@ export const load: PageServerLoad = async (event) => {
 			updatedAt: aiConversations.updatedAt,
 			deletedAt: aiConversations.deletedAt,
 			email: user.email,
-			messages: sql<number>`coalesce(${msgCount.n}, 0)`,
-			hasDown: sql<number>`coalesce(${downFlag.has}, 0)`
+			messages: messagesCount,
+			hasDown: sql<number>`(select ${downExists})`
 		})
 		.from(aiConversations)
 		.innerJoin(user, eq(user.id, aiConversations.userId))
-		.leftJoin(msgCount, eq(msgCount.conversationId, aiConversations.id))
-		.leftJoin(downFlag, eq(downFlag.conversationId, aiConversations.id))
 		.$dynamic();
 
 	const conds = [];
@@ -51,8 +49,8 @@ export const load: PageServerLoad = async (event) => {
 					)!
 		);
 	}
-	if (downOnly) conds.push(sql`coalesce(${downFlag.has}, 0) = 1`);
-	if (conds.length) q = q.where(conds.length === 1 ? conds[0] : sql.join(conds, sql` and `));
+	if (downOnly) conds.push(downExists);
+	if (conds.length) q = q.where(and(...conds));
 
 	const rows = await q
 		.orderBy(desc(aiConversations.updatedAt), desc(aiConversations.id))
@@ -64,6 +62,10 @@ export const load: PageServerLoad = async (event) => {
 		hasMore,
 		nextBefore: last?.updatedAt ?? null,
 		nextBeforeId: last?.id ?? null,
-		downOnly
+		downOnly,
+		before,
+		beforeId,
+		stack,
+		pageNumber: stack.length + 1
 	};
 };

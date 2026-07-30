@@ -29,7 +29,10 @@ export const user = sqliteTable(
 			.$onUpdate(() => new Date())
 			.notNull()
 	},
-	(table) => [uniqueIndex('user_display_name_lower_idx').on(sql`lower(${table.displayName})`)]
+	(table) => [
+		uniqueIndex('user_display_name_lower_idx').on(sql`lower(${table.displayName})`),
+		index('user_created_idx').on(table.createdAt)
+	]
 );
 
 export const session = sqliteTable(
@@ -118,7 +121,27 @@ export const quizAttempts = sqliteTable(
 		durationS: integer('duration_s').notNull(),
 		createdAt: integer('created_at').notNull()
 	},
-	(table) => [index('quiz_attempts_user_created_idx').on(table.userId, table.createdAt)]
+	(table) => [
+		// (user_id, ruleset_id, created_at) — no `mode` in the middle. `mode` sat here
+		// once, between the equality filters and the sort key, and SQLite fell back to
+		// `USE TEMP B-TREE FOR ORDER BY` for the /me attempts query (user_id +
+		// ruleset_id equality, created_at desc): an unconstrained column between the
+		// seek columns and the sort key breaks the index's sort order.
+		// quiz_attempts_ruleset_mode_idx below already serves the ruleset+mode
+		// lookups that motivated widening this one. If a future query filters user_id
+		// alone and sorts by created_at, it will hit the same problem: ruleset_id
+		// would then be the unconstrained column between the filter and the sort key.
+		// No such query exists today.
+		index('quiz_attempts_user_created_idx').on(table.userId, table.rulesetId, table.createdAt),
+		index('quiz_attempts_ruleset_mode_idx').on(
+			table.rulesetId,
+			table.mode,
+			table.userId,
+			table.score,
+			table.bestStreak
+		),
+		index('quiz_attempts_created_idx').on(table.createdAt)
+	]
 );
 
 export const questionResponses = sqliteTable(
@@ -139,7 +162,8 @@ export const questionResponses = sqliteTable(
 		at: integer('at').notNull()
 	},
 	(table) => [
-		index('question_responses_user_ruleset_at_idx').on(table.userId, table.rulesetId, table.at)
+		index('question_responses_user_ruleset_at_idx').on(table.userId, table.rulesetId, table.at),
+		index('question_responses_at_idx').on(table.at)
 	]
 );
 
@@ -206,7 +230,10 @@ export const aiConversations = sqliteTable(
 		updatedAt: integer('updated_at').notNull(), // last-message time; drives sidebar ordering
 		deletedAt: integer('deleted_at') // ms epoch; NULL = visible (soft delete)
 	},
-	(table) => [index('ai_conversations_user_updated_idx').on(table.userId, table.updatedAt)]
+	(table) => [
+		index('ai_conversations_user_updated_idx').on(table.userId, table.updatedAt),
+		index('ai_conversations_updated_id_idx').on(table.updatedAt, table.id)
+	]
 );
 
 export const aiMessages = sqliteTable(
@@ -224,7 +251,11 @@ export const aiMessages = sqliteTable(
 		feedback: text('feedback', { enum: ['up', 'down'] }), // assistant only; NULL = none
 		createdAt: integer('created_at').notNull()
 	},
-	(table) => [index('ai_messages_convo_created_idx').on(table.conversationId, table.createdAt)]
+	(table) => [
+		index('ai_messages_convo_created_idx').on(table.conversationId, table.createdAt),
+		index('ai_messages_created_idx').on(table.createdAt),
+		index('ai_messages_feedback_idx').on(table.feedback)
+	]
 );
 
 export const aiCache = sqliteTable('ai_cache', {
