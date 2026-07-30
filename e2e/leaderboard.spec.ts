@@ -3,6 +3,20 @@ import { signUpTestUser } from './helpers';
 
 const RULESET = 'usau-official-2026-27';
 
+/**
+ * A display name that will not collide with one an earlier run already claimed.
+ *
+ * Display names persist in the local D1 between runs, so the suffix has to stay
+ * unique across them. `Date.now() % 100000` did not: it wraps every 100 seconds,
+ * and a collision makes the first claim 409 rather than the duplicate the test
+ * is actually about. Digits only, so a random suffix can never trip the
+ * profanity matcher and trade one flake for another.
+ */
+function uniqueName(prefix: string): string {
+	const stamp = Date.now() % 1_000_000_000; // wraps in ~11.6 days, not 100 seconds
+	return `${prefix} ${stamp}${Math.floor(Math.random() * 100)}`;
+}
+
 async function setName(
 	page: import('@playwright/test').Page,
 	displayName: string,
@@ -50,7 +64,7 @@ test('a player who improves an already-cached score is shown exactly once, with 
 	page
 }) => {
 	test.setTimeout(110_000);
-	const name = `Improver ${Date.now() % 100000}`;
+	const name = uniqueName('Improver');
 	await signUpTestUser(page, 'lb-improve');
 	expect((await setName(page, name)).ok()).toBeTruthy();
 
@@ -137,14 +151,14 @@ test('claim via API + play run → row appears on the board; another caller neve
 	// see the comment above. The suite's default per-test timeout (30s) is too tight to allow for
 	// that fallback.
 	test.setTimeout(100_000);
-	const name = `Boarder ${Date.now() % 100000}`;
+	const name = uniqueName('Boarder');
 	await signUpTestUser(page, 'lb-claim');
 	expect((await setName(page, name)).ok()).toBeTruthy();
 	await playTimedRun(page);
 
 	const context2 = await browser.newContext();
 	const page2 = await context2.newPage();
-	const name2 = `Boarder2 ${Date.now() % 100000}`;
+	const name2 = uniqueName('Boarder2');
 	await signUpTestUser(page2, 'lb-claim-2');
 	expect((await setName(page2, name2)).ok()).toBeTruthy();
 	await playTimedRun(page2);
@@ -186,7 +200,7 @@ test('signed-in caller sees a live rank for a run just played, even while cached
 	const before = await page.request.get('/api/leaderboard');
 	const boardBefore = (await before.json()) as { entries: unknown };
 
-	const name = `Fresh ${Date.now() % 100000}`;
+	const name = uniqueName('Fresh');
 	await signUpTestUser(page, 'lb-live-rank');
 	expect((await setName(page, name)).ok()).toBeTruthy();
 	await playTimedRun(page);
@@ -221,7 +235,7 @@ test('signed-in caller sees a live rank for a run just played, even while cached
 });
 
 test('duplicate custom name 409s; resolveConflict appends a suffix', async ({ page, browser }) => {
-	const base = `Dup ${Date.now() % 100000}`;
+	const base = uniqueName('Dup');
 	await signUpTestUser(page, 'lb-dup1');
 	expect((await setName(page, base)).ok()).toBeTruthy();
 
