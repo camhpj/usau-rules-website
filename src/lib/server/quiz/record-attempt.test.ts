@@ -3,22 +3,35 @@ import type { Db } from '$lib/server/db';
 import { questionResponses, quizAttempts } from '$lib/server/db/schema';
 import { recordAttempt, type RecordAttemptInput } from './record-attempt';
 
+// record-attempt.ts builds its dedup predicate with drizzle's `eq`. Replacing
+// it with a plain `{ column, value }` marker lets the fake below capture
+// exactly which column and value each `where()` call filtered by, without
+// depending on drizzle's internal SQL chunk representation.
+vi.mock('drizzle-orm', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('drizzle-orm')>();
+	return { ...actual, eq: (column: unknown, value: unknown) => ({ column, value }) };
+});
+
 /**
  * A fake `Db` covering only what `recordAttempt` touches: the
  * `select().from().where().limit()` dedup lookup, `insert().values()` (tagged
  * by which table it targets, so a test can assert batch order), and `batch`.
  * `selectResults` is consumed one array per call to `.limit()` — the pre-check
- * gets the first, a post-`batch` re-query (if any) gets the second.
+ * gets the first, a post-`batch` re-query (if any) gets the second. Every
+ * `where()` predicate is recorded, in order, so a test can pin which column
+ * and value each lookup filtered by.
  */
 function fakeDb(selectResults: Array<{ id: string }[]>, batchImpl: () => Promise<unknown>) {
 	let call = 0;
 	const batch = vi.fn((_writes: unknown[]) => batchImpl());
+	const wherePredicates: unknown[] = [];
 	const db = {
 		select() {
 			return {
 				from() {
 					return {
-						where() {
+						where(predicate: unknown) {
+							wherePredicates.push(predicate);
 							return {
 								async limit() {
 									const result = selectResults[Math.min(call, selectResults.length - 1)];
@@ -36,7 +49,7 @@ function fakeDb(selectResults: Array<{ id: string }[]>, batchImpl: () => Promise
 		},
 		batch
 	};
-	return { db: db as never as Db, batch };
+	return { db: db as never as Db, batch, wherePredicates };
 }
 
 function input(overrides: Partial<RecordAttemptInput> = {}): RecordAttemptInput {
@@ -83,7 +96,7 @@ describe('recordAttempt', () => {
 	});
 
 	it('resolves the insert race: batch throws a unique-constraint error, the re-query finds the winner', async () => {
-		const { db, batch } = fakeDb([[], [{ id: 'winner-id' }]], async () => {
+		const { db, batch, wherePredicates } = fakeDb([[], [{ id: 'winner-id' }]], async () => {
 			throw new Error('D1_ERROR: UNIQUE constraint failed: quiz_attempts.client_id');
 		});
 
@@ -91,6 +104,14 @@ describe('recordAttempt', () => {
 
 		expect(result).toEqual({ id: 'winner-id', duplicate: true });
 		expect(batch).toHaveBeenCalledTimes(1);
+		// Both the pre-check and the post-failure re-query must filter by the
+		// same column and clientId the insert attempted with. If the re-query
+		// filtered by the wrong column (or a different value), this would still
+		// let the wrong row be reported as the race winner.
+		expect(wherePredicates).toEqual([
+			{ column: quizAttempts.clientId, value: 'client-1' },
+			{ column: quizAttempts.clientId, value: 'client-1' }
+		]);
 	});
 
 	it('propagates a genuine batch failure when the re-query finds no row', async () => {
@@ -99,6 +120,9 @@ describe('recordAttempt', () => {
 			throw dbError;
 		});
 
-		await expect(recordAttempt(db, input())).rejects.toThrow(dbError);
+		// Identity, not just message: an implementation that wrapped and
+		// rethrew a new error with the same message would wrongly pass a
+		// message-only assertion, defeating the point of this test.
+		await expect(recordAttempt(db, input())).rejects.toBe(dbError);
 	});
 });
