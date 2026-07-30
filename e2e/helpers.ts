@@ -4,8 +4,13 @@ export function uniqueEmail(tag: string): string {
 	return `bp-${tag}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.com`;
 }
 
-/** The email allowlisted as admin in wrangler.jsonc vars (ADMIN_EMAILS). */
-export const ADMIN_EMAIL = 'camhpjohnson@gmail.com';
+/**
+ * The email allowlisted as admin. Must match ADMIN_EMAILS in `.dev.vars`, which
+ * overrides the production value in wrangler.jsonc. Deliberately not a real
+ * address: these tests create a password account for it, and doing that under a
+ * real Google address makes the next Google sign-in fail account_not_linked.
+ */
+export const ADMIN_EMAIL = 'admin@example.test';
 export const ADMIN_PASSWORD = 'test-password-123';
 
 /**
