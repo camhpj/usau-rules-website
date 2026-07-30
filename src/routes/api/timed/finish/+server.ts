@@ -3,15 +3,18 @@ import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { TIMED_DURATION_S, TIMED_GRACE_S, TimedFinishPayloadSchema } from '$lib/quiz/payload';
 import { questionResponses, quizAttempts } from '$lib/server/db/schema';
+import { parseJsonBody } from '$lib/server/http';
 import { verifyRunToken } from '$lib/server/quiz/run-token';
 import { bankById, recomputeTimed, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
 
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
-	const parsed = TimedFinishPayloadSchema.safeParse(await event.request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid timed payload');
-	const payload = parsed.data;
+	const payload = await parseJsonBody(
+		event.request,
+		TimedFinishPayloadSchema,
+		'invalid timed payload'
+	);
 
 	const claims = await verifyRunToken(payload.token, event.platform!.env.BETTER_AUTH_SECRET);
 	if (!claims || claims.userId !== user.id) error(400, 'invalid run token');

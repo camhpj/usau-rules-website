@@ -8,6 +8,7 @@ import {
 	validateDisplayName
 } from '$lib/server/profile/display-name';
 import { isUniqueConstraintError } from '$lib/server/profile/errors';
+import { parseJsonBody } from '$lib/server/http';
 import { user } from '$lib/server/db/schema';
 import { requireUser } from '$lib/server/session';
 import type { Db } from '$lib/server/db';
@@ -37,23 +38,26 @@ export const GET: RequestHandler = async (event) => {
 
 export const PUT: RequestHandler = async (event) => {
 	const me = await requireUser(event);
-	const parsed = PutDisplayNameSchema.safeParse(await event.request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid display-name payload');
+	const data = await parseJsonBody(
+		event.request,
+		PutDisplayNameSchema,
+		'invalid display-name payload'
+	);
 	const db = event.locals.db;
 
-	if (parsed.data.displayName === null) {
+	if (data.displayName === null) {
 		await db.update(user).set({ displayName: null }).where(eq(user.id, me.id));
 		return json({ displayName: null });
 	}
 
-	const validated = validateDisplayName(parsed.data.displayName);
+	const validated = validateDisplayName(data.displayName);
 	if (!validated.ok) error(400, validated.reason);
 
 	const taken = (candidate: string) => isTakenBy(db, candidate, me.id);
 	let finalName = validated.name;
 	if (await taken(finalName)) {
 		const resolved = await resolveUniqueName(finalName, taken);
-		if (!parsed.data.resolveConflict) {
+		if (!data.resolveConflict) {
 			return json(
 				{ suggestion: resolved ?? undefined, message: 'that name is taken' },
 				{ status: 409 }
@@ -69,7 +73,7 @@ export const PUT: RequestHandler = async (event) => {
 	} catch (err) {
 		if (!isUniqueConstraintError(err)) throw err;
 		const retry = await resolveUniqueName(validated.name, taken);
-		if (!parsed.data.resolveConflict) {
+		if (!data.resolveConflict) {
 			return json(
 				{ suggestion: retry ?? undefined, message: 'that name is taken' },
 				{ status: 409 }

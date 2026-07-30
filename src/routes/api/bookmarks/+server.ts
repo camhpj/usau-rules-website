@@ -4,6 +4,7 @@ import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
+import { parseJsonBody } from '$lib/server/http';
 import { bookmarks } from '$lib/server/db/schema';
 import { requireUser } from '$lib/server/session';
 
@@ -25,9 +26,7 @@ function validateTarget(rulesetId: string, ruleId: string): void {
 }
 
 async function parseBody(request: Request) {
-	const parsed = BodySchema.safeParse(await request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid bookmark payload');
-	return parsed.data;
+	return parseJsonBody(request, BodySchema, 'invalid bookmark payload');
 }
 
 export const GET: RequestHandler = async (event) => {

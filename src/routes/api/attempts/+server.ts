@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { AttemptPayloadSchema } from '$lib/quiz/payload';
 import { questionResponses, quizAttempts } from '$lib/server/db/schema';
+import { parseJsonBody } from '$lib/server/http';
 import { bankById, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
 
@@ -11,9 +12,11 @@ const CLOCK_SKEW_MS = 5 * 60 * 1000;
 
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
-	const parsed = AttemptPayloadSchema.safeParse(await event.request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid attempt payload');
-	const payload = parsed.data;
+	const payload = await parseJsonBody(
+		event.request,
+		AttemptPayloadSchema,
+		'invalid attempt payload'
+	);
 
 	const now = Date.now();
 	if (payload.startedAt > now + CLOCK_SKEW_MS) error(400, 'startedAt is in the future');

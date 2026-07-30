@@ -13,6 +13,7 @@ import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrai
 import { systemPolicy } from '$lib/server/ai/prompts';
 import { buildScenarioPrompt, draftToQuestion, validateScenario } from '$lib/server/ai/scenario';
 import { aiQuestions } from '$lib/server/db/schema';
+import { parseJsonBody } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const GET: RequestHandler = async (event) => {
@@ -27,9 +28,12 @@ export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const env = event.platform?.env;
 	if (!env || !aiAvailable(env)) error(503, 'AI features are currently offline');
-	const parsed = ScenarioRequestSchema.safeParse(await event.request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid scenario request');
-	const rulesetId = parsed.data.rulesetId ?? DEFAULT_RULESET_ID;
+	const data = await parseJsonBody(
+		event.request,
+		ScenarioRequestSchema,
+		'invalid scenario request'
+	);
+	const rulesetId = data.rulesetId ?? DEFAULT_RULESET_ID;
 	const grounding = groundingFor(rulesetId);
 	const ruleIds = ruleIdSet(rulesetId);
 	const bank = listQuestions(rulesetId);
@@ -73,7 +77,7 @@ export const POST: RequestHandler = async (event) => {
 		rulesetId,
 		systemPolicy: systemPolicy(rulesetId),
 		grounding,
-		taskPrompt: buildScenarioPrompt(parsed.data.difficulty, avoid),
+		taskPrompt: buildScenarioPrompt(data.difficulty, avoid),
 		generationConfig: {
 			responseMimeType: 'application/json',
 			temperature: 0.9,
@@ -104,16 +108,14 @@ export const POST: RequestHandler = async (event) => {
 			status: 'served',
 			question: JSON.stringify(question),
 			rejectedReasons: reasons.length > 0 ? reasons.join(' | ') : null,
-			requestedDifficulty: parsed.data.difficulty ?? null,
+			requestedDifficulty: data.difficulty ?? null,
 			createdAt: Date.now()
 		});
 		return json({ source: 'ai', question, remaining: decision.remaining });
 	}
 
 	// Both attempts failed — fall back to the bank (spec: validate → retry → fallback).
-	const pool = parsed.data.difficulty
-		? bank.filter((q) => q.difficulty === parsed.data.difficulty)
-		: bank;
+	const pool = data.difficulty ? bank.filter((q) => q.difficulty === data.difficulty) : bank;
 	const candidates = pool.length > 0 ? pool : bank;
 	const fallback = candidates[Math.floor(Math.random() * candidates.length)];
 	await db.insert(aiQuestions).values({
@@ -124,7 +126,7 @@ export const POST: RequestHandler = async (event) => {
 		status: 'fallback',
 		question: null,
 		rejectedReasons: reasons.join(' | '),
-		requestedDifficulty: parsed.data.difficulty ?? null,
+		requestedDifficulty: data.difficulty ?? null,
 		createdAt: Date.now()
 	});
 	return json({ source: 'fallback', question: fallback, remaining: decision.remaining });

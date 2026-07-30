@@ -20,6 +20,7 @@ import { groundingFor } from '$lib/server/ai/grounding';
 import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
 import { buildAskPrompt, systemPolicy } from '$lib/server/ai/prompts';
 import { aiConversations, aiMessages } from '$lib/server/db/schema';
+import { parseJsonBody } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const POST: RequestHandler = async (event) => {
@@ -29,19 +30,24 @@ export const POST: RequestHandler = async (event) => {
 	const db = event.locals.db;
 
 	// Discriminate retry bodies ({conversationId, retry: true}) from normal sends.
-	const raw = await event.request.json().catch(() => null);
-	const retryParse = ChatRetryPayloadSchema.safeParse(raw);
+	// Read the discriminator off a clone so the original body is still unread
+	// below, where parseJsonBody does its own read for the normal-send case.
+	const retryParse = ChatRetryPayloadSchema.safeParse(
+		await event.request
+			.clone()
+			.json()
+			.catch(() => null)
+	);
 	let userMessage: string | null = null; // null in retry mode
 	let bodyRulesetId: string | undefined;
 	let existingId: string | null;
 	if (retryParse.success) {
 		existingId = retryParse.data.conversationId;
 	} else {
-		const parsed = ChatPayloadSchema.safeParse(raw);
-		if (!parsed.success) error(400, 'invalid message');
-		userMessage = parsed.data.message;
-		bodyRulesetId = parsed.data.rulesetId;
-		existingId = parsed.data.conversationId ?? null;
+		const parsed = await parseJsonBody(event.request, ChatPayloadSchema, 'invalid message');
+		userMessage = parsed.message;
+		bodyRulesetId = parsed.rulesetId;
+		existingId = parsed.conversationId ?? null;
 	}
 
 	// Resolve the conversation: existing (owner-scoped, not deleted) or new.
