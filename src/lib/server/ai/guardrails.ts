@@ -1,4 +1,5 @@
 import { and, eq, sql, sum } from 'drizzle-orm';
+import { utcDay } from '$lib/time';
 import type { Db } from '$lib/server/db';
 import { aiUsage } from '$lib/server/db/schema';
 import { AI_GLOBAL_DAILY, ASK_DAILY_PER_USER, SCENARIO_DAILY_PER_USER } from './config';
@@ -12,10 +13,6 @@ const DAILY_CAPS: Record<AiKind, number> = {
 
 export type QuotaDecision =
 	{ allowed: true; remaining: number } | { allowed: false; reason: 'user-cap' | 'global-cap' };
-
-export function utcDay(now: number): string {
-	return new Date(now).toISOString().slice(0, 10);
-}
 
 /** Pure cap check; counts are from BEFORE the current request. */
 export function evaluateQuota(kind: AiKind, userCount: number, globalCount: number): QuotaDecision {

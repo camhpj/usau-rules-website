@@ -1,7 +1,8 @@
 import { and, count, eq, gte, sql, type SQL } from 'drizzle-orm';
 import type { Db } from '$lib/server/db';
 import { aiMessages, aiQuestions, aiUsage, quizAttempts, user } from '$lib/server/db/schema';
-import { fillDailyBuckets, ratio, utcDay } from './metrics-math';
+import { utcDay } from '$lib/time';
+import { fillDailyBuckets, ratio } from './metrics-math';
 
 export type DashboardMetrics = {
 	rangeDays: number;

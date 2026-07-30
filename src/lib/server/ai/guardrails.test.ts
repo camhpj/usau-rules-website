@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { utcDay } from '$lib/time';
 import { ASK_DAILY_PER_USER, AI_GLOBAL_DAILY } from './config';
 import {
 	aiAvailable,
 	consumeQuota,
 	evaluateQuota,
-	utcDay,
 	type AiKind,
 	type UsageStore
 } from './guardrails';

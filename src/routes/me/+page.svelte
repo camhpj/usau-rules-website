@@ -2,6 +2,7 @@
 	import { untrack } from 'svelte';
 	import Chip from '$lib/components/Chip.svelte';
 	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
+	import { utcDay } from '$lib/time';
 	let { data } = $props();
 
 	// Local, optimistically-updated mirror of the claimed display name so saves/removal reflect
@@ -19,11 +20,10 @@
 	// Day labels are derived from `data.now` (serialized with the load) rather than the client
 	// clock, so server and client agree on "Today" during hydration. Both sides slice the UTC
 	// ISO date, so this is stable regardless of the viewer's timezone.
-	const isoDay = (ms: number) => new Date(ms).toISOString().slice(0, 10);
-	const today = $derived(isoDay(data.now));
-	const yesterday = $derived(isoDay(data.now - 24 * 60 * 60 * 1000));
+	const today = $derived(utcDay(data.now));
+	const yesterday = $derived(utcDay(data.now - 24 * 60 * 60 * 1000));
 	const dayLabel = (ms: number) => {
-		const d = isoDay(ms);
+		const d = utcDay(ms);
 		if (d === today) return 'Today';
 		if (d === yesterday) return 'Yesterday';
 		return d;

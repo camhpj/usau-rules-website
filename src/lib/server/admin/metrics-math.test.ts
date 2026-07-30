@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { fillDailyBuckets, ratio, utcDay } from './metrics-math';
+import { utcDay } from '$lib/time';
+import { fillDailyBuckets, ratio } from './metrics-math';
 
 const T = Date.UTC(2026, 6, 17, 12, 0, 0); // 2026-07-17T12:00Z
 
