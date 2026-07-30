@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { and, asc, eq, isNull } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import {
 	ChatPayloadSchema,
@@ -15,6 +15,7 @@ import {
 	type RetryTarget
 } from '$lib/server/ai/chat';
 import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL } from '$lib/server/ai/config';
+import { getOwnedConversation } from '$lib/server/ai/conversations';
 import { d1CacheStore, streamText, type StreamOutcome } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
 import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
@@ -50,19 +51,9 @@ export const POST: RequestHandler = async (event) => {
 	let priorTurns: { role: 'user' | 'model'; text: string }[] = [];
 	let retryTarget: RetryTarget | null = null;
 	if (existingId) {
-		const convos = await db
-			.select({ id: aiConversations.id, rulesetId: aiConversations.rulesetId })
-			.from(aiConversations)
-			.where(
-				and(
-					eq(aiConversations.id, existingId),
-					eq(aiConversations.userId, user.id),
-					isNull(aiConversations.deletedAt)
-				)
-			)
-			.limit(1);
-		if (!convos[0]) error(404, 'conversation not found'); // no existence oracle
-		rulesetId = convos[0].rulesetId; // body rulesetId is ignored for existing conversations
+		const convo = await getOwnedConversation(db, existingId, user.id);
+		if (!convo) error(404, 'conversation not found'); // no existence oracle
+		rulesetId = convo.rulesetId; // body rulesetId is ignored for existing conversations
 		const prior = await db
 			.select({
 				id: aiMessages.id,

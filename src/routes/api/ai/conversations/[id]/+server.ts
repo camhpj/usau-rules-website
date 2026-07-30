@@ -1,7 +1,8 @@
 import { error, json } from '@sveltejs/kit';
-import { and, asc, eq, isNull } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import type { ConversationDetail } from '$lib/ai/payload';
+import { getOwnedConversation } from '$lib/server/ai/conversations';
 import { aiConversations, aiMessages } from '$lib/server/db/schema';
 import { requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
@@ -9,22 +10,8 @@ import { requireUser } from '$lib/server/session';
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const db = requireDb(event.locals);
-	const convos = await db
-		.select({
-			id: aiConversations.id,
-			title: aiConversations.title,
-			rulesetId: aiConversations.rulesetId
-		})
-		.from(aiConversations)
-		.where(
-			and(
-				eq(aiConversations.id, event.params.id),
-				eq(aiConversations.userId, user.id),
-				isNull(aiConversations.deletedAt)
-			)
-		)
-		.limit(1);
-	if (!convos[0]) error(404, 'conversation not found'); // no existence oracle
+	const convo = await getOwnedConversation(db, event.params.id, user.id);
+	if (!convo) error(404, 'conversation not found'); // no existence oracle
 	const messages = await db
 		.select({
 			id: aiMessages.id,
@@ -35,9 +22,9 @@ export const GET: RequestHandler = async (event) => {
 			createdAt: aiMessages.createdAt
 		})
 		.from(aiMessages)
-		.where(eq(aiMessages.conversationId, convos[0].id))
+		.where(eq(aiMessages.conversationId, convo.id))
 		.orderBy(asc(aiMessages.createdAt));
-	const detail = { ...convos[0], messages } satisfies ConversationDetail;
+	const detail = { ...convo, messages } satisfies ConversationDetail;
 	return json(detail);
 };
 
@@ -45,15 +32,14 @@ export const GET: RequestHandler = async (event) => {
 export const DELETE: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const db = requireDb(event.locals);
-	await db
-		.update(aiConversations)
-		.set({ deletedAt: Date.now() })
-		.where(
-			and(
-				eq(aiConversations.id, event.params.id),
-				eq(aiConversations.userId, user.id),
-				isNull(aiConversations.deletedAt)
-			)
-		);
+	// Ownership + not-already-deleted is enforced by getOwnedConversation's WHERE
+	// clause; once it returns a row, scoping the update by id alone is safe.
+	const convo = await getOwnedConversation(db, event.params.id, user.id);
+	if (convo) {
+		await db
+			.update(aiConversations)
+			.set({ deletedAt: Date.now() })
+			.where(eq(aiConversations.id, convo.id));
+	}
 	return json({ ok: true }); // idempotent; no existence oracle
 };
