@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+// RuleNode keeps its hand-written interface: it is self-referential
+// (children: RuleNode[]) and z.lazy cannot infer a recursive type without an
+// explicit z.ZodType<RuleNode> annotation to break the circular inference.
+// Do not convert this one to z.infer.
 export interface RuleNode {
 	id: string; // "15.A.3", "B1.G.1"
 	label: string; // display label as printed, e.g. "15.A.3."
@@ -8,37 +12,6 @@ export interface RuleNode {
 	annotations: string[]; // official annotations, [[..]] markers stripped
 	refs: string[]; // rule/section ids this rule links to
 	children: RuleNode[];
-}
-export interface Section {
-	slug: string; // "1".."23" | "preface" | "appendix-a".."appendix-g"
-	anchorId: string; // source anchor: "1" | "preface" | "appendix_a"
-	number: string | null; // "1".."23" | "A".."G" | null (preface)
-	kind: 'preface' | 'section' | 'appendix';
-	title: string; // "Introduction", "Field Diagram"
-	html: string | null; // section-level non-rule content (preface body, appendix tables)
-	rules: RuleNode[];
-}
-export interface TocEntry {
-	slug: string;
-	number: string | null;
-	kind: Section['kind'];
-	title: string;
-	ruleCount: number;
-}
-export interface Manifest {
-	id: string;
-	title: string;
-	shortTitle: string;
-	edition: string;
-	sourceUrl: string;
-	sectionScheme: 'numeric' | 'alpha';
-	fetchedAt: string;
-	sections: TocEntry[];
-}
-export interface GlossaryEntry {
-	ruleId: string;
-	term: string;
-	definition: string;
 }
 
 export const RuleNodeSchema: z.ZodType<RuleNode> = z.lazy(() =>
@@ -55,25 +28,32 @@ export const RuleNodeSchema: z.ZodType<RuleNode> = z.lazy(() =>
 
 const sectionKind = z.enum(['preface', 'section', 'appendix']);
 
-export const SectionSchema: z.ZodType<Section> = z.object({
+export const SectionSchema = z.object({
+	// "1".."23" | "preface" | "appendix-a".."appendix-g"
 	slug: z.string().min(1),
+	// source anchor: "1" | "preface" | "appendix_a"
 	anchorId: z.string().min(1),
+	// "1".."23" | "A".."G" | null (preface)
 	number: z.string().min(1).nullable(),
 	kind: sectionKind,
+	// "Introduction", "Field Diagram"
 	title: z.string().min(1),
+	// section-level non-rule content (preface body, appendix tables)
 	html: z.string().nullable(),
 	rules: z.array(RuleNodeSchema)
 });
+export type Section = z.infer<typeof SectionSchema>;
 
-export const TocEntrySchema: z.ZodType<TocEntry> = z.object({
+export const TocEntrySchema = z.object({
 	slug: z.string().min(1),
 	number: z.string().min(1).nullable(),
 	kind: sectionKind,
 	title: z.string().min(1),
 	ruleCount: z.number()
 });
+export type TocEntry = z.infer<typeof TocEntrySchema>;
 
-export const ManifestSchema: z.ZodType<Manifest> = z.object({
+export const ManifestSchema = z.object({
 	id: z.string().min(1),
 	title: z.string().min(1),
 	shortTitle: z.string().min(1),
@@ -83,9 +63,11 @@ export const ManifestSchema: z.ZodType<Manifest> = z.object({
 	fetchedAt: z.iso.datetime(),
 	sections: z.array(TocEntrySchema)
 });
+export type Manifest = z.infer<typeof ManifestSchema>;
 
-export const GlossaryEntrySchema: z.ZodType<GlossaryEntry> = z.object({
+export const GlossaryEntrySchema = z.object({
 	ruleId: z.string().min(1),
 	term: z.string().min(1),
 	definition: z.string().min(1)
 });
+export type GlossaryEntry = z.infer<typeof GlossaryEntrySchema>;

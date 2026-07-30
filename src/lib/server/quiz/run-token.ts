@@ -8,19 +8,13 @@ import { z } from 'zod';
  * blocked by quiz_attempts.client_id = "timed:<runId>" (unique).
  */
 
-export interface RunClaims {
-	userId: string;
-	runId: string;
-	startedAt: number;
-	rulesetId: string;
-}
-
-const ClaimsSchema: z.ZodType<RunClaims> = z.object({
+const ClaimsSchema = z.object({
 	userId: z.string().min(1),
 	runId: z.string().min(1),
 	startedAt: z.number().int().positive(),
 	rulesetId: z.string().min(1)
 });
+export type RunClaims = z.infer<typeof ClaimsSchema>;
 
 const encoder = new TextEncoder();
 
