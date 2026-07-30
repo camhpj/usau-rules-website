@@ -112,8 +112,11 @@
 						class="block h-4 w-4"
 						aria-hidden="true"
 					>
-						<rect x="9" y="9" width="11" height="11" rx="2" />
-						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+						<!-- Lucide "copy". Spans the same y2–y22 optical box as the thumbs
+						 beside it; the older hand-shrunk version sat a unit high and made
+						 the row look unaligned. -->
+						<rect x="8" y="8" width="14" height="14" rx="2" ry="2" />
+						<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
 					</svg>
 				{/if}
 			</button>
