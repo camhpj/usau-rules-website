@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
-import { parseJsonBody, requireDb } from './http';
+import { parseJsonBody, requireAuth, requireDb } from './http';
 
 const Schema = z.object({ name: z.string() });
 
@@ -35,6 +35,27 @@ describe('requireDb', () => {
 	});
 
 	it('throws a 500 naming the binding when absent', () => {
-		expect(() => requireDb({} as never)).toThrowError(expect.objectContaining({ status: 500 }));
+		expect(() => requireDb({} as never)).toThrowError(
+			expect.objectContaining({
+				status: 500,
+				body: { message: 'database binding missing — route not in the hooks allowlist' }
+			})
+		);
+	});
+});
+
+describe('requireAuth', () => {
+	it('returns the binding when present', () => {
+		const auth = {} as never;
+		expect(requireAuth({ auth } as never)).toBe(auth);
+	});
+
+	it('throws a 500 naming the binding when absent', () => {
+		expect(() => requireAuth({} as never)).toThrowError(
+			expect.objectContaining({
+				status: 500,
+				body: { message: 'auth binding missing — route not in the hooks allowlist' }
+			})
+		);
 	});
 });
