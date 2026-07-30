@@ -27,6 +27,15 @@ describe('conversations.resolve', () => {
 const okJson = (body: unknown, status = 200) =>
 	new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
+/** A promise plus its resolver, so a test can control exactly when a fetch settles. */
+function deferred<T>() {
+	let resolve!: (value: T) => void;
+	const promise = new Promise<T>((res) => {
+		resolve = res;
+	});
+	return { promise, resolve };
+}
+
 describe('conversations pagination cursor', () => {
 	let fetchMock: ReturnType<typeof vi.fn>;
 
@@ -67,5 +76,52 @@ describe('conversations pagination cursor', () => {
 		expect(state.list).toEqual([]);
 		expect(state.errorMessage).toBe("Couldn't load your conversations.");
 		vi.unstubAllGlobals();
+	});
+});
+
+describe('conversations.remove races', () => {
+	let fetchMock: ReturnType<typeof vi.fn>;
+
+	beforeEach(() => {
+		conversations.reset();
+		fetchMock = vi.fn();
+		vi.stubGlobal('fetch', fetchMock);
+	});
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('restores a conversation to its original position when the delete fails', async () => {
+		conversations.list = [
+			{ id: 'a', title: 'A', updatedAt: 3 },
+			{ id: 'b', title: 'B', updatedAt: 2 },
+			{ id: 'c', title: 'C', updatedAt: 1 }
+		];
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 }));
+
+		const ok = await conversations.remove('b');
+
+		expect(ok).toBe(false);
+		expect(conversations.list.map((c) => c.id)).toEqual(['a', 'b', 'c']);
+		expect(conversations.errorMessage).toBe("Couldn't delete that conversation — try again.");
+	});
+
+	it('keeps a conversation prepended mid-flight even though the delete fails — the bug this task fixes', async () => {
+		conversations.list = [
+			{ id: 'a', title: 'A', updatedAt: 2 },
+			{ id: 'old', title: 'Old', updatedAt: 1 }
+		];
+		const request = deferred<Response>();
+		fetchMock.mockImplementationOnce(() => request.promise);
+
+		const pendingRemove = conversations.remove('a');
+		// A different conversation lands in the sidebar while 'a's delete is in flight.
+		conversations.prepend({ id: 'b', title: 'B', updatedAt: 3 });
+
+		request.resolve(new Response(null, { status: 500 }));
+		const ok = await pendingRemove;
+
+		expect(ok).toBe(false);
+		const ids = conversations.list.map((c) => c.id);
+		expect(ids).toContain('a');
+		expect(ids).toContain('b');
 	});
 });

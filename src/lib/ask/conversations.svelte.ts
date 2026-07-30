@@ -1,4 +1,5 @@
 import { safeFetch, safeFetchJson } from '$lib/fetch';
+import { createOptimistic } from '$lib/optimistic';
 import {
 	ConversationListResponseSchema,
 	type ConversationListResponse,
@@ -12,6 +13,7 @@ export class ConversationsState {
 	loading = $state(true);
 	loadingMore = $state(false);
 	errorMessage = $state<string | null>(null);
+	#optimistic = createOptimistic();
 
 	async #fetchPage(
 		before: number | null,
@@ -88,16 +90,34 @@ export class ConversationsState {
 		this.list = this.list.filter((c) => c.id !== id);
 	}
 
+	/** Re-insert a removed summary into the current list, preserving updatedAt-descending order. */
+	#reinsert(summary: ConversationSummary): void {
+		const rest = this.list.filter((c) => c.id !== summary.id);
+		const at = rest.findIndex((c) => c.updatedAt < summary.updatedAt);
+		const index = at === -1 ? rest.length : at;
+		this.list = [...rest.slice(0, index), summary, ...rest.slice(index)];
+	}
+
 	async remove(id: string): Promise<boolean> {
-		const prev = this.list;
-		this.list = this.list.filter((c) => c.id !== id); // optimistic
-		const result = await safeFetch(`/api/ai/conversations/${encodeURIComponent(id)}`, {
-			method: 'DELETE'
+		const removed = this.list.find((c) => c.id === id) ?? null;
+		const ok = await this.#optimistic(id, {
+			apply: () => {
+				if (removed) this.list = this.list.filter((c) => c.id !== id);
+			},
+			// Re-insert the one summary we removed, into whatever the list looks
+			// like now — a prepend() or touch() that landed mid-flight survives.
+			revert: () => {
+				if (removed) this.#reinsert(removed);
+			},
+			request: async () =>
+				(
+					await safeFetch(`/api/ai/conversations/${encodeURIComponent(id)}`, {
+						method: 'DELETE'
+					})
+				).ok
 		});
-		if (result.ok) return true;
-		this.list = prev; // rollback
-		this.errorMessage = "Couldn't delete that conversation — try again.";
-		return false;
+		if (!ok) this.errorMessage = "Couldn't delete that conversation — try again.";
+		return ok;
 	}
 
 	reset(): void {

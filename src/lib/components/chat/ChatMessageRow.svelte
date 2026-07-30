@@ -1,3 +1,12 @@
+<script module lang="ts">
+	import { createOptimistic } from '$lib/optimistic';
+
+	// Module-scoped and keyed by message id, so the generation guard survives a
+	// row being destroyed and recreated (e.g. a re-keyed #each), not just
+	// re-rendered.
+	const optimisticFeedback = createOptimistic();
+</script>
+
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { ChatMessage } from '$lib/ai/payload';
@@ -26,13 +35,23 @@
 	async function setFeedback(value: 'up' | 'down') {
 		const prev = message.feedback;
 		const next = prev === value ? null : value;
-		message.feedback = next; // optimistic; parent's $state array is a deep proxy
-		const result = await safeFetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
-			method: 'POST',
-			headers: { 'content-type': 'application/json' },
-			body: JSON.stringify({ feedback: next })
+		await optimisticFeedback(message.id, {
+			// parent's $state array is a deep proxy, so this mutation is reactive.
+			apply: () => {
+				message.feedback = next;
+			},
+			revert: () => {
+				message.feedback = prev;
+			},
+			request: async () =>
+				(
+					await safeFetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
+						method: 'POST',
+						headers: { 'content-type': 'application/json' },
+						body: JSON.stringify({ feedback: next })
+					})
+				).ok
 		});
-		if (!result.ok) message.feedback = prev;
 	}
 </script>
 

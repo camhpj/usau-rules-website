@@ -4,6 +4,15 @@ import { bookmarks } from './bookmarks.svelte';
 const okJson = (body: unknown, status = 200) =>
 	new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
+/** A promise plus its resolver, so a test can control exactly when a fetch settles. */
+function deferred<T>() {
+	let resolve!: (value: T) => void;
+	const promise = new Promise<T>((res) => {
+		resolve = res;
+	});
+	return { promise, resolve };
+}
+
 let fetchMock: ReturnType<typeof vi.fn>;
 
 beforeEach(() => {
@@ -59,5 +68,45 @@ describe('bookmarks.toggle', () => {
 		fetchMock.mockRejectedValueOnce(new Error('offline'));
 		await bookmarks.toggle('r', '1');
 		expect(bookmarks.has('r', '1')).toBe(false);
+	});
+
+	it('rolls back an optimistic removal on failure', async () => {
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 200 }));
+		await bookmarks.toggle('r', '1');
+		expect(bookmarks.has('r', '1')).toBe(true);
+
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 }));
+		await bookmarks.toggle('r', '1');
+		expect(bookmarks.has('r', '1')).toBe(true);
+	});
+
+	// For a plain add/remove toggle, "older fails after a newer same-key toggle
+	// succeeds" can never disagree with the newer call's own outcome — the two
+	// requests are exact complements, so the older call's inverse always lands
+	// on the same value the newer call already confirmed. The actual defect
+	// only surfaces when BOTH requests fail and the stale (older) one resolves
+	// last: its revert is computed from `had` alone, so it unconditionally
+	// overwrites whatever the newer call already decided.
+	it('does not let a stale toggle overwrite a newer same-key toggle once both have failed', async () => {
+		const first = deferred<Response>();
+		const second = deferred<Response>();
+		fetchMock.mockImplementationOnce(() => first.promise);
+		fetchMock.mockImplementationOnce(() => second.promise);
+
+		const firstToggle = bookmarks.toggle('r', '1'); // optimistic add
+		const secondToggle = bookmarks.toggle('r', '1'); // optimistic remove, sees the add
+
+		// The second (newer) request fails first. Its own revert undoes its own
+		// optimistic removal, so the key goes back to present.
+		second.resolve(new Response(null, { status: 500 }));
+		await secondToggle;
+		expect(bookmarks.has('r', '1')).toBe(true);
+
+		// The first (older, now-stale) request fails last. It must not run its
+		// own revert on top of the newer call's already-settled outcome.
+		first.resolve(new Response(null, { status: 500 }));
+		await firstToggle;
+
+		expect(bookmarks.has('r', '1')).toBe(true);
 	});
 });

@@ -1,10 +1,12 @@
 import { safeFetch, safeFetchJson } from '$lib/fetch';
 import { BookmarksResponseSchema } from '$lib/bookmarks/payload';
+import { createOptimistic } from '$lib/optimistic';
 
 /** Signed-in bookmark state for the explorer. Optimistic toggles, silent degradation. */
 class BookmarksState {
 	enabled = $state(false);
 	#keys = $state<ReadonlySet<string>>(new Set());
+	#optimistic = createOptimistic();
 
 	#key(rulesetId: string, ruleId: string): string {
 		return `${rulesetId}::${ruleId}`;
@@ -29,21 +31,30 @@ class BookmarksState {
 	async toggle(rulesetId: string, ruleId: string): Promise<void> {
 		const key = this.#key(rulesetId, ruleId);
 		const had = this.#keys.has(key);
-		const next = new Set(this.#keys);
-		if (had) next.delete(key);
-		else next.add(key);
-		this.#keys = next; // optimistic
-		const result = await safeFetch('/api/bookmarks', {
-			method: had ? 'DELETE' : 'PUT',
-			headers: { 'content-type': 'application/json' },
-			body: JSON.stringify({ rulesetId, ruleId })
+		await this.#optimistic(key, {
+			apply: () => {
+				const next = new Set(this.#keys);
+				if (had) next.delete(key);
+				else next.add(key);
+				this.#keys = next;
+			},
+			// Inverse of apply, computed from live state — a concurrent toggle of
+			// a different key must survive this.
+			revert: () => {
+				const next = new Set(this.#keys);
+				if (had) next.add(key);
+				else next.delete(key);
+				this.#keys = next;
+			},
+			request: async () =>
+				(
+					await safeFetch('/api/bookmarks', {
+						method: had ? 'DELETE' : 'PUT',
+						headers: { 'content-type': 'application/json' },
+						body: JSON.stringify({ rulesetId, ruleId })
+					})
+				).ok
 		});
-		if (!result.ok) {
-			const revert = new Set(this.#keys);
-			if (had) revert.add(key);
-			else revert.delete(key);
-			this.#keys = revert;
-		}
 	}
 }
 
