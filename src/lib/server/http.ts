@@ -27,16 +27,22 @@ export async function parseJsonBody<T>(
 /**
  * Read `locals.db`, or fail loudly.
  *
- * `hooks.server.ts` populates the binding only for allowlisted paths, so a
- * route added outside that list would otherwise fail with an unattributable
- * "cannot read property of undefined".
+ * Without this a route that never got the binding fails with an unattributable
+ * "cannot read property of undefined". `hooks.server.ts` skips populating it
+ * three ways: while prerendering, for a path outside its dynamic-route
+ * allowlist, and when `platform.env` is absent. A new server route under a path
+ * the allowlist does not match is the likeliest cause in development.
+ *
+ * The thrown message stays generic because SvelteKit serializes it into the
+ * response body.
  */
 export function requireDb(locals: App.Locals): App.Locals['db'] {
-	if (!locals.db) throw error(500, 'database binding missing — route not in the hooks allowlist');
+	if (!locals.db) throw error(500, 'database unavailable');
 	return locals.db;
 }
 
+/** Read `locals.auth`, or fail loudly. See {@link requireDb}. */
 export function requireAuth(locals: App.Locals): App.Locals['auth'] {
-	if (!locals.auth) throw error(500, 'auth binding missing — route not in the hooks allowlist');
+	if (!locals.auth) throw error(500, 'auth unavailable');
 	return locals.auth;
 }

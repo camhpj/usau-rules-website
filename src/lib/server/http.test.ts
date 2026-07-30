@@ -38,7 +38,7 @@ describe('requireDb', () => {
 		expect(() => requireDb({} as never)).toThrowError(
 			expect.objectContaining({
 				status: 500,
-				body: { message: 'database binding missing — route not in the hooks allowlist' }
+				body: { message: 'database unavailable' }
 			})
 		);
 	});
@@ -54,7 +54,7 @@ describe('requireAuth', () => {
 		expect(() => requireAuth({} as never)).toThrowError(
 			expect.objectContaining({
 				status: 500,
-				body: { message: 'auth binding missing — route not in the hooks allowlist' }
+				body: { message: 'auth unavailable' }
 			})
 		);
 	});
