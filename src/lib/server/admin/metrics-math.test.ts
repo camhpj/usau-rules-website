@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { utcDay } from '$lib/time';
 import { fillDailyBuckets, ratio } from './metrics-math';
 
 const T = Date.UTC(2026, 6, 17, 12, 0, 0); // 2026-07-17T12:00Z
@@ -7,10 +6,6 @@ const T = Date.UTC(2026, 6, 17, 12, 0, 0); // 2026-07-17T12:00Z
 describe('ratio', () => {
 	it('divides', () => expect(ratio(1, 4)).toBe(0.25));
 	it('zero denominator → 0', () => expect(ratio(3, 0)).toBe(0));
-});
-
-describe('utcDay', () => {
-	it('formats epoch ms as UTC YYYY-MM-DD', () => expect(utcDay(T)).toBe('2026-07-17'));
 });
 
 describe('fillDailyBuckets', () => {

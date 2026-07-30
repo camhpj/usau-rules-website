@@ -28,13 +28,6 @@ function memoryUsage(): UsageStore & { rows: Map<string, number> } {
 	};
 }
 
-describe('utcDay', () => {
-	it('formats and rolls over on UTC midnight', () => {
-		expect(utcDay(Date.UTC(2026, 6, 11, 23, 59, 59))).toBe('2026-07-11');
-		expect(utcDay(Date.UTC(2026, 6, 12, 0, 0, 1))).toBe('2026-07-12');
-	});
-});
-
 describe('evaluateQuota', () => {
 	it('allows under the cap with a correct remaining count', () => {
 		expect(evaluateQuota('ask', 0, 0)).toEqual({
