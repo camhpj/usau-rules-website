@@ -1,9 +1,8 @@
 import { error, json } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { AttemptPayloadSchema } from '$lib/quiz/payload';
-import { questionResponses, quizAttempts } from '$lib/server/db/schema';
 import { parseJsonBody, requireDb } from '$lib/server/http';
+import { recordAttempt } from '$lib/server/quiz/record-attempt';
 import { bankById, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
 
@@ -37,42 +36,22 @@ export const POST: RequestHandler = async (event) => {
 	}
 
 	const db = requireDb(event.locals);
-	const dup = await db
-		.select({ id: quizAttempts.id })
-		.from(quizAttempts)
-		.where(eq(quizAttempts.clientId, payload.clientId))
-		.limit(1);
-	if (dup.length > 0) return json({ id: dup[0].id, duplicate: true }, { status: 409 });
-
-	const id = crypto.randomUUID();
 	const score = result.verified.filter((r) => r.correct).length;
-	await db.batch([
-		db.insert(quizAttempts).values({
-			id,
-			userId: user.id,
-			clientId: payload.clientId,
-			rulesetId: payload.rulesetId,
-			mode: payload.mode,
-			sectionSlug: payload.sectionSlug,
-			score,
-			total: result.verified.length,
-			bestStreak: null,
-			startedAt: payload.startedAt,
-			durationS: payload.durationS,
-			createdAt: Date.now()
-		}),
-		db.insert(questionResponses).values(
-			result.verified.map((r) => ({
-				attemptId: id,
-				userId: user.id,
-				rulesetId: payload.rulesetId,
-				questionId: r.questionId,
-				sectionSlug: r.sectionSlug,
-				choiceIndex: r.choiceIndex,
-				correct: r.correct,
-				at: r.at
-			}))
-		)
-	]);
+	const { id, duplicate } = await recordAttempt(db, {
+		attemptId: crypto.randomUUID(),
+		userId: user.id,
+		clientId: payload.clientId,
+		rulesetId: payload.rulesetId,
+		mode: payload.mode,
+		sectionSlug: payload.sectionSlug,
+		score,
+		total: result.verified.length,
+		bestStreak: null,
+		startedAt: payload.startedAt,
+		durationS: payload.durationS,
+		createdAt: Date.now(),
+		responses: result.verified
+	});
+	if (duplicate) return json({ id, duplicate: true }, { status: 409 });
 	return json({ id }, { status: 201 });
 };

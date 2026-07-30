@@ -1,9 +1,8 @@
 import { error, json } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { TIMED_DURATION_S, TIMED_GRACE_S, TimedFinishPayloadSchema } from '$lib/quiz/payload';
-import { questionResponses, quizAttempts } from '$lib/server/db/schema';
 import { parseJsonBody, requireDb } from '$lib/server/http';
+import { recordAttempt } from '$lib/server/quiz/record-attempt';
 import { verifyRunToken } from '$lib/server/quiz/run-token';
 import { bankById, recomputeTimed, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
@@ -33,57 +32,21 @@ export const POST: RequestHandler = async (event) => {
 
 	const db = requireDb(event.locals);
 	const clientId = `timed:${claims.runId}`;
-	const dup = await db
-		.select({ id: quizAttempts.id })
-		.from(quizAttempts)
-		.where(eq(quizAttempts.clientId, clientId))
-		.limit(1);
-	if (dup.length > 0) return json({ id: dup[0].id, duplicate: true }, { status: 409 });
-
-	const id = crypto.randomUUID();
-	try {
-		await db.batch([
-			db.insert(quizAttempts).values({
-				id,
-				userId: user.id,
-				clientId,
-				rulesetId: payload.rulesetId,
-				mode: 'timed',
-				sectionSlug: null,
-				score,
-				total: result.verified.length,
-				bestStreak,
-				startedAt: claims.startedAt,
-				durationS: Math.min(TIMED_DURATION_S, Math.round(elapsedMs / 1000)),
-				createdAt: now
-			}),
-			db.insert(questionResponses).values(
-				result.verified.map((r) => ({
-					attemptId: id,
-					userId: user.id,
-					rulesetId: payload.rulesetId,
-					questionId: r.questionId,
-					sectionSlug: r.sectionSlug,
-					choiceIndex: r.choiceIndex,
-					correct: r.correct,
-					at: r.at
-				}))
-			)
-		]);
-	} catch (err) {
-		// Two concurrent finishes for the same run can both pass the dup check
-		// above; the loser trips the unique index on quiz_attempts.client_id.
-		// Re-check for the winner's row and surface the contract's 409 instead
-		// of letting the raw insert error bubble up as a 500.
-		const raceDup = await db
-			.select({ id: quizAttempts.id })
-			.from(quizAttempts)
-			.where(eq(quizAttempts.clientId, clientId))
-			.limit(1);
-		if (raceDup.length > 0) {
-			return json({ id: raceDup[0].id, duplicate: true }, { status: 409 });
-		}
-		throw err;
-	}
+	const { duplicate, id } = await recordAttempt(db, {
+		attemptId: crypto.randomUUID(),
+		userId: user.id,
+		clientId,
+		rulesetId: payload.rulesetId,
+		mode: 'timed',
+		sectionSlug: null,
+		score,
+		total: result.verified.length,
+		bestStreak,
+		startedAt: claims.startedAt,
+		durationS: Math.min(TIMED_DURATION_S, Math.round(elapsedMs / 1000)),
+		createdAt: now,
+		responses: result.verified
+	});
+	if (duplicate) return json({ id, duplicate: true }, { status: 409 });
 	return json({ score, bestStreak }, { status: 201 });
 };
