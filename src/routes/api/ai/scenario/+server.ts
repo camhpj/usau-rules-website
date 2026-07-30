@@ -9,7 +9,7 @@ import { utcDay } from '$lib/time';
 import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL, SCENARIO_DAILY_PER_USER } from '$lib/server/ai/config';
 import { d1CacheStore, generateText } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
-import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
+import { aiAvailable, d1UsageStore, requireAiQuota } from '$lib/server/ai/guardrails';
 import { systemPolicy } from '$lib/server/ai/prompts';
 import { buildScenarioPrompt, draftToQuestion, validateScenario } from '$lib/server/ai/scenario';
 import { aiQuestions } from '$lib/server/db/schema';
@@ -40,15 +40,7 @@ export const POST: RequestHandler = async (event) => {
 	if (!grounding || ruleIds.size === 0 || bank.length === 0) error(400, 'unknown ruleset');
 
 	const db = requireDb(event.locals);
-	const decision = await consumeQuota(d1UsageStore(db), user.id, 'scenario', Date.now());
-	if (!decision.allowed) {
-		error(
-			429,
-			decision.reason === 'user-cap'
-				? 'Daily scenario limit reached — try again tomorrow'
-				: 'The daily AI budget is used up — try again tomorrow'
-		);
-	}
+	const { remaining } = await requireAiQuota(d1UsageStore(db), user.id, 'scenario', Date.now());
 
 	// Variety nudge: avoid this user's recent scenarios (their own rows only).
 	const recent = await db
@@ -111,7 +103,7 @@ export const POST: RequestHandler = async (event) => {
 			requestedDifficulty: data.difficulty ?? null,
 			createdAt: Date.now()
 		});
-		return json({ source: 'ai', question, remaining: decision.remaining });
+		return json({ source: 'ai', question, remaining });
 	}
 
 	// Both attempts failed — fall back to the bank (spec: validate → retry → fallback).
@@ -129,5 +121,5 @@ export const POST: RequestHandler = async (event) => {
 		requestedDifficulty: data.difficulty ?? null,
 		createdAt: Date.now()
 	});
-	return json({ source: 'fallback', question: fallback, remaining: decision.remaining });
+	return json({ source: 'fallback', question: fallback, remaining });
 };

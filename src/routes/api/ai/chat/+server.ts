@@ -18,7 +18,7 @@ import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL } from '$lib/server/ai/config';
 import { getOwnedConversation } from '$lib/server/ai/conversations';
 import { d1CacheStore, streamText, type StreamOutcome } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
-import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
+import { aiAvailable, d1UsageStore, requireAiQuota } from '$lib/server/ai/guardrails';
 import { buildAskPrompt, systemPolicy } from '$lib/server/ai/prompts';
 import { aiConversations, aiMessages } from '$lib/server/db/schema';
 import { requireDb } from '$lib/server/http';
@@ -81,15 +81,7 @@ export const POST: RequestHandler = async (event) => {
 	const grounding = groundingFor(rulesetId);
 	if (!grounding) error(400, 'unknown ruleset');
 
-	const decision = await consumeQuota(d1UsageStore(db), user.id, 'ask', Date.now());
-	if (!decision.allowed) {
-		error(
-			429,
-			decision.reason === 'user-cap'
-				? 'Daily question limit reached — try again tomorrow'
-				: 'The daily AI budget is used up — try again tomorrow'
-		);
-	}
+	const { remaining } = await requireAiQuota(d1UsageStore(db), user.id, 'ask', Date.now());
 
 	// Persist the conversation (if new) and the user message BEFORE calling Gemini,
 	// so even a failed generation leaves an accurate transcript. A retry instead
@@ -202,7 +194,7 @@ export const POST: RequestHandler = async (event) => {
 			'cache-control': 'no-store',
 			'x-bp-conversation-id': conversationId,
 			'x-bp-message-id': assistantMessageId,
-			'x-bp-ai-remaining': String(decision.remaining)
+			'x-bp-ai-remaining': String(remaining)
 		}
 	});
 };

@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { utcDay } from '$lib/time';
-import { ASK_DAILY_PER_USER, AI_GLOBAL_DAILY } from './config';
+import { ASK_DAILY_PER_USER } from './config';
 import {
 	aiAvailable,
 	consumeQuota,
 	evaluateQuota,
+	requireAiQuota,
 	type AiKind,
 	type UsageStore
 } from './guardrails';
@@ -17,11 +18,6 @@ function memoryUsage(): UsageStore & { rows: Map<string, number> } {
 		async userCount(day, userId, kind) {
 			return rows.get(k(day, userId, kind)) ?? 0;
 		},
-		async globalCount(day) {
-			let total = 0;
-			for (const [key, count] of rows) if (key.startsWith(`${day}|`)) total += count;
-			return total;
-		},
 		async increment(day, userId, kind) {
 			rows.set(k(day, userId, kind), (rows.get(k(day, userId, kind)) ?? 0) + 1);
 		}
@@ -30,19 +26,15 @@ function memoryUsage(): UsageStore & { rows: Map<string, number> } {
 
 describe('evaluateQuota', () => {
 	it('allows under the cap with a correct remaining count', () => {
-		expect(evaluateQuota('ask', 0, 0)).toEqual({
+		expect(evaluateQuota('ask', 0)).toEqual({
 			allowed: true,
 			remaining: ASK_DAILY_PER_USER - 1
 		});
 	});
-	it('blocks at the per-user cap and at the global budget', () => {
-		expect(evaluateQuota('ask', ASK_DAILY_PER_USER, 50)).toEqual({
+	it('blocks at the per-user cap', () => {
+		expect(evaluateQuota('ask', ASK_DAILY_PER_USER)).toEqual({
 			allowed: false,
 			reason: 'user-cap'
-		});
-		expect(evaluateQuota('ask', 0, AI_GLOBAL_DAILY)).toEqual({
-			allowed: false,
-			reason: 'global-cap'
 		});
 	});
 });
@@ -58,6 +50,25 @@ describe('consumeQuota', () => {
 		const over = await consumeQuota(store, 'u1', 'ask', now);
 		expect(over).toEqual({ allowed: false, reason: 'user-cap' });
 		expect(await store.userCount(utcDay(now), 'u1', 'ask')).toBe(ASK_DAILY_PER_USER); // denied → not incremented
+	});
+});
+
+describe('requireAiQuota', () => {
+	it('returns remaining and the bucket day when under the cap, and records the request', async () => {
+		const store = memoryUsage();
+		const now = Date.UTC(2026, 6, 11, 12);
+		const result = await requireAiQuota(store, 'u1', 'ask', now);
+		expect(result).toEqual({ remaining: ASK_DAILY_PER_USER - 1, day: utcDay(now) });
+		expect(await store.userCount(utcDay(now), 'u1', 'ask')).toBe(1);
+	});
+	it('throws 429 with the per-user message once the cap is reached', async () => {
+		const store = memoryUsage();
+		const now = Date.UTC(2026, 6, 11, 12);
+		for (let i = 0; i < ASK_DAILY_PER_USER; i++) await requireAiQuota(store, 'u1', 'ask', now);
+		await expect(requireAiQuota(store, 'u1', 'ask', now)).rejects.toMatchObject({
+			status: 429,
+			body: { message: 'Daily question limit reached — try again tomorrow' }
+		});
 	});
 });
 

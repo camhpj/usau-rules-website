@@ -19,8 +19,6 @@ export const CACHE_MIN_REMAINING_MS = 5 * 60 * 1000;
 /** Cost guardrails (UTC days). User-approved 2026-07-11; tune after Task 10 token counts. */
 export const ASK_DAILY_PER_USER = 10;
 export const SCENARIO_DAILY_PER_USER = 10;
-/** All AI requests, all users, both kinds combined. */
-export const AI_GLOBAL_DAILY = 200;
 
 /** Watchdog: abort a stream that has produced no answer text (thoughts only) by this point. */
 export const AI_STREAM_NO_ANSWER_MAX_MS = 45_000;
