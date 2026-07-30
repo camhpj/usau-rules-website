@@ -1,3 +1,5 @@
+import { BookmarksResponseSchema } from '$lib/bookmarks/payload';
+
 /** Signed-in bookmark state for the explorer. Optimistic toggles, silent degradation. */
 class BookmarksState {
 	enabled = $state(false);
@@ -15,11 +17,10 @@ class BookmarksState {
 			return;
 		}
 		if (!res.ok) return; // 401 → stay disabled
-		const data = (await res.json().catch(() => null)) as {
-			bookmarks?: { rulesetId: string; ruleId: string }[];
-		} | null;
-		if (!data?.bookmarks) return;
-		this.#keys = new Set(data.bookmarks.map((b) => this.#key(b.rulesetId, b.ruleId)));
+		const body = await res.json().catch(() => null);
+		const parsed = BookmarksResponseSchema.safeParse(body);
+		if (!parsed.success) return;
+		this.#keys = new Set(parsed.data.bookmarks.map((b) => this.#key(b.rulesetId, b.ruleId)));
 		this.enabled = true;
 	}
 

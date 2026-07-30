@@ -1,18 +1,13 @@
 import { error, json } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
-import { z } from 'zod';
 import type { RequestHandler } from './$types';
+import { BookmarkTargetSchema } from '$lib/bookmarks/payload';
 import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
 import { parseJsonBody, requireDb } from '$lib/server/http';
 import { bookmarks } from '$lib/server/db/schema';
 import { fetchBookmarks } from '$lib/server/quiz/queries';
 import { requireUser } from '$lib/server/session';
-
-const BodySchema = z.object({
-	rulesetId: z.string().min(1).max(64),
-	ruleId: z.string().min(1).max(64)
-});
 
 /** Shape-level validation: the ruleset must exist and the rule id must map to one of its sections. */
 function validateTarget(rulesetId: string, ruleId: string): void {
@@ -27,7 +22,7 @@ function validateTarget(rulesetId: string, ruleId: string): void {
 }
 
 async function parseBody(request: Request) {
-	return parseJsonBody(request, BodySchema, 'invalid bookmark payload');
+	return parseJsonBody(request, BookmarkTargetSchema, 'invalid bookmark payload');
 }
 
 export const GET: RequestHandler = async (event) => {
