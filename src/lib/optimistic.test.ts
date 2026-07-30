@@ -1,7 +1,7 @@
-import { describe, expect, it, vi } from 'vitest';
-import { createOptimistic } from './optimistic';
+import { describe, expect, it } from 'vitest';
+import { createKeyedMutex } from './optimistic';
 
-/** A promise plus its resolver, so a test can control exactly when `request` settles. */
+/** A promise plus its resolver, so a test can control exactly when a task settles. */
 function deferred<T>() {
 	let resolve!: (value: T) => void;
 	const promise = new Promise<T>((res) => {
@@ -10,106 +10,72 @@ function deferred<T>() {
 	return { promise, resolve };
 }
 
-describe('createOptimistic', () => {
-	it('runs apply and never reverts on success', async () => {
-		const optimistic = createOptimistic();
-		const apply = vi.fn();
-		const revert = vi.fn();
-
-		const ok = await optimistic('k', { apply, revert, request: () => Promise.resolve(true) });
-
-		expect(ok).toBe(true);
-		expect(apply).toHaveBeenCalledOnce();
-		expect(revert).not.toHaveBeenCalled();
+describe('createKeyedMutex', () => {
+	it('resolves with the task result', async () => {
+		const run = createKeyedMutex();
+		const value = await run('k', () => Promise.resolve(42));
+		expect(value).toBe(42);
 	});
 
-	it('runs apply then revert on failure', async () => {
-		const optimistic = createOptimistic();
-		const apply = vi.fn();
-		const revert = vi.fn();
-
-		const ok = await optimistic('k', { apply, revert, request: () => Promise.resolve(false) });
-
-		expect(ok).toBe(false);
-		expect(apply).toHaveBeenCalledOnce();
-		expect(revert).toHaveBeenCalledOnce();
+	it('propagates a task rejection to its own caller', async () => {
+		const run = createKeyedMutex();
+		const err = new Error('boom');
+		await expect(run('k', () => Promise.reject(err))).rejects.toBe(err);
 	});
 
-	it('suppresses a stale revert once a newer mutation for the same key has started', async () => {
-		const optimistic = createOptimistic();
-		const a = deferred<boolean>();
-		const b = deferred<boolean>();
-		const revertA = vi.fn();
-		const revertB = vi.fn();
+	it('does not start a same-key task until the previous one has settled', async () => {
+		const run = createKeyedMutex();
+		const order: string[] = [];
+		const a = deferred<void>();
 
-		// A starts, then B starts on the same key before A's request resolves.
-		const pendingA = optimistic('k', {
-			apply: vi.fn(),
-			revert: revertA,
-			request: () => a.promise
+		const pendingA = run('k', async () => {
+			order.push('a-start');
+			await a.promise;
+			order.push('a-end');
 		});
-		const pendingB = optimistic('k', {
-			apply: vi.fn(),
-			revert: revertB,
-			request: () => b.promise
+		const pendingB = run('k', async () => {
+			order.push('b-start');
 		});
 
-		// A fails, but B has already superseded it for this key.
-		a.resolve(false);
-		expect(await pendingA).toBe(false);
-		expect(revertA).not.toHaveBeenCalled();
+		// Let several microtask turns pass — B must still not have started,
+		// because A hasn't settled.
+		await Promise.resolve();
+		await Promise.resolve();
+		await Promise.resolve();
+		expect(order).toEqual(['a-start']);
 
-		b.resolve(true);
+		a.resolve();
+		await Promise.all([pendingA, pendingB]);
+		expect(order).toEqual(['a-start', 'a-end', 'b-start']);
+	});
+
+	it('runs a different key concurrently, unblocked by a pending key', async () => {
+		const run = createKeyedMutex();
+		const a = deferred<void>();
+		const order: string[] = [];
+
+		const pendingA = run('k1', async () => {
+			order.push('a-start');
+			await a.promise;
+			order.push('a-end');
+		});
+		const pendingB = run('k2', async () => {
+			order.push('b-start-and-end');
+		});
+
 		await pendingB;
-	});
+		expect(order).toEqual(['a-start', 'b-start-and-end']);
 
-	it('leaves a different key unaffected by another key failing', async () => {
-		const optimistic = createOptimistic();
-		const b = deferred<boolean>();
-		const applyB = vi.fn();
-		const revertB = vi.fn();
-
-		const pendingB = optimistic('k2', { apply: applyB, revert: revertB, request: () => b.promise });
-
-		const okA = await optimistic('k1', {
-			apply: vi.fn(),
-			revert: vi.fn(),
-			request: () => Promise.resolve(false)
-		});
-		expect(okA).toBe(false);
-
-		// k2's own outcome and revert are driven only by its own request.
-		b.resolve(false);
-		const okB = await pendingB;
-		expect(okB).toBe(false);
-		expect(applyB).toHaveBeenCalledOnce();
-		expect(revertB).toHaveBeenCalledOnce();
-	});
-
-	it("reverts the newest mutation's own failure, even after an earlier one on the same key was suppressed", async () => {
-		const optimistic = createOptimistic();
-		const a = deferred<boolean>();
-		const b = deferred<boolean>();
-		const revertA = vi.fn();
-		const revertB = vi.fn();
-
-		const pendingA = optimistic('k', {
-			apply: vi.fn(),
-			revert: revertA,
-			request: () => a.promise
-		});
-		const pendingB = optimistic('k', {
-			apply: vi.fn(),
-			revert: revertB,
-			request: () => b.promise
-		});
-
-		a.resolve(false);
+		a.resolve();
 		await pendingA;
-		expect(revertA).not.toHaveBeenCalled();
+	});
 
-		b.resolve(false);
-		await pendingB;
-		expect(revertB).toHaveBeenCalledOnce();
+	it('runs the next same-key task even after the previous one rejects', async () => {
+		const run = createKeyedMutex();
+		const first = run('k', () => Promise.reject(new Error('fails')));
+		first.catch(() => {}); // the mutex must not require this to unblock the queue
+
+		const second = await run('k', () => Promise.resolve('ok'));
+		expect(second).toBe('ok');
 	});
 });

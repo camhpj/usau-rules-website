@@ -1,10 +1,10 @@
 <script module lang="ts">
-	import { createOptimistic } from '$lib/optimistic';
+	import { createKeyedMutex } from '$lib/optimistic';
 
-	// Module-scoped and keyed by message id, so the generation guard survives a
-	// row being destroyed and recreated (e.g. a re-keyed #each), not just
-	// re-rendered.
-	const optimisticFeedback = createOptimistic();
+	// Module-scoped and keyed by message id, so same-message feedback clicks
+	// still serialize across a row being destroyed and recreated (e.g. a
+	// re-keyed #each), not just across re-renders of one instance.
+	const runFeedback = createKeyedMutex();
 </script>
 
 <script lang="ts">
@@ -33,24 +33,21 @@
 	}
 
 	async function setFeedback(value: 'up' | 'down') {
-		const prev = message.feedback;
-		const next = prev === value ? null : value;
-		await optimisticFeedback(message.id, {
-			// parent's $state array is a deep proxy, so this mutation is reactive.
-			apply: () => {
-				message.feedback = next;
-			},
-			revert: () => {
-				message.feedback = prev;
-			},
-			request: async () =>
-				(
-					await safeFetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
-						method: 'POST',
-						headers: { 'content-type': 'application/json' },
-						body: JSON.stringify({ feedback: next })
-					})
-				).ok
+		// Reading `prev` must happen inside the task: a same-message feedback
+		// click already queued ahead of this one may still be running (or
+		// reverting), and reading it here, before this task's turn, would race it.
+		await runFeedback(message.id, async () => {
+			const prev = message.feedback;
+			const next = prev === value ? null : value;
+			message.feedback = next; // optimistic; parent's $state array is a deep proxy
+			const ok = (
+				await safeFetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
+					method: 'POST',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify({ feedback: next })
+				})
+			).ok;
+			if (!ok) message.feedback = prev;
 		});
 	}
 </script>

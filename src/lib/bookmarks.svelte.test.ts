@@ -4,15 +4,6 @@ import { bookmarks } from './bookmarks.svelte';
 const okJson = (body: unknown, status = 200) =>
 	new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
-/** A promise plus its resolver, so a test can control exactly when a fetch settles. */
-function deferred<T>() {
-	let resolve!: (value: T) => void;
-	const promise = new Promise<T>((res) => {
-		resolve = res;
-	});
-	return { promise, resolve };
-}
-
 let fetchMock: ReturnType<typeof vi.fn>;
 
 beforeEach(() => {
@@ -80,33 +71,51 @@ describe('bookmarks.toggle', () => {
 		expect(bookmarks.has('r', '1')).toBe(true);
 	});
 
-	// For a plain add/remove toggle, "older fails after a newer same-key toggle
-	// succeeds" can never disagree with the newer call's own outcome — the two
-	// requests are exact complements, so the older call's inverse always lands
-	// on the same value the newer call already confirmed. The actual defect
-	// only surfaces when BOTH requests fail and the stale (older) one resolves
-	// last: its revert is computed from `had` alone, so it unconditionally
-	// overwrites whatever the newer call already decided.
-	it('does not let a stale toggle overwrite a newer same-key toggle once both have failed', async () => {
-		const first = deferred<Response>();
-		const second = deferred<Response>();
-		fetchMock.mockImplementationOnce(() => first.promise);
-		fetchMock.mockImplementationOnce(() => second.promise);
+	// Two overlapping toggles of the same key are serialized: the second
+	// doesn't read live state, apply, or fire its request until the first has
+	// fully settled (request *and* any revert). That means whichever request
+	// wins the network race never matters — only submission order and each
+	// one's own outcome do. These three cover every outcome combination for a
+	// pair; a single toggle failing is covered above.
+	describe('two overlapping toggles of the same key', () => {
+		it('both fail: ends at the pre-mutation value', async () => {
+			fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 })); // A (PUT) fails
+			fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 })); // B (PUT, sees A's revert) fails
 
-		const firstToggle = bookmarks.toggle('r', '1'); // optimistic add
-		const secondToggle = bookmarks.toggle('r', '1'); // optimistic remove, sees the add
+			const a = bookmarks.toggle('r', '1');
+			const b = bookmarks.toggle('r', '1');
+			await Promise.all([a, b]);
 
-		// The second (newer) request fails first. Its own revert undoes its own
-		// optimistic removal, so the key goes back to present.
-		second.resolve(new Response(null, { status: 500 }));
-		await secondToggle;
-		expect(bookmarks.has('r', '1')).toBe(true);
+			// Neither request ever persisted, so the bookmark must read exactly as
+			// it did before either toggle — absent. A mutex bug that lets a stale
+			// revert run against an unconfirmed value instead reports it present.
+			expect(bookmarks.has('r', '1')).toBe(false);
+		});
 
-		// The first (older, now-stale) request fails last. It must not run its
-		// own revert on top of the newer call's already-settled outcome.
-		first.resolve(new Response(null, { status: 500 }));
-		await firstToggle;
+		it("A succeeds, B fails: ends at A's confirmed value", async () => {
+			fetchMock.mockResolvedValueOnce(new Response(null, { status: 200 })); // A (PUT) succeeds
+			fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 })); // B (DELETE, sees A's add) fails
 
-		expect(bookmarks.has('r', '1')).toBe(true);
+			const a = bookmarks.toggle('r', '1');
+			const b = bookmarks.toggle('r', '1');
+			await Promise.all([a, b]);
+
+			// B's own optimistic removal is reverted, landing back on A's
+			// server-confirmed add.
+			expect(bookmarks.has('r', '1')).toBe(true);
+		});
+
+		it("A fails, B succeeds: ends at B's confirmed value", async () => {
+			fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 })); // A (PUT) fails
+			fetchMock.mockResolvedValueOnce(new Response(null, { status: 200 })); // B (PUT, sees A's revert) succeeds
+
+			const a = bookmarks.toggle('r', '1');
+			const b = bookmarks.toggle('r', '1');
+			await Promise.all([a, b]);
+
+			// A's failed add is fully undone before B ever reads state, so B
+			// starts from the true (absent) baseline and its own add succeeds.
+			expect(bookmarks.has('r', '1')).toBe(true);
+		});
 	});
 });

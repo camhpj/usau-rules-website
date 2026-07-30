@@ -1,5 +1,5 @@
 import { safeFetch, safeFetchJson } from '$lib/fetch';
-import { createOptimistic } from '$lib/optimistic';
+import { createKeyedMutex } from '$lib/optimistic';
 import {
 	ConversationListResponseSchema,
 	type ConversationListResponse,
@@ -13,7 +13,7 @@ export class ConversationsState {
 	loading = $state(true);
 	loadingMore = $state(false);
 	errorMessage = $state<string | null>(null);
-	#optimistic = createOptimistic();
+	#run = createKeyedMutex();
 
 	async #fetchPage(
 		before: number | null,
@@ -90,31 +90,37 @@ export class ConversationsState {
 		this.list = this.list.filter((c) => c.id !== id);
 	}
 
-	/** Re-insert a removed summary into the current list, preserving updatedAt-descending order. */
+	/**
+	 * Re-insert a removed summary into the current list, preserving the same
+	 * order the server returns (see #fetchPage): updatedAt descending, id
+	 * descending as a tiebreak for equal updatedAt values.
+	 */
 	#reinsert(summary: ConversationSummary): void {
 		const rest = this.list.filter((c) => c.id !== summary.id);
-		const at = rest.findIndex((c) => c.updatedAt < summary.updatedAt);
+		const at = rest.findIndex(
+			(c) =>
+				c.updatedAt < summary.updatedAt || (c.updatedAt === summary.updatedAt && c.id < summary.id)
+		);
 		const index = at === -1 ? rest.length : at;
 		this.list = [...rest.slice(0, index), summary, ...rest.slice(index)];
 	}
 
 	async remove(id: string): Promise<boolean> {
-		const removed = this.list.find((c) => c.id === id) ?? null;
-		const ok = await this.#optimistic(id, {
-			apply: () => {
-				if (removed) this.list = this.list.filter((c) => c.id !== id);
-			},
+		// Reading `removed` must happen inside the task: a same-id remove already
+		// queued ahead of this one may still be running (or re-inserting), and
+		// reading the list here, before this task's turn, would race it.
+		const ok = await this.#run(id, async () => {
+			const removed = this.list.find((c) => c.id === id) ?? null;
+			if (removed) this.list = this.list.filter((c) => c.id !== id); // optimistic
+			const requestOk = (
+				await safeFetch(`/api/ai/conversations/${encodeURIComponent(id)}`, {
+					method: 'DELETE'
+				})
+			).ok;
 			// Re-insert the one summary we removed, into whatever the list looks
 			// like now — a prepend() or touch() that landed mid-flight survives.
-			revert: () => {
-				if (removed) this.#reinsert(removed);
-			},
-			request: async () =>
-				(
-					await safeFetch(`/api/ai/conversations/${encodeURIComponent(id)}`, {
-						method: 'DELETE'
-					})
-				).ok
+			if (!requestOk && removed) this.#reinsert(removed);
+			return requestOk;
 		});
 		if (!ok) this.errorMessage = "Couldn't delete that conversation — try again.";
 		return ok;

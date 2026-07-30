@@ -1,25 +1,24 @@
 /**
- * Run an optimistic mutation, reverting only if no newer mutation for the same
- * key has started since.
+ * Serialize async work per key.
  *
- * `revert` must be an inverse operation over current state, not a restore of a
- * snapshot captured before `request` — a snapshot restore discards unrelated
- * mutations that landed while the request was in flight.
+ * Optimistic updates need this: two overlapping mutations of the same key can
+ * resolve out of order, and a revert computed against an unconfirmed optimistic
+ * value never returns to what the server holds. Running them in order means
+ * each one reads the true current state and its inverse revert is correct.
  */
-export function createOptimistic() {
-	const generation = new Map<string, number>();
-
-	return async function optimistic(
-		key: string,
-		steps: { apply: () => void; revert: () => void; request: () => Promise<boolean> }
-	): Promise<boolean> {
-		const mine = (generation.get(key) ?? 0) + 1;
-		generation.set(key, mine);
-		steps.apply();
-		const ok = await steps.request();
-		// A newer mutation for this key has already replaced our optimistic value
-		// and owns the outcome. Reverting now would clobber it.
-		if (!ok && generation.get(key) === mine) steps.revert();
-		return ok;
+export function createKeyedMutex() {
+	const chains = new Map<string, Promise<unknown>>();
+	return function run<T>(key: string, task: () => Promise<T>): Promise<T> {
+		const prior = chains.get(key) ?? Promise.resolve();
+		const next = prior.then(task, task);
+		const settled = next.then(
+			() => {},
+			() => {}
+		);
+		chains.set(key, settled);
+		void settled.then(() => {
+			if (chains.get(key) === settled) chains.delete(key);
+		});
+		return next;
 	};
 }

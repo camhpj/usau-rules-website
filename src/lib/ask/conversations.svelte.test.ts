@@ -104,6 +104,21 @@ describe('conversations.remove races', () => {
 		expect(conversations.errorMessage).toBe("Couldn't delete that conversation — try again.");
 	});
 
+	it('breaks an updatedAt tie by id, matching the server order (updated_at DESC, id DESC)', async () => {
+		// Two entries share the same updatedAt; the server would return them id
+		// DESC, i.e. 'z' before 'a'.
+		conversations.list = [
+			{ id: 'z', title: 'Z', updatedAt: 5 },
+			{ id: 'a', title: 'A', updatedAt: 5 }
+		];
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 }));
+
+		const ok = await conversations.remove('z');
+
+		expect(ok).toBe(false);
+		expect(conversations.list.map((c) => c.id)).toEqual(['z', 'a']);
+	});
+
 	it('keeps a conversation prepended mid-flight even though the delete fails — the bug this task fixes', async () => {
 		conversations.list = [
 			{ id: 'a', title: 'A', updatedAt: 2 },
