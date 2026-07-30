@@ -10,6 +10,7 @@ import {
 import { isUniqueConstraintError } from '$lib/server/profile/errors';
 import { parseJsonBody, requireDb } from '$lib/server/http';
 import { user } from '$lib/server/db/schema';
+import { fetchDisplayNameState } from '$lib/server/quiz/queries';
 import { requireUser } from '$lib/server/session';
 import type { Db } from '$lib/server/db';
 
@@ -25,12 +26,7 @@ async function isTakenBy(db: Db, candidate: string, ownUserId: string): Promise<
 export const GET: RequestHandler = async (event) => {
 	const me = await requireUser(event);
 	const db = requireDb(event.locals);
-	const rows = await db
-		.select({ displayName: user.displayName, name: user.name })
-		.from(user)
-		.where(eq(user.id, me.id))
-		.limit(1);
-	const row = rows[0];
+	const row = await fetchDisplayNameState(db, me.id);
 	return json({
 		displayName: row?.displayName ?? null,
 		suggestion: suggestDisplayName(row?.name ?? '')

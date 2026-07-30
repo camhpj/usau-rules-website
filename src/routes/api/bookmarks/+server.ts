@@ -1,11 +1,12 @@
 import { error, json } from '@sveltejs/kit';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
 import { parseJsonBody, requireDb } from '$lib/server/http';
 import { bookmarks } from '$lib/server/db/schema';
+import { fetchBookmarks } from '$lib/server/quiz/queries';
 import { requireUser } from '$lib/server/session';
 
 const BodySchema = z.object({
@@ -32,15 +33,7 @@ async function parseBody(request: Request) {
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const db = requireDb(event.locals);
-	const rows = await db
-		.select({
-			rulesetId: bookmarks.rulesetId,
-			ruleId: bookmarks.ruleId,
-			createdAt: bookmarks.createdAt
-		})
-		.from(bookmarks)
-		.where(eq(bookmarks.userId, user.id))
-		.orderBy(desc(bookmarks.createdAt));
+	const rows = await fetchBookmarks(db, user.id);
 	return json({ bookmarks: rows });
 };
 
