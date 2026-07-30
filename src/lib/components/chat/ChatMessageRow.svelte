@@ -1,8 +1,18 @@
+<script module lang="ts">
+	import { createKeyedMutex } from '$lib/optimistic';
+
+	// Module-scoped and keyed by message id, so same-message feedback clicks
+	// still serialize across a row being destroyed and recreated (e.g. a
+	// re-keyed #each), not just across re-renders of one instance.
+	const runFeedback = createKeyedMutex();
+</script>
+
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { ChatMessage } from '$lib/ai/payload';
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
 	import ThumbIcon from '$lib/components/icons/ThumbIcon.svelte';
+	import { safeFetch } from '$lib/fetch';
 
 	let {
 		message,
@@ -23,19 +33,22 @@
 	}
 
 	async function setFeedback(value: 'up' | 'down') {
-		const prev = message.feedback;
-		const next = prev === value ? null : value;
-		message.feedback = next; // optimistic; parent's $state array is a deep proxy
-		try {
-			const res = await fetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ feedback: next })
-			});
-			if (!res.ok) throw new Error(String(res.status));
-		} catch {
-			message.feedback = prev;
-		}
+		// Reading `prev` must happen inside the task: a same-message feedback
+		// click already queued ahead of this one may still be running (or
+		// reverting), and reading it here, before this task's turn, would race it.
+		await runFeedback(message.id, async () => {
+			const prev = message.feedback;
+			const next = prev === value ? null : value;
+			message.feedback = next; // optimistic; parent's $state array is a deep proxy
+			const ok = (
+				await safeFetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
+					method: 'POST',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify({ feedback: next })
+				})
+			).ok;
+			if (!ok) message.feedback = prev;
+		});
 	}
 </script>
 
@@ -99,8 +112,11 @@
 						class="block h-4 w-4"
 						aria-hidden="true"
 					>
-						<rect x="9" y="9" width="11" height="11" rx="2" />
-						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+						<!-- Lucide "copy". Spans the same y2–y22 optical box as the thumbs
+						 beside it; the older hand-shrunk version sat a unit high and made
+						 the row look unaligned. -->
+						<rect x="8" y="8" width="14" height="14" rx="2" ry="2" />
+						<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
 					</svg>
 				{/if}
 			</button>

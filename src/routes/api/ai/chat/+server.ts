@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { and, asc, eq, isNull } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import {
 	ChatPayloadSchema,
@@ -15,18 +15,20 @@ import {
 	type RetryTarget
 } from '$lib/server/ai/chat';
 import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL } from '$lib/server/ai/config';
+import { getOwnedConversation } from '$lib/server/ai/conversations';
 import { d1CacheStore, streamText, type StreamOutcome } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
-import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
+import { aiAvailable, d1UsageStore, requireAiQuota } from '$lib/server/ai/guardrails';
 import { buildAskPrompt, systemPolicy } from '$lib/server/ai/prompts';
 import { aiConversations, aiMessages } from '$lib/server/db/schema';
+import { requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const env = event.platform?.env;
 	if (!env || !aiAvailable(env)) error(503, 'AI features are currently offline');
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 
 	// Discriminate retry bodies ({conversationId, retry: true}) from normal sends.
 	const raw = await event.request.json().catch(() => null);
@@ -49,19 +51,9 @@ export const POST: RequestHandler = async (event) => {
 	let priorTurns: { role: 'user' | 'model'; text: string }[] = [];
 	let retryTarget: RetryTarget | null = null;
 	if (existingId) {
-		const convos = await db
-			.select({ id: aiConversations.id, rulesetId: aiConversations.rulesetId })
-			.from(aiConversations)
-			.where(
-				and(
-					eq(aiConversations.id, existingId),
-					eq(aiConversations.userId, user.id),
-					isNull(aiConversations.deletedAt)
-				)
-			)
-			.limit(1);
-		if (!convos[0]) error(404, 'conversation not found'); // no existence oracle
-		rulesetId = convos[0].rulesetId; // body rulesetId is ignored for existing conversations
+		const convo = await getOwnedConversation(db, existingId, user.id);
+		if (!convo) error(404, 'conversation not found'); // no existence oracle
+		rulesetId = convo.rulesetId; // body rulesetId is ignored for existing conversations
 		const prior = await db
 			.select({
 				id: aiMessages.id,
@@ -89,15 +81,7 @@ export const POST: RequestHandler = async (event) => {
 	const grounding = groundingFor(rulesetId);
 	if (!grounding) error(400, 'unknown ruleset');
 
-	const decision = await consumeQuota(d1UsageStore(db), user.id, 'ask', Date.now());
-	if (!decision.allowed) {
-		error(
-			429,
-			decision.reason === 'user-cap'
-				? 'Daily question limit reached — try again tomorrow'
-				: 'The daily AI budget is used up — try again tomorrow'
-		);
-	}
+	const { remaining } = await requireAiQuota(d1UsageStore(db), user.id, 'ask', Date.now());
 
 	// Persist the conversation (if new) and the user message BEFORE calling Gemini,
 	// so even a failed generation leaves an accurate transcript. A retry instead
@@ -210,7 +194,7 @@ export const POST: RequestHandler = async (event) => {
 			'cache-control': 'no-store',
 			'x-bp-conversation-id': conversationId,
 			'x-bp-message-id': assistantMessageId,
-			'x-bp-ai-remaining': String(decision.remaining)
+			'x-bp-ai-remaining': String(remaining)
 		}
 	});
 };

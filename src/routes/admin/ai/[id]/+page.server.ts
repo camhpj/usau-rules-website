@@ -2,10 +2,11 @@ import { error } from '@sveltejs/kit';
 import { asc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { aiConversations, aiMessages, user } from '$lib/server/db/schema';
+import { requireDb } from '$lib/server/http';
 
 export const load: PageServerLoad = async (event) => {
 	await event.parent();
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const convo = (
 		await db
 			.select({

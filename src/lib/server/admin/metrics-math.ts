@@ -1,11 +1,8 @@
+import { utcDay } from '$lib/time';
+
 /** part/whole, guarding divide-by-zero. */
 export function ratio(part: number, whole: number): number {
 	return whole === 0 ? 0 : part / whole;
-}
-
-/** UTC YYYY-MM-DD for an epoch-ms timestamp. */
-export function utcDay(ms: number): string {
-	return new Date(ms).toISOString().slice(0, 10);
 }
 
 /** `days` buckets ending at today (UTC), oldest first, missing days zero-filled. */

@@ -12,3 +12,8 @@ ALLOW_TEST_SIGNIN=1
 GEMINI_API_KEY=
 # Global AI kill-switch: set to 1 to disable all /api/ai/* endpoints. Leave empty otherwise.
 AI_DISABLED=
+# Overrides the production ADMIN_EMAILS from wrangler.jsonc "vars". Local e2e signs the
+# admin in over the test credential endpoint, so pointing it at a throwaway address keeps
+# those runs from creating a password account under a real Google address (which then
+# fails Google sign-in with account_not_linked).
+ADMIN_EMAILS=admin@example.test

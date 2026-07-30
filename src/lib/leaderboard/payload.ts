@@ -4,28 +4,18 @@ import { z } from 'zod';
 
 export const LEADERBOARD_SIZE = 10;
 
-export interface LeaderboardEntry {
-	rank: number;
-	displayName: string;
-	score: number;
-	bestStreak: number;
-	at: number; // attempt createdAt, epoch ms
-}
-
-const EntrySchema = z.object({
+export const LeaderboardEntrySchema = z.object({
 	rank: z.number().int().positive(),
 	displayName: z.string(),
 	score: z.number().int(),
 	bestStreak: z.number().int(),
+	/** attempt createdAt, epoch ms */
 	at: z.number()
 });
+export type LeaderboardEntry = z.infer<typeof LeaderboardEntrySchema>;
 
-export interface LeaderboardResponse {
-	entries: LeaderboardEntry[];
-	me: LeaderboardEntry | null;
-}
-
-export const LeaderboardResponseSchema: z.ZodType<LeaderboardResponse> = z.object({
-	entries: z.array(EntrySchema),
-	me: EntrySchema.nullable()
+export const LeaderboardResponseSchema = z.object({
+	entries: z.array(LeaderboardEntrySchema),
+	me: LeaderboardEntrySchema.nullable()
 });
+export type LeaderboardResponse = z.infer<typeof LeaderboardResponseSchema>;

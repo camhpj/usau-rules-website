@@ -157,6 +157,11 @@ describe('timed run sync', () => {
 		fetchMock.mockRejectedValueOnce(new Error('offline'));
 		expect(await beginTimedRun('r')).toBeNull();
 	});
+	it('beginTimedRun rejects a non-string token instead of handing it back mistyped', async () => {
+		const { beginTimedRun } = await import('./sync');
+		fetchMock.mockResolvedValueOnce(okJson({ token: 123 }));
+		expect(await beginTimedRun('r')).toBeNull();
+	});
 	it('submitTimedRun posts original choice indices in answer order and resolves the accepted score', async () => {
 		const { submitTimedRun } = await import('./sync');
 		fetchMock.mockResolvedValue(okJson({ score: 1, bestStreak: 1 }, 201));
@@ -201,6 +206,18 @@ describe('timed run sync', () => {
 		expect(await submitTimedRun(args)).toBeNull();
 		fetchMock.mockRejectedValueOnce(new Error('offline'));
 		expect(await submitTimedRun(args)).toBeNull();
+	});
+	it('resolves null when a 201 body fails schema validation', async () => {
+		const { submitTimedRun } = await import('./sync');
+		fetchMock.mockResolvedValueOnce(okJson({ score: '1', bestStreak: 1 }, 201));
+		expect(
+			await submitTimedRun({
+				token: 't0k',
+				rulesetId: 'r',
+				items: [item('15-01')],
+				records: [record('15-01', 0)]
+			})
+		).toBeNull();
 	});
 });
 

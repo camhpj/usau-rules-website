@@ -3,6 +3,7 @@ import type { RequestHandler } from './$types';
 import { requireAdmin } from '$lib/server/session';
 import { csvLine } from '$lib/server/admin/csv';
 import { DATASETS, type Cursor } from '$lib/server/admin/datasets';
+import { requireDb } from '$lib/server/http';
 
 // Rows fetched per keyset page. Low thousands: few enough D1 round trips to export a large
 // table, small enough that one page never holds more than a moment's worth of memory.
@@ -13,7 +14,7 @@ export const GET: RequestHandler = async (event) => {
 	const def = DATASETS[event.params.dataset];
 	if (!def) error(404, 'Not found');
 
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const encoder = new TextEncoder();
 	// Cursor lives in this closure, not in a loop inside start(): a loop that keeps calling
 	// enqueue() never yields to backpressure, since enqueue() doesn't block on Workers — the

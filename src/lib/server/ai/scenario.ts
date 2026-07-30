@@ -2,16 +2,7 @@ import { z } from 'zod';
 import { nearestKnownRuleId, sectionSlugForRuleId } from '$lib/content/rule-ids';
 import type { Question } from '$lib/quiz/types';
 
-export interface ScenarioDraft {
-	prompt: string;
-	choices: string[];
-	answerIndex: number;
-	explanation: string;
-	ruleRefs: string[];
-	difficulty: 1 | 2 | 3;
-}
-
-export const ScenarioDraftSchema: z.ZodType<ScenarioDraft> = z.object({
+export const ScenarioDraftSchema = z.object({
 	prompt: z.string().min(40),
 	choices: z.array(z.string().min(1)).length(4),
 	answerIndex: z.number().int().min(0).max(3),
@@ -19,6 +10,7 @@ export const ScenarioDraftSchema: z.ZodType<ScenarioDraft> = z.object({
 	ruleRefs: z.array(z.string().min(1)).min(1),
 	difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)])
 });
+export type ScenarioDraft = z.infer<typeof ScenarioDraftSchema>;
 
 // Real rule ids (20.E.2.d force-out foul, 13.A.2 end-zone possession) so the
 // example teaches verbatim citation without teaching a fictional id.

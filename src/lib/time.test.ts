@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { timeAgo } from './time';
+import { timeAgo, utcDay } from './time';
 
 const NOW = Date.UTC(2026, 6, 16, 12, 0, 0); // 2026-07-16T12:00:00Z
 
@@ -16,5 +16,18 @@ describe('timeAgo', () => {
 	});
 	it('falls back to a short date at 5+ weeks', () => {
 		expect(timeAgo(Date.UTC(2026, 5, 1), NOW)).toBe('Jun 1, 2026');
+	});
+});
+
+describe('utcDay', () => {
+	it('returns the UTC calendar day as YYYY-MM-DD', () => {
+		expect(utcDay(Date.UTC(2026, 6, 30, 12, 0, 0))).toBe('2026-07-30');
+	});
+
+	it('uses UTC, not local time, at the day boundary', () => {
+		// 23:30 UTC on the 30th is still the 30th regardless of the host zone.
+		expect(utcDay(Date.UTC(2026, 6, 30, 23, 30, 0))).toBe('2026-07-30');
+		// 00:30 UTC on the 31st has already rolled over.
+		expect(utcDay(Date.UTC(2026, 6, 31, 0, 30, 0))).toBe('2026-07-31');
 	});
 });

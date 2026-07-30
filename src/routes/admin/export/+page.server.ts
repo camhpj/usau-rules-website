@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { listDatasetCounts, type DatasetCount } from '$lib/server/admin/datasets';
+import { requireDb } from '$lib/server/http';
 
 const CACHE_TTL_SECONDS = 60;
 
@@ -58,7 +59,8 @@ export const load: PageServerLoad = async (event) => {
 	const cached = cache ? await readCachedCounts(cache) : null;
 	if (cached) return { datasets: cached };
 
-	const datasets = await listDatasetCounts(event.locals.db);
+	const db = requireDb(event.locals);
+	const datasets = await listDatasetCounts(db);
 	if (cache) await writeCachedCounts(cache, datasets);
 	return { datasets };
 };

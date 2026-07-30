@@ -17,3 +17,8 @@ export function timeAgo(then: number, now: number = Date.now()): string {
 		timeZone: 'UTC'
 	});
 }
+
+/** UTC calendar day as YYYY-MM-DD. Sets the AI quota reset boundary. */
+export function utcDay(now: number): string {
+	return new Date(now).toISOString().slice(0, 10);
+}

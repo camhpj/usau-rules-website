@@ -2,31 +2,18 @@ import { z } from 'zod';
 
 /** Wire shapes shared by the quiz pages, the sync outbox, and the /api handlers. */
 
-export interface ResponsePayload {
-	questionId: string;
-	choiceIndex: number; // index into question.choices (original order, NOT display order)
-	at: number; // epoch ms
-}
-
-export const ResponsePayloadSchema: z.ZodType<ResponsePayload> = z.object({
+export const ResponsePayloadSchema = z.object({
 	questionId: z.string().min(1).max(64),
+	// index into question.choices (original order, NOT display order)
 	choiceIndex: z.number().int().min(0).max(3),
+	// epoch ms
 	at: z.number().int().positive()
 });
+export type ResponsePayload = z.infer<typeof ResponsePayloadSchema>;
 
 export const ATTEMPT_MAX_RESPONSES = 100;
 
-export interface AttemptPayload {
-	clientId: string;
-	rulesetId: string;
-	mode: 'quick' | 'mastery';
-	sectionSlug: string | null;
-	startedAt: number;
-	durationS: number;
-	responses: ResponsePayload[];
-}
-
-export const AttemptPayloadSchema: z.ZodType<AttemptPayload> = z.object({
+export const AttemptPayloadSchema = z.object({
 	clientId: z.uuid(),
 	rulesetId: z.string().min(1).max(64),
 	mode: z.enum(['quick', 'mastery']),
@@ -39,20 +26,29 @@ export const AttemptPayloadSchema: z.ZodType<AttemptPayload> = z.object({
 		.max(24 * 3600),
 	responses: z.array(ResponsePayloadSchema).min(1).max(ATTEMPT_MAX_RESPONSES)
 });
+export type AttemptPayload = z.infer<typeof AttemptPayloadSchema>;
 
 export const TIMED_DURATION_S = 300;
 export const TIMED_GRACE_S = 20; // server-side slack for network + clock skew
 export const TIMED_MAX_RESPONSES = 300; // ~1 answer/second ceiling, scaled to the duration
 
-export interface TimedFinishPayload {
-	token: string;
-	rulesetId: string;
-	responses: { questionId: string; choiceIndex: number }[]; // answer order matters (streak)
-}
+/** POST /api/timed/start response. */
+export const TimedStartResponseSchema = z.object({
+	token: z.string().min(1).max(2048)
+});
+export type TimedStartResponse = z.infer<typeof TimedStartResponseSchema>;
 
-export const TimedFinishPayloadSchema: z.ZodType<TimedFinishPayload> = z.object({
+/** POST /api/timed/finish success (201) response. */
+export const TimedFinishResponseSchema = z.object({
+	score: z.number(),
+	bestStreak: z.number()
+});
+export type TimedFinishResponse = z.infer<typeof TimedFinishResponseSchema>;
+
+export const TimedFinishPayloadSchema = z.object({
 	token: z.string().min(1).max(2048),
 	rulesetId: z.string().min(1).max(64),
+	// answer order matters (streak)
 	responses: z
 		.array(
 			z.object({
@@ -63,13 +59,9 @@ export const TimedFinishPayloadSchema: z.ZodType<TimedFinishPayload> = z.object(
 		.min(1)
 		.max(TIMED_MAX_RESPONSES)
 });
+export type TimedFinishPayload = z.infer<typeof TimedFinishPayloadSchema>;
 
-export interface SyncState {
-	responses: { questionId: string; sectionSlug: string; correct: boolean; at: number }[];
-	timedBest: { score: number; bestStreak: number; at: number } | null;
-}
-
-export const SyncStateSchema: z.ZodType<SyncState> = z.object({
+export const SyncStateSchema = z.object({
 	responses: z.array(
 		z.object({
 			questionId: z.string(),
@@ -82,3 +74,4 @@ export const SyncStateSchema: z.ZodType<SyncState> = z.object({
 		.object({ score: z.number().int(), bestStreak: z.number().int(), at: z.number() })
 		.nullable()
 });
+export type SyncState = z.infer<typeof SyncStateSchema>;

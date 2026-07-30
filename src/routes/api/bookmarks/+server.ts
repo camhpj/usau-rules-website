@@ -1,16 +1,13 @@
 import { error, json } from '@sveltejs/kit';
-import { and, desc, eq } from 'drizzle-orm';
-import { z } from 'zod';
+import { and, eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
+import { BookmarkTargetSchema } from '$lib/bookmarks/payload';
 import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { bookmarks } from '$lib/server/db/schema';
+import { fetchBookmarks } from '$lib/server/quiz/queries';
 import { requireUser } from '$lib/server/session';
-
-const BodySchema = z.object({
-	rulesetId: z.string().min(1).max(64),
-	ruleId: z.string().min(1).max(64)
-});
 
 /** Shape-level validation: the ruleset must exist and the rule id must map to one of its sections. */
 function validateTarget(rulesetId: string, ruleId: string): void {
@@ -25,22 +22,13 @@ function validateTarget(rulesetId: string, ruleId: string): void {
 }
 
 async function parseBody(request: Request) {
-	const parsed = BodySchema.safeParse(await request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid bookmark payload');
-	return parsed.data;
+	return parseJsonBody(request, BookmarkTargetSchema, 'invalid bookmark payload');
 }
 
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
-	const rows = await event.locals.db
-		.select({
-			rulesetId: bookmarks.rulesetId,
-			ruleId: bookmarks.ruleId,
-			createdAt: bookmarks.createdAt
-		})
-		.from(bookmarks)
-		.where(eq(bookmarks.userId, user.id))
-		.orderBy(desc(bookmarks.createdAt));
+	const db = requireDb(event.locals);
+	const rows = await fetchBookmarks(db, user.id);
 	return json({ bookmarks: rows });
 };
 
@@ -48,7 +36,8 @@ export const PUT: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const { rulesetId, ruleId } = await parseBody(event.request);
 	validateTarget(rulesetId, ruleId);
-	await event.locals.db
+	const db = requireDb(event.locals);
+	await db
 		.insert(bookmarks)
 		.values({ userId: user.id, rulesetId, ruleId, createdAt: Date.now() })
 		.onConflictDoNothing();
@@ -58,7 +47,8 @@ export const PUT: RequestHandler = async (event) => {
 export const DELETE: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const { rulesetId, ruleId } = await parseBody(event.request);
-	await event.locals.db
+	const db = requireDb(event.locals);
+	await db
 		.delete(bookmarks)
 		.where(
 			and(

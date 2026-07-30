@@ -5,20 +5,22 @@ import { ScenarioRequestSchema } from '$lib/ai/payload';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
 import { ruleIdSet } from '$lib/content/rule-id-sets';
 import { listQuestions } from '$lib/server/quiz/bank';
+import { utcDay } from '$lib/time';
 import { AI_MAX_OUTPUT_TOKENS, GEMINI_MODEL, SCENARIO_DAILY_PER_USER } from '$lib/server/ai/config';
 import { d1CacheStore, generateText } from '$lib/server/ai/gemini';
 import { groundingFor } from '$lib/server/ai/grounding';
-import { aiAvailable, consumeQuota, d1UsageStore, utcDay } from '$lib/server/ai/guardrails';
+import { aiAvailable, d1UsageStore, requireAiQuota } from '$lib/server/ai/guardrails';
 import { systemPolicy } from '$lib/server/ai/prompts';
 import { buildScenarioPrompt, draftToQuestion, validateScenario } from '$lib/server/ai/scenario';
 import { aiQuestions } from '$lib/server/db/schema';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
-	if (!event.locals.db) error(503, 'db unavailable');
+	const db = requireDb(event.locals);
 	const day = utcDay(Date.now());
-	const used = await d1UsageStore(event.locals.db).userCount(day, user.id, 'scenario');
+	const used = await d1UsageStore(db).userCount(day, user.id, 'scenario');
 	return json({ remaining: Math.max(0, SCENARIO_DAILY_PER_USER - used) });
 };
 
@@ -26,24 +28,19 @@ export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const env = event.platform?.env;
 	if (!env || !aiAvailable(env)) error(503, 'AI features are currently offline');
-	const parsed = ScenarioRequestSchema.safeParse(await event.request.json().catch(() => null));
-	if (!parsed.success) error(400, 'invalid scenario request');
-	const rulesetId = parsed.data.rulesetId ?? DEFAULT_RULESET_ID;
+	const data = await parseJsonBody(
+		event.request,
+		ScenarioRequestSchema,
+		'invalid scenario request'
+	);
+	const rulesetId = data.rulesetId ?? DEFAULT_RULESET_ID;
 	const grounding = groundingFor(rulesetId);
 	const ruleIds = ruleIdSet(rulesetId);
 	const bank = listQuestions(rulesetId);
 	if (!grounding || ruleIds.size === 0 || bank.length === 0) error(400, 'unknown ruleset');
 
-	const db = event.locals.db;
-	const decision = await consumeQuota(d1UsageStore(db), user.id, 'scenario', Date.now());
-	if (!decision.allowed) {
-		error(
-			429,
-			decision.reason === 'user-cap'
-				? 'Daily scenario limit reached — try again tomorrow'
-				: 'The daily AI budget is used up — try again tomorrow'
-		);
-	}
+	const db = requireDb(event.locals);
+	const { remaining } = await requireAiQuota(d1UsageStore(db), user.id, 'scenario', Date.now());
 
 	// Variety nudge: avoid this user's recent scenarios (their own rows only).
 	const recent = await db
@@ -72,7 +69,7 @@ export const POST: RequestHandler = async (event) => {
 		rulesetId,
 		systemPolicy: systemPolicy(rulesetId),
 		grounding,
-		taskPrompt: buildScenarioPrompt(parsed.data.difficulty, avoid),
+		taskPrompt: buildScenarioPrompt(data.difficulty, avoid),
 		generationConfig: {
 			responseMimeType: 'application/json',
 			temperature: 0.9,
@@ -103,16 +100,14 @@ export const POST: RequestHandler = async (event) => {
 			status: 'served',
 			question: JSON.stringify(question),
 			rejectedReasons: reasons.length > 0 ? reasons.join(' | ') : null,
-			requestedDifficulty: parsed.data.difficulty ?? null,
+			requestedDifficulty: data.difficulty ?? null,
 			createdAt: Date.now()
 		});
-		return json({ source: 'ai', question, remaining: decision.remaining });
+		return json({ source: 'ai', question, remaining });
 	}
 
 	// Both attempts failed — fall back to the bank (spec: validate → retry → fallback).
-	const pool = parsed.data.difficulty
-		? bank.filter((q) => q.difficulty === parsed.data.difficulty)
-		: bank;
+	const pool = data.difficulty ? bank.filter((q) => q.difficulty === data.difficulty) : bank;
 	const candidates = pool.length > 0 ? pool : bank;
 	const fallback = candidates[Math.floor(Math.random() * candidates.length)];
 	await db.insert(aiQuestions).values({
@@ -123,8 +118,8 @@ export const POST: RequestHandler = async (event) => {
 		status: 'fallback',
 		question: null,
 		rejectedReasons: reasons.join(' | '),
-		requestedDifficulty: parsed.data.difficulty ?? null,
+		requestedDifficulty: data.difficulty ?? null,
 		createdAt: Date.now()
 	});
-	return json({ source: 'fallback', question: fallback, remaining: decision.remaining });
+	return json({ source: 'fallback', question: fallback, remaining });
 };
