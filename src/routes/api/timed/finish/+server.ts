@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { TIMED_DURATION_S, TIMED_GRACE_S, TimedFinishPayloadSchema } from '$lib/quiz/payload';
 import { questionResponses, quizAttempts } from '$lib/server/db/schema';
-import { parseJsonBody } from '$lib/server/http';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { verifyRunToken } from '$lib/server/quiz/run-token';
 import { bankById, recomputeTimed, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
@@ -31,7 +31,7 @@ export const POST: RequestHandler = async (event) => {
 	if (!result.ok) error(400, result.reason);
 	const { score, bestStreak } = recomputeTimed(result.verified);
 
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const clientId = `timed:${claims.runId}`;
 	const dup = await db
 		.select({ id: quizAttempts.id })

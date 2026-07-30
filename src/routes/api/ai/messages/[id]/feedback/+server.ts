@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { aiConversations, aiMessages } from '$lib/server/db/schema';
-import { parseJsonBody } from '$lib/server/http';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 const BodySchema = z.object({ feedback: z.enum(['up', 'down']).nullable() });
@@ -11,7 +11,7 @@ const BodySchema = z.object({ feedback: z.enum(['up', 'down']).nullable() });
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const data = await parseJsonBody(event.request, BodySchema, 'invalid feedback payload');
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const rows = await db
 		.select({ id: aiMessages.id, role: aiMessages.role, ownerId: aiConversations.userId })
 		.from(aiMessages)

@@ -2,6 +2,7 @@ import { and, desc, eq, lt, or, sql } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { pageRows, parseHistoryQuery } from '$lib/server/ai/history';
 import { aiConversations, aiMessages, user } from '$lib/server/db/schema';
+import { requireDb } from '$lib/server/http';
 
 /** Cursor stack from the URL: 'start' for page 1, else '<before>:<beforeId>'. */
 function parseStack(raw: string | null): string[] {
@@ -13,7 +14,7 @@ export const load: PageServerLoad = async (event) => {
 	const { before, beforeId, limit } = parseHistoryQuery(event.url.searchParams, 30);
 	const downOnly = event.url.searchParams.get('down') === '1';
 	const stack = parseStack(event.url.searchParams.get('stack'));
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 
 	// Correlated subqueries, one per displayed row, instead of grouping all of
 	// ai_messages up front. Both ride ai_messages_convo_created_idx, so cost scales

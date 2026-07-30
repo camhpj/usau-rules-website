@@ -13,14 +13,14 @@ import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrai
 import { systemPolicy } from '$lib/server/ai/prompts';
 import { buildScenarioPrompt, draftToQuestion, validateScenario } from '$lib/server/ai/scenario';
 import { aiQuestions } from '$lib/server/db/schema';
-import { parseJsonBody } from '$lib/server/http';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
-	if (!event.locals.db) error(503, 'db unavailable');
+	const db = requireDb(event.locals);
 	const day = utcDay(Date.now());
-	const used = await d1UsageStore(event.locals.db).userCount(day, user.id, 'scenario');
+	const used = await d1UsageStore(db).userCount(day, user.id, 'scenario');
 	return json({ remaining: Math.max(0, SCENARIO_DAILY_PER_USER - used) });
 };
 
@@ -39,7 +39,7 @@ export const POST: RequestHandler = async (event) => {
 	const bank = listQuestions(rulesetId);
 	if (!grounding || ruleIds.size === 0 || bank.length === 0) error(400, 'unknown ruleset');
 
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const decision = await consumeQuota(d1UsageStore(db), user.id, 'scenario', Date.now());
 	if (!decision.allowed) {
 		error(

@@ -3,6 +3,7 @@ import { and, desc, eq, isNull, lt, or } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { pageRows, parseHistoryQuery } from '$lib/server/ai/history';
 import { aiConversations } from '$lib/server/db/schema';
+import { requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const GET: RequestHandler = async (event) => {
@@ -21,7 +22,8 @@ export const GET: RequestHandler = async (event) => {
 					)!
 		);
 	}
-	const rows = await event.locals.db
+	const db = requireDb(event.locals);
+	const rows = await db
 		.select({
 			id: aiConversations.id,
 			title: aiConversations.title,

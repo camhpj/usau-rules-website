@@ -1,4 +1,4 @@
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { and, desc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
@@ -7,6 +7,7 @@ import { sectionSlugForRuleId } from '$lib/content/rule-ids';
 import { questionCountsBySection } from '$lib/server/quiz/bank';
 import { computeSectionMastery } from '$lib/quiz/mastery';
 import { bookmarks, questionResponses, quizAttempts, user } from '$lib/server/db/schema';
+import { requireAuth, requireDb } from '$lib/server/http';
 import { suggestDisplayName } from '$lib/server/profile/display-name';
 
 export const prerender = false;
@@ -14,12 +15,11 @@ export const prerender = false;
 const MAX_RESPONSES = 2000;
 
 export const load: PageServerLoad = async (event) => {
-	// Guard against requests where hooks had no platform bindings available.
-	if (!event.locals.auth) error(503, 'auth unavailable');
-	const session = await event.locals.auth.api.getSession({ headers: event.request.headers });
+	const auth = requireAuth(event.locals);
+	const session = await auth.api.getSession({ headers: event.request.headers });
 	if (!session) redirect(303, '/');
 	const userId = session.user.id;
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const rulesetId = DEFAULT_RULESET_ID;
 	const manifest = getManifest(rulesetId);
 	const sectionBySlug = new Map(manifest.sections.map((s) => [s.slug, s]));

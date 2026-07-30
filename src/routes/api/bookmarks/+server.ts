@@ -4,7 +4,7 @@ import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { getManifest } from '$lib/content/manifests';
 import { sectionSlugForRuleId } from '$lib/content/rule-ids';
-import { parseJsonBody } from '$lib/server/http';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { bookmarks } from '$lib/server/db/schema';
 import { requireUser } from '$lib/server/session';
 
@@ -31,7 +31,8 @@ async function parseBody(request: Request) {
 
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
-	const rows = await event.locals.db
+	const db = requireDb(event.locals);
+	const rows = await db
 		.select({
 			rulesetId: bookmarks.rulesetId,
 			ruleId: bookmarks.ruleId,
@@ -47,7 +48,8 @@ export const PUT: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const { rulesetId, ruleId } = await parseBody(event.request);
 	validateTarget(rulesetId, ruleId);
-	await event.locals.db
+	const db = requireDb(event.locals);
+	await db
 		.insert(bookmarks)
 		.values({ userId: user.id, rulesetId, ruleId, createdAt: Date.now() })
 		.onConflictDoNothing();
@@ -57,7 +59,8 @@ export const PUT: RequestHandler = async (event) => {
 export const DELETE: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const { rulesetId, ruleId } = await parseBody(event.request);
-	await event.locals.db
+	const db = requireDb(event.locals);
+	await db
 		.delete(bookmarks)
 		.where(
 			and(

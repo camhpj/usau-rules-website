@@ -8,7 +8,7 @@ import {
 	validateDisplayName
 } from '$lib/server/profile/display-name';
 import { isUniqueConstraintError } from '$lib/server/profile/errors';
-import { parseJsonBody } from '$lib/server/http';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { user } from '$lib/server/db/schema';
 import { requireUser } from '$lib/server/session';
 import type { Db } from '$lib/server/db';
@@ -24,7 +24,8 @@ async function isTakenBy(db: Db, candidate: string, ownUserId: string): Promise<
 
 export const GET: RequestHandler = async (event) => {
 	const me = await requireUser(event);
-	const rows = await event.locals.db
+	const db = requireDb(event.locals);
+	const rows = await db
 		.select({ displayName: user.displayName, name: user.name })
 		.from(user)
 		.where(eq(user.id, me.id))
@@ -43,7 +44,7 @@ export const PUT: RequestHandler = async (event) => {
 		PutDisplayNameSchema,
 		'invalid display-name payload'
 	);
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 
 	if (data.displayName === null) {
 		await db.update(user).set({ displayName: null }).where(eq(user.id, me.id));

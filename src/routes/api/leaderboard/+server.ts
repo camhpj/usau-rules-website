@@ -1,6 +1,7 @@
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
+import { requireDb } from '$lib/server/http';
 import {
 	buildLeaderboardResult,
 	fetchCallerBestRow,
@@ -74,8 +75,7 @@ async function writeCachedRows(cache: EdgeCache, key: Request, rows: RankedRow[]
 export const GET: RequestHandler = async (event) => {
 	// Public route: no requireUser. locals may be populated (hooks run for /api/*);
 	// a session is optional and only used to find the caller's own row.
-	if (!event.locals.db) error(503, 'db unavailable');
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const rulesetId = DEFAULT_RULESET_ID;
 
 	// The board is identical for every visitor apart from the caller's own row, so only these

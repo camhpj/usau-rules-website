@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 import { AttemptPayloadSchema } from '$lib/quiz/payload';
 import { questionResponses, quizAttempts } from '$lib/server/db/schema';
-import { parseJsonBody } from '$lib/server/http';
+import { parseJsonBody, requireDb } from '$lib/server/http';
 import { bankById, verifyResponses } from '$lib/server/quiz/verify';
 import { requireUser } from '$lib/server/session';
 
@@ -36,7 +36,7 @@ export const POST: RequestHandler = async (event) => {
 		error(400, 'sectionSlug does not match the answered questions');
 	}
 
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 	const dup = await db
 		.select({ id: quizAttempts.id })
 		.from(quizAttempts)

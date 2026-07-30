@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
-import { parseJsonBody } from './http';
+import { parseJsonBody, requireDb } from './http';
 
 const Schema = z.object({ name: z.string() });
 
@@ -25,5 +25,16 @@ describe('parseJsonBody', () => {
 		await expect(
 			parseJsonBody(req('{}'), Schema, 'invalid bookmark payload')
 		).rejects.toMatchObject({ body: { message: 'invalid bookmark payload' } });
+	});
+});
+
+describe('requireDb', () => {
+	it('returns the binding when present', () => {
+		const db = {} as never;
+		expect(requireDb({ db } as never)).toBe(db);
+	});
+
+	it('throws a 500 naming the binding when absent', () => {
+		expect(() => requireDb({} as never)).toThrowError(expect.objectContaining({ status: 500 }));
 	});
 });

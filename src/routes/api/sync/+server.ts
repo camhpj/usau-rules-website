@@ -4,6 +4,7 @@ import type { RequestHandler } from './$types';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
 import type { SyncState } from '$lib/quiz/payload';
 import { questionResponses, quizAttempts } from '$lib/server/db/schema';
+import { requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 const MAX_RESPONSES = 2000; // mirrors the localStorage cap in $lib/quiz/storage
@@ -11,7 +12,7 @@ const MAX_RESPONSES = 2000; // mirrors the localStorage cap in $lib/quiz/storage
 export const GET: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const rulesetId = event.url.searchParams.get('ruleset') ?? DEFAULT_RULESET_ID;
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 
 	const rows = await db
 		.select({

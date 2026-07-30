@@ -20,13 +20,14 @@ import { groundingFor } from '$lib/server/ai/grounding';
 import { aiAvailable, consumeQuota, d1UsageStore } from '$lib/server/ai/guardrails';
 import { buildAskPrompt, systemPolicy } from '$lib/server/ai/prompts';
 import { aiConversations, aiMessages } from '$lib/server/db/schema';
+import { requireDb } from '$lib/server/http';
 import { requireUser } from '$lib/server/session';
 
 export const POST: RequestHandler = async (event) => {
 	const user = await requireUser(event);
 	const env = event.platform?.env;
 	if (!env || !aiAvailable(env)) error(503, 'AI features are currently offline');
-	const db = event.locals.db;
+	const db = requireDb(event.locals);
 
 	// Discriminate retry bodies ({conversationId, retry: true}) from normal sends.
 	const raw = await event.request.json().catch(() => null);
