@@ -1,3 +1,4 @@
+import { safeFetch, safeFetchJson } from '$lib/fetch';
 import {
 	ConversationListResponseSchema,
 	type ConversationListResponse,
@@ -16,22 +17,20 @@ export class ConversationsState {
 		before: number | null,
 		beforeId: string | null
 	): Promise<ConversationListResponse | null> {
-		try {
-			// updated_at is not unique, so beforeId breaks ties; it is meaningless
-			// without before, and the server ignores it if before is absent.
-			const params = new URLSearchParams();
-			if (before !== null) {
-				params.set('before', String(before));
-				if (beforeId !== null) params.set('beforeId', beforeId);
-			}
-			const query = params.toString();
-			const res = await fetch(`/api/ai/conversations${query ? `?${query}` : ''}`);
-			if (!res.ok) return null;
-			const parsed = ConversationListResponseSchema.safeParse(await res.json());
-			return parsed.success ? parsed.data : null;
-		} catch {
-			return null;
+		// updated_at is not unique, so beforeId breaks ties; it is meaningless
+		// without before, and the server ignores it if before is absent.
+		const params = new URLSearchParams();
+		if (before !== null) {
+			params.set('before', String(before));
+			if (beforeId !== null) params.set('beforeId', beforeId);
 		}
+		const query = params.toString();
+		const result = await safeFetchJson(
+			`/api/ai/conversations${query ? `?${query}` : ''}`,
+			undefined,
+			ConversationListResponseSchema
+		);
+		return result.ok ? result.data : null;
 	}
 
 	async load(): Promise<void> {
@@ -92,17 +91,13 @@ export class ConversationsState {
 	async remove(id: string): Promise<boolean> {
 		const prev = this.list;
 		this.list = this.list.filter((c) => c.id !== id); // optimistic
-		try {
-			const res = await fetch(`/api/ai/conversations/${encodeURIComponent(id)}`, {
-				method: 'DELETE'
-			});
-			if (!res.ok) throw new Error(String(res.status));
-			return true;
-		} catch {
-			this.list = prev; // rollback
-			this.errorMessage = "Couldn't delete that conversation — try again.";
-			return false;
-		}
+		const result = await safeFetch(`/api/ai/conversations/${encodeURIComponent(id)}`, {
+			method: 'DELETE'
+		});
+		if (result.ok) return true;
+		this.list = prev; // rollback
+		this.errorMessage = "Couldn't delete that conversation — try again.";
+		return false;
 	}
 
 	reset(): void {

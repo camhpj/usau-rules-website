@@ -32,6 +32,19 @@ export const TIMED_DURATION_S = 300;
 export const TIMED_GRACE_S = 20; // server-side slack for network + clock skew
 export const TIMED_MAX_RESPONSES = 300; // ~1 answer/second ceiling, scaled to the duration
 
+/** POST /api/timed/start response. */
+export const TimedStartResponseSchema = z.object({
+	token: z.string().min(1).max(2048)
+});
+export type TimedStartResponse = z.infer<typeof TimedStartResponseSchema>;
+
+/** POST /api/timed/finish success (201) response. */
+export const TimedFinishResponseSchema = z.object({
+	score: z.number(),
+	bestStreak: z.number()
+});
+export type TimedFinishResponse = z.infer<typeof TimedFinishResponseSchema>;
+
 export const TimedFinishPayloadSchema = z.object({
 	token: z.string().min(1).max(2048),
 	rulesetId: z.string().min(1).max(64),

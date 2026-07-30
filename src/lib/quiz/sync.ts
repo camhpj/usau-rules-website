@@ -1,4 +1,5 @@
 import type { AnswerRecord, QuizItem } from './engine';
+import { safeFetch, safeFetchJson } from '$lib/fetch';
 import { readRaw, writeRaw } from './local';
 import { mergeServerState } from './storage';
 import {
@@ -6,6 +7,8 @@ import {
 	AttemptPayloadSchema,
 	SyncStateSchema,
 	TIMED_MAX_RESPONSES,
+	TimedFinishResponseSchema,
+	TimedStartResponseSchema,
 	type AttemptPayload
 } from './payload';
 
@@ -99,16 +102,12 @@ export async function flushOutbox(): Promise<void> {
 			const outbox = readOutbox();
 			const payload = outbox[0];
 			if (!payload) return;
-			let res: Response;
-			try {
-				res = await fetch('/api/attempts', {
-					method: 'POST',
-					headers: { 'content-type': 'application/json' },
-					body: JSON.stringify(payload)
-				});
-			} catch {
-				return; // offline — retry on the next trigger
-			}
+			const res = await safeFetch('/api/attempts', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify(payload)
+			});
+			if (res.status === null) return; // offline — retry on the next trigger
 			if (res.status === 401) return; // signed out — keep queued for after sign-in
 			const stored = res.ok || res.status === 409; // 409 = duplicate (already stored)
 			const poison = res.status === 400; // permanently invalid — drop so it can't wedge the queue
@@ -121,32 +120,27 @@ export async function flushOutbox(): Promise<void> {
 }
 
 export async function hydrateFromServer(rulesetId: string): Promise<void> {
-	let res: Response;
-	try {
-		res = await fetch(`/api/sync?ruleset=${encodeURIComponent(rulesetId)}`);
-	} catch {
-		return;
-	}
-	if (!res.ok) return;
-	const parsed = SyncStateSchema.safeParse(await res.json().catch(() => null));
-	if (!parsed.success) return;
-	mergeServerState(rulesetId, parsed.data.responses, parsed.data.timedBest);
+	const result = await safeFetchJson(
+		`/api/sync?ruleset=${encodeURIComponent(rulesetId)}`,
+		undefined,
+		SyncStateSchema
+	);
+	if (!result.ok) return;
+	mergeServerState(rulesetId, result.data.responses, result.data.timedBest);
 }
 
 /** Requests a signed run token; null when signed out/offline (run stays local-only). */
 export async function beginTimedRun(rulesetId: string): Promise<string | null> {
-	try {
-		const res = await fetch('/api/timed/start', {
+	const result = await safeFetchJson(
+		'/api/timed/start',
+		{
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({ rulesetId })
-		});
-		if (!res.ok) return null;
-		const data = (await res.json().catch(() => null)) as { token?: string } | null;
-		return data?.token ?? null;
-	} catch {
-		return null;
-	}
+		},
+		TimedStartResponseSchema
+	);
+	return result.ok ? result.data.token : null;
 }
 
 /**
@@ -169,21 +163,16 @@ export async function submitTimedRun(opts: {
 	}
 	if (responses.length === 0) return null;
 	const capped = responses.slice(0, TIMED_MAX_RESPONSES);
-	try {
-		const res = await fetch('/api/timed/finish', {
+	const result = await safeFetchJson(
+		'/api/timed/finish',
+		{
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({ token: opts.token, rulesetId: opts.rulesetId, responses: capped })
-		});
-		if (res.status !== 201) return null; // rejected/duplicate — no score to report
-		const data = (await res.json().catch(() => null)) as {
-			score?: number;
-			bestStreak?: number;
-		} | null;
-		if (typeof data?.score !== 'number' || typeof data?.bestStreak !== 'number') return null;
-		return { score: data.score, bestStreak: data.bestStreak };
-	} catch {
-		// offline — the run stays local-only by design
-		return null;
-	}
+		},
+		TimedFinishResponseSchema
+	);
+	// rejected/duplicate/offline/malformed — no score to report
+	if (!result.ok || result.status !== 201) return null;
+	return result.data;
 }

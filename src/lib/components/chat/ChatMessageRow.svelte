@@ -3,6 +3,7 @@
 	import type { ChatMessage } from '$lib/ai/payload';
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
 	import ThumbIcon from '$lib/components/icons/ThumbIcon.svelte';
+	import { safeFetch } from '$lib/fetch';
 
 	let {
 		message,
@@ -26,16 +27,12 @@
 		const prev = message.feedback;
 		const next = prev === value ? null : value;
 		message.feedback = next; // optimistic; parent's $state array is a deep proxy
-		try {
-			const res = await fetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ feedback: next })
-			});
-			if (!res.ok) throw new Error(String(res.status));
-		} catch {
-			message.feedback = prev;
-		}
+		const result = await safeFetch(`/api/ai/messages/${encodeURIComponent(message.id)}/feedback`, {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ feedback: next })
+		});
+		if (!result.ok) message.feedback = prev;
 	}
 </script>
 

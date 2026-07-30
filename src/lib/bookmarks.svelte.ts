@@ -1,3 +1,4 @@
+import { safeFetch, safeFetchJson } from '$lib/fetch';
 import { BookmarksResponseSchema } from '$lib/bookmarks/payload';
 
 /** Signed-in bookmark state for the explorer. Optimistic toggles, silent degradation. */
@@ -10,17 +11,9 @@ class BookmarksState {
 	}
 
 	async load(): Promise<void> {
-		let res: Response;
-		try {
-			res = await fetch('/api/bookmarks');
-		} catch {
-			return;
-		}
-		if (!res.ok) return; // 401 → stay disabled
-		const body = await res.json().catch(() => null);
-		const parsed = BookmarksResponseSchema.safeParse(body);
-		if (!parsed.success) return;
-		this.#keys = new Set(parsed.data.bookmarks.map((b) => this.#key(b.rulesetId, b.ruleId)));
+		const result = await safeFetchJson('/api/bookmarks', undefined, BookmarksResponseSchema);
+		if (!result.ok) return; // 401/offline/malformed → stay disabled
+		this.#keys = new Set(result.data.bookmarks.map((b) => this.#key(b.rulesetId, b.ruleId)));
 		this.enabled = true;
 	}
 
@@ -40,14 +33,12 @@ class BookmarksState {
 		if (had) next.delete(key);
 		else next.add(key);
 		this.#keys = next; // optimistic
-		try {
-			const res = await fetch('/api/bookmarks', {
-				method: had ? 'DELETE' : 'PUT',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ rulesetId, ruleId })
-			});
-			if (!res.ok) throw new Error(String(res.status));
-		} catch {
+		const result = await safeFetch('/api/bookmarks', {
+			method: had ? 'DELETE' : 'PUT',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ rulesetId, ruleId })
+		});
+		if (!result.ok) {
 			const revert = new Set(this.#keys);
 			if (had) revert.add(key);
 			else revert.delete(key);

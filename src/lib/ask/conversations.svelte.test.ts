@@ -40,7 +40,7 @@ describe('conversations pagination cursor', () => {
 	it('sends no cursor on the first page', async () => {
 		fetchMock.mockResolvedValueOnce(okJson({ conversations: [], hasMore: false }));
 		await conversations.load();
-		expect(fetchMock).toHaveBeenCalledWith('/api/ai/conversations');
+		expect(fetchMock.mock.calls[0][0]).toBe('/api/ai/conversations');
 	});
 
 	it('derives before and beforeId from the same last row on loadMore', async () => {

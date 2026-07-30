@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { safeFetchJson } from '$lib/fetch';
+	import { DisplayNameStateSchema } from '$lib/profile/payload';
+
 	let {
 		suggestion,
 		prefix = '',
@@ -10,33 +13,40 @@
 	let busy = $state(false);
 	let message = $state<string | null>(null);
 
+	// PUT's success body carries only `displayName` (no `suggestion`), unlike
+	// the shared GET shape — pick the field the two responses have in common.
+	const PutSuccessSchema = DisplayNameStateSchema.pick({ displayName: true });
+
 	async function put(body: { displayName: string; resolveConflict?: boolean }) {
 		busy = true;
 		message = null;
 		try {
-			const res = await fetch('/api/profile/display-name', {
-				method: 'PUT',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify(body)
-			});
-			const data = (await res.json().catch(() => null)) as {
-				displayName?: string;
-				suggestion?: string;
-				message?: string;
-			} | null;
-			if (res.ok && data?.displayName) {
-				onSaved(data.displayName);
+			const result = await safeFetchJson(
+				'/api/profile/display-name',
+				{
+					method: 'PUT',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify(body)
+				},
+				PutSuccessSchema
+			);
+			if (result.ok && result.data.displayName) {
+				onSaved(result.data.displayName);
 				return;
 			}
-			if (res.status === 409) {
+			if (result.status === null) {
+				message = 'network error — try again';
+				return;
+			}
+			if (!result.ok && result.status === 409) {
+				const data = result.body as { suggestion?: string; message?: string } | null;
 				editing = true;
 				if (data?.suggestion) value = data.suggestion;
 				message = data?.suggestion ? `taken — try “${data.suggestion}”?` : 'that name is taken';
 				return;
 			}
+			const data = result.ok ? null : (result.body as { message?: string } | null);
 			message = data?.message ?? 'couldn’t save that name — try again';
-		} catch {
-			message = 'network error — try again';
 		} finally {
 			busy = false;
 		}
