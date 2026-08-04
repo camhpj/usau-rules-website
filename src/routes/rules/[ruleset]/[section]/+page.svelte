@@ -33,7 +33,7 @@
 	><title>{data.section.title} · {data.manifest.shortTitle} · Best Perspective</title></svelte:head
 >
 
-<div class="mx-auto flex max-w-6xl gap-8 px-4 py-8 sm:px-6">
+<div class="mx-auto flex max-w-6xl gap-8 px-4 pt-8 pb-24 sm:px-6 lg:pb-8">
 	<aside
 		class="sticky top-24 hidden max-h-[calc(100vh-8rem)] w-64 shrink-0 self-start overflow-y-auto lg:block"
 	>

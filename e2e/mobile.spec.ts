@@ -43,9 +43,20 @@ function config(targetScope: string) {
 }
 
 /**
- * Audits one route at rest and again at the bottom of the page. The second pass
- * is what catches a fixed control sitting over the end of the content; at the
- * top of a long page it floats over nothing.
+ * Audits one route at rest and again at the bottom of the page.
+ *
+ * `app.css` sets `scroll-behavior: smooth` globally, so a plain `scrollTo` here
+ * would animate — on a content-heavy route the scroll is still mid-flight after
+ * a short wait, landing on an arbitrary middle position rather than the true
+ * end. `behavior: 'instant'` bypasses that and lands where it says.
+ *
+ * The coverage invariant is judged only at that true bottom, never at rest. A
+ * fixed control briefly floating over content while the user scrolls past it
+ * is ordinary mobile UX — the user keeps scrolling and sees the rest. The real
+ * defect is a fixed control left sitting over the LAST content on the page,
+ * where there is nowhere further to scroll to reveal it. On a route shorter
+ * than one viewport, rest and bottom are the same position, so that case is
+ * still caught: it just arrives via the bottom pass instead of the rest one.
  */
 async function sweep(
 	page: Page,
@@ -56,15 +67,21 @@ async function sweep(
 	await page.goto(route);
 	await page.waitForLoadState('networkidle');
 	const found = toViolations(await page.evaluate(auditInPage, config(targetScope)), route, width);
-	await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+	await page.evaluate(() =>
+		window.scrollTo({ top: document.body.scrollHeight, left: 0, behavior: 'instant' })
+	);
 	await page.waitForTimeout(250);
 	const atBottom = toViolations(
 		await page.evaluate(auditInPage, config(targetScope)),
 		`${route} (scrolled)`,
 		width
 	);
-	// Only the coverage invariant is scroll-dependent; the rest would double-report.
-	return [...found, ...atBottom.filter((v) => v.kind === 'covered')];
+	// Overflow and tap-target don't depend on scroll position, so the at-rest
+	// pass covers them; re-checking at the bottom would just double-report.
+	return [
+		...found.filter((v) => v.kind !== 'covered'),
+		...atBottom.filter((v) => v.kind === 'covered')
+	];
 }
 
 /**
@@ -87,7 +104,7 @@ for (const width of VIEWPORTS) {
 			const violations: Violation[] = [];
 			for (const route of PUBLIC_ROUTES)
 				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
 				'no violations'
 			);
 		});
@@ -106,7 +123,7 @@ for (const width of VIEWPORTS) {
 			const violations: Violation[] = [];
 			for (const route of SIGNED_IN_ROUTES)
 				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
 				'no violations'
 			);
 		});
@@ -116,7 +133,7 @@ for (const width of VIEWPORTS) {
 			const violations: Violation[] = [];
 			for (const route of ADMIN_ROUTES)
 				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
 				'no violations'
 			);
 		});
@@ -178,5 +195,68 @@ test.describe('mobile navigation', () => {
 			() => document.documentElement.scrollWidth <= document.documentElement.clientWidth
 		);
 		expect(noOverflow).toBe(true);
+	});
+});
+
+test.describe('running quiz layout @375px', () => {
+	test.use({ viewport: { width: 375, height: 667 }, hasTouch: true, isMobile: true });
+
+	test('the timed-run header does not overlap itself', async ({ page }) => {
+		await page.goto('/quiz/timed');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('button', { name: /^start$/i }).click();
+		await expect(page.getByRole('button', { name: /end run/i })).toBeVisible();
+
+		const overlap = await page.evaluate(() => {
+			const end = [...document.querySelectorAll('button')].find((b) =>
+				/end run/i.test(b.textContent ?? '')
+			)!;
+			const streak = [...document.querySelectorAll('p')].find((p) =>
+				/streak/i.test(p.textContent ?? '')
+			)!;
+			const a = end.getBoundingClientRect();
+			const b = streak.getBoundingClientRect();
+			return !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
+		});
+		expect(overlap, 'the End run button overlaps the streak line').toBe(false);
+
+		// Task 3 sized the End run button for a 44px tap target but could not verify it —
+		// that state only exists mid-run. This is that run, still in progress.
+		const violations = toViolations(
+			await page.evaluate(auditInPage, config('body')),
+			'/quiz/timed (running)',
+			375
+		);
+		expect(formatViolations(onlyKinds(violations, ['tap-target']))).toBe('no violations');
+	});
+});
+
+test.describe('running quiz layout @1024px', () => {
+	test.use({ viewport: { width: 1024, height: 768 } });
+
+	test('timer, streak, and End run keep their original left-to-right order', async ({ page }) => {
+		await page.goto('/quiz/timed');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('button', { name: /^start$/i }).click();
+		await expect(page.getByRole('button', { name: /end run/i })).toBeVisible();
+
+		const lefts = await page.evaluate(() => {
+			const end = [...document.querySelectorAll('button')].find((b) =>
+				/end run/i.test(b.textContent ?? '')
+			)!;
+			const streak = [...document.querySelectorAll('p')].find((p) =>
+				/streak/i.test(p.textContent ?? '')
+			)!;
+			const timer = [...document.querySelectorAll('p')].find((p) =>
+				/^\d+:\d{2}$/.test((p.textContent ?? '').trim())
+			)!;
+			return {
+				timer: timer.getBoundingClientRect().left,
+				streak: streak.getBoundingClientRect().left,
+				end: end.getBoundingClientRect().left
+			};
+		});
+		expect(lefts.timer, 'timer should sit left of streak').toBeLessThan(lefts.streak);
+		expect(lefts.streak, 'streak should sit left of End run').toBeLessThan(lefts.end);
 	});
 });
