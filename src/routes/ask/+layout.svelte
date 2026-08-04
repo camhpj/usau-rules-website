@@ -1,14 +1,15 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import { type Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { conversations } from '$lib/ask/conversations.svelte';
-	import { authClient } from '$lib/auth-client';
+	import { createSessionGate } from '$lib/auth-gate.svelte';
 	import ConversationSidebar from '$lib/components/chat/ConversationSidebar.svelte';
+	import SignInCard from '$lib/components/SignInCard.svelte';
 
 	let { children }: { children: Snippet } = $props();
 
-	let user = $state<{ name: string } | null>(null);
-	let sessionReady = $state(false);
+	const gate = createSessionGate();
+
 	let drawerOpen = $state(false);
 	let listLoaded = false;
 
@@ -18,16 +19,8 @@
 			: null
 	);
 
-	onMount(() => {
-		const store = authClient.useSession();
-		return store.subscribe((s) => {
-			user = s.data?.user ?? null;
-			if (!s.isPending) sessionReady = true;
-		});
-	});
-
 	$effect(() => {
-		if (user && !listLoaded) {
+		if (gate.user && !listLoaded) {
 			listLoaded = true;
 			void conversations.load();
 		}
@@ -38,31 +31,18 @@
 		void page.url.pathname;
 		drawerOpen = false;
 	});
-
-	function signIn() {
-		void authClient.signIn.social({ provider: 'google', callbackURL: '/ask' });
-	}
 </script>
 
 <svelte:head><title>Ask · Best Perspective</title></svelte:head>
 
-{#if !sessionReady}
+{#if !gate.sessionReady}
 	<div
 		class="mx-auto mt-16 h-40 max-w-3xl animate-pulse rounded-xl bg-white/10"
 		aria-hidden="true"
 	></div>
-{:else if !user}
+{:else if !gate.user}
 	<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
-		<div class="card mt-8 p-8 text-center">
-			<h2 class="display text-2xl">Sign in to use the ask feature</h2>
-			<button
-				type="button"
-				onclick={signIn}
-				class="mt-6 rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-			>
-				Sign in with Google
-			</button>
-		</div>
+		<SignInCard heading="Sign in to use the ask feature" onclick={() => gate.signIn('/ask')} />
 	</section>
 {:else}
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">

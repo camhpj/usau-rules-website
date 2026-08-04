@@ -31,7 +31,7 @@
 
 	{#each [{ heading: 'Preface', items: preface }, { heading: 'Sections', items: sections }, { heading: 'Appendices', items: appendices }] as group (group.heading)}
 		{#if group.items.length > 0}
-			<h2 class="mt-10 text-xs font-semibold tracking-[0.18em] text-white/50 uppercase">
+			<h2 class="eyebrow mt-10 text-white/50">
 				{group.heading}
 			</h2>
 			<div class="mt-4 grid gap-3 sm:grid-cols-2">

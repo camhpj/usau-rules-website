@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
+	import TogglePill from '$lib/components/TogglePill.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
 	import { loadAllQuestions, loadSectionQuestions } from '$lib/quiz/bank-lazy';
@@ -108,45 +110,33 @@
 <svelte:head><title>Quick quiz · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Quick quiz</p>
+	<p class="eyebrow text-cardinal">Quick quiz</p>
 	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Ten questions.</h1>
 
 	{#if phase === 'setup'}
 		<div class="card mt-8 p-6 sm:p-8">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Sections</h2>
+			<h2 class="eyebrow text-navy/50">Sections</h2>
 			<p class="mt-1 text-sm text-navy/60">Leave everything off to draw from the whole bank.</p>
 			<div class="mt-3 flex flex-wrap gap-2">
 				{#each sections as section (section.slug)}
-					<button
-						type="button"
-						aria-pressed={selectedSections.includes(section.slug)}
+					<TogglePill
+						selected={selectedSections.includes(section.slug)}
 						onclick={() => toggleSection(section.slug)}
-						class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
-							{selectedSections.includes(section.slug)
-							? 'border-navy bg-navy text-white'
-							: 'border-mist text-navy/70 hover:border-navy/40'}"
 					>
 						{section.number}. {section.title}
-					</button>
+					</TogglePill>
 				{/each}
 			</div>
 
-			<h2 class="mt-6 text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
-				Difficulty
-			</h2>
+			<h2 class="eyebrow mt-6 text-navy/50">Difficulty</h2>
 			<div class="mt-3 flex flex-wrap gap-2">
 				{#each DIFFICULTIES as d (d)}
-					<button
-						type="button"
-						aria-pressed={selectedDifficulties.includes(d)}
+					<TogglePill
+						selected={selectedDifficulties.includes(d)}
 						onclick={() => toggleDifficulty(d)}
-						class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
-							{selectedDifficulties.includes(d)
-							? 'border-navy bg-navy text-white'
-							: 'border-mist text-navy/70 hover:border-navy/40'}"
 					>
 						{d} · {DIFFICULTY_LABELS[d]}
-					</button>
+					</TogglePill>
 				{/each}
 			</div>
 
@@ -161,14 +151,7 @@
 						{matchCount} question{matchCount === 1 ? '' : 's'} match
 					{/if}
 				</p>
-				<button
-					type="button"
-					disabled={matchCount === 0 || loadingBank}
-					onclick={start}
-					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-				>
-					Start quiz
-				</button>
+				<Button disabled={matchCount === 0 || loadingBank} onclick={start}>Start quiz</Button>
 			</div>
 		</div>
 	{:else if phase === 'playing'}
@@ -182,21 +165,8 @@
 					<p class="mt-3 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
 				{/if}
 				<div class="mt-4 flex gap-3">
-					<button
-						type="button"
-						disabled={loadingBank}
-						onclick={start}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-					>
-						Play again
-					</button>
-					<button
-						type="button"
-						onclick={() => (phase = 'setup')}
-						class="rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy"
-					>
-						Change settings
-					</button>
+					<Button disabled={loadingBank} onclick={start}>Play again</Button>
+					<Button variant="outline" onclick={() => (phase = 'setup')}>Change settings</Button>
 				</div>
 			</QuizSummary>
 		</div>

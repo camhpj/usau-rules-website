@@ -3,19 +3,22 @@
 	import Chip from '$lib/components/Chip.svelte';
 	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
 	import { utcDay } from '$lib/time';
+	import { MePageState } from './page-state.svelte';
 	let { data } = $props();
 
-	// Local, optimistically-updated mirror of the claimed display name so saves/removal reflect
-	// immediately without a reload; the server load value stays the source of truth on refresh.
-	let displayName = $state<string | null>(null);
+	// Seeded from the initial load once; not kept reactively synced to `data`, since bookmark and
+	// display-name removal are applied optimistically here rather than by re-fetching load data.
+	const state = new MePageState(
+		untrack(() => data.bookmarks),
+		untrack(() => data.profile.displayName)
+	);
+	// A client-side navigation can reuse this component with fresh load data — resync the
+	// server-confirmed display name so it stays the source of truth on refresh/navigation.
 	$effect.pre(() => {
-		displayName = data.profile.displayName;
+		state.displayName = data.profile.displayName;
 	});
 
 	const MODE_LABELS = { quick: 'Quick quiz', mastery: 'Section mastery', timed: 'Timed challenge' };
-	// Seed local mutable state from the initial load once; not kept reactively synced to `data`,
-	// since bookmark removal is applied optimistically here rather than by re-fetching load data.
-	let marks = $state(untrack(() => data.bookmarks));
 
 	// Day labels are derived from `data.now` (serialized with the load) rather than the client
 	// clock, so server and client agree on "Today" during hydration. Both sides slice the UTC
@@ -35,35 +38,9 @@
 			: `Set ${label}`;
 	};
 
-	async function removeBookmark(rulesetId: string, ruleId: string) {
-		const prev = marks;
-		marks = marks.filter((b) => !(b.rulesetId === rulesetId && b.ruleId === ruleId));
-		try {
-			const res = await fetch('/api/bookmarks', {
-				method: 'DELETE',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ rulesetId, ruleId })
-			});
-			if (!res.ok) throw new Error(String(res.status));
-		} catch {
-			marks = prev;
-		}
-	}
-
-	async function removeName() {
-		const prev = displayName;
-		displayName = null;
-		const res = await fetch('/api/profile/display-name', {
-			method: 'PUT',
-			headers: { 'content-type': 'application/json' },
-			body: JSON.stringify({ displayName: null })
-		}).catch(() => null);
-		if (!res?.ok) displayName = prev; // revert on failure
-	}
-
 	function startChange() {
 		// change = remove locally then re-open the claim flow prefilled
-		displayName = null;
+		state.displayName = null;
 	}
 
 	// Progress summary — a compact roll-up of the per-section mastery the server load already
@@ -93,10 +70,13 @@
 	<Chip label="Dashboard" />
 	<h1 class="display mt-3 text-4xl text-white sm:text-5xl">Your perspective.</h1>
 	<p class="mt-2 text-sm text-white/60">{data.user.name} · {data.user.email}</p>
+	{#if state.errorMessage}
+		<p class="mt-4 text-sm font-semibold text-cardinal" role="alert">{state.errorMessage}</p>
+	{/if}
 
 	<div class="mt-8 grid gap-4 lg:grid-cols-3">
 		<div class="card flex flex-col p-6">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Timed best</h2>
+			<h2 class="eyebrow text-navy/50">Timed best</h2>
 			{#if data.timedBest}
 				<div class="mt-4 flex items-baseline gap-10">
 					<div>
@@ -115,12 +95,12 @@
 			<div class="mt-4 border-t border-mist pt-3">
 				<a
 					href="/leaderboard"
-					class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase hover:text-navy"
+					class="eyebrow text-navy/50 hover:text-navy"
 					title="See the leaderboard">Leaderboard →</a
 				>
 				<p class="mt-1.5 text-sm text-navy/70">
-					{#if displayName}
-						<b class="text-navy whitespace-nowrap">{displayName}</b>
+					{#if state.displayName}
+						<b class="text-navy whitespace-nowrap">{state.displayName}</b>
 						<span class="whitespace-nowrap">
 							· <button
 								type="button"
@@ -131,7 +111,7 @@
 							·
 							<button
 								type="button"
-								onclick={removeName}
+								onclick={() => state.removeName()}
 								class="text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
 								>remove</button
 							>
@@ -139,7 +119,7 @@
 					{:else}
 						<DisplayNameClaim
 							suggestion={data.profile.suggestion}
-							onSaved={(n) => (displayName = n)}
+							onSaved={(n) => (state.displayName = n)}
 						/>
 					{/if}
 				</p>
@@ -155,9 +135,7 @@
 		</div>
 
 		<div class="card flex flex-col p-6 lg:col-span-2">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
-				Recent attempts
-			</h2>
+			<h2 class="eyebrow text-navy/50">Recent attempts</h2>
 			{#if data.attempts.length === 0}
 				<p class="mt-2 text-sm text-navy/60">Nothing yet. Completed quizzes will appear here.</p>
 			{:else}
@@ -191,7 +169,7 @@
 	</div>
 
 	<div class="card mt-4 p-6">
-		<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Progress</h2>
+		<h2 class="eyebrow text-navy/50">Progress</h2>
 		<div class="mt-4 flex flex-wrap items-baseline gap-x-8 gap-y-2">
 			<div>
 				<p class="display text-3xl text-turf">{masteredCount}</p>
@@ -239,12 +217,12 @@
 		</a>
 	</div>
 
-	<h2 class="mt-10 text-xs font-semibold tracking-[0.18em] text-white/50 uppercase">Bookmarks</h2>
-	{#if marks.length === 0}
+	<h2 class="eyebrow mt-10 text-white/50">Bookmarks</h2>
+	{#if state.marks.length === 0}
 		<p class="mt-3 text-sm text-white/60">Bookmarked rules will appear here.</p>
 	{:else}
 		<ul class="mt-3 grid gap-2 sm:grid-cols-2">
-			{#each marks as mark (mark.rulesetId + mark.ruleId)}
+			{#each state.marks as mark (mark.rulesetId + mark.ruleId)}
 				<li class="card flex items-center justify-between gap-3 px-4 py-3">
 					<a
 						href="/rules/{mark.rulesetId}/{mark.sectionSlug}#{mark.ruleId}"
@@ -258,7 +236,7 @@
 					<button
 						type="button"
 						aria-label="Remove bookmark {mark.ruleId}"
-						onclick={() => removeBookmark(mark.rulesetId, mark.ruleId)}
+						onclick={() => state.removeBookmark(mark.rulesetId, mark.ruleId)}
 						class="shrink-0 text-navy/40 hover:text-cardinal"
 					>
 						<svg aria-hidden="true" class="h-4 w-4" viewBox="0 -960 960 960" fill="currentColor">

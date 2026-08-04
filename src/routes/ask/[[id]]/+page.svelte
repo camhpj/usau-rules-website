@@ -1,170 +1,53 @@
 <script lang="ts">
 	import { afterNavigate, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
-	import {
-		CHAT_MAX_MESSAGE_CHARS,
-		CONVERSATION_MESSAGE_CAP,
-		type ChatMessage,
-		type ConversationDetail
-	} from '$lib/ai/payload';
+	import { CHAT_MAX_MESSAGE_CHARS } from '$lib/ai/payload';
 	import { latestThoughtHeadline } from '$lib/ai/thoughts';
+	import { AskPageState } from '$lib/ask/ask-page.svelte';
 	import { chatStream } from '$lib/ask/chat-stream.svelte';
 	import AskAnswer from '$lib/components/AskAnswer.svelte';
 	import ChatMessageRow from '$lib/components/chat/ChatMessageRow.svelte';
 
-	let messages = $state<ChatMessage[]>([]);
-	let input = $state('');
-	let errorMessage = $state<string | null>(null);
-	let loadingConvo = $state(false);
-	let notFound = $state(false);
-	// Seeded from the URL directly (not via afterNavigate — see below) so a hard
-	// navigation straight to /ask/<id> starts with the right id.
-	const initialId = page.params.id ?? null;
-	let activeId = $state<string | null>(initialId);
 	let scrollEl = $state<HTMLElement | null>(null);
-	/** Regenerated per view session; ties a send to the view that initiated it. */
-	let myToken = $state<symbol>(Symbol());
-
-	// Guards page-local mutations (bubble rollback, load results) against view
-	// changes. Stream continuations live in chatStream and need no guard.
-	let viewGeneration = 0;
-
-	const full = $derived(messages.length >= CONVERSATION_MESSAGE_CAP);
-	/** The live stream belonging to what this view shows, if any. */
-	const activeJob = $derived(chatStream.jobForView(activeId, myToken));
-	const thoughtHeadline = $derived(activeJob ? latestThoughtHeadline(activeJob.thoughts) : null);
-	const lastMessage = $derived(messages[messages.length - 1] ?? null);
-	const canRetry = $derived(
-		!activeJob &&
-			activeId !== null &&
-			lastMessage?.role === 'assistant' &&
-			lastMessage?.status === 'error'
-	);
-
-	// This component only mounts once the auth check in +layout.svelte resolves
-	// (an async session fetch), which is always after SvelteKit's one-time
-	// hydration "enter" callback for a hard navigation has already fired and
-	// been missed — afterNavigate below would never run for it. So a hard
-	// navigation straight to /ask/<id> (page reload, deep link, shared URL)
-	// needs its own load, using the id already seeded above from page.params.
-	if (initialId) void loadConversation(initialId);
-
-	// Reset the view on every completed navigation — including same-URL ones,
-	// like clicking "New chat" while already on a blank /ask with a send in
-	// flight (a params compare would miss those). Covers every navigation that
-	// happens once this component is mounted — the hard-navigation entry case
-	// above is the one gap, handled separately. URL adoption below uses
-	// replaceState, which is not a navigation, so adopting an id never resets
-	// the view.
-	afterNavigate((nav) => {
-		const param = nav.to?.params?.id ?? null;
-		viewGeneration += 1;
-		myToken = Symbol(); // a background send from the old view must not adopt this view's URL
-		activeId = param;
-		errorMessage = null;
-		messages = []; // clear immediately so a conversation switch never flashes the old thread
-		notFound = false;
-		loadingConvo = false;
-		if (param) void loadConversation(param);
-	});
-
-	// Adopt the conversation id once headers arrive for a send initiated from
-	// THIS view's blank composer: morph the URL and selection in place.
-	$effect(() => {
-		if (activeId !== null) return;
-		const cid = chatStream.jobForView(null, myToken)?.conversationId ?? null;
-		if (!cid) return;
-		activeId = cid;
-		replaceState(`/ask/${cid}`, {});
-	});
-
-	// Pick up an exchange that finished (possibly while this view was unmounted).
-	// Defers until the transcript load settles, so it never races loadConversation's
-	// own assignment; the server row may already be in the loaded transcript — dedupe by id.
-	$effect(() => {
-		if (!activeId || loadingConvo) return;
-		const done = chatStream.completed.get(activeId);
-		if (!done) return;
-		if (!messages.some((m) => m.id === done.id)) {
-			messages = [...messages, done];
-			scrollToEnd();
-		}
-		chatStream.consumeCompleted(activeId);
-	});
-
-	async function loadConversation(id: string) {
-		const gen = viewGeneration;
-		loadingConvo = true;
-		notFound = false;
-		try {
-			const res = await fetch(`/api/ai/conversations/${encodeURIComponent(id)}`);
-			if (gen !== viewGeneration) return;
-			if (res.status === 404) {
-				notFound = true;
-				messages = [];
-				return;
-			}
-			if (!res.ok) throw new Error(String(res.status));
-			const data = (await res.json()) as ConversationDetail;
-			if (gen !== viewGeneration) return;
-			messages = data.messages;
-			scrollToEnd();
-		} catch {
-			if (gen !== viewGeneration) return;
-			errorMessage = "Couldn't load this conversation — try again.";
-		} finally {
-			if (gen === viewGeneration) loadingConvo = false; // a stale load must not clear the new load's skeleton
-		}
-	}
 
 	function scrollToEnd() {
 		requestAnimationFrame(() => scrollEl?.scrollTo({ top: scrollEl.scrollHeight }));
 	}
 
-	async function send(event?: SubmitEvent) {
-		event?.preventDefault();
-		const text = input.trim();
-		if (text.length < 3 || activeJob || full) return;
-		const gen = viewGeneration;
-		messages = [
-			...messages,
-			{
-				id: `local-${crypto.randomUUID()}`,
-				role: 'user',
-				content: text,
-				status: null,
-				feedback: null,
-				createdAt: Date.now()
-			}
-		];
-		input = '';
-		scrollToEnd();
-		const result = await chatStream.send(text, { conversationId: activeId, viewToken: myToken });
-		if (gen !== viewGeneration) return;
-		if (result.kind === 'failed' || result.kind === 'rejected') {
-			messages = messages.slice(0, -1); // roll back the optimistic user bubble
-			input = text; // keep the message for retry
-		}
-		errorMessage = result.message;
-	}
+	// Seeded from the URL directly (not via afterNavigate — see AskPageState's constructor)
+	// so a hard navigation straight to /ask/<id> starts with the right id.
+	// Not named `state`: that name collides with the `$state` rune above and silently
+	// turns every `$state(...)` in this file into a store auto-subscription instead.
+	const ask = new AskPageState(page.params.id ?? null, {
+		scrollToEnd,
+		adoptUrl: (id) => replaceState(`/ask/${id}`, {})
+	});
 
-	async function retry() {
-		if (!canRetry || !activeId) return;
-		const gen = viewGeneration;
-		const failedRow = messages[messages.length - 1];
-		// The server deletes the failed row before regenerating — mirror it here.
-		messages = messages.slice(0, -1);
-		errorMessage = null;
-		const result = await chatStream.send('', {
-			conversationId: activeId,
-			viewToken: myToken,
-			retry: true
-		});
-		if (gen !== viewGeneration) return;
-		if (result.kind === 'failed' || result.kind === 'rejected') {
-			messages = [...messages, failedRow]; // the send never started; the row is still persisted
-		}
-		errorMessage = result.message;
+	// Covers every navigation that happens once this component is mounted — the
+	// hard-navigation entry case above is the one gap, handled by the constructor.
+	afterNavigate((nav) => {
+		ask.handleNavigate(nav.to?.params?.id ?? null);
+	});
+
+	// Reactively re-checked whenever chatStream's jobs or this view's own id change —
+	// see AskPageState.checkUrlAdoption for what it does and why.
+	$effect(() => {
+		ask.checkUrlAdoption();
+	});
+
+	// Reactively re-checked whenever chatStream's completed map, this view's id, or its
+	// load state change — see AskPageState.consumeCompletedIfReady.
+	$effect(() => {
+		ask.consumeCompletedIfReady();
+	});
+
+	const thoughtHeadline = $derived(
+		ask.activeJob ? latestThoughtHeadline(ask.activeJob.thoughts) : null
+	);
+
+	function submitMessage(event: SubmitEvent) {
+		event.preventDefault();
+		void ask.send();
 	}
 
 	function onKeydown(event: KeyboardEvent) {
@@ -174,16 +57,16 @@
 			event.preventDefault();
 			const el = event.currentTarget as HTMLTextAreaElement;
 			el.setRangeText('\n', el.selectionStart, el.selectionEnd, 'end');
-			input = el.value;
+			ask.input = el.value;
 			return;
 		}
 		if (event.shiftKey) return;
 		event.preventDefault();
-		void send();
+		void ask.send();
 	}
 </script>
 
-{#if notFound}
+{#if ask.notFound}
 	<div class="p-8 text-center">
 		<h2 class="display text-xl text-navy">Conversation not found</h2>
 		<a href="/ask" class="mt-4 inline-block text-sm font-semibold text-cardinal hover:underline">
@@ -194,14 +77,14 @@
 	<section
 		bind:this={scrollEl}
 		style="scrollbar-gutter: stable;"
-		class="flex-1 overflow-y-auto pr-4 pb-4 sm:pr-6 {messages.length === 0 &&
-		!activeJob &&
-		!loadingConvo
+		class="flex-1 overflow-y-auto pr-4 pb-4 sm:pr-6 {ask.messages.length === 0 &&
+		!ask.activeJob &&
+		!ask.loadingConvo
 			? 'flex items-center justify-center'
 			: 'space-y-5'}"
 		aria-label="Messages"
 	>
-		{#if loadingConvo}
+		{#if ask.loadingConvo}
 			<div class="space-y-3" aria-hidden="true">
 				<div class="flex justify-end">
 					<div class="h-8 w-36 animate-pulse rounded-2xl bg-navy/15"></div>
@@ -209,16 +92,16 @@
 				<div class="h-4 w-4/5 animate-pulse rounded bg-navy/10"></div>
 				<div class="h-4 w-3/5 animate-pulse rounded bg-navy/10"></div>
 			</div>
-		{:else if messages.length === 0 && !activeJob}
+		{:else if ask.messages.length === 0 && !ask.activeJob}
 			<div class="text-center">
 				<p class="text-sm text-navy/60">Ask anything about the rules</p>
 				<p class="mt-1 text-xs text-navy/40">Ask is powered by AI and can make mistakes</p>
 			</div>
 		{/if}
-		{#each messages as message (message.id)}
+		{#each ask.messages as message (message.id)}
 			<ChatMessageRow
 				{message}
-				onretry={canRetry && message.id === lastMessage?.id ? retry : null}
+				onretry={ask.canRetry && message.id === ask.lastMessage?.id ? () => void ask.retry() : null}
 			/>
 		{/each}
 		<!--
@@ -234,9 +117,13 @@
 			gap that isn't there today. `-mt-5` when idle cancels exactly that margin
 			via collapsing; it's a no-op once the wrapper has content of its own.
 		-->
-		<div aria-live="polite" aria-busy={!!activeJob} class="space-y-5 {activeJob ? '' : '-mt-5'}">
-			{#if activeJob}
-				{#if !activeJob.streamingText}
+		<div
+			aria-live="polite"
+			aria-busy={!!ask.activeJob}
+			class="space-y-5 {ask.activeJob ? '' : '-mt-5'}"
+		>
+			{#if ask.activeJob}
+				{#if !ask.activeJob.streamingText}
 					<p class="flex items-center gap-2 text-sm text-navy/60 italic">
 						<span
 							class="inline-block h-2 w-2 animate-pulse rounded-full bg-cardinal/60"
@@ -245,9 +132,9 @@
 						{thoughtHeadline ? `Thinking — ${thoughtHeadline}` : 'Thinking…'}
 					</p>
 				{:else}
-					<AskAnswer answer={activeJob.streamingText} streaming={true} />
+					<AskAnswer answer={ask.activeJob.streamingText} streaming={true} />
 				{/if}
-				{#if activeJob.stalled}
+				{#if ask.activeJob.stalled}
 					<p class="text-xs text-navy/50 italic">
 						Taking longer than usual — you can stop and ask again.
 					</p>
@@ -257,21 +144,21 @@
 	</section>
 
 	<div class="border-t border-mist pt-4 pr-4 sm:pr-6">
-		{#if errorMessage}
-			<p class="mb-2 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
+		{#if ask.errorMessage}
+			<p class="mb-2 text-sm font-semibold text-cardinal" role="alert">{ask.errorMessage}</p>
 		{/if}
-		{#if full}
+		{#if ask.full}
 			<p class="text-sm text-navy/60">
 				This conversation is full —
 				<a href="/ask" class="font-semibold text-cardinal hover:underline">start a new chat</a>.
 			</p>
 		{:else}
-			<form onsubmit={send} class="flex flex-col gap-2">
+			<form onsubmit={submitMessage} class="flex flex-col gap-2">
 				<div
 					class="flex flex-col rounded-lg border border-mist bg-mist/50 focus-within:border-navy/50 focus-within:bg-white"
 				>
 					<textarea
-						bind:value={input}
+						bind:value={ask.input}
 						onkeydown={onKeydown}
 						maxlength={CHAT_MAX_MESSAGE_CHARS}
 						rows="2"
@@ -287,10 +174,10 @@
 						{:else}
 							<span aria-hidden="true"></span>
 						{/if}
-						{#if activeJob}
+						{#if ask.activeJob}
 							<button
 								type="button"
-								onclick={() => activeJob && chatStream.stop(activeJob)}
+								onclick={() => ask.activeJob && chatStream.stop(ask.activeJob)}
 								aria-label="Stop"
 								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-white hover:brightness-110"
 							>
@@ -308,7 +195,7 @@
 							<button
 								type="submit"
 								aria-label="Send"
-								disabled={chatStream.atCap || input.trim().length < 3}
+								disabled={chatStream.atCap || ask.input.trim().length < 3}
 								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cardinal text-white hover:brightness-110 disabled:opacity-40"
 							>
 								<svg

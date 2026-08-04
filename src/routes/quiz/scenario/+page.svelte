@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { ScenarioResponseSchema } from '$lib/ai/payload';
-	import { authClient } from '$lib/auth-client';
+	import { createSessionGate } from '$lib/auth-gate.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import SignInCard from '$lib/components/SignInCard.svelte';
+	import TogglePill from '$lib/components/TogglePill.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { buildQuizItems, mulberry32, type QuizItem } from '$lib/quiz/engine';
@@ -9,26 +11,14 @@
 
 	const DIFFICULTIES = [1, 2, 3] as const;
 
-	let user = $state<{ name: string } | null>(null);
-	let sessionReady = $state(false);
+	const gate = createSessionGate();
+
 	let difficulty = $state<1 | 2 | 3 | null>(null);
 	let phase = $state<'setup' | 'loading' | 'playing' | 'done'>('setup');
 	let items = $state<QuizItem[]>([]);
 	let source = $state<'ai' | 'fallback'>('ai');
 	let remaining = $state<number | null>(null);
 	let errorMessage = $state<string | null>(null);
-
-	onMount(() => {
-		const store = authClient.useSession();
-		return store.subscribe((s) => {
-			user = s.data?.user ?? null;
-			if (!s.isPending) sessionReady = true;
-		});
-	});
-
-	function signIn() {
-		void authClient.signIn.social({ provider: 'google', callbackURL: '/quiz/scenario' });
-	}
 
 	async function deal() {
 		phase = 'loading';
@@ -72,49 +62,24 @@
 <svelte:head><title>Scenario mode · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Scenario mode</p>
+	<p class="eyebrow text-cardinal">Scenario mode</p>
 	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Make the call.</h1>
 
-	{#if !sessionReady}
+	{#if !gate.sessionReady}
 		<div class="mt-8 h-40 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
-	{:else if !user}
-		<div class="card mt-8 p-8 text-center">
-			<h2 class="display text-2xl">Sign in to play scenarios</h2>
-			<button
-				type="button"
-				onclick={signIn}
-				class="mt-6 rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-			>
-				Sign in with Google
-			</button>
-		</div>
+	{:else if !gate.user}
+		<SignInCard heading="Sign in to play scenarios" onclick={() => gate.signIn('/quiz/scenario')} />
 	{:else if phase === 'setup' || phase === 'loading'}
 		<div class="card mt-8 p-6 sm:p-8">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Difficulty</h2>
+			<h2 class="eyebrow text-navy/50">Difficulty</h2>
 			<div class="mt-3 flex flex-wrap gap-2">
-				<button
-					type="button"
-					aria-pressed={difficulty === null}
-					onclick={() => (difficulty = null)}
-					class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
-						{difficulty === null
-						? 'border-navy bg-navy text-white'
-						: 'border-mist text-navy/70 hover:border-navy/40'}"
-				>
+				<TogglePill selected={difficulty === null} onclick={() => (difficulty = null)}>
 					Any
-				</button>
+				</TogglePill>
 				{#each DIFFICULTIES as d (d)}
-					<button
-						type="button"
-						aria-pressed={difficulty === d}
-						onclick={() => (difficulty = d)}
-						class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
-							{difficulty === d
-							? 'border-navy bg-navy text-white'
-							: 'border-mist text-navy/70 hover:border-navy/40'}"
-					>
+					<TogglePill selected={difficulty === d} onclick={() => (difficulty = d)}>
 						{d} · {DIFFICULTY_LABELS[d]}
-					</button>
+					</TogglePill>
 				{/each}
 			</div>
 			{#if errorMessage}
@@ -130,14 +95,7 @@
 						Generate a realistic game scenario and make the call.
 					{/if}
 				</p>
-				<button
-					type="button"
-					disabled={phase === 'loading'}
-					onclick={deal}
-					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-				>
-					Deal a scenario
-				</button>
+				<Button disabled={phase === 'loading'} onclick={deal}>Deal a scenario</Button>
 			</div>
 		</div>
 	{:else if phase === 'playing'}
@@ -165,20 +123,8 @@
 				</p>
 			{/if}
 			<div class="mt-6 flex gap-3">
-				<button
-					type="button"
-					onclick={deal}
-					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-				>
-					Another scenario
-				</button>
-				<button
-					type="button"
-					onclick={() => (phase = 'setup')}
-					class="rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy"
-				>
-					Change difficulty
-				</button>
+				<Button onclick={deal}>Another scenario</Button>
+				<Button variant="outline" onclick={() => (phase = 'setup')}>Change difficulty</Button>
 			</div>
 		</div>
 	{/if}

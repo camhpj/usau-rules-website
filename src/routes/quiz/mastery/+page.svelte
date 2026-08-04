@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
@@ -80,7 +81,7 @@
 <svelte:head><title>Section mastery · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Section mastery</p>
+	<p class="eyebrow text-cardinal">Section mastery</p>
 
 	{#if phase === 'grid'}
 		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Own the rulebook.</h1>
@@ -140,21 +141,8 @@
 					<p class="mt-3 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
 				{/if}
 				<div class="mt-4 flex gap-3">
-					<button
-						type="button"
-						disabled={loadingBank}
-						onclick={() => startSection(active!)}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-					>
-						Run it again
-					</button>
-					<button
-						type="button"
-						onclick={() => (phase = 'grid')}
-						class="rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy"
-					>
-						All sections
-					</button>
+					<Button disabled={loadingBank} onclick={() => startSection(active!)}>Run it again</Button>
+					<Button variant="outline" onclick={() => (phase = 'grid')}>All sections</Button>
 				</div>
 			</QuizSummary>
 		</div>

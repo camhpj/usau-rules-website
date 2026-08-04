@@ -61,6 +61,15 @@
 	}
 }
 
+/* small-caps label above a heading; colour stays a sibling class */
+@utility eyebrow {
+	font-size: var(--text-xs);
+	line-height: var(--text-xs--line-height);
+	font-weight: 600;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
 /* rule text content: cross-refs, glossary terms, tables, and images from ingested rule HTML */
 @layer components {
 	.rule-html a {
