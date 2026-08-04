@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { isDynamicRoute } from './hooks.server';
 
@@ -111,5 +111,28 @@ describe('prerendered exceptions stay prerendered', () => {
 	test.each([...PRERENDERED_EXCEPTIONS])('%s does not opt out of prerendering', (file) => {
 		const source = readFileSync(join(ROUTES_DIR, file), 'utf-8');
 		expect(source).not.toMatch(/prerender\s*=\s*false/);
+	});
+
+	// The check above only reads the excepted files themselves, but prerendering
+	// is inherited: a `+layout.ts` anywhere above one of them can opt the whole
+	// subtree out, and this repo already uses that pattern (ask/[[id]]/+page.ts).
+	// So also pin the two places the inheritance could change.
+	test('the root layout still turns prerendering on', () => {
+		expect(readFileSync(join(ROUTES_DIR, '+layout.ts'), 'utf-8')).toMatch(/prerender\s*=\s*true/);
+	});
+
+	test('no layout above an excepted route opts its subtree out', () => {
+		for (const file of PRERENDERED_EXCEPTIONS) {
+			// Walk each ancestor directory of the excepted route, checking any
+			// layout that would apply to it.
+			const parts = file.split('/').slice(0, -1);
+			for (let i = parts.length; i >= 0; i--) {
+				for (const layout of ['+layout.ts', '+layout.server.ts']) {
+					const candidate = join(ROUTES_DIR, ...parts.slice(0, i), layout);
+					if (!existsSync(candidate)) continue;
+					expect(readFileSync(candidate, 'utf-8'), candidate).not.toMatch(/prerender\s*=\s*false/);
+				}
+			}
+		}
 	});
 });
