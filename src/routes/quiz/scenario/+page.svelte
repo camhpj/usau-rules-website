@@ -3,6 +3,7 @@
 	import { createSessionGate } from '$lib/auth-gate.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import SignInCard from '$lib/components/SignInCard.svelte';
+	import TogglePill from '$lib/components/TogglePill.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { buildQuizItems, mulberry32, type QuizItem } from '$lib/quiz/engine';
@@ -72,29 +73,13 @@
 		<div class="card mt-8 p-6 sm:p-8">
 			<h2 class="eyebrow text-navy/50">Difficulty</h2>
 			<div class="mt-3 flex flex-wrap gap-2">
-				<button
-					type="button"
-					aria-pressed={difficulty === null}
-					onclick={() => (difficulty = null)}
-					class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
-						{difficulty === null
-						? 'border-navy bg-navy text-white'
-						: 'border-mist text-navy/70 hover:border-navy/40'}"
-				>
+				<TogglePill selected={difficulty === null} onclick={() => (difficulty = null)}>
 					Any
-				</button>
+				</TogglePill>
 				{#each DIFFICULTIES as d (d)}
-					<button
-						type="button"
-						aria-pressed={difficulty === d}
-						onclick={() => (difficulty = d)}
-						class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
-							{difficulty === d
-							? 'border-navy bg-navy text-white'
-							: 'border-mist text-navy/70 hover:border-navy/40'}"
-					>
+					<TogglePill selected={difficulty === d} onclick={() => (difficulty = d)}>
 						{d} · {DIFFICULTY_LABELS[d]}
-					</button>
+					</TogglePill>
 				{/each}
 			</div>
 			{#if errorMessage}

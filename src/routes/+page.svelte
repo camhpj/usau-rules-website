@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import GridPulses from '$lib/components/GridPulses.svelte';
+	import PromoCard from '$lib/components/PromoCard.svelte';
 </script>
 
 <svelte:head><title>Best Perspective — USA Ultimate Rules</title></svelte:head>
@@ -217,36 +218,18 @@
 		</p>
 
 		<div class="mt-4 grid w-full max-w-3xl gap-4 text-left sm:grid-cols-2">
-			<a
-				href="/rules/{DEFAULT_RULESET_ID}"
-				class="group animate-fade-up relative card card-link p-6"
-				style="--stagger: 2"
-			>
+			<PromoCard href="/rules/{DEFAULT_RULESET_ID}" stagger={2}>
 				<h2 class="display text-2xl">Explore the rules</h2>
 				<p class="mt-1.5 pr-8 text-sm text-navy/70">
 					The whole rule book in a readable and searchable format.
 				</p>
-				<span
-					aria-hidden="true"
-					class="absolute top-6 right-6 inline-flex h-8 w-8 items-center justify-center rounded-full bg-cardinal text-white transition-transform group-hover:translate-x-1"
-					>→</span
-				>
-			</a>
-			<a
-				href="/quiz"
-				class="group animate-fade-up relative card card-link p-6"
-				style="--stagger: 3"
-			>
+			</PromoCard>
+			<PromoCard href="/quiz" stagger={3}>
 				<h2 class="display text-2xl">Test yourself</h2>
 				<p class="mt-1.5 pr-8 text-sm text-navy/70">
 					Quick quizzes, game scenarios, and section mastery grounded with citations.
 				</p>
-				<span
-					aria-hidden="true"
-					class="absolute top-6 right-6 inline-flex h-8 w-8 items-center justify-center rounded-full bg-cardinal text-white transition-transform group-hover:translate-x-1"
-					>→</span
-				>
-			</a>
+			</PromoCard>
 		</div>
 
 		<a

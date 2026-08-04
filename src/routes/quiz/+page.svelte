@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { ScenarioQuotaSchema } from '$lib/ai/payload';
+	import PromoCard from '$lib/components/PromoCard.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { computeSectionMastery } from '$lib/quiz/mastery';
 	import { getTimedBest, loadResponses } from '$lib/quiz/storage';
@@ -79,11 +80,7 @@
 
 	<div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 		{#each modes as mode, i (mode.href)}
-			<a
-				href={mode.href}
-				class="group animate-fade-up relative flex flex-col card card-link p-6"
-				style="--stagger: {3 + i}"
-			>
+			<PromoCard href={mode.href} stagger={3 + i} class="flex flex-col">
 				<h2 class="display pr-10 text-2xl">
 					{#if mode.href === '/quiz/quick'}
 						Quick <br class="hidden xl:block" />Quiz
@@ -97,12 +94,7 @@
 						{mode.stat}
 					</p>
 				{/if}
-				<span
-					aria-hidden="true"
-					class="absolute top-6 right-6 inline-flex h-8 w-8 items-center justify-center rounded-full bg-cardinal text-white transition-transform group-hover:translate-x-1"
-					>→</span
-				>
-			</a>
+			</PromoCard>
 		{/each}
 	</div>
 </section>
