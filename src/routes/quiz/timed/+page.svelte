@@ -65,7 +65,7 @@
 			<button
 				type="button"
 				onclick={() => run.finish()}
-				class="absolute top-1/2 right-5 -translate-y-1/2 rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white sm:static sm:translate-y-0"
+				class="absolute top-1/2 right-5 -translate-y-1/2 inline-flex min-h-11 items-center rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white sm:static sm:translate-y-0"
 			>
 				End run
 			</button>
@@ -124,7 +124,8 @@
 							type="button"
 							aria-label="Dismiss"
 							onclick={() => (run.nudgeDismissed = true)}
-							class="ml-1 text-navy/40 hover:text-navy/70">✕</button
+							class="ml-1 inline-flex h-11 w-11 items-center justify-center text-navy/40 hover:text-navy/70"
+							>✕</button
 						>
 					</p>
 				{:else if run.myRank !== null}

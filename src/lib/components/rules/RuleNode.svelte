@@ -17,6 +17,7 @@
 	<div class="group flex items-baseline gap-2">
 		<a
 			href="#{node.id}"
+			data-inline-target
 			class="shrink-0 font-mono text-[13px] font-semibold text-cardinal no-underline hover:underline"
 			title="Link to {node.id}">{node.label}</a
 		>

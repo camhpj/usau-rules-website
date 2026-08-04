@@ -104,6 +104,22 @@ test.describe('@375px', () => {
 		);
 		expect(height).toBeLessThanOrEqual(72);
 	});
+
+	// The static per-route sweep above never answers a question, so it never sees
+	// QuestionPlayer's advance button — that only mounts once a choice is revealed.
+	// Drive the interaction here and hold the revealed state to the same standard.
+	test('the revealed quiz-question state meets the tap-target minimum', async ({ page }) => {
+		await page.goto('/quiz/quick');
+		await page.getByRole('button', { name: /start quiz/i }).click();
+		await page.getByTestId('choice').first().click();
+		await expect(page.getByRole('button', { name: /next question|see results/i })).toBeVisible();
+		const violations = toViolations(
+			await page.evaluate(auditInPage, config('body')),
+			'/quiz/quick (revealed)',
+			375
+		);
+		expect(formatViolations(onlyKinds(violations, ['tap-target']))).toBe('no violations');
+	});
 });
 
 test.describe('mobile navigation', () => {
