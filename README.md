@@ -60,7 +60,7 @@ To add a new ruleset, add an entry to `RULESETS` in `scripts/ingest/config.ts` a
 The app's second pillar is testing yourself, at `/quiz`. Three modes; progress always lives in `localStorage` first, and syncs to Cloudflare D1 in the background once you're signed in (see [Persistence & auth](#persistence--auth)):
 
 - **Quick quiz** (`/quiz/quick`) — 10 questions drawn from the bank, optionally filtered by section and by difficulty tier (**Rookie**, **Veteran**, **Observer** — `difficulty` 1/2/3 in the question schema).
-- **Section mastery** (`/quiz/mastery`) — work the rulebook section by section; missed questions come back first, and a section is "mastered" once your recent answers there hit ≥90%. Every rule section page has a "Quiz me on this section" shortcut that deep-links here via `?section=<slug>`.
+- **Section mastery** (`/quiz/mastery`) — work the rulebook section by section; missed questions come back first, and a section is "mastered" once every one of your recent answers there is correct — the last 20 count, and you need at least 10 before mastery can trigger. Every rule section page has a "Quiz me on this section" shortcut that deep-links here via `?section=<slug>`.
 - **Timed challenge** (`/quiz/timed`) — five minutes, auto-advancing, tracks your best streak and score.
 
 ### Question bank
