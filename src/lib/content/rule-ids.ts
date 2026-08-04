@@ -6,15 +6,20 @@ export function matchAppendixAnchor(id: string): { slug: string; letter: string 
 }
 
 /**
- * Human-readable label for a rule reference: `appendix_g` renders as `Appendix G`.
+ * Human-readable label for a rule reference: `appendix_g` renders as `Appendix G`,
+ * and the literal `preface` renders as `Preface`.
  *
  * Returns `id` itself for everything else, and call sites rely on that: they
  * compare the label against the id to decide whether to keep the monospace
- * styling that suits a raw rule id but not prose.
+ * styling that suits a raw rule id but not prose. The `preface` match is
+ * intentionally case-sensitive, matching `sectionSlugForRuleId`: a variant
+ * like `Preface` resolves to no section, so it stays an unformatted id.
  */
 export function ruleRefLabel(id: string): string {
 	const appendix = matchAppendixAnchor(id);
-	return appendix ? `Appendix ${appendix.letter}` : id;
+	if (appendix) return `Appendix ${appendix.letter}`;
+	if (id === 'preface') return 'Preface';
+	return id;
 }
 
 export function sectionSlugForRuleId(id: string): string | null {

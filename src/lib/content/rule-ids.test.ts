@@ -37,6 +37,14 @@ describe('ruleRefLabel', () => {
 	it('passes a numeric id through unchanged', () => {
 		expect(ruleRefLabel('15.F.2')).toBe('15.F.2');
 	});
+
+	it('renders the literal "preface" as "Preface"', () => {
+		expect(ruleRefLabel('preface')).toBe('Preface');
+	});
+
+	it('passes an already-capitalized "Preface" through unchanged, since it resolves to no section', () => {
+		expect(ruleRefLabel('Preface')).toBe('Preface');
+	});
 });
 
 describe('nearestKnownRuleId', () => {
