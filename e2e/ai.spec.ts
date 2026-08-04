@@ -1,15 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { d1, d1Select, signUpTestUser } from './helpers';
 
-// Shells out to wrangler against the same local D1 sqlite file the dev server uses. This is
-// only safe because the e2e suite runs single-worker (playwright.config.ts has no explicit
-// `workers` override for a single spec file) — concurrent writers against the same local D1
-// file are not something these helpers attempt to coordinate.
-//
-// That file IS also held open by the live wrangler dev process for the whole run, so a CLI
-// invocation here can still collide with it and throw SQLITE_BUSY (observed in CI: two of
-// three "seeded D1" failures were exactly this, on a bulk INSERT and on a SELECT). The lock
-// is momentary, so retry a few times with a short pause before giving up.
+// These specs drive the local D1 file directly via the CLI helpers in ./helpers, which is only
+// safe because the e2e suite runs single-worker. See execD1 there for why a CLI call can collide
+// with the live wrangler dev process and how that is handled.
 
 export const AI_QUESTION = {
 	id: 'ai-11111111-1111-1111-1111-111111111111',

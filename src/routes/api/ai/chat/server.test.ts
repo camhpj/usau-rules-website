@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CONVERSATION_MESSAGE_CAP } from '$lib/ai/payload';
 import { DEFAULT_RULESET_ID } from '$lib/content/config';
 import { ASK_DAILY_PER_USER } from '$lib/server/ai/config';
+import * as conversationsModule from '$lib/server/ai/conversations';
 import { buildAskPrompt } from '$lib/server/ai/prompts';
 import { QUOTA_MESSAGE } from '$lib/server/ai/guardrails';
 import type { Db } from '$lib/server/db';
@@ -266,6 +267,23 @@ describe('POST /api/ai/chat', () => {
 	// userId condition that actually enforces ownership; that predicate is
 	// pinned directly in `src/lib/server/ai/conversations.test.ts`, where it's
 	// shared by every caller of `ownedConversationWhere`, not just this route.
+	// The fake above is predicate-blind, and conversations.test.ts pins the
+	// predicate in isolation, so neither proves the ROUTE hands the lookup the
+	// caller's own id. Spy on the real function to pin that joint: passing any
+	// other value here would scope the query to the wrong user.
+	it('looks the conversation up against the signed-in caller, not the requested id', async () => {
+		const spy = vi.spyOn(conversationsModule, 'getOwnedConversation').mockResolvedValue(null);
+		const { db } = fakeDb({ conversation: null });
+		const event = fakeEvent({
+			db,
+			body: { message: 'Can I see this conversation?', conversationId: 'someone-elses-convo' }
+		});
+
+		await expect(POST(event)).rejects.toMatchObject({ status: 404 });
+		expect(spy).toHaveBeenCalledWith(db, 'someone-elses-convo', 'user-1');
+		spy.mockRestore();
+	});
+
 	it('returns 404 when the conversation lookup comes back null', async () => {
 		const { db } = fakeDb({ conversation: null });
 		const event = fakeEvent({
