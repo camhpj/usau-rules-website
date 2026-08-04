@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 import { expect, type APIResponse, type Page } from '@playwright/test';
 
 export function uniqueEmail(tag: string): string {
@@ -69,3 +70,30 @@ export async function signInAsAdmin(page: Page): Promise<void> {
 		`admin sign-in failed: ${signIn.status()} ${await signIn.text()}`
 	).toBeTruthy();
 }
+
+/**
+ * Run SQL against the local D1 sqlite file via the wrangler CLI.
+ *
+ * The live `wrangler dev` process holds the same file open for the whole run, so a CLI call
+ * here can collide with it and throw SQLITE_BUSY — observed in CI on both a bulk INSERT and a
+ * SELECT. The lock is momentary, so retry a few times with a short pause before giving up.
+ * Anything that is not SQLITE_BUSY rethrows immediately: this must never mask a real failure.
+ */
+export function execD1(sql: string, attempt = 1): string {
+	try {
+		return execSync(
+			`npx wrangler d1 execute usau-rules-website-db --local --json --command "${sql.replace(/"/g, '\\"')}"`,
+			{ cwd: process.cwd(), encoding: 'utf-8' }
+		);
+	} catch (err) {
+		const output = `${(err as { stderr?: string }).stderr ?? ''}${(err as Error).message ?? ''}`;
+		if (!/SQLITE_BUSY/.test(output) || attempt >= 5) throw err;
+		Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 250);
+		return execD1(sql, attempt + 1);
+	}
+}
+
+export const d1 = (sql: string): unknown => JSON.parse(execD1(sql));
+
+export const d1Select = (sql: string): Record<string, unknown>[] =>
+	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;

@@ -1,6 +1,5 @@
-import { execSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
-import { signUpTestUser } from './helpers';
+import { d1, d1Select, signUpTestUser } from './helpers';
 
 // Shells out to wrangler against the same local D1 sqlite file the dev server uses. This is
 // only safe because the e2e suite runs single-worker (playwright.config.ts has no explicit
@@ -11,23 +10,6 @@ import { signUpTestUser } from './helpers';
 // invocation here can still collide with it and throw SQLITE_BUSY (observed in CI: two of
 // three "seeded D1" failures were exactly this, on a bulk INSERT and on a SELECT). The lock
 // is momentary, so retry a few times with a short pause before giving up.
-const d1 = (sql: string): unknown => JSON.parse(execD1(sql));
-
-function execD1(sql: string, attempt = 1): string {
-	try {
-		return execSync(
-			`npx wrangler d1 execute usau-rules-website-db --local --json --command "${sql.replace(/"/g, '\\"')}"`,
-			{ cwd: process.cwd(), encoding: 'utf-8' }
-		);
-	} catch (err) {
-		const output = `${(err as { stderr?: string }).stderr ?? ''}${(err as Error).message ?? ''}`;
-		if (!/SQLITE_BUSY/.test(output) || attempt >= 5) throw err;
-		execSync('sleep 0.25');
-		return execD1(sql, attempt + 1);
-	}
-}
-const d1Select = (sql: string): Record<string, unknown>[] =>
-	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;
 
 export const AI_QUESTION = {
 	id: 'ai-11111111-1111-1111-1111-111111111111',
