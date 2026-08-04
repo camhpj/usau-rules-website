@@ -9,6 +9,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
+      # setup-node installs whatever npm ships with Node 22 (10.x), which silently
+      # ignores .npmrc's min-release-age. Pin the same npm CI and local dev use.
+      # This version must itself satisfy min-release-age, so bump it deliberately.
+      - run: npm install -g npm@12.0.1
       - run: npm ci
       - run: npm run lint --if-present
       - run: npx prettier --check .
