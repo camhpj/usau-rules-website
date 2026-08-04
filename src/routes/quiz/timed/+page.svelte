@@ -34,7 +34,7 @@
 		<p class="mt-3 text-sm">
 			<a
 				href="/leaderboard"
-				class="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
+				class="inline-flex min-h-11 items-center text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
 			>
 				See the leaderboard →
 			</a>

@@ -25,6 +25,7 @@ export const MIN_TARGET_WIDTH_EXEMPT = 24;
  */
 export const INLINE_EXEMPT = [
 	'.rule-html a', // rule cross-references
+	'a[title^="Link to "]', // RuleNode's own rule-number permalink (e.g. "15.A."), sibling of .rule-html
 	'dfn[data-rule]', // glossary terms
 	'footer a', // the "not affiliated" sentence
 	'footer button',

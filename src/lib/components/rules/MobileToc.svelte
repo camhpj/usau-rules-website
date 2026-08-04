@@ -14,7 +14,7 @@
 
 <Dialog.Root bind:open>
 	<Dialog.Trigger
-		class="fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/20 bg-navy-deep/90 px-4 py-2 text-xs font-semibold tracking-wider text-white uppercase backdrop-blur lg:hidden"
+		class="fixed bottom-5 left-1/2 z-40 flex min-h-11 -translate-x-1/2 items-center gap-2 rounded-full border border-white/20 bg-navy-deep/90 px-4 py-2 text-xs font-semibold tracking-wider text-white uppercase backdrop-blur lg:hidden"
 	>
 		<svg
 			aria-hidden="true"

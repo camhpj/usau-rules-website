@@ -52,7 +52,7 @@
 		{#if quizzable}
 			<a
 				href="/quiz/mastery?section={data.section.slug}"
-				class="mt-4 inline-flex items-center gap-1.5 rounded-full border border-cardinal/50 px-4 py-1.5 text-xs font-semibold tracking-wider text-cardinal uppercase transition-colors hover:bg-cardinal hover:text-white"
+				class="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-full border border-cardinal/50 px-4 py-1.5 text-xs font-semibold tracking-wider text-cardinal uppercase transition-colors hover:bg-cardinal hover:text-white"
 			>
 				Quiz me on this section →
 			</a>
@@ -67,11 +67,11 @@
 
 		<nav class="mt-10 flex justify-between border-t border-mist pt-6 text-sm font-semibold">
 			{#if prev}<a
-					class="text-navy/70 hover:text-cardinal"
+					class="inline-flex min-h-11 items-center text-navy/70 hover:text-cardinal"
 					href="/rules/{data.manifest.id}/{prev.slug}">← {prev.title}</a
 				>{:else}<span></span>{/if}
 			{#if next}<a
-					class="text-navy/70 hover:text-cardinal"
+					class="inline-flex min-h-11 items-center text-navy/70 hover:text-cardinal"
 					href="/rules/{data.manifest.id}/{next.slug}">{next.title} →</a
 				>{/if}
 		</nav>

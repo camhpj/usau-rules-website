@@ -234,7 +234,7 @@
 
 		<a
 			href="/ask"
-			class="animate-fade-up mt-6 inline-flex items-center gap-2 text-sm text-white/60 hover:text-white"
+			class="animate-fade-up mt-6 inline-flex min-h-11 items-center gap-2 text-sm text-white/60 hover:text-white"
 		>
 			<span aria-hidden="true" class="text-cardinal">✦</span> Ask any question
 		</a>

@@ -82,10 +82,10 @@ for (const width of VIEWPORTS) {
 	test.describe(`@${width}px`, () => {
 		test.use({ viewport: { width, height: 667 }, hasTouch: true, isMobile: true });
 
-		test('shared header controls meet the tap-target minimum', async ({ page }) => {
+		test('all controls meet the tap-target minimum', async ({ page }) => {
 			const violations: Violation[] = [];
 			for (const route of PUBLIC_ROUTES)
-				violations.push(...(await sweep(page, route, width, 'header')));
+				violations.push(...(await sweep(page, route, width, 'body')));
 			expect(formatViolations(onlyKinds(violations, ['tap-target']))).toBe('no violations');
 		});
 	});
