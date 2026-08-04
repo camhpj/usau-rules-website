@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import type { Cheerio, CheerioAPI } from 'cheerio';
 import type { AnyNode } from 'domhandler';
+import { matchAppendixAnchor } from '../../src/lib/content/rule-ids';
 import type { RuleNode, Section } from '../../src/lib/content/types';
 
 const normalize = (s: string) => s.replace(/\s+/g, ' ').trim();
@@ -41,7 +42,7 @@ function sectionFromLi($: CheerioAPI, li: Cheerio<AnyNode>): Section | null {
 	const anchor = li.children('a[id]').first();
 	if (anchor.length === 0) return null;
 	const anchorId = anchor.attr('id')!;
-	const appendixMatch = anchorId.match(/^appendix_([a-g])$/);
+	const appendixMatch = matchAppendixAnchor(anchorId);
 
 	const rules: RuleNode[] = [];
 	li.children('ul').each((_, ul) => {
@@ -71,11 +72,10 @@ function sectionFromLi($: CheerioAPI, li: Cheerio<AnyNode>): Section | null {
 	const html = extras.length > 0 ? normalize(extras.map((el) => $.html(el)).join('\n')) : null;
 
 	if (appendixMatch) {
-		const letter = appendixMatch[1].toUpperCase();
 		return {
-			slug: `appendix-${appendixMatch[1]}`,
+			slug: appendixMatch.slug,
 			anchorId,
-			number: letter,
+			number: appendixMatch.letter,
 			kind: 'appendix',
 			title,
 			html,

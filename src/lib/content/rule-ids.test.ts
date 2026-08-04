@@ -1,11 +1,22 @@
 import { describe, expect, it } from 'vitest';
-import { nearestKnownRuleId, sectionSlugForRuleId } from './rule-ids';
+import { matchAppendixAnchor, nearestKnownRuleId, sectionSlugForRuleId } from './rule-ids';
 
 describe('sectionSlugForRuleId (moved from ingest)', () => {
 	it('still maps ids to slugs', () => {
 		expect(sectionSlugForRuleId('15.A.3')).toBe('15');
 		expect(sectionSlugForRuleId('B1.G.1')).toBe('appendix-b');
 		expect(sectionSlugForRuleId('preface')).toBe('preface');
+	});
+});
+
+describe('matchAppendixAnchor', () => {
+	it('lowercases an uppercase anchor letter to match the lowercase slug', () => {
+		expect(matchAppendixAnchor('appendix_A')).toEqual({ slug: 'appendix-a', letter: 'A' });
+		expect(matchAppendixAnchor('appendix_a')).toEqual({ slug: 'appendix-a', letter: 'A' });
+	});
+
+	it('returns null for a non-appendix id', () => {
+		expect(matchAppendixAnchor('15.A.3')).toBe(null);
 	});
 });
 
