@@ -27,16 +27,25 @@ test('detects a horizontally overflowing element and names it', async ({ page })
 	expect(v[0].detail).toContain('div#wide');
 });
 
-test('does not flag a wide element inside a horizontally scrollable container', async ({
-	page
-}) => {
+test('flags a genuine offender but not one clipped by a scrollable container', async ({ page }) => {
+	// Both elements are wide enough to overflow on their own. #offender sits in
+	// normal flow and genuinely widens the document, so the scrollWidth gate
+	// opens. #clipped is identically wide but inside an overflow-x: auto box, so
+	// it cannot widen the document — it must not appear in the violation. If the
+	// gate alone decided this test (as an earlier version accidentally did), both
+	// elements would pass or fail together; naming each element by id is what
+	// proves the clipping filter, not just the gate, did the work.
 	await page.setContent(
 		`${VIEWPORT_META}<body style="margin:0"><main>
-			<div style="overflow-x:auto;width:100%"><div id="wide" style="width:500px;height:20px"></div></div>
+			<div id="offender" style="width:500px;height:20px"></div>
+			<div style="overflow-x:auto;width:100%"><div id="clipped" style="width:500px;height:20px"></div></div>
 		</main></body>`
 	);
 	const v = toViolations(await page.evaluate(auditInPage, CONFIG), '/synthetic', 375);
-	expect(v.filter((x) => x.kind === 'overflow')).toHaveLength(0);
+	const overflow = v.filter((x) => x.kind === 'overflow');
+	expect(overflow).toHaveLength(1);
+	expect(overflow[0].detail).toContain('#offender');
+	expect(overflow[0].detail).not.toContain('#clipped');
 });
 
 test('reports only the outermost overflowing element', async ({ page }) => {
