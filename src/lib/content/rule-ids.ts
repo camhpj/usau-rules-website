@@ -1,5 +1,3 @@
-import type { RuleNode, Section } from './types';
-
 export function sectionSlugForRuleId(id: string): string | null {
 	if (id === 'preface') return 'preface';
 	const appendixAnchor = id.match(/^appendix_([a-gA-G])$/);
@@ -20,20 +18,4 @@ export function nearestKnownRuleId(id: string, ids: ReadonlySet<string>): string
 		if (ids.has(ancestor)) return ancestor;
 	}
 	return null;
-}
-
-/** Every rule id (all depths) plus every section anchor id. */
-export function collectRuleIds(sections: Section[]): Set<string> {
-	const ids = new Set<string>();
-	const walk = (nodes: RuleNode[]) => {
-		for (const node of nodes) {
-			ids.add(node.id);
-			walk(node.children);
-		}
-	};
-	for (const section of sections) {
-		ids.add(section.anchorId);
-		walk(section.rules);
-	}
-	return ids;
 }

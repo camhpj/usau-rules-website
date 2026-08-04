@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
 import { ManifestSchema, SectionSchema, type Section } from '../../src/lib/content/types';
-import { collectRuleIds } from '../../src/lib/content/rule-ids';
+import { collectRuleIds } from '../rule-ids';
 import { DEFAULT_RULESET_ID } from '../../src/lib/content/config';
 import { QuestionSchema, type Question } from '../../src/lib/quiz/types';
 import { SEED_DEFAULTS } from './config';

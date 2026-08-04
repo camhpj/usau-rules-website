@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gridLineOffsets } from '$lib/grid-pulse-lines';
+	import { gridLineOffsets } from './grid-pulse-lines';
 
 	const TILE = 96;
 	const MAX_CONCURRENT = 4;

@@ -7,7 +7,7 @@ import {
 	SectionSchema,
 	type Section
 } from '../src/lib/content/types';
-import { collectRuleIds } from '../src/lib/content/rule-ids';
+import { collectRuleIds } from './rule-ids';
 import { QuestionSchema } from '../src/lib/quiz/types';
 
 const root = 'content/rulesets';
