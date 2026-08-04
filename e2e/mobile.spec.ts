@@ -290,6 +290,7 @@ test.describe('mobile browser behaviour @375px', () => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 		await page.getByRole('button', { name: /^search$/i }).click();
+		await expect(page.getByRole('combobox')).toBeVisible();
 		offenders.push(
 			...(await page.evaluate(
 				(r) =>
