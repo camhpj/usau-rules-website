@@ -290,6 +290,37 @@ The Gemini HTTP contract is mocked at every layer, so a change to Google's SSE
 framing or error vocabulary would ship green. Recording this as a known,
 accepted risk rather than adding a live call to CI.
 
+#### Added during tranches 3a and 3b
+
+Found while doing other work. Each is a coverage hole rather than a defect.
+
+- **Two flaky e2e tests, and no retry configured.** `conversation history
+  (seeded D1)` in `ai.spec.ts` has failed CI three times with watchdog and
+  timeout errors, including before this work started. `export: users CSV omits
+  secrets` in `admin.spec.ts` failed once with `socket hang up` on a sign-up
+  POST, then passed on an unchanged re-run. Both are timing failures under CI's
+  single worker, not assertion failures. Set Playwright `retries: 1` on CI so a
+  flake stops blocking merges, and separately find the timing cause. The retry
+  alone hides the problem, so do both.
+- **The real `/api/ai/chat` handler runs in no suite.** Unit tests mock below
+  it and `e2e/ai.spec.ts` intercepts the route with `route.fulfill`, so the
+  handler that owns quota enforcement, conversation persistence, and streaming
+  has never executed in a test. `/api/ai/scenario` is mocked the same way.
+- **Nothing exercises `npm run dev`.** Unit tests import modules directly and
+  Playwright runs `npm run build && wrangler dev`, so a dev-only break passes
+  the full gate. This is not hypothetical: a non-eager `import.meta.glob` added
+  in tranche 2 made every rule section 404 under `npm run dev` while CI stayed
+  green. A smoke test that boots the dev server and fetches one section page
+  would have caught it.
+- **No test asserts rendered appearance.** The e2e suite selects on roles and
+  text, so the tranche 3b component extractions were verified by reading class
+  strings rather than by any automated check. Consider a small screenshot
+  comparison over the pages carrying `Button`, `PromoCard`, `TogglePill`, and
+  the `eyebrow` utility.
+- **Google OAuth sign-in is never exercised.** `e2e/helpers.ts` uses the
+  env-gated credential endpoint, so the real social sign-in path — the one
+  `createSessionGate()` now owns — has no coverage at any level.
+
 ### 5. Hygiene
 
 - README corrections: the model is `gemini-3.6-flash`, not `gemini-3-flash-preview`
