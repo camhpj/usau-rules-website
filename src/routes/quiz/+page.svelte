@@ -71,16 +71,14 @@
 
 <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
 	<p class="eyebrow animate-fade-up text-cardinal">Test yourself</p>
-	<h1 class="display animate-fade-up mt-3 text-5xl text-white sm:text-6xl" style="--stagger: 1">
-		Pick your game.
-	</h1>
-	<p class="animate-fade-up mt-4 max-w-2xl text-white/70" style="--stagger: 2">
+	<h1 class="display animate-fade-up mt-3 text-5xl text-white sm:text-6xl">Pick your game.</h1>
+	<p class="animate-fade-up mt-4 max-w-2xl text-white/70">
 		Every question is grounded in the official rules, with citations to relevant rules.
 	</p>
 
 	<div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 		{#each modes as mode, i (mode.href)}
-			<PromoCard href={mode.href} stagger={3 + i} class="flex flex-col">
+			<PromoCard href={mode.href} class="flex flex-col">
 				<h2 class="display pr-10 text-2xl">
 					{#if mode.href === '/quiz/quick'}
 						Quick <br class="hidden xl:block" />Quiz

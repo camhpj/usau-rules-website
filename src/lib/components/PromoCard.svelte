@@ -3,12 +3,10 @@
 
 	let {
 		href,
-		stagger,
 		class: extraClass,
 		children
 	}: {
 		href: string;
-		stagger: number;
 		class?: string;
 		children: Snippet;
 	} = $props();
@@ -19,7 +17,6 @@
 	class={[extraClass, 'group animate-fade-up relative card card-link p-6']
 		.filter(Boolean)
 		.join(' ')}
-	style="--stagger: {stagger}"
 >
 	{@render children()}
 	<span
