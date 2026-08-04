@@ -18,7 +18,7 @@
 <svelte:head><title>Timed challenge · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="eyebrow text-cardinal">Timed challenge</p>
+	<p class="eyebrow text-white/50">Timed challenge</p>
 
 	{#if run.phase === 'intro'}
 		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Five minutes.</h1>

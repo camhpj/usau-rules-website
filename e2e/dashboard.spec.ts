@@ -35,7 +35,7 @@ test('dashboard shows attempts, mastery, timed best placeholder and bookmarks', 
 
 	await page.goto('/me');
 	await page.waitForLoadState('networkidle');
-	await expect(page.getByRole('heading', { name: /your perspective/i })).toBeVisible();
+	await expect(page.getByRole('heading', { name: /^dashboard$/i })).toBeVisible();
 	await expect(page.getByText(/quick quiz/i).first()).toBeVisible(); // attempt row
 	await expect(page.getByText('15.A')).toBeVisible(); // bookmark row
 	await expect(page.getByText(/no timed runs yet/i)).toBeVisible();
