@@ -1,9 +1,31 @@
-import type { RuleNode, Section } from './types';
+/** Parse an appendix anchor id (`appendix_a`) into its section slug and letter. */
+export function matchAppendixAnchor(id: string): { slug: string; letter: string } | null {
+	const match = id.match(/^appendix_([a-gA-G])$/);
+	if (!match) return null;
+	return { slug: `appendix-${match[1].toLowerCase()}`, letter: match[1].toUpperCase() };
+}
+
+/**
+ * Human-readable label for a rule reference: `appendix_g` renders as `Appendix G`,
+ * and the literal `preface` renders as `Preface`.
+ *
+ * Returns `id` itself for everything else, and call sites rely on that: they
+ * compare the label against the id to decide whether to keep the monospace
+ * styling that suits a raw rule id but not prose. The `preface` match is
+ * intentionally case-sensitive, matching `sectionSlugForRuleId`: a variant
+ * like `Preface` resolves to no section, so it stays an unformatted id.
+ */
+export function ruleRefLabel(id: string): string {
+	const appendix = matchAppendixAnchor(id);
+	if (appendix) return `Appendix ${appendix.letter}`;
+	if (id === 'preface') return 'Preface';
+	return id;
+}
 
 export function sectionSlugForRuleId(id: string): string | null {
 	if (id === 'preface') return 'preface';
-	const appendixAnchor = id.match(/^appendix_([a-gA-G])$/);
-	if (appendixAnchor) return `appendix-${appendixAnchor[1].toLowerCase()}`;
+	const appendixAnchor = matchAppendixAnchor(id);
+	if (appendixAnchor) return appendixAnchor.slug;
 	const appendixRule = id.match(/^([A-Za-z])\d/);
 	if (appendixRule) return `appendix-${appendixRule[1].toLowerCase()}`;
 	const numeric = id.match(/^(\d+)/);
@@ -20,20 +42,4 @@ export function nearestKnownRuleId(id: string, ids: ReadonlySet<string>): string
 		if (ids.has(ancestor)) return ancestor;
 	}
 	return null;
-}
-
-/** Every rule id (all depths) plus every section anchor id. */
-export function collectRuleIds(sections: Section[]): Set<string> {
-	const ids = new Set<string>();
-	const walk = (nodes: RuleNode[]) => {
-		for (const node of nodes) {
-			ids.add(node.id);
-			walk(node.children);
-		}
-	};
-	for (const section of sections) {
-		ids.add(section.anchorId);
-		walk(section.rules);
-	}
-	return ids;
 }

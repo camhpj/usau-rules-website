@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { ManifestSchema, SectionSchema, type Manifest } from '../../src/lib/content/types';
-import { collectRuleIds } from '../../src/lib/content/rule-ids';
+import { collectRuleIds } from '../rule-ids';
 import { RULESETS } from './config';
 import { parseRulesHtml } from './parse';
 import {

@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { collectRuleIds, nearestKnownRuleId, sectionSlugForRuleId } from './rule-ids';
-import type { Section } from './types';
+import {
+	matchAppendixAnchor,
+	nearestKnownRuleId,
+	ruleRefLabel,
+	sectionSlugForRuleId
+} from './rule-ids';
 
 describe('sectionSlugForRuleId (moved from ingest)', () => {
 	it('still maps ids to slugs', () => {
@@ -10,25 +14,36 @@ describe('sectionSlugForRuleId (moved from ingest)', () => {
 	});
 });
 
-describe('collectRuleIds', () => {
-	it('collects nested rule ids and section anchors', () => {
-		const rule = (id: string, children: unknown[] = []): never =>
-			({ id, label: `${id}.`, html: '', text: 'x', annotations: [], refs: [], children }) as never;
-		const sections: Section[] = [
-			{
-				slug: '9',
-				anchorId: '9',
-				number: '9',
-				kind: 'section',
-				title: 'The Pull',
-				html: null,
-				rules: [rule('9.A'), rule('9.K', [rule('9.K.4')])]
-			}
-		];
-		const ids = collectRuleIds(sections);
-		expect(ids.has('9')).toBe(true);
-		expect(ids.has('9.K.4')).toBe(true);
-		expect(ids.has('9.Z')).toBe(false);
+describe('matchAppendixAnchor', () => {
+	it('lowercases an uppercase anchor letter to match the lowercase slug', () => {
+		expect(matchAppendixAnchor('appendix_A')).toEqual({ slug: 'appendix-a', letter: 'A' });
+		expect(matchAppendixAnchor('appendix_a')).toEqual({ slug: 'appendix-a', letter: 'A' });
+	});
+
+	it('returns null for a non-appendix id', () => {
+		expect(matchAppendixAnchor('15.A.3')).toBe(null);
+	});
+});
+
+describe('ruleRefLabel', () => {
+	it('renders an appendix anchor as "Appendix <letter>"', () => {
+		expect(ruleRefLabel('appendix_g')).toBe('Appendix G');
+	});
+
+	it('uppercases the letter for an already-uppercase anchor', () => {
+		expect(ruleRefLabel('appendix_G')).toBe('Appendix G');
+	});
+
+	it('passes a numeric id through unchanged', () => {
+		expect(ruleRefLabel('15.F.2')).toBe('15.F.2');
+	});
+
+	it('renders the literal "preface" as "Preface"', () => {
+		expect(ruleRefLabel('preface')).toBe('Preface');
+	});
+
+	it('passes an already-capitalized "Preface" through unchanged, since it resolves to no section', () => {
+		expect(ruleRefLabel('Preface')).toBe('Preface');
 	});
 });
 

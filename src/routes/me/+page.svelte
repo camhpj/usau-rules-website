@@ -2,6 +2,7 @@
 	import { untrack } from 'svelte';
 	import Chip from '$lib/components/Chip.svelte';
 	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
+	import { ruleRefLabel } from '$lib/content/rule-ids';
 	import { utcDay } from '$lib/time';
 	import { MePageState } from './page-state.svelte';
 	let { data } = $props();
@@ -223,19 +224,21 @@
 	{:else}
 		<ul class="mt-3 grid gap-2 sm:grid-cols-2">
 			{#each state.marks as mark (mark.rulesetId + mark.ruleId)}
+				{@const label = ruleRefLabel(mark.ruleId)}
 				<li class="card flex items-center justify-between gap-3 px-4 py-3">
 					<a
 						href="/rules/{mark.rulesetId}/{mark.sectionSlug}#{mark.ruleId}"
-						class="min-w-0 font-mono text-sm font-semibold text-cardinal hover:underline"
+						class="min-w-0 text-sm font-semibold text-cardinal hover:underline"
+						class:font-mono={label === mark.ruleId}
 					>
-						{mark.ruleId}
+						{label}
 						{#if mark.sectionTitle}<span class="ml-2 font-sans font-normal text-navy/60"
 								>{mark.sectionTitle}</span
 							>{/if}
 					</a>
 					<button
 						type="button"
-						aria-label="Remove bookmark {mark.ruleId}"
+						aria-label="Remove bookmark {label}"
 						onclick={() => state.removeBookmark(mark.rulesetId, mark.ruleId)}
 						class="shrink-0 text-navy/40 hover:text-cardinal"
 					>

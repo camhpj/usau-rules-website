@@ -7,7 +7,8 @@ import {
 	SectionSchema,
 	type Section
 } from '../src/lib/content/types';
-import { collectRuleIds } from '../src/lib/content/rule-ids';
+import { collectRuleIds } from './rule-ids';
+import { DEFAULT_RULESET_ID } from '../src/lib/content/config';
 import { QuestionSchema } from '../src/lib/quiz/types';
 
 const root = 'content/rulesets';
@@ -52,6 +53,9 @@ for (const id of readdirSync(root)) {
 			throw new Error(`${id}: uncited grounding line: ${t.slice(0, 60)}…`);
 		}
 	}
+}
+if (!sectionsByRuleset.has(DEFAULT_RULESET_ID)) {
+	throw new Error(`DEFAULT_RULESET_ID ${DEFAULT_RULESET_ID} was not ingested`);
 }
 console.log(`✓ content valid (${checked} sections)`);
 
