@@ -22,6 +22,7 @@
 		"test:e2e": "playwright test",
 		"ingest": "tsx scripts/ingest/index.ts",
 		"validate:content": "tsx scripts/validate-content.ts",
+		"smoke:dev": "tsx scripts/smoke-dev-server.ts",
 		"seed:questions": "tsx scripts/seed-questions/index.ts",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate:local": "wrangler d1 migrations apply usau-rules-website-db --local",

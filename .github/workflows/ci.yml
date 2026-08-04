@@ -20,4 +20,5 @@ jobs:
       - run: npm run build
       - run: cp .dev.vars.example .dev.vars
       - run: npx playwright install --with-deps chromium
+      - run: npm run smoke:dev
       - run: npm run test:e2e
