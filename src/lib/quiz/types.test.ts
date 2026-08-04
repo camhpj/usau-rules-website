@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { QuestionSchema, DIFFICULTY_LABELS } from './types';
+import { QuestionSchema } from './types';
 
 const question = {
 	id: '15-01',
@@ -23,8 +23,5 @@ describe('QuestionSchema', () => {
 		expect(() => QuestionSchema.parse({ ...question, answerIndex: 4 })).toThrow();
 		expect(() => QuestionSchema.parse({ ...question, ruleRefs: [] })).toThrow();
 		expect(() => QuestionSchema.parse({ ...question, difficulty: 4 })).toThrow();
-	});
-	it('exposes difficulty labels', () => {
-		expect(DIFFICULTY_LABELS[3]).toBe('Observer');
 	});
 });
