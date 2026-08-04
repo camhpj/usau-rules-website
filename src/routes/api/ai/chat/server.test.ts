@@ -156,7 +156,7 @@ function fakeEvent(opts: {
 	} as unknown as RequestEvent;
 }
 
-/** 25 alternating user/assistant rows, all `complete` — enough filler to hit the cap. */
+/** `n` alternating user/assistant rows, all `complete` — filler to reach CONVERSATION_MESSAGE_CAP. */
 function fillerMessages(n: number): MessageRow[] {
 	return Array.from({ length: n }, (_, i) =>
 		i % 2 === 0
@@ -258,10 +258,15 @@ describe('POST /api/ai/chat', () => {
 		expect(response.headers.get('x-bp-conversation-id')).toBe(convoInsert!.values.id);
 	});
 
-	// Case 4: ownership. A missing conversation and one owned by someone else are
-	// indistinguishable at the route: `getOwnedConversation` collapses both to
-	// null, and the route has exactly one branch on that result.
-	it('returns 404 for a conversation id that is not owned by the caller', async () => {
+	// Case 4: the route's *handling* of a failed ownership lookup, not the lookup
+	// itself. This fake ignores the `where` predicate and always returns `null`,
+	// so it pins "a null result from getOwnedConversation produces a 404 with
+	// this exact message" — the one branch the route has on that result, shared
+	// by a missing id and a foreign-owned one alike. It does NOT exercise the
+	// userId condition that actually enforces ownership; that predicate is
+	// pinned directly in `src/lib/server/ai/conversations.test.ts`, where it's
+	// shared by every caller of `ownedConversationWhere`, not just this route.
+	it('returns 404 when the conversation lookup comes back null', async () => {
 		const { db } = fakeDb({ conversation: null });
 		const event = fakeEvent({
 			db,
