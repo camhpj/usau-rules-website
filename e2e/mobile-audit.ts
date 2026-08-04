@@ -76,13 +76,27 @@ export function auditInPage(config: AuditConfig): RawAudit {
 	};
 
 	// --- Invariant 1: no horizontal overflow.
-	// Report only root offenders. A child of an overflowing box overflows too,
-	// and listing the whole chain buries the element that actually needs fixing.
+	// The page-level scrollWidth-vs-viewport comparison in toViolations is the gate:
+	// content that is genuinely wider than the phone satisfies this invariant by
+	// scrolling inside its own container, so it must not reach the offender list at
+	// all. An element contained by an ancestor with overflow-x: auto or scroll can
+	// scroll within that ancestor without ever widening the document; one with
+	// overflow-x: hidden is clipped and never visible past its ancestor either way.
+	// Report only root offenders among what remains. A child of an overflowing box
+	// overflows too, and listing the whole chain buries the element that actually
+	// needs fixing.
+	const isClipped = (el: Element): boolean => {
+		for (let p = el.parentElement; p; p = p.parentElement) {
+			const ox = getComputedStyle(p).overflowX;
+			if (ox === 'auto' || ox === 'scroll' || ox === 'hidden') return true;
+		}
+		return false;
+	};
 	const overflowing = new Set<Element>();
 	for (const el of document.querySelectorAll('body *')) {
 		const r = el.getBoundingClientRect();
 		if (r.width === 0 && r.height === 0) continue;
-		if (r.right > vw + 1 || r.left < -1) overflowing.add(el);
+		if ((r.right > vw + 1 || r.left < -1) && !isClipped(el)) overflowing.add(el);
 	}
 	const overflow: RawAudit['overflow'] = [];
 	for (const el of overflowing) {
@@ -157,13 +171,32 @@ export function auditInPage(config: AuditConfig): RawAudit {
 
 export function toViolations(raw: RawAudit, route: string, width: number): Violation[] {
 	const out: Violation[] = [];
-	for (const o of raw.overflow)
-		out.push({
-			kind: 'overflow',
-			route,
-			width,
-			detail: `${o.el} spans x=${o.left}..${o.right} past the ${raw.viewportWidth}px viewport`
-		});
+	// scrollWidth vs. viewportWidth is the gate: it is what "the page scrolls
+	// horizontally" actually means. raw.overflow is the diagnosis, already
+	// filtered to non-clipped root offenders in auditInPage, so it names what to
+	// fix when the gate trips.
+	if (raw.scrollWidth > raw.viewportWidth) {
+		if (raw.overflow.length > 0) {
+			for (const o of raw.overflow)
+				out.push({
+					kind: 'overflow',
+					route,
+					width,
+					detail: `${o.el} spans x=${o.left}..${o.right} past the ${raw.viewportWidth}px viewport`
+				});
+		} else {
+			// Every candidate offender was contained by a scroll or clipping
+			// ancestor, yet the page still scrolls. Name the page-level numbers
+			// rather than pass silently — something is causing this that the
+			// per-element scan didn't catch.
+			out.push({
+				kind: 'overflow',
+				route,
+				width,
+				detail: `document scrollWidth ${raw.scrollWidth} exceeds the ${raw.viewportWidth}px viewport (no offending element identified)`
+			});
+		}
+	}
 	for (const t of raw.targets)
 		out.push({
 			kind: 'tap-target',

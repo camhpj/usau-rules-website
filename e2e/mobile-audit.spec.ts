@@ -27,6 +27,18 @@ test('detects a horizontally overflowing element and names it', async ({ page })
 	expect(v[0].detail).toContain('div#wide');
 });
 
+test('does not flag a wide element inside a horizontally scrollable container', async ({
+	page
+}) => {
+	await page.setContent(
+		`${VIEWPORT_META}<body style="margin:0"><main>
+			<div style="overflow-x:auto;width:100%"><div id="wide" style="width:500px;height:20px"></div></div>
+		</main></body>`
+	);
+	const v = toViolations(await page.evaluate(auditInPage, CONFIG), '/synthetic', 375);
+	expect(v.filter((x) => x.kind === 'overflow')).toHaveLength(0);
+});
+
 test('reports only the outermost overflowing element', async ({ page }) => {
 	await page.setContent(
 		`${VIEWPORT_META}<body style="margin:0"><main><div id="outer" style="width:500px"><div id="inner" style="width:480px;height:20px"></div></div></main></body>`
