@@ -2,18 +2,29 @@
 	import { type Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { conversations } from '$lib/ask/conversations.svelte';
-	import AuthGate from '$lib/components/AuthGate.svelte';
+	import { createSessionGate } from '$lib/auth-gate.svelte';
 	import ConversationSidebar from '$lib/components/chat/ConversationSidebar.svelte';
+	import SignInCard from '$lib/components/SignInCard.svelte';
 
 	let { children }: { children: Snippet } = $props();
 
+	const gate = createSessionGate();
+
 	let drawerOpen = $state(false);
+	let listLoaded = false;
 
 	const activeId = $derived(
 		page.url.pathname.startsWith('/ask/')
 			? decodeURIComponent(page.url.pathname.slice('/ask/'.length))
 			: null
 	);
+
+	$effect(() => {
+		if (gate.user && !listLoaded) {
+			listLoaded = true;
+			void conversations.load();
+		}
+	});
 
 	// Close the mobile drawer on any navigation.
 	$effect(() => {
@@ -24,13 +35,16 @@
 
 <svelte:head><title>Ask · Best Perspective</title></svelte:head>
 
-<AuthGate
-	callbackURL="/ask"
-	heading="Sign in to use the ask feature"
-	pendingClass="mx-auto mt-16 max-w-3xl"
-	signedOutWrapperClass="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6"
-	onSignedIn={() => void conversations.load()}
->
+{#if !gate.sessionReady}
+	<div
+		class="mx-auto mt-16 h-40 max-w-3xl animate-pulse rounded-xl bg-white/10"
+		aria-hidden="true"
+	></div>
+{:else if !gate.user}
+	<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
+		<SignInCard heading="Sign in to use the ask feature" onclick={() => gate.signIn('/ask')} />
+	</section>
+{:else}
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">
 		<div
 			class="flex h-[calc(100dvh-11rem)] w-full flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
@@ -123,4 +137,4 @@
 			</div>
 		</div>
 	</div>
-</AuthGate>
+{/if}
