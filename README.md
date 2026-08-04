@@ -7,7 +7,7 @@ Best Perspective is a web app for exploring the USA Ultimate (USAU) rules of ult
 ## Features
 
 - **Rules explorer** — browse, search, and cross-link the full USAU rulebook.
-- **Quiz** — quick quizzes, section mastery, and a timed challenge, all built on a 212-question human-reviewed bank.
+- **Quiz** — quick quizzes, section mastery, and a timed challenge, all built on a 213-question human-reviewed bank.
 - **Accounts** — sign in with Google to sync quiz history, section mastery, and timed-challenge bests to the cloud, and to bookmark rules; see it all on the `/me` dashboard.
 - **Leaderboard** — an all-time top 10 for the timed challenge (`/leaderboard`), opt-in and profanity-filtered: claim a unique display name to appear, with your own rank shown even off the visible top 10.
 - **AI** — ask-the-rules Q&A and on-demand scenario questions, grounded in the rulebook via Gemini; see [AI features](#ai-features).
@@ -89,7 +89,7 @@ Two AI surfaces, both server-only (the Gemini API key never reaches the client) 
 - **Ask** (`/ask`, `POST /api/ai/chat`) — multi-turn chat over the rulebook; answers cite specific rules. Conversations live in a sidebar (`GET /api/ai/conversations`), open at `/ask/<id>`, support message copy and 👍/👎 feedback (`POST /api/ai/messages/<id>/feedback`), and delete softly (`DELETE /api/ai/conversations/<id>`). Every message sent counts against the daily ask quota; conversations cap at 25 messages.
 - **Scenario quiz** (`/quiz/scenario`, `POST /api/ai/scenario`) — on-demand, freshly generated scenario questions, validated against the rule-id set and the question schema before being served; if generation fails twice it falls back to a bank question instead of erroring.
 
-Every call goes through `src/lib/server/ai/config.ts`, which pins the model (`gemini-3-flash-preview`) in one place, and uses an explicit Gemini context cache (1 hour TTL) for each ruleset's `grounding.txt` so the ~46k-token rulebook prefix isn't re-sent (and re-billed) on every request.
+Every call goes through `src/lib/server/ai/config.ts`, which pins the model (`gemini-3.6-flash`) in one place, and uses an explicit Gemini context cache (1 hour TTL) for each ruleset's `grounding.txt` so the ~46k-token rulebook prefix isn't re-sent (and re-billed) on every request.
 
 **Guardrails:**
 
@@ -178,9 +178,11 @@ Or connect the repo to [Cloudflare Workers Builds](https://developers.cloudflare
 
 ## Roadmap
 
-Best Perspective ships in four phases (full detail in `docs/superpowers/specs/2026-07-09-best-perspective-design.md`); each phase ships something usable:
+Best Perspective ships in four planned phases, each usable on its own; `docs/superpowers/specs/2026-07-09-best-perspective-design.md` has the detail. Items 5 and 6 came after that plan.
 
 1. [x] **Foundation** _(shipped)_ — scaffold, theme/tokens, ingest pipeline + Official Rules 2026-27 content, rules explorer, landing page, search, e2e coverage.
-2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 212 human-reviewed questions covering all 217 coverage targets across every section.
+2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 213 human-reviewed questions covering all 217 coverage targets across every section.
 3. [x] **Accounts** _(shipped)_ — live at [usaurules.com](https://usaurules.com) — better-auth with Google OAuth, Cloudflare D1 for local-first progress persistence, server-validated timed runs, bookmarks, and the `/me` dashboard.
 4. [x] **AI** _(code-complete)_ — Gemini-powered scenario generation (`/quiz/scenario`) and ask-the-rules (`/ask`), with rule-citation grounding and cost guardrails; see [AI features](#ai-features).
+5. [x] **Leaderboard** _(code-complete)_ — an opt-in, profanity-filtered all-time top 10 for the timed challenge, at `/leaderboard`.
+6. [x] **Admin** _(code-complete)_ — a private dashboard behind an `ADMIN_EMAILS` allowlist, with AI conversation review and streamed CSV exports; see [Admin](#admin).
