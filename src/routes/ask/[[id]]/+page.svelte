@@ -164,7 +164,7 @@
 						rows="2"
 						placeholder="Ask about the rules…"
 						aria-label="Your message"
-						class="min-h-0 w-full resize-none rounded-lg bg-transparent p-3 text-sm text-navy placeholder:text-navy/40 focus:outline-none"
+						class="min-h-0 w-full resize-none rounded-lg bg-transparent p-3 text-base text-navy placeholder:text-navy/40 focus:outline-none"
 					></textarea>
 					<div class="flex items-center justify-between px-3 pb-3">
 						{#if chatStream.remaining !== null}

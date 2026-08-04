@@ -260,3 +260,59 @@ test.describe('running quiz layout @1024px', () => {
 		expect(lefts.streak, 'streak should sit left of End run').toBeLessThan(lefts.end);
 	});
 });
+
+test.describe('mobile browser behaviour @375px', () => {
+	test.use({ viewport: { width: 375, height: 667 }, hasTouch: true, isMobile: true });
+
+	// iOS Safari zooms the page when focus enters an input below 16px. There is no
+	// way to observe that zoom in Chromium, so assert the cause instead.
+	test('no input renders below 16px', async ({ page }) => {
+		await signUpTestUser(page, 'mobile-inputs');
+		const offenders: string[] = [];
+		for (const route of ['/ask', '/me', '/quiz/timed']) {
+			await page.goto(route);
+			await page.waitForLoadState('networkidle');
+			offenders.push(
+				...(await page.evaluate(
+					(r) =>
+						[...document.querySelectorAll('input, textarea, select')]
+							.filter((el) => parseFloat(getComputedStyle(el).fontSize) < 16)
+							.map(
+								(el) =>
+									`${r}: ${el.tagName.toLowerCase()} "${el.getAttribute('aria-label') ?? ''}" ${getComputedStyle(el).fontSize}`
+							),
+					route
+				))
+			);
+		}
+		expect(offenders.join('\n')).toBe('');
+	});
+
+	test('the ask page does not scroll behind its panel', async ({ page }) => {
+		await signUpTestUser(page, 'mobile-ask-scroll');
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		const { scrollHeight, clientHeight } = await page.evaluate(() => ({
+			scrollHeight: document.documentElement.scrollHeight,
+			clientHeight: document.documentElement.clientHeight
+		}));
+		expect(scrollHeight).toBeLessThanOrEqual(clientHeight);
+	});
+
+	test('the search dialog result list fits the viewport', async ({ page }) => {
+		await page.goto('/');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('button', { name: /^search$/i }).click();
+		await page.getByRole('combobox').fill('stall');
+		await expect(page.getByRole('listbox')).toBeVisible();
+		const bottom = await page.evaluate(() => {
+			const c = document.querySelector('[role="dialog"]')!;
+			return {
+				dialog: c.getBoundingClientRect().bottom,
+				vh: document.documentElement.clientHeight
+			};
+		});
+		// Leaves room for an on-screen keyboard, which Playwright cannot open.
+		expect(bottom.dialog).toBeLessThanOrEqual(bottom.vh * 0.7);
+	});
+});

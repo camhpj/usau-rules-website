@@ -47,7 +47,7 @@
 {:else}
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">
 		<div
-			class="flex h-[calc(100dvh-11rem)] w-full flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
+			class="flex h-[calc(100dvh-12.5rem)] w-full flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
 		>
 			<!--
 				Shared mobile header band: one physical row for both states, so the left

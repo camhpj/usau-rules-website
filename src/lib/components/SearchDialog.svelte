@@ -86,7 +86,7 @@
 	<Dialog.Portal>
 		<Dialog.Overlay class="fixed inset-0 z-50 bg-navy-deep/70 backdrop-blur-sm" />
 		<Dialog.Content
-			class="fixed top-24 left-1/2 z-50 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-xl bg-white shadow-2xl"
+			class="fixed top-16 left-1/2 z-50 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-xl bg-white shadow-2xl sm:top-24"
 		>
 			<Dialog.Title class="sr-only">Search the rules</Dialog.Title>
 			<!-- svelte-ignore a11y_autofocus -->
@@ -110,7 +110,7 @@
 					id="search-results"
 					role="listbox"
 					aria-label="Search results"
-					class="max-h-96 overflow-y-auto p-2"
+					class="max-h-[min(24rem,45dvh)] overflow-y-auto p-2"
 				>
 					{#each results as hit, i (hit.id)}
 						<li role="presentation">
