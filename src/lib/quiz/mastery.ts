@@ -22,7 +22,7 @@ export function computeSectionMastery(
 	if (recent.length === 0) return { sectionSlug, attempts: 0, recentPct: 0, level: 'unseen' };
 	const recentPct = Math.round((100 * recent.filter((r) => r.correct).length) / recent.length);
 	const level: MasteryLevel =
-		recentPct >= 90 && recent.length >= MASTERY_MIN_ATTEMPTS
+		recentPct >= 100 && recent.length >= MASTERY_MIN_ATTEMPTS
 			? 'mastered'
 			: recentPct >= 60
 				? 'solid'

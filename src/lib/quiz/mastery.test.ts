@@ -41,9 +41,13 @@ describe('computeSectionMastery', () => {
 			level: 'solid'
 		});
 	});
-	it('masters at ≥90% over the recent window', () => {
+	it('masters at 100% over the recent window', () => {
+		const twelve = Array.from({ length: 12 }, (_, i) => response(`q${i}`, true, i));
+		expect(computeSectionMastery(twelve, '15').level).toBe('mastered');
+	});
+	it('one miss in the window falls short of mastered', () => {
 		const twelve = Array.from({ length: 12 }, (_, i) => response(`q${i}`, i !== 0, i));
-		expect(computeSectionMastery(twelve, '15').level).toBe('mastered'); // 11/12 ≈ 92%
+		expect(computeSectionMastery(twelve, '15').level).toBe('solid'); // 11/12 ≈ 92%
 	});
 	it('only considers the most recent window', () => {
 		const old = Array.from({ length: 30 }, (_, i) => response(`old${i}`, false, i));
