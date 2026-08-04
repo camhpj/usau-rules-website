@@ -108,12 +108,12 @@
 <svelte:head><title>Quick quiz · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Quick quiz</p>
+	<p class="eyebrow text-cardinal">Quick quiz</p>
 	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Ten questions.</h1>
 
 	{#if phase === 'setup'}
 		<div class="card mt-8 p-6 sm:p-8">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Sections</h2>
+			<h2 class="eyebrow text-navy/50">Sections</h2>
 			<p class="mt-1 text-sm text-navy/60">Leave everything off to draw from the whole bank.</p>
 			<div class="mt-3 flex flex-wrap gap-2">
 				{#each sections as section (section.slug)}
@@ -131,9 +131,7 @@
 				{/each}
 			</div>
 
-			<h2 class="mt-6 text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
-				Difficulty
-			</h2>
+			<h2 class="eyebrow mt-6 text-navy/50">Difficulty</h2>
 			<div class="mt-3 flex flex-wrap gap-2">
 				{#each DIFFICULTIES as d (d)}
 					<button

@@ -72,7 +72,7 @@
 <svelte:head><title>Scenario mode · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Scenario mode</p>
+	<p class="eyebrow text-cardinal">Scenario mode</p>
 	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Make the call.</h1>
 
 	{#if !sessionReady}
@@ -90,7 +90,7 @@
 		</div>
 	{:else if phase === 'setup' || phase === 'loading'}
 		<div class="card mt-8 p-6 sm:p-8">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Difficulty</h2>
+			<h2 class="eyebrow text-navy/50">Difficulty</h2>
 			<div class="mt-3 flex flex-wrap gap-2">
 				<button
 					type="button"

@@ -80,7 +80,7 @@
 <svelte:head><title>Section mastery · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Section mastery</p>
+	<p class="eyebrow text-cardinal">Section mastery</p>
 
 	{#if phase === 'grid'}
 		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Own the rulebook.</h1>

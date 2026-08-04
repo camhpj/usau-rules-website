@@ -6,9 +6,7 @@
 <svelte:head><title>Rulebooks · Best Perspective</title></svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<p class="animate-fade-up text-xs font-semibold tracking-[0.18em] text-white/50 uppercase">
-		Explore
-	</p>
+	<p class="eyebrow animate-fade-up text-white/50">Explore</p>
 	<h1 class="display animate-fade-up mt-2 text-4xl text-white sm:text-5xl" style="--stagger: 1">
 		Rule<span class="text-cardinal">books</span>
 	</h1>

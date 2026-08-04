@@ -72,7 +72,7 @@
 <svelte:head><title>Leaderboard · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">Timed challenge</p>
+	<p class="eyebrow text-cardinal">Timed challenge</p>
 	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Leaderboard.</h1>
 	<p class="mt-3 max-w-xl text-white/70">
 		The {LEADERBOARD_SIZE} best five-minute runs, server-verified. One entry per player.

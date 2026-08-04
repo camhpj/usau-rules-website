@@ -96,7 +96,7 @@
 
 	<div class="mt-8 grid gap-4 lg:grid-cols-3">
 		<div class="card flex flex-col p-6">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Timed best</h2>
+			<h2 class="eyebrow text-navy/50">Timed best</h2>
 			{#if data.timedBest}
 				<div class="mt-4 flex items-baseline gap-10">
 					<div>
@@ -115,7 +115,7 @@
 			<div class="mt-4 border-t border-mist pt-3">
 				<a
 					href="/leaderboard"
-					class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase hover:text-navy"
+					class="eyebrow text-navy/50 hover:text-navy"
 					title="See the leaderboard">Leaderboard →</a
 				>
 				<p class="mt-1.5 text-sm text-navy/70">
@@ -155,9 +155,7 @@
 		</div>
 
 		<div class="card flex flex-col p-6 lg:col-span-2">
-			<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
-				Recent attempts
-			</h2>
+			<h2 class="eyebrow text-navy/50">Recent attempts</h2>
 			{#if data.attempts.length === 0}
 				<p class="mt-2 text-sm text-navy/60">Nothing yet. Completed quizzes will appear here.</p>
 			{:else}
@@ -191,7 +189,7 @@
 	</div>
 
 	<div class="card mt-4 p-6">
-		<h2 class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">Progress</h2>
+		<h2 class="eyebrow text-navy/50">Progress</h2>
 		<div class="mt-4 flex flex-wrap items-baseline gap-x-8 gap-y-2">
 			<div>
 				<p class="display text-3xl text-turf">{masteredCount}</p>
@@ -239,7 +237,7 @@
 		</a>
 	</div>
 
-	<h2 class="mt-10 text-xs font-semibold tracking-[0.18em] text-white/50 uppercase">Bookmarks</h2>
+	<h2 class="eyebrow mt-10 text-white/50">Bookmarks</h2>
 	{#if marks.length === 0}
 		<p class="mt-3 text-sm text-white/60">Bookmarked rules will appear here.</p>
 	{:else}

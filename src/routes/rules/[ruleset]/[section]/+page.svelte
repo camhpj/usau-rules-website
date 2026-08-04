@@ -41,7 +41,7 @@
 	</aside>
 
 	<article bind:this={articleEl} class="card min-w-0 flex-1 p-6 sm:p-10">
-		<p class="text-xs font-semibold tracking-[0.18em] text-navy/50 uppercase">
+		<p class="eyebrow text-navy/50">
 			{data.manifest.title} · {data.manifest.edition}
 		</p>
 		<h1 class="display mt-2 text-4xl text-navy sm:text-5xl">

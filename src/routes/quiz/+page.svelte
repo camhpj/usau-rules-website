@@ -69,9 +69,7 @@
 <svelte:head><title>Quiz · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<p class="animate-fade-up text-xs font-semibold tracking-[0.18em] text-cardinal uppercase">
-		Test yourself
-	</p>
+	<p class="eyebrow animate-fade-up text-cardinal">Test yourself</p>
 	<h1 class="display animate-fade-up mt-3 text-5xl text-white sm:text-6xl" style="--stagger: 1">
 		Pick your game.
 	</h1>
