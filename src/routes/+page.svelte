@@ -210,7 +210,7 @@
 		class="relative mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-4 py-3 text-center sm:px-6 sm:py-12"
 	>
 		<h1 class="display animate-fade-up mt-4 text-[clamp(3rem,8vw,6.5rem)] text-white sm:mt-5">
-			Know the<br /><span class="text-cardinal">Rules.</span>
+			Know the<br />Rules.
 		</h1>
 		<p
 			class="animate-fade-up mt-3 mb-1 max-w-xl text-base text-white/70 sm:mt-5 sm:mb-3 sm:text-lg"

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import Chip from '$lib/components/Chip.svelte';
 	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
 	import { ruleRefLabel } from '$lib/content/rule-ids';
 	import { utcDay } from '$lib/time';
@@ -68,8 +67,7 @@
 <svelte:head><title>Dashboard · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-	<Chip label="Dashboard" />
-	<h1 class="display mt-3 text-4xl text-white sm:text-5xl">Your perspective.</h1>
+	<h1 class="display text-4xl text-white sm:text-5xl">Dashboard</h1>
 	<p class="mt-2 text-sm text-white/60">{data.user.name} · {data.user.email}</p>
 	{#if state.errorMessage}
 		<p class="mt-4 text-sm font-semibold text-cardinal" role="alert">{state.errorMessage}</p>

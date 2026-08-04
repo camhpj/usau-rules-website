@@ -6,15 +6,9 @@
 <svelte:head><title>Rulebooks · Best Perspective</title></svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<p class="eyebrow animate-fade-up text-white/50">Explore</p>
-	<h1 class="display animate-fade-up mt-2 text-4xl text-white sm:text-5xl">
-		Rule<span class="text-cardinal">books</span>
-	</h1>
-	<p class="animate-fade-up mt-3 max-w-xl text-sm text-white/60">
-		Pick a ruleset to browse its full table of contents.
-	</p>
+	<h1 class="display animate-fade-up text-4xl text-white sm:text-5xl">Rulebooks</h1>
 
-	<div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+	<div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 		{#each data.rulesets as ruleset, i (ruleset.id)}
 			{@const ruleCount = ruleset.sections.reduce((sum, s) => sum + s.ruleCount, 0)}
 			<a
