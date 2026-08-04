@@ -1,20 +1,9 @@
-import { execSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
-import { signUpTestUser } from './helpers';
+import { d1, d1Select, signUpTestUser } from './helpers';
 
-// Shells out to wrangler against the same local D1 sqlite file the dev server uses. This is
-// only safe because the e2e suite runs single-worker (playwright.config.ts has no explicit
-// `workers` override for a single spec file) — concurrent writers against the same local D1
-// file are not something these helpers attempt to coordinate.
-const d1 = (sql: string): unknown =>
-	JSON.parse(
-		execSync(
-			`npx wrangler d1 execute usau-rules-website-db --local --json --command "${sql.replace(/"/g, '\\"')}"`,
-			{ cwd: process.cwd(), encoding: 'utf-8' }
-		)
-	);
-const d1Select = (sql: string): Record<string, unknown>[] =>
-	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;
+// These specs drive the local D1 file directly via the CLI helpers in ./helpers, which is only
+// safe because the e2e suite runs single-worker. See execD1 there for why a CLI call can collide
+// with the live wrangler dev process and how that is handled.
 
 export const AI_QUESTION = {
 	id: 'ai-11111111-1111-1111-1111-111111111111',
@@ -508,7 +497,12 @@ test.describe('conversation history (seeded D1)', () => {
 	test('seeded rows: real list scopes and paginates; detail loads; DELETE soft-deletes; feedback writes', async ({
 		page
 	}) => {
-		test.setTimeout(60_000);
+		// This is the heaviest test in the suite (21-row bulk seed, several UI round trips, a
+		// reload, and multiple direct D1 reads/writes via the CLI). 60s was already 2x the
+		// default; CI has still hit it once on a cold runner with no error logged, just a slow
+		// `waitForLoadState('networkidle')` on the final navigation — give it more room rather
+		// than guess at which specific step needs it.
+		test.setTimeout(90_000);
 		const { email } = await signUpTestUser(page, 'chat-db');
 		d1(`DELETE FROM ai_messages WHERE id LIKE 'seedc-%'`);
 		d1(`DELETE FROM ai_conversations WHERE id LIKE 'seedc-%'`);

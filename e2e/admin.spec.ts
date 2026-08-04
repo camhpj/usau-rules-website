@@ -1,16 +1,5 @@
-import { execSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
-import { ADMIN_EMAIL, signInAsAdmin, signUpTestUser } from './helpers';
-
-const d1 = (sql: string): unknown =>
-	JSON.parse(
-		execSync(
-			`npx wrangler d1 execute usau-rules-website-db --local --json --command "${sql.replace(/"/g, '\\"')}"`,
-			{ cwd: process.cwd(), encoding: 'utf-8' }
-		)
-	);
-const d1Select = (sql: string): Record<string, unknown>[] =>
-	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;
+import { ADMIN_EMAIL, d1, d1Select, signInAsAdmin, signUpTestUser } from './helpers';
 
 test.describe('admin access', () => {
 	test('signed out → 404 on admin routes', async ({ page }) => {

@@ -8,7 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: npm }
+        with: { node-version: 24, cache: npm }
+      # setup-node installs whatever npm ships with Node 22 (10.x), which silently
+      # ignores .npmrc's min-release-age. Pin the same npm CI and local dev use.
+      # This version must itself satisfy min-release-age, so bump it deliberately.
+      - run: npm install -g npm@12.0.1
       - run: npm ci
       - run: npm run lint --if-present
       - run: npx prettier --check .
@@ -20,4 +24,5 @@ jobs:
       - run: npm run build
       - run: cp .dev.vars.example .dev.vars
       - run: npx playwright install --with-deps chromium
+      - run: npm run smoke:dev
       - run: npm run test:e2e
