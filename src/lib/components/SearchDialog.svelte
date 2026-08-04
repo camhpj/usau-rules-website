@@ -110,7 +110,7 @@
 					id="search-results"
 					role="listbox"
 					aria-label="Search results"
-					class="max-h-[min(24rem,45dvh)] overflow-y-auto p-2"
+					class="max-h-[min(24rem,45dvh)] overflow-y-auto p-2 sm:max-h-96"
 				>
 					{#each results as hit, i (hit.id)}
 						<li role="presentation">

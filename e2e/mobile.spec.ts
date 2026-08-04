@@ -285,6 +285,23 @@ test.describe('mobile browser behaviour @375px', () => {
 				))
 			);
 		}
+		// The search combobox lives in a portal outside the routes swept above, and
+		// only mounts its input once the dialog is open.
+		await page.goto('/');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('button', { name: /^search$/i }).click();
+		offenders.push(
+			...(await page.evaluate(
+				(r) =>
+					[...document.querySelectorAll('input, textarea, select')]
+						.filter((el) => parseFloat(getComputedStyle(el).fontSize) < 16)
+						.map(
+							(el) =>
+								`${r}: ${el.tagName.toLowerCase()} "${el.getAttribute('aria-label') ?? ''}" ${getComputedStyle(el).fontSize}`
+						),
+				'search dialog'
+			))
+		);
 		expect(offenders.join('\n')).toBe('');
 	});
 
