@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { matchAppendixAnchor, nearestKnownRuleId, sectionSlugForRuleId } from './rule-ids';
+import {
+	matchAppendixAnchor,
+	nearestKnownRuleId,
+	ruleRefLabel,
+	sectionSlugForRuleId
+} from './rule-ids';
 
 describe('sectionSlugForRuleId (moved from ingest)', () => {
 	it('still maps ids to slugs', () => {
@@ -17,6 +22,20 @@ describe('matchAppendixAnchor', () => {
 
 	it('returns null for a non-appendix id', () => {
 		expect(matchAppendixAnchor('15.A.3')).toBe(null);
+	});
+});
+
+describe('ruleRefLabel', () => {
+	it('renders an appendix anchor as "Appendix <letter>"', () => {
+		expect(ruleRefLabel('appendix_g')).toBe('Appendix G');
+	});
+
+	it('uppercases the letter for an already-uppercase anchor', () => {
+		expect(ruleRefLabel('appendix_G')).toBe('Appendix G');
+	});
+
+	it('passes a numeric id through unchanged', () => {
+		expect(ruleRefLabel('15.F.2')).toBe('15.F.2');
 	});
 });
 
