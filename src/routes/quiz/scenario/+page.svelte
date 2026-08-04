@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { ScenarioResponseSchema } from '$lib/ai/payload';
 	import { authClient } from '$lib/auth-client';
+	import Button from '$lib/components/Button.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import { buildQuizItems, mulberry32, type QuizItem } from '$lib/quiz/engine';
@@ -80,13 +81,7 @@
 	{:else if !user}
 		<div class="card mt-8 p-8 text-center">
 			<h2 class="display text-2xl">Sign in to play scenarios</h2>
-			<button
-				type="button"
-				onclick={signIn}
-				class="mt-6 rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-			>
-				Sign in with Google
-			</button>
+			<Button onclick={signIn} class="mt-6">Sign in with Google</Button>
 		</div>
 	{:else if phase === 'setup' || phase === 'loading'}
 		<div class="card mt-8 p-6 sm:p-8">
@@ -130,14 +125,7 @@
 						Generate a realistic game scenario and make the call.
 					{/if}
 				</p>
-				<button
-					type="button"
-					disabled={phase === 'loading'}
-					onclick={deal}
-					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-				>
-					Deal a scenario
-				</button>
+				<Button disabled={phase === 'loading'} onclick={deal}>Deal a scenario</Button>
 			</div>
 		</div>
 	{:else if phase === 'playing'}
@@ -165,20 +153,8 @@
 				</p>
 			{/if}
 			<div class="mt-6 flex gap-3">
-				<button
-					type="button"
-					onclick={deal}
-					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-				>
-					Another scenario
-				</button>
-				<button
-					type="button"
-					onclick={() => (phase = 'setup')}
-					class="rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy"
-				>
-					Change difficulty
-				</button>
+				<Button onclick={deal}>Another scenario</Button>
+				<Button variant="outline" onclick={() => (phase = 'setup')}>Change difficulty</Button>
 			</div>
 		</div>
 	{/if}

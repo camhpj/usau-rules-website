@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 	import DisplayNameClaim from '$lib/components/DisplayNameClaim.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
@@ -306,20 +307,10 @@
 					<p class="mt-2 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
 				{/if}
 				<div class="mt-4 flex gap-3">
-					<button
-						type="button"
-						disabled={loadingBank}
-						onclick={start}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-					>
+					<Button disabled={loadingBank} onclick={start}>
 						{loadingBank ? 'Loading…' : 'Run it back'}
-					</button>
-					<a
-						href="/quiz"
-						class="rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy"
-					>
-						All modes
-					</a>
+					</Button>
+					<Button variant="outline" href="/quiz">All modes</Button>
 				</div>
 			</QuizSummary>
 		</div>

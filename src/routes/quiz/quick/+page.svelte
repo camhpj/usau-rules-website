@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 	import QuestionPlayer from '$lib/components/quiz/QuestionPlayer.svelte';
 	import QuizSummary from '$lib/components/quiz/QuizSummary.svelte';
 	import { loadAllQuestions, loadSectionQuestions } from '$lib/quiz/bank-lazy';
@@ -159,14 +160,7 @@
 						{matchCount} question{matchCount === 1 ? '' : 's'} match
 					{/if}
 				</p>
-				<button
-					type="button"
-					disabled={matchCount === 0 || loadingBank}
-					onclick={start}
-					class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-				>
-					Start quiz
-				</button>
+				<Button disabled={matchCount === 0 || loadingBank} onclick={start}>Start quiz</Button>
 			</div>
 		</div>
 	{:else if phase === 'playing'}
@@ -180,21 +174,8 @@
 					<p class="mt-3 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
 				{/if}
 				<div class="mt-4 flex gap-3">
-					<button
-						type="button"
-						disabled={loadingBank}
-						onclick={start}
-						class="rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-40"
-					>
-						Play again
-					</button>
-					<button
-						type="button"
-						onclick={() => (phase = 'setup')}
-						class="rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy"
-					>
-						Change settings
-					</button>
+					<Button disabled={loadingBank} onclick={start}>Play again</Button>
+					<Button variant="outline" onclick={() => (phase = 'setup')}>Change settings</Button>
 				</div>
 			</QuizSummary>
 		</div>

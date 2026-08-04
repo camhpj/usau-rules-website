@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import { conversations } from '$lib/ask/conversations.svelte';
 	import { authClient } from '$lib/auth-client';
+	import Button from '$lib/components/Button.svelte';
 	import ConversationSidebar from '$lib/components/chat/ConversationSidebar.svelte';
 
 	let { children }: { children: Snippet } = $props();
@@ -55,13 +56,7 @@
 	<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
 		<div class="card mt-8 p-8 text-center">
 			<h2 class="display text-2xl">Sign in to use the ask feature</h2>
-			<button
-				type="button"
-				onclick={signIn}
-				class="mt-6 rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-			>
-				Sign in with Google
-			</button>
+			<Button onclick={signIn} class="mt-6">Sign in with Google</Button>
 		</div>
 	</section>
 {:else}

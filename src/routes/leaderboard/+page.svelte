@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 	import {
 		LEADERBOARD_SIZE,
 		LeaderboardResponseSchema,
@@ -166,10 +167,5 @@
 		{/if}
 	</div>
 
-	<a
-		href="/quiz/timed"
-		class="mt-6 inline-block rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110"
-	>
-		Play the timed challenge →
-	</a>
+	<Button href="/quiz/timed" class="mt-6 inline-block">Play the timed challenge →</Button>
 </section>
