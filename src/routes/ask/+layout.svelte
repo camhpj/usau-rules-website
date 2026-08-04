@@ -1,17 +1,13 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import { type Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { conversations } from '$lib/ask/conversations.svelte';
-	import { authClient } from '$lib/auth-client';
-	import Button from '$lib/components/Button.svelte';
+	import AuthGate from '$lib/components/AuthGate.svelte';
 	import ConversationSidebar from '$lib/components/chat/ConversationSidebar.svelte';
 
 	let { children }: { children: Snippet } = $props();
 
-	let user = $state<{ name: string } | null>(null);
-	let sessionReady = $state(false);
 	let drawerOpen = $state(false);
-	let listLoaded = false;
 
 	const activeId = $derived(
 		page.url.pathname.startsWith('/ask/')
@@ -19,47 +15,22 @@
 			: null
 	);
 
-	onMount(() => {
-		const store = authClient.useSession();
-		return store.subscribe((s) => {
-			user = s.data?.user ?? null;
-			if (!s.isPending) sessionReady = true;
-		});
-	});
-
-	$effect(() => {
-		if (user && !listLoaded) {
-			listLoaded = true;
-			void conversations.load();
-		}
-	});
-
 	// Close the mobile drawer on any navigation.
 	$effect(() => {
 		void page.url.pathname;
 		drawerOpen = false;
 	});
-
-	function signIn() {
-		void authClient.signIn.social({ provider: 'google', callbackURL: '/ask' });
-	}
 </script>
 
 <svelte:head><title>Ask · Best Perspective</title></svelte:head>
 
-{#if !sessionReady}
-	<div
-		class="mx-auto mt-16 h-40 max-w-3xl animate-pulse rounded-xl bg-white/10"
-		aria-hidden="true"
-	></div>
-{:else if !user}
-	<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
-		<div class="card mt-8 p-8 text-center">
-			<h2 class="display text-2xl">Sign in to use the ask feature</h2>
-			<Button onclick={signIn} class="mt-6">Sign in with Google</Button>
-		</div>
-	</section>
-{:else}
+<AuthGate
+	callbackURL="/ask"
+	heading="Sign in to use the ask feature"
+	pendingClass="mx-auto mt-16 max-w-3xl"
+	signedOutWrapperClass="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6"
+	onSignedIn={() => void conversations.load()}
+>
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">
 		<div
 			class="flex h-[calc(100dvh-11rem)] w-full flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
@@ -152,4 +123,4 @@
 			</div>
 		</div>
 	</div>
-{/if}
+</AuthGate>
