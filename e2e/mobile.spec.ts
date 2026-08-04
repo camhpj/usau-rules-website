@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { d1, d1Select, signInAsAdmin, signUpTestUser } from './helpers';
+import { ADMIN_EMAIL, d1, d1Select, signInAsAdmin, signUpTestUser } from './helpers';
 import {
 	auditInPage,
 	formatViolations,
@@ -374,5 +374,41 @@ test.describe('touch affordances @375px', () => {
 		await expect(del).toHaveCSS('opacity', '1');
 		await del.tap();
 		await expect(page.getByText('Seeded mobile convo')).toHaveCount(0);
+	});
+});
+
+test.describe('admin conversation table @320px', () => {
+	test.use({ viewport: { width: 320, height: 667 }, hasTouch: true, isMobile: true });
+
+	// The audit never reached this table: local D1 had no conversations, so /admin/ai
+	// rendered its empty state and the spec recorded the table as unverified. Five
+	// columns with an untruncated title is a strong candidate for overflow, but that's
+	// a prediction — seed a realistic worst case and let the measurement decide.
+	test('the conversation table holds every invariant with real rows', async ({ page }) => {
+		await signInAsAdmin(page);
+		d1(`DELETE FROM ai_messages WHERE id LIKE 'mobtable-%'`);
+		d1(`DELETE FROM ai_conversations WHERE id LIKE 'mobtable-%'`);
+		const userId = (
+			d1Select(`SELECT id FROM user WHERE email = '${ADMIN_EMAIL}'`)[0] as { id: string }
+		).id;
+		const now = Date.now();
+		const title =
+			'What happens when the thrower fumbles the disc after a contested stall count in the end zone';
+		d1(
+			`INSERT INTO ai_conversations (id, user_id, ruleset_id, title, created_at, updated_at, deleted_at) VALUES ('mobtable-1', '${userId}', '${RULESET}', '${title}', ${now}, ${now}, NULL)`
+		);
+		d1(
+			`INSERT INTO ai_messages (id, conversation_id, role, content, status, model, feedback, created_at) VALUES ('mobtable-1-u', 'mobtable-1', 'user', 'seeded', NULL, NULL, NULL, ${now})`
+		);
+
+		const violations = await sweep(page, '/admin/ai', 320, 'body');
+		// A seeding failure would leave the empty state rendered, and the sweep would
+		// then pass vacuously against a table that was never exercised. Prove the
+		// seeded row actually reached the page before trusting a clean result. There is
+		// no sidebar-style duplication on this route to worry about scoping around.
+		await expect(page.getByRole('link', { name: title })).toBeVisible();
+		expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
+			'no violations'
+		);
 	});
 });
