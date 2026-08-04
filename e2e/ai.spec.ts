@@ -25,14 +25,14 @@ export const AI_QUESTION = {
 };
 
 test.describe('scenario mode', () => {
-	test('signed out: shows the sign-in gate, no deal button', async ({ page }) => {
+	test('signed out: shows the sign-in gate, no generate button', async ({ page }) => {
 		await page.goto('/quiz/scenario');
 		await page.waitForLoadState('networkidle');
 		await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible();
-		await expect(page.getByRole('button', { name: /deal a scenario/i })).toHaveCount(0);
+		await expect(page.getByRole('button', { name: /generate scenario/i })).toHaveCount(0);
 	});
 
-	test('signed in: deals, plays, and can deal another', async ({ page }) => {
+	test('signed in: generates, plays, and can generate another', async ({ page }) => {
 		await signUpTestUser(page, 'scenario');
 		await page.route('**/api/ai/scenario', (route) =>
 			route.fulfill({
@@ -43,7 +43,7 @@ test.describe('scenario mode', () => {
 		);
 		await page.goto('/quiz/scenario');
 		await page.waitForLoadState('networkidle');
-		await page.getByRole('button', { name: /deal a scenario/i }).click();
+		await page.getByRole('button', { name: /generate scenario/i }).click();
 		await expect(page.getByText(/stall count/)).toBeVisible();
 		await page.getByRole('button', { name: /it is a turnover/i }).click();
 		await expect(page.getByText(/per 15\.D/i)).toBeVisible();
@@ -66,7 +66,7 @@ test.describe('scenario mode', () => {
 		);
 		await page.goto('/quiz/scenario');
 		await page.waitForLoadState('networkidle');
-		await page.getByRole('button', { name: /deal a scenario/i }).click();
+		await page.getByRole('button', { name: /generate scenario/i }).click();
 		await expect(page.getByText(/daily scenario limit reached/i)).toBeVisible();
 	});
 
@@ -85,7 +85,7 @@ test.describe('scenario mode', () => {
 		);
 		await page.goto('/quiz/scenario');
 		await page.waitForLoadState('networkidle');
-		await page.getByRole('button', { name: /deal a scenario/i }).click();
+		await page.getByRole('button', { name: /generate scenario/i }).click();
 		await expect(page.getByText(/AI was unavailable/i)).toBeVisible();
 	});
 });

@@ -211,7 +211,7 @@
 		class="relative mx-auto flex min-h-[calc(100vh-4rem-4.5rem)] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:px-6"
 	>
 		<h1 class="display animate-fade-up mt-5 text-[clamp(3.5rem,8vw,6.5rem)] text-white">
-			Know the<br /><span class="text-cardinal">Rules.</span>
+			Know the<br />Rules.
 		</h1>
 		<p class="animate-fade-up mt-5 mb-3 max-w-xl text-lg text-white/70">
 			Learn the rules of Ultimate and test your knowledge.
