@@ -60,7 +60,7 @@
 				<button
 					type="button"
 					onclick={() => (drawerOpen = !drawerOpen)}
-					class="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold tracking-wider text-navy/60 uppercase hover:text-navy"
+					class="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold tracking-wider text-navy/60 uppercase hover:text-navy"
 				>
 					{#if drawerOpen}
 						<svg
@@ -97,7 +97,7 @@
 				<a
 					href="/ask"
 					onclick={() => (drawerOpen = false)}
-					class="inline-flex items-center gap-1.5 rounded-full bg-cardinal px-3 py-1.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
+					class="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-cardinal px-3 py-1.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

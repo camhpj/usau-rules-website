@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { signInAsAdmin, signUpTestUser } from './helpers';
 import {
 	auditInPage,
 	formatViolations,
@@ -86,7 +87,38 @@ for (const width of VIEWPORTS) {
 			const violations: Violation[] = [];
 			for (const route of PUBLIC_ROUTES)
 				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(onlyKinds(violations, ['tap-target']))).toBe('no violations');
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+				'no violations'
+			);
+		});
+	});
+}
+
+const SIGNED_IN_ROUTES = ['/me', '/ask'];
+const ADMIN_ROUTES = ['/admin', '/admin/ai', '/admin/export'];
+
+for (const width of VIEWPORTS) {
+	test.describe(`signed in @${width}px`, () => {
+		test.use({ viewport: { width, height: 667 }, hasTouch: true, isMobile: true });
+
+		test('signed-in routes hold every invariant', async ({ page }) => {
+			await signUpTestUser(page, `mobile-${width}`);
+			const violations: Violation[] = [];
+			for (const route of SIGNED_IN_ROUTES)
+				violations.push(...(await sweep(page, route, width, 'body')));
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+				'no violations'
+			);
+		});
+
+		test('admin routes hold every invariant', async ({ page }) => {
+			await signInAsAdmin(page);
+			const violations: Violation[] = [];
+			for (const route of ADMIN_ROUTES)
+				violations.push(...(await sweep(page, route, width, 'body')));
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+				'no violations'
+			);
 		});
 	});
 }

@@ -10,7 +10,7 @@
 				<div class="text-xs text-navy/50">{d.count.toLocaleString()} rows</div>
 			</div>
 			<a
-				class="cursor-pointer rounded bg-cardinal px-3 py-1.5 text-sm font-medium text-white"
+				class="inline-flex min-h-11 cursor-pointer items-center rounded bg-cardinal px-3 py-1.5 text-sm font-medium text-white"
 				href="/admin/export/{d.slug}.csv">Download</a
 			>
 		</li>

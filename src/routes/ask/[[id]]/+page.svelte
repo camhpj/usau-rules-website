@@ -179,7 +179,7 @@
 								type="button"
 								onclick={() => ask.activeJob && chatStream.stop(ask.activeJob)}
 								aria-label="Stop"
-								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-white hover:brightness-110"
+								class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-navy text-white hover:brightness-110"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +196,7 @@
 								type="submit"
 								aria-label="Send"
 								disabled={chatStream.atCap || ask.input.trim().length < 3}
-								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cardinal text-white hover:brightness-110 disabled:opacity-40"
+								class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-cardinal text-white hover:brightness-110 disabled:opacity-40"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
