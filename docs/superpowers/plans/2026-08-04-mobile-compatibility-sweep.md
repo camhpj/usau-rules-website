@@ -469,6 +469,16 @@ function config(targetScope: string) {
 }
 
 /**
+ * `sweep` always returns every violation kind it finds, even ones this task did
+ * not fix, so later tasks can widen coverage without changing the sweep itself.
+ * Each task's assertion narrows to the kinds it actually fixed. Task 2 only
+ * fixed tap targets. Overflow joins at Task 4, covered at Task 5.
+ */
+function onlyKinds(violations: Violation[], kinds: Violation['kind'][]): Violation[] {
+	return violations.filter((v) => kinds.includes(v.kind));
+}
+
+/**
  * Audits one route at rest and again at the bottom of the page. The second pass
  * is what catches a fixed control sitting over the end of the content; at the
  * top of a long page it floats over nothing.
@@ -500,7 +510,7 @@ for (const width of VIEWPORTS) {
 		test('shared header controls meet the tap-target minimum', async ({ page }) => {
 			const violations: Violation[] = [];
 			for (const route of PUBLIC_ROUTES) violations.push(...(await sweep(page, route, width, 'header')));
-			expect(formatViolations(violations)).toBe('no violations');
+			expect(formatViolations(onlyKinds(violations, ['tap-target']))).toBe('no violations');
 		});
 	});
 }
@@ -676,9 +686,11 @@ In `e2e/mobile.spec.ts`, change the sweep inside the `for (const width of VIEWPO
 test('all controls meet the tap-target minimum', async ({ page }) => {
 	const violations: Violation[] = [];
 	for (const route of PUBLIC_ROUTES) violations.push(...(await sweep(page, route, width, 'body')));
-	expect(formatViolations(violations)).toBe('no violations');
+	expect(formatViolations(onlyKinds(violations, ['tap-target']))).toBe('no violations');
 });
 ```
+
+`onlyKinds` already exists in the file from Task 2. It keeps each task's assertion to the kinds that task fixed, so the suite is green at every commit. Overflow joins the list in Task 4; covered joins in Task 5. Leave the filter at `['tap-target']` here.
 
 - [ ] **Step 2: Run the test to verify it fails**
 
@@ -774,7 +786,9 @@ for (const width of VIEWPORTS) {
 			const violations: Violation[] = [];
 			for (const route of SIGNED_IN_ROUTES)
 				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(violations)).toBe('no violations');
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+				'no violations'
+			);
 		});
 
 		test('admin routes hold every invariant', async ({ page }) => {
@@ -782,11 +796,15 @@ for (const width of VIEWPORTS) {
 			const violations: Violation[] = [];
 			for (const route of ADMIN_ROUTES)
 				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(violations)).toBe('no violations');
+			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow']))).toBe(
+				'no violations'
+			);
 		});
 	});
 }
 ```
+
+This task is where overflow turns on. Widen the existing public-route test's filter to `['tap-target', 'overflow']` as well, so the invariant applies everywhere rather than only on the routes added here. Covered content stays out until Task 5.
 
 - [ ] **Step 2: Run the test to verify it fails**
 
@@ -924,7 +942,11 @@ Two confirmed layout defects: the timed-run header overlaps itself, and the floa
 
 - [ ] **Step 1: Write the failing test**
 
-Append to `e2e/mobile.spec.ts`. The coverage invariant in `sweep` already catches the TOC pill, so this adds only the timed-run case, which needs the run started before anything can overlap.
+Two edits to `e2e/mobile.spec.ts`.
+
+First, this task is where covered content turns on. Widen every existing `onlyKinds` filter in the file to include `'covered'`, so all three assertions read `onlyKinds(violations, ['tap-target', 'overflow', 'covered'])`. That is what makes the TOC-pill defect fail the sweep. Once done, every violation kind the audit detects is asserted somewhere, and the filter has served its purpose — leave it in place rather than deleting it, since it documents the progression.
+
+Second, append the timed-run case below. It needs the run started before anything can overlap, so the sweep cannot express it.
 
 ```ts
 test.describe('running quiz layout @375px', () => {
@@ -1398,7 +1420,9 @@ test.describe('admin conversation table @320px', () => {
 		);
 
 		const violations = await sweep(page, '/admin/ai', 320, 'body');
-		expect(formatViolations(violations)).toBe('no violations');
+		expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
+			'no violations'
+		);
 	});
 });
 ```
