@@ -16,7 +16,7 @@
 	type="button"
 	aria-pressed={selected}
 	{onclick}
-	class="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
+	class="inline-flex min-h-11 items-center rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors
 		{selected ? 'border-navy bg-navy text-white' : 'border-mist text-navy/70 hover:border-navy/40'}"
 >
 	{@render children()}

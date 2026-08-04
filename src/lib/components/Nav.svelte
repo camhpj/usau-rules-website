@@ -65,7 +65,10 @@
 	<nav
 		class="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-2 px-4 py-1.5 sm:gap-x-4 sm:px-6 sm:py-0"
 	>
-		<a href="/" class="display text-base whitespace-nowrap text-white sm:text-2xl">
+		<a
+			href="/"
+			class="display flex min-h-11 items-center text-base whitespace-nowrap text-white sm:text-2xl"
+		>
 			Best <span class="text-cardinal">Perspective</span>
 		</a>
 		<div class="ml-auto flex items-center gap-2 sm:gap-6">
@@ -73,7 +76,7 @@
 				type="button"
 				onclick={onSearch}
 				aria-label="Search"
-				class="flex items-center gap-2 rounded-full border border-transparent px-1 py-1.5 text-xs font-semibold tracking-wider text-white/70 uppercase hover:border-white/60 hover:text-white sm:border-white/25 sm:px-3.5"
+				class="flex min-h-11 items-center justify-center gap-2 rounded-full border border-transparent px-1 py-1.5 text-xs font-semibold tracking-wider text-white/70 uppercase hover:border-white/60 hover:text-white sm:border-white/25 sm:px-3.5"
 			>
 				<svg
 					aria-hidden="true"
@@ -96,7 +99,8 @@
 				<a
 					href={link.href}
 					aria-current={active ? 'page' : undefined}
-					class="text-[10px] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors sm:text-xs sm:tracking-[0.18em]
+					class="flex min-h-11 items-center text-[10px] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors sm:text-xs sm:tracking-[0.18em]
+						{link.href === '/ask' ? 'px-1' : ''}
 						{active ? 'text-cardinal' : 'text-white/70 hover:text-white'}"
 				>
 					{link.label}
@@ -109,7 +113,7 @@
 					aria-label="Sign in"
 					class={[
 						extraClass,
-						'rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs'
+						'inline-flex min-h-11 items-center justify-center rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs'
 					]
 						.filter(Boolean)
 						.join(' ')}
@@ -136,18 +140,22 @@
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger
 						aria-label="Account menu"
-						class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/25 text-xs font-bold text-white uppercase hover:border-white/60"
+						class="flex h-11 w-8 items-center justify-center"
 					>
-						{#if user.image}
-							<img
-								src={user.image}
-								alt=""
-								referrerpolicy="no-referrer"
-								class="h-full w-full object-cover"
-							/>
-						{:else}
-							{user.name?.[0] ?? '?'}
-						{/if}
+						<span
+							class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/25 text-xs font-bold text-white uppercase hover:border-white/60"
+						>
+							{#if user.image}
+								<img
+									src={user.image}
+									alt=""
+									referrerpolicy="no-referrer"
+									class="h-full w-full object-cover"
+								/>
+							{:else}
+								{user.name?.[0] ?? '?'}
+							{/if}
+						</span>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Portal>
 						<DropdownMenu.Content
