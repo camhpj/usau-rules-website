@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { signInAsAdmin, signUpTestUser } from './helpers';
+import { d1, d1Select, signInAsAdmin, signUpTestUser } from './helpers';
 import {
 	auditInPage,
 	formatViolations,
@@ -332,5 +332,47 @@ test.describe('mobile browser behaviour @375px', () => {
 		});
 		// Leaves room for an on-screen keyboard, which Playwright cannot open.
 		expect(bottom.dialog).toBeLessThanOrEqual(bottom.vh * 0.7);
+	});
+});
+
+test.describe('touch affordances @375px', () => {
+	test.use({ viewport: { width: 375, height: 667 }, hasTouch: true, isMobile: true });
+
+	test('a rule can be bookmarked on a touch device', async ({ page }) => {
+		await signUpTestUser(page, 'mobile-bookmark');
+		await page.goto(`/rules/${RULESET}/15`);
+		await page.waitForLoadState('networkidle');
+
+		const button = page.locator('button[aria-label^="Bookmark rule"]').first();
+		await expect(button).toBeVisible();
+		// toBeVisible passes at opacity 0, which is exactly the bug — assert the
+		// computed value directly.
+		await expect(button).toHaveCSS('opacity', '1');
+		await button.tap();
+		await expect(page.locator('button[aria-pressed="true"][aria-label*="rule"]')).toHaveCount(1);
+	});
+
+	test('a conversation can be deleted on a touch device', async ({ page }) => {
+		const { email } = await signUpTestUser(page, 'mobile-del');
+		d1(`DELETE FROM ai_conversations WHERE id LIKE 'mobiledel-%'`);
+		const userId = (d1Select(`SELECT id FROM user WHERE email = '${email}'`)[0] as { id: string })
+			.id;
+		const now = Date.now();
+		d1(
+			`INSERT INTO ai_conversations (id, user_id, ruleset_id, title, created_at, updated_at, deleted_at) VALUES ('mobiledel-1', '${userId}', '${RULESET}', 'Seeded mobile convo', ${now}, ${now}, NULL)`
+		);
+
+		await page.goto('/ask');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('button', { name: /chats/i }).click();
+
+		// The sidebar mounts twice (a desktop `aside`, permanently display:none below
+		// `lg`, plus the mobile drawer opened above) — `:visible` excludes the dead
+		// desktop copy so this targets the drawer's real button, not a 0x0 decoy.
+		const del = page.locator('button[aria-label^="Delete conversation"]:visible').first();
+		await expect(del).toBeVisible();
+		await expect(del).toHaveCSS('opacity', '1');
+		await del.tap();
+		await expect(page.getByText('Seeded mobile convo')).toHaveCount(0);
 	});
 });

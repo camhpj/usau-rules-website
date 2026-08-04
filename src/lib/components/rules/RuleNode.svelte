@@ -30,7 +30,7 @@
 				aria-pressed={marked}
 				aria-label="{marked ? 'Remove bookmark for' : 'Bookmark'} rule {node.id}"
 				onclick={() => bookmarks.toggle(rulesetId, node.id)}
-				class="shrink-0 self-center transition-opacity {marked
+				class="flex h-11 w-11 shrink-0 items-center justify-center self-center transition-opacity pointer-coarse:opacity-100 {marked
 					? 'text-cardinal opacity-100'
 					: 'text-navy/30 opacity-0 group-hover:opacity-100 hover:text-cardinal focus-visible:opacity-100'}"
 			>
