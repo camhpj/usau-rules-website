@@ -36,8 +36,10 @@ export class MePageState {
 
 	/**
 	 * Re-insert a removed bookmark into the current list, preserving the same
-	 * order the server returns (see `fetchBookmarks`): createdAt descending,
-	 * with the ruleset/rule key as a tiebreak for equal timestamps.
+	 * primary order the server returns (see `fetchBookmarks`): createdAt
+	 * descending. The ruleset/rule key tiebreak for equal timestamps is local
+	 * and arbitrary — the server leaves ties unspecified — it only exists to
+	 * make the insertion point deterministic.
 	 */
 	#reinsertBookmark(mark: Bookmark): void {
 		const key = this.#bookmarkKey(mark.rulesetId, mark.ruleId);
@@ -57,6 +59,7 @@ export class MePageState {
 		// re-inserting), and reading live state here, before this task's turn,
 		// would race it.
 		const ok = await this.#run(this.#bookmarkKey(rulesetId, ruleId), async () => {
+			this.errorMessage = null;
 			const key = this.#bookmarkKey(rulesetId, ruleId);
 			const removed = this.marks.find((b) => this.#bookmarkKey(b.rulesetId, b.ruleId) === key);
 			if (removed)
@@ -81,6 +84,7 @@ export class MePageState {
 		// task so a same-key removal already queued ahead of this one has fully
 		// settled first.
 		const ok = await this.#run(DISPLAY_NAME_KEY, async () => {
+			this.errorMessage = null;
 			const before = this.displayName;
 			if (before !== null) this.displayName = null; // optimistic
 			const requestOk = (
@@ -90,7 +94,11 @@ export class MePageState {
 					body: JSON.stringify({ displayName: null })
 				})
 			).ok;
-			if (!requestOk && before !== null) this.displayName = before;
+			// DisplayNameClaim's onSaved writes `displayName` directly, outside
+			// this mutex — a claim that lands and confirms mid-flight owns the
+			// field. Only revert if it's still null, i.e. nothing has claimed a
+			// new name since this removal's optimistic clear.
+			if (!requestOk && before !== null && this.displayName === null) this.displayName = before;
 			return requestOk;
 		});
 		if (!ok) this.errorMessage = "Couldn't remove your name — try again.";

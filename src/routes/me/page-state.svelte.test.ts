@@ -127,6 +127,20 @@ describe('MePageState.removeBookmark', () => {
 		});
 	});
 
+	it('clears a stale errorMessage when a new removal starts', async () => {
+		const a = mark('a', 200);
+		const b = mark('b', 100);
+		const state = new MePageState([a, b], null);
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 }));
+		await state.removeBookmark(a.rulesetId, a.ruleId);
+		expect(state.errorMessage).not.toBeNull();
+
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 200 }));
+		await state.removeBookmark(b.rulesetId, b.ruleId);
+
+		expect(state.errorMessage).toBeNull();
+	});
+
 	it('is unaffected by a concurrent removal of a different key (runs concurrently, not serialized)', async () => {
 		const a = mark('a', 200);
 		const b = mark('b', 100);
@@ -176,5 +190,44 @@ describe('MePageState.removeName', () => {
 		await Promise.all([p1, p2]);
 
 		expect(state.displayName).toBeNull();
+	});
+
+	it('clears a stale errorMessage when a new removal starts', async () => {
+		const state = new MePageState([], 'Alice');
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 }));
+		await state.removeName();
+		expect(state.errorMessage).not.toBeNull();
+
+		state.displayName = 'Bob'; // re-claimed after the failed removal
+		fetchMock.mockResolvedValueOnce(new Response(null, { status: 200 }));
+		await state.removeName();
+
+		expect(state.errorMessage).toBeNull();
+	});
+
+	// Bug proof: `DisplayNameClaim`'s onSaved writes `displayName` directly,
+	// outside this mutex — it is not a removal, so it never goes through
+	// `#run`. An unguarded revert can't tell that apart from "nothing changed"
+	// and clobbers the newer, server-confirmed name with the stale one this
+	// removal captured before it started.
+	it('fails, but a name claimed mid-flight (outside the mutex) survives the revert', async () => {
+		const state = new MePageState([], 'Alice');
+		const gate = deferred<Response>();
+		fetchMock.mockReturnValueOnce(gate.promise);
+
+		const pending = state.removeName();
+		await Promise.resolve();
+		await Promise.resolve();
+		await Promise.resolve();
+		expect(state.displayName).toBeNull(); // optimistic clear applied
+
+		// DisplayNameClaim.onSaved fires while the removal's PUT is still in
+		// flight, confirming a new name server-side and writing it directly.
+		state.displayName = 'Bob';
+
+		gate.resolve(new Response(null, { status: 500 }));
+		await pending;
+
+		expect(state.displayName).toBe('Bob');
 	});
 });
