@@ -48,7 +48,7 @@
 **Files:**
 
 - Create: `e2e/mobile-audit.ts`
-- Create: `e2e/mobile-audit.spec.ts` (deleted at the end of this task — it exists to prove the detector works)
+- Create: `e2e/mobile-audit.spec.ts` — permanent coverage for the detector itself
 
 **Interfaces:**
 
@@ -372,12 +372,11 @@ Expected: PASS, 7 tests.
 
 If "reports only the outermost overflowing element" fails because both ids appear, the root-offender filter is wrong — check that the `nested` loop breaks out of the ancestor walk rather than returning from the enclosing function.
 
-- [ ] **Step 5: Delete the synthetic spec and confirm the gate**
+- [ ] **Step 5: Keep the synthetic spec and confirm the gate**
 
-The synthetic spec proved the detector works. Keeping it would add seven browser launches to every CI run to test code the real sweep exercises on every route.
+`e2e/mobile-audit.spec.ts` stays. A detector that silently stops detecting turns the whole sweep green and hands back false confidence, which is the one failure this harness exists to prevent. The seven tests use `page.setContent` with no navigation, so they cost little.
 
 ```bash
-rm e2e/mobile-audit.spec.ts
 npm run check:e2e
 npx prettier --check .
 ```
@@ -387,7 +386,7 @@ Expected: both pass.
 - [ ] **Step 6: Commit**
 
 ```bash
-git add e2e/mobile-audit.ts
+git add e2e/mobile-audit.ts e2e/mobile-audit.spec.ts
 git commit -m "$(cat <<'EOF'
 test: add the mobile layout audit module
 
