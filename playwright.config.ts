@@ -3,6 +3,13 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
 	testDir: 'e2e',
 	timeout: 30_000,
+	// Known-flake mitigation, CI only: e2e/ai.spec.ts's "seeded rows: real list scopes and
+	// paginates; detail loads; DELETE soft-deletes; feedback writes" and e2e/admin.spec.ts's
+	// "export: users CSV omits secrets; endpoint 404s for non-admin" have each intermittently
+	// failed on a cold CI runner from D1/dev-server contention (see the `d1()` helpers in both
+	// files). Local stays at 0 retries so a flake introduced during development still shows up
+	// immediately instead of being silently retried away.
+	retries: process.env.CI ? 2 : 0,
 	// The suite shares ONE wrangler dev server + ONE local D1 sqlite file, and several
 	// specs shell out to `wrangler d1 execute` to seed/read D1 mid-test. Concurrent
 	// workers corrupt that shared state and crash the dev server (ECONNREFUSED cascade),

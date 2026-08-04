@@ -2,13 +2,26 @@ import { execSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
 import { ADMIN_EMAIL, signInAsAdmin, signUpTestUser } from './helpers';
 
-const d1 = (sql: string): unknown =>
-	JSON.parse(
-		execSync(
+// Shells out to wrangler against the same local D1 sqlite file the dev server holds open for
+// the whole run, so a CLI call here can collide with it and throw SQLITE_BUSY — observed for
+// this identical pattern in e2e/ai.spec.ts (a bulk INSERT and a SELECT, in CI). The lock is
+// momentary, so retry a few times with a short pause before giving up.
+const d1 = (sql: string): unknown => JSON.parse(execD1(sql));
+
+function execD1(sql: string, attempt = 1): string {
+	try {
+		return execSync(
 			`npx wrangler d1 execute usau-rules-website-db --local --json --command "${sql.replace(/"/g, '\\"')}"`,
 			{ cwd: process.cwd(), encoding: 'utf-8' }
-		)
-	);
+		);
+	} catch (err) {
+		const output = `${(err as { stderr?: string }).stderr ?? ''}${(err as Error).message ?? ''}`;
+		if (!/SQLITE_BUSY/.test(output) || attempt >= 5) throw err;
+		execSync('sleep 0.25');
+		return execD1(sql, attempt + 1);
+	}
+}
+
 const d1Select = (sql: string): Record<string, unknown>[] =>
 	(d1(sql) as { results: Record<string, unknown>[] }[])[0].results;
 
