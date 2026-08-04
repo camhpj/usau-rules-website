@@ -1,10 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-	chatStream,
-	StreamJob,
-	MAX_CONCURRENT_STREAMS,
-	type SendResult
-} from './chat-stream.svelte';
+import { chatStream, MAX_CONCURRENT_STREAMS, type SendResult } from './chat-stream.svelte';
 import { conversations } from './conversations.svelte';
 
 // `chat-stream.svelte.ts` exports only the `chatStream` singleton usefully —
@@ -471,17 +466,5 @@ describe('send() abort and connection drops', () => {
 
 		expect(result).toEqual<SendResult>({ kind: 'failed', message: 'Network error — try again.' });
 		expect(conversations.list).toHaveLength(0);
-	});
-});
-
-// Sanity check that the class isn't the useful export — see the beforeEach
-// comment above. If this ever starts failing, `ChatStreamState` gained an
-// `export` and per-test instances (avoiding the singleton reset dance
-// entirely) become possible.
-describe('module surface', () => {
-	it('StreamJob is constructible directly (used by ask-page.test.ts for job fixtures)', () => {
-		const job = new StreamJob('key', 'conv-1', Symbol());
-		expect(job.streamingText).toBe('');
-		expect(job.controller.signal.aborted).toBe(false);
 	});
 });

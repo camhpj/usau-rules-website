@@ -1,11 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { ADMIN_EMAIL, d1, d1Select, signInAsAdmin, signUpTestUser } from './helpers';
 
-// Shells out to wrangler against the same local D1 sqlite file the dev server holds open for
-// the whole run, so a CLI call here can collide with it and throw SQLITE_BUSY — observed for
-// this identical pattern in e2e/ai.spec.ts (a bulk INSERT and a SELECT, in CI). The lock is
-// momentary, so retry a few times with a short pause before giving up.
-
 test.describe('admin access', () => {
 	test('signed out → 404 on admin routes', async ({ page }) => {
 		for (const path of ['/admin', '/admin/ai', '/admin/export']) {
