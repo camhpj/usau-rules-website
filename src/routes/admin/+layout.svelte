@@ -21,7 +21,8 @@
 		return RANGES.includes(raw) ? raw : 14;
 	});
 
-	const pill = 'inline-flex min-h-11 items-center rounded-full px-2.5 py-1 text-xs font-medium';
+	const pill =
+		'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium pointer-coarse:min-h-11';
 	const pillOn = 'bg-cardinal text-white';
 	const pillOff = 'bg-white/10 text-white/70 hover:bg-white/20';
 </script>

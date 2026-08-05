@@ -57,7 +57,7 @@
 					{#each data.conversations as c (c.id)}
 						<tr class="border-t border-navy/5">
 							<td class="max-w-0 py-1"
-								><div class="flex min-h-11">
+								><div class="flex pointer-coarse:min-h-11">
 									<a
 										class="flex min-w-0 items-center self-stretch truncate text-cardinal hover:underline"
 										href="/admin/ai/{c.id}">{c.title}</a
