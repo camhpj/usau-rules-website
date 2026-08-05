@@ -34,7 +34,7 @@
 		 free up the middle of the hero, so the original centered placement returns. -->
 	<svg
 		aria-hidden="true"
-		class="disc-flight pointer-events-none absolute top-4 left-1/2 w-[48vw] -translate-x-1/2 sm:top-1/2 sm:w-[min(56rem,92vw)] sm:-translate-y-1/2"
+		class="disc-flight pointer-events-none absolute top-4 left-1/2 w-[66vw] -translate-x-1/2 sm:top-1/2 sm:w-[min(56rem,92vw)] sm:-translate-y-1/2"
 		viewBox="0 0 800 400"
 		fill="none"
 	>
