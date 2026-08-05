@@ -86,7 +86,7 @@
 								stroke-width="2"
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100"
+								class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100 pointer-coarse:opacity-70"
 								aria-hidden="true"
 							>
 								<path d="M3 6h18" />

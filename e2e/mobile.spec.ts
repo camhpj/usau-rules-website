@@ -335,6 +335,23 @@ test.describe('mobile browser behaviour @375px', () => {
 	});
 });
 
+/**
+ * Extracts the alpha channel from a computed `color` string. Chromium serializes an opaque
+ * color as `rgb(r, g, b)` with no alpha component at all, a color with an alpha modifier
+ * (e.g. Tailwind's `text-navy/70`) as `oklab(l a b / alpha)`, and occasionally as
+ * `rgba(r, g, b, a)`. No alpha component present means fully opaque (alpha 1).
+ */
+function colorAlpha(color: string): number {
+	const oklab = color.match(/\/\s*([\d.]+)\s*\)$/);
+	if (oklab) return Number(oklab[1]);
+	const rgba = color.match(/^rgba?\(([^)]+)\)$/);
+	if (rgba) {
+		const parts = rgba[1].split(',').map((s) => s.trim());
+		if (parts.length === 4) return Number(parts[3]);
+	}
+	return 1;
+}
+
 test.describe('touch affordances @375px', () => {
 	test.use({ viewport: { width: 375, height: 667 }, hasTouch: true, isMobile: true });
 
@@ -348,6 +365,16 @@ test.describe('touch affordances @375px', () => {
 		// toBeVisible passes at opacity 0, which is exactly the bug — assert the
 		// computed value directly.
 		await expect(button).toHaveCSS('opacity', '1');
+		// Button opacity alone isn't enough either: the earlier fix made the button
+		// reachable (opacity 1) while its icon stayed at `text-navy/30` — a fully
+		// opaque button rendering a 30%-alpha icon via `fill="currentColor"`, which
+		// reads as an unnoticeable ghost outline. Assert the icon's actual rendered
+		// alpha (the computed `color` the SVG inherits) clears a legibility floor.
+		// 0.6 is the point navy crosses the WCAG 1.4.11 non-text 3:1 contrast minimum
+		// against a white row background; the implementation targets navy/70 (~4.9:1)
+		// for margin above that floor.
+		const color = await button.evaluate((el) => getComputedStyle(el).color);
+		expect(colorAlpha(color)).toBeGreaterThanOrEqual(0.6);
 		await button.tap();
 		await expect(page.locator('button[aria-pressed="true"][aria-label*="rule"]')).toHaveCount(1);
 	});
@@ -372,6 +399,15 @@ test.describe('touch affordances @375px', () => {
 		const del = page.locator('button[aria-label^="Delete conversation"]:visible').first();
 		await expect(del).toBeVisible();
 		await expect(del).toHaveCSS('opacity', '1');
+		// Same class of bug as the bookmark button, different mechanism: the button
+		// itself was reachable, but its icon carried its own `opacity-40` that never
+		// lifted on touch. The icon's effective alpha is the button's color alpha
+		// (always 1 here — the button is plain `text-navy`, no modifier) times the
+		// svg's own opacity. Same 0.6 legibility floor as the bookmark icon.
+		const svg = del.locator('svg');
+		const buttonColor = await del.evaluate((el) => getComputedStyle(el).color);
+		const svgOpacity = await svg.evaluate((el) => Number(getComputedStyle(el).opacity));
+		expect(colorAlpha(buttonColor) * svgOpacity).toBeGreaterThanOrEqual(0.6);
 		await del.tap();
 		await expect(page.getByText('Seeded mobile convo')).toHaveCount(0);
 	});

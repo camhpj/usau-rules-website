@@ -32,7 +32,7 @@
 				onclick={() => bookmarks.toggle(rulesetId, node.id)}
 				class="flex h-11 w-11 shrink-0 items-center justify-center self-center transition-opacity pointer-coarse:opacity-100 {marked
 					? 'text-cardinal opacity-100'
-					: 'text-navy/30 opacity-0 group-hover:opacity-100 hover:text-cardinal focus-visible:opacity-100'}"
+					: 'text-navy/30 opacity-0 group-hover:opacity-100 hover:text-cardinal focus-visible:opacity-100 pointer-coarse:text-navy/70'}"
 			>
 				<svg aria-hidden="true" class="h-4 w-4" viewBox="0 -960 960 960" fill="currentColor">
 					{#if marked}
