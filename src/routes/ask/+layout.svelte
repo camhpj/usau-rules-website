@@ -4,9 +4,10 @@
 	import { conversations } from '$lib/ask/conversations.svelte';
 	import { createSessionGate } from '$lib/auth-gate.svelte';
 	import ConversationSidebar from '$lib/components/chat/ConversationSidebar.svelte';
+	import DevSignInForm from '$lib/components/DevSignInForm.svelte';
 	import SignInCard from '$lib/components/SignInCard.svelte';
 
-	let { children }: { children: Snippet } = $props();
+	let { children, data }: { children: Snippet; data: { allowTestSignIn: boolean } } = $props();
 
 	const gate = createSessionGate();
 
@@ -43,6 +44,9 @@
 {:else if !gate.user}
 	<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
 		<SignInCard heading="Sign in to use the ask feature" onclick={() => gate.signIn('/ask')} />
+		{#if data.allowTestSignIn}
+			<DevSignInForm />
+		{/if}
 	</section>
 {:else}
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">
