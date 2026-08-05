@@ -152,6 +152,8 @@ npm run db:migrate:remote # apply migrations to the deployed D1 database
 
 `npm run test:e2e` builds the app and boots it with `wrangler dev` on port 8787 automatically (see `playwright.config.ts`), applying local D1 migrations first; no separate dev server is needed. The first run is slow (~1 minute build); set `CI=1` to force a fresh server per run instead of reusing one already listening on 8787. e2e auth coverage relies on `ALLOW_TEST_SIGNIN=1` from `.dev.vars` (see [Getting started](#getting-started)); CI copies `.dev.vars.example` into place before running the suite.
 
+`e2e/mobile.spec.ts` sweeps every route — signed-out, signed-in, and admin — at three widths (320, 375, 768) for three invariants: no horizontal overflow, no interactive control under a 44×44 tap target, and no fixed element covering page content. A failure names the offending element, its classes, and its measured box. Two exemptions to the tap-target floor live in `e2e/mobile-audit.ts`: `INLINE_EXEMPT` for links inside running prose (rule cross-references, glossary terms), and a width-only floor for the header's nav controls, which can't all reach 44px wide without wrapping the header onto a second row. See `docs/superpowers/specs/2026-08-04-mobile-compatibility-sweep-design.md` for the audit that built this harness, why those two exemptions exist, and what shipped without test coverage.
+
 CI (`.github/workflows/ci.yml`) runs the same checks — prettier, `check`, `check:scripts`, unit tests, content validation, build, and the Playwright suite — on every push and pull request against `main`.
 
 ## Deploy

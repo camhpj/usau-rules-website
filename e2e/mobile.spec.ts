@@ -112,6 +112,9 @@ for (const width of VIEWPORTS) {
 }
 
 const SIGNED_IN_ROUTES = ['/me', '/ask'];
+// /admin/ai/[id] is dynamic and has no route of its own here — a conversation has
+// to exist first. seedAdminPagination below gives the admin test a real id to
+// visit (`${idPrefix}0`), so that route is swept there instead of in this list.
 const ADMIN_ROUTES = ['/admin', '/admin/ai', '/admin/export'];
 
 // /admin/ai's default page size is 30 (see parseHistoryQuery's default in
@@ -135,9 +138,16 @@ function seedAdminPagination(idPrefix: string): void {
 	d1(
 		`INSERT INTO ai_conversations (id, user_id, ruleset_id, title, created_at, updated_at) VALUES ${rows}`
 	);
+	// One assistant message on the first row, so a sweep of its detail page
+	// (/admin/ai/[id]) exercises ChatMessageRow's copy/feedback buttons instead
+	// of measuring an empty transcript.
+	d1(
+		`INSERT INTO ai_messages (id, conversation_id, role, content, status, model, feedback, created_at) VALUES ('${idPrefix}0-a', '${idPrefix}0', 'assistant', 'Seeded answer for the mobile sweep.', 'complete', NULL, NULL, ${base})`
+	);
 }
 
 function cleanupAdminPagination(idPrefix: string): void {
+	d1(`DELETE FROM ai_messages WHERE id LIKE '${idPrefix}%'`);
 	d1(`DELETE FROM ai_conversations WHERE id LIKE '${idPrefix}%'`);
 }
 
@@ -164,6 +174,9 @@ for (const width of VIEWPORTS) {
 				const violations: Violation[] = [];
 				for (const route of ADMIN_ROUTES)
 					violations.push(...(await sweep(page, route, width, 'body')));
+				// The seeded pagination rows also make /admin/ai/[id] reachable — sweep
+				// the conversation detail view using the first one.
+				violations.push(...(await sweep(page, `/admin/ai/${idPrefix}0`, width, 'body')));
 				// Prove pagination actually rendered rather than passing vacuously
 				// against a page that silently stayed on its unpaginated form.
 				await page.goto('/admin/ai');
