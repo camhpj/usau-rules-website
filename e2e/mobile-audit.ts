@@ -31,8 +31,13 @@ export const INLINE_EXEMPT = [
 	'[data-inline-target]' // opt-in, for prose links outside the cases above
 ];
 
-/** Controls in the sticky header — see MIN_TARGET_WIDTH_EXEMPT. */
-export const HEADER_WIDTH_EXEMPT = ['header nav a', 'header nav button'];
+/**
+ * Controls in the site's sticky header — see MIN_TARGET_WIDTH_EXEMPT. Scoped to
+ * `#site-header` (set on the `<header>` in Nav.svelte) rather than a bare `header
+ * nav`, which also matched the unrelated admin `<header><nav>` and let its pill
+ * row pass the width floor for the wrong reason.
+ */
+export const HEADER_WIDTH_EXEMPT = ['#site-header nav a', '#site-header nav button'];
 
 export interface AuditConfig {
 	inlineExempt: string[];

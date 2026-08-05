@@ -22,7 +22,7 @@
 	});
 
 	const pill =
-		'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium pointer-coarse:min-h-11';
+		'inline-flex items-center justify-center rounded-full px-2.5 py-1 text-xs font-medium pointer-coarse:min-h-11 pointer-coarse:min-w-11';
 	const pillOn = 'bg-cardinal text-white';
 	const pillOff = 'bg-white/10 text-white/70 hover:bg-white/20';
 </script>
@@ -34,7 +34,9 @@
 			{#each tabs as tab (tab.href)}
 				<a
 					href={tab.href}
-					class="inline-flex min-h-11 cursor-pointer items-center pb-2 {active(tab.href)
+					class="inline-flex min-h-11 cursor-pointer items-center justify-center pb-2 pointer-coarse:min-w-11 {active(
+						tab.href
+					)
 						? 'border-b-2 border-cardinal font-semibold text-cardinal'
 						: 'text-white/70 hover:text-white'}">{tab.label}</a
 				>

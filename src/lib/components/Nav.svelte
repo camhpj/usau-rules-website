@@ -61,7 +61,10 @@
 	}
 </script>
 
-<header class="sticky top-0 z-40 border-b border-white/10 bg-navy-deep/90 backdrop-blur">
+<header
+	id="site-header"
+	class="sticky top-0 z-40 border-b border-white/10 bg-navy-deep/90 backdrop-blur"
+>
 	<nav
 		class="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-2 px-4 py-1.5 sm:gap-x-4 sm:px-6 sm:py-0"
 	>

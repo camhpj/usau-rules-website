@@ -86,7 +86,7 @@ test('exempts links inside rule prose from the size floor', async ({ page }) => 
 
 test('holds header controls to 44px tall and 24px wide', async ({ page }) => {
 	await page.setContent(
-		`${VIEWPORT_META}<body style="margin:0"><header><nav>
+		`${VIEWPORT_META}<body style="margin:0"><header id="site-header"><nav>
 			<a id="short" href="/a" style="display:flex;width:30px;height:44px">Ask</a>
 			<a id="flat" href="/b" style="display:flex;width:30px;height:20px">Quiz</a>
 			<a id="thin" href="/c" style="display:flex;width:12px;height:44px">X</a>
@@ -97,6 +97,21 @@ test('holds header controls to 44px tall and 24px wide', async ({ page }) => {
 	expect(ids.some((d) => d.includes('#short'))).toBe(false); // 30 wide is fine in the header
 	expect(ids.some((d) => d.includes('#flat'))).toBe(true); // 20 tall is not
 	expect(ids.some((d) => d.includes('#thin'))).toBe(true); // 12 wide is below the 24 floor
+});
+
+// The exemption is for the site's sticky header specifically (#site-header, set in
+// Nav.svelte), not any <header><nav> — the admin layout has its own <header><nav>
+// with no such width constraint, and a bare `header nav` selector would have
+// matched it too, letting its pills pass the width floor for the wrong reason.
+test('does not exempt a header outside #site-header from the width floor', async ({ page }) => {
+	await page.setContent(
+		`${VIEWPORT_META}<body style="margin:0"><header><nav>
+			<a id="pill" href="/a" style="display:flex;width:30px;height:44px">7d</a>
+		</nav></header></body>`
+	);
+	const v = toViolations(await page.evaluate(auditInPage, CONFIG), '/synthetic', 375);
+	const ids = v.filter((x) => x.kind === 'tap-target').map((x) => x.detail);
+	expect(ids.some((d) => d.includes('#pill'))).toBe(true); // 30 wide fails the full 44px floor here
 });
 
 test('flags a fixed element covering main content', async ({ page }) => {
