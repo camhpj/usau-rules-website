@@ -190,6 +190,21 @@
 		}
 	}
 
+	/* The disc is drawn in the same coordinate system as the flight path, so on a
+	   phone — where the path is only ~230px wide — it renders about 8px across and
+	   reads as a speck rather than a frisbee. Widening the svg does not fix that:
+	   the disc scales with it, so a third more width buys two pixels of disc. Scale
+	   the disc off the path instead, to roughly the size it already has on desktop.
+	   This needs its own group because .disc-body carries the wobble animation, and
+	   an animated transform would override a static one on the same element. */
+	@media (width < 40rem) {
+		.disc-scale {
+			transform-box: fill-box;
+			transform-origin: center;
+			transform: scale(3);
+		}
+	}
+
 	/* pre-hydration auth hint: the inline script in app.html sets data-auth-hint
 	   from localStorage before first paint, so returning signed-out visitors get
 	   the real button instead of the placeholder with zero layout shift */
