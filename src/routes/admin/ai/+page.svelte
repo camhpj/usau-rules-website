@@ -82,10 +82,16 @@
 		</div>
 		<div class="mt-3 flex items-center gap-3 text-sm">
 			{#if prevHref}
-				<a class="cursor-pointer text-cardinal" href={prevHref}>Previous</a>
+				<a
+					class="cursor-pointer text-cardinal pointer-coarse:inline-flex pointer-coarse:min-h-11 pointer-coarse:min-w-11 pointer-coarse:items-center pointer-coarse:justify-center"
+					href={prevHref}>Previous</a
+				>
 			{/if}
 			{#if data.hasMore}
-				<a class="cursor-pointer text-cardinal" href={nextHref}>Next</a>
+				<a
+					class="cursor-pointer text-cardinal pointer-coarse:inline-flex pointer-coarse:min-h-11 pointer-coarse:min-w-11 pointer-coarse:items-center pointer-coarse:justify-center"
+					href={nextHref}>Next</a
+				>
 			{/if}
 			<span class="text-navy/50">Page {data.pageNumber}</span>
 		</div>

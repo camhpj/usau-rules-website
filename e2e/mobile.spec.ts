@@ -114,6 +114,33 @@ for (const width of VIEWPORTS) {
 const SIGNED_IN_ROUTES = ['/me', '/ask'];
 const ADMIN_ROUTES = ['/admin', '/admin/ai', '/admin/export'];
 
+// /admin/ai's default page size is 30 (see parseHistoryQuery's default in
+// src/lib/server/ai/history.ts), so 31 rows force a Next link regardless of
+// what any other spec has (or hasn't) left in the table. Without this, whether
+// the sweep ever exercises the pagination controls depends on run order across
+// spec files — that's exactly the gap that hid the undersized Previous/Next
+// tap targets until admin.spec.ts happened to seed rows first.
+const PAGINATION_ROWS = 31;
+
+/** Seeds enough conversations that /admin/ai's page 1 always shows a Next link. */
+function seedAdminPagination(idPrefix: string): void {
+	const base = Date.now();
+	const uid = (d1Select(`SELECT id FROM user WHERE email = '${ADMIN_EMAIL}'`)[0] as { id: string })
+		.id;
+	const rows = Array.from(
+		{ length: PAGINATION_ROWS },
+		(_, i) =>
+			`('${idPrefix}${i}', '${uid}', '${RULESET}', 'Pagination sweep seed ${i}', ${base + i}, ${base + i})`
+	).join(',');
+	d1(
+		`INSERT INTO ai_conversations (id, user_id, ruleset_id, title, created_at, updated_at) VALUES ${rows}`
+	);
+}
+
+function cleanupAdminPagination(idPrefix: string): void {
+	d1(`DELETE FROM ai_conversations WHERE id LIKE '${idPrefix}%'`);
+}
+
 for (const width of VIEWPORTS) {
 	test.describe(`signed in @${width}px`, () => {
 		test.use({ viewport: { width, height: 667 }, hasTouch: true, isMobile: true });
@@ -130,12 +157,23 @@ for (const width of VIEWPORTS) {
 
 		test('admin routes hold every invariant', async ({ page }) => {
 			await signInAsAdmin(page);
-			const violations: Violation[] = [];
-			for (const route of ADMIN_ROUTES)
-				violations.push(...(await sweep(page, route, width, 'body')));
-			expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
-				'no violations'
-			);
+			const idPrefix = `mobadminpg-${width}-`;
+			cleanupAdminPagination(idPrefix); // guard against a prior run's leftovers
+			seedAdminPagination(idPrefix);
+			try {
+				const violations: Violation[] = [];
+				for (const route of ADMIN_ROUTES)
+					violations.push(...(await sweep(page, route, width, 'body')));
+				// Prove pagination actually rendered rather than passing vacuously
+				// against a page that silently stayed on its unpaginated form.
+				await page.goto('/admin/ai');
+				await expect(page.getByRole('link', { name: 'Next' })).toBeVisible();
+				expect(formatViolations(onlyKinds(violations, ['tap-target', 'overflow', 'covered']))).toBe(
+					'no violations'
+				);
+			} finally {
+				cleanupAdminPagination(idPrefix);
+			}
 		});
 	});
 }
