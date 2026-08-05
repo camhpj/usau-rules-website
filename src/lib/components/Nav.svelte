@@ -116,20 +116,24 @@
 					aria-label="Sign in"
 					class={[
 						extraClass,
-						'inline-flex min-h-11 items-center justify-center rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs'
+						'flex min-h-11 w-8 items-center justify-center sm:w-auto sm:rounded-full sm:border sm:border-white/25 sm:px-4 sm:py-1.5 sm:text-xs sm:font-semibold sm:tracking-wider sm:whitespace-nowrap sm:text-white/80 sm:uppercase sm:hover:border-white/60 sm:hover:text-white'
 					]
 						.filter(Boolean)
 						.join(' ')}
 				>
-					<svg
-						aria-hidden="true"
-						class="h-4 w-4 shrink-0 sm:hidden"
-						viewBox="0 -960 960 960"
-						fill="currentColor"
-						><path
-							d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
-						/></svg
+					<span
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-white/25 text-white/80 hover:border-white/60 hover:text-white sm:contents"
 					>
+						<svg
+							aria-hidden="true"
+							class="h-4 w-4 shrink-0 sm:hidden"
+							viewBox="0 -960 960 960"
+							fill="currentColor"
+							><path
+								d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
+							/></svg
+						>
+					</span>
 					<span class="hidden sm:inline">Sign in</span>
 				</button>
 			{/snippet}
