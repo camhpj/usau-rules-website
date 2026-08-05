@@ -64,7 +64,8 @@ async function sweep(
 	width: number,
 	targetScope: string
 ): Promise<Violation[]> {
-	await page.goto(route);
+	const response = await page.goto(route);
+	expect(response?.ok(), `${route} returned ${response?.status() ?? 'no response'}`).toBeTruthy();
 	await page.waitForLoadState('networkidle');
 	const found = toViolations(await page.evaluate(auditInPage, config(targetScope)), route, width);
 	await page.evaluate(() =>
@@ -111,7 +112,7 @@ for (const width of VIEWPORTS) {
 	});
 }
 
-const SIGNED_IN_ROUTES = ['/me', '/ask'];
+const SIGNED_IN_ROUTES = ['/me', '/ask', `/rules/${RULESET}/15`];
 // /admin/ai/[id] is dynamic and has no route of its own here — a conversation has
 // to exist first. seedAdminPagination below gives the admin test a real id to
 // visit (`${idPrefix}0`), so that route is swept there instead of in this list.
@@ -323,6 +324,14 @@ test.describe('mobile browser behaviour @375px', () => {
 		for (const route of ['/ask', '/me', '/quiz/timed']) {
 			await page.goto(route);
 			await page.waitForLoadState('networkidle');
+			// /ask renders its message textarea only once signed in — everything else
+			// this loop finds there is a red herring if the sign-up silently failed and
+			// the route is actually showing the sign-in gate instead. Proving the real
+			// panel mounted is what makes an empty `offenders` on this route mean
+			// something, the same reason the search dialog gets its own toBeVisible below.
+			if (route === '/ask') {
+				await expect(page.getByRole('textbox', { name: 'Your message' })).toBeVisible();
+			}
 			offenders.push(
 				...(await page.evaluate(
 					(r) =>
@@ -361,6 +370,10 @@ test.describe('mobile browser behaviour @375px', () => {
 		await signUpTestUser(page, 'mobile-ask-scroll');
 		await page.goto('/ask');
 		await page.waitForLoadState('networkidle');
+		// The signed-out gate page is short and would pass this trivially. Proving
+		// the signed-in chat panel actually mounted is what makes the measurement
+		// below mean anything.
+		await expect(page.getByRole('textbox', { name: 'Your message' })).toBeVisible();
 		const { scrollHeight, clientHeight } = await page.evaluate(() => ({
 			scrollHeight: document.documentElement.scrollHeight,
 			clientHeight: document.documentElement.clientHeight
@@ -390,7 +403,9 @@ test.describe('mobile browser behaviour @375px', () => {
  * Extracts the alpha channel from a computed `color` string. Chromium serializes an opaque
  * color as `rgb(r, g, b)` with no alpha component at all, a color with an alpha modifier
  * (e.g. Tailwind's `text-navy/70`) as `oklab(l a b / alpha)`, and occasionally as
- * `rgba(r, g, b, a)`. No alpha component present means fully opaque (alpha 1).
+ * `rgba(r, g, b, a)`. No alpha component present on a recognised format means fully opaque
+ * (alpha 1). A format this function doesn't recognise at all throws rather than defaulting to
+ * 1 — silently reading an unparsed color as opaque would let a real legibility defect pass.
  */
 function colorAlpha(color: string): number {
 	const oklab = color.match(/\/\s*([\d.]+)\s*\)$/);
@@ -399,8 +414,9 @@ function colorAlpha(color: string): number {
 	if (rgba) {
 		const parts = rgba[1].split(',').map((s) => s.trim());
 		if (parts.length === 4) return Number(parts[3]);
+		return 1; // rgb(r, g, b): no alpha component present, fully opaque.
 	}
-	return 1;
+	throw new Error(`colorAlpha: unrecognized color format "${color}"`);
 }
 
 test.describe('touch affordances @375px', () => {
