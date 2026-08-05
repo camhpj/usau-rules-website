@@ -24,7 +24,7 @@
 				href={link}
 				target="_blank"
 				rel="noopener"
-				class="inline-flex min-h-11 items-center rounded border border-cardinal/40 px-2 py-0.5 text-xs font-semibold text-cardinal no-underline transition-colors hover:bg-cardinal hover:text-white"
+				class="inline-flex items-center rounded border border-cardinal/40 px-2 py-0.5 text-xs font-semibold text-cardinal no-underline transition-colors pointer-coarse:min-h-11 hover:bg-cardinal hover:text-white"
 				class:font-mono={label === ref}
 				title={refTitle(ref)}
 			>
