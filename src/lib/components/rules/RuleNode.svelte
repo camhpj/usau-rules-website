@@ -14,14 +14,14 @@
 	id={node.id}
 	class="scroll-mt-24 {depth > 0 ? 'mt-3 ml-4 border-l border-mist pl-4 sm:ml-5' : 'mt-6'}"
 >
-	<div class="group flex items-baseline gap-2">
+	<div class="group relative flex items-baseline gap-2">
 		<a
 			href="#{node.id}"
 			data-inline-target
 			class="shrink-0 font-mono text-[13px] font-semibold text-cardinal no-underline hover:underline"
 			title="Link to {node.id}">{node.label}</a
 		>
-		<div class="rule-html min-w-0 text-[15px] leading-relaxed text-navy">
+		<div class="rule-html min-w-0 text-[15px] leading-relaxed text-navy pointer-coarse:pr-7">
 			{@html node.html}
 		</div>
 		{#if bookmarks.enabled}
@@ -30,7 +30,7 @@
 				aria-pressed={marked}
 				aria-label="{marked ? 'Remove bookmark for' : 'Bookmark'} rule {node.id}"
 				onclick={() => bookmarks.toggle(rulesetId, node.id)}
-				class="flex shrink-0 items-center justify-center self-center transition-opacity pointer-coarse:h-11 pointer-coarse:w-11 pointer-coarse:opacity-100 {marked
+				class="flex shrink-0 items-center justify-center self-center transition-opacity pointer-coarse:absolute pointer-coarse:top-1/2 pointer-coarse:right-0 pointer-coarse:h-11 pointer-coarse:w-11 pointer-coarse:-translate-y-1/2 pointer-coarse:justify-end pointer-coarse:opacity-100 {marked
 					? 'text-cardinal opacity-100'
 					: 'text-navy/30 opacity-0 group-hover:opacity-100 hover:text-cardinal focus-visible:opacity-100 pointer-coarse:text-navy/70'}"
 			>
