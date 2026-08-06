@@ -14,7 +14,7 @@
 
 <a
 	{href}
-	class={[extraClass, 'group animate-fade-up relative card card-link p-6']
+	class={[extraClass, 'group animate-fade-up relative card card-link p-5 sm:p-6']
 		.filter(Boolean)
 		.join(' ')}
 >

@@ -223,110 +223,79 @@ test.describe('@375px', () => {
 	});
 });
 
-test.describe('landing disc flight', () => {
+test.describe('landing hero', () => {
 	/**
-	 * Measures the disc and the flight path it travels.
-	 *
 	 * The flight is SMIL, not CSS, so this pauses the svg's own clock and sets a
 	 * time rather than waiting: the sample is then the same frame on every run.
-	 *
-	 * The trail `<use>` references the whole path, so its box is the flight ink's
-	 * true extent. Deriving that extent from the viewBox instead would be wrong —
-	 * the curve peaks at y≈134, not at the top of the 400-unit box.
 	 */
-	async function sample(page: Page, seconds: number) {
+	async function measureDisc(page: Page, seconds: number) {
+		await page.goto('/');
+		await page.waitForLoadState('networkidle');
 		return page.evaluate((seconds) => {
-			const svg = document.querySelector('.disc-flight') as SVGSVGElement;
+			const svg = document.querySelector('.disc-flight') as SVGSVGElement | null;
+			if (!svg || getComputedStyle(svg).display === 'none') return { shown: false, width: 0 };
 			svg.pauseAnimations();
 			svg.setCurrentTime(seconds); // flight begins at 2.3s and runs 2.5s
-			const box = (sel: string) => document.querySelector(sel)!.getBoundingClientRect();
-			const ink = box('use[href="#disc-path-rev"]');
-			const h1 = box('h1');
 			return {
-				discWidth: box('.disc-body').width,
-				discBottom: box('.disc-body').bottom,
-				inkTop: ink.top,
-				headroom: ink.top - box('#site-header').bottom,
-				gapToHeadline: h1.top - ink.bottom,
-				discGapToHeadline: h1.top - box('.disc-body').bottom
+				shown: true,
+				width: document.querySelector('.disc-body')!.getBoundingClientRect().width
 			};
 		}, seconds);
 	}
 
-	async function measureFlight(page: Page, seconds: number) {
-		await page.goto('/');
-		await page.waitForLoadState('networkidle');
-		return sample(page, seconds);
-	}
-
-	// 375x667 is the binding case: the gap between header and headline is at its
-	// smallest here, so a flight that fits at this size fits at every larger one.
-	test.describe('@375px', () => {
+	/**
+	 * An iPhone 15 is 393x852, but a browser only ever offers part of that height:
+	 * with Safari's bars showing it is around 745, and other iOS browsers reserve
+	 * different amounts. Testing against the full 852 would pass while the real
+	 * phone still scrolled, so this budgets 700 — under every iOS browser's
+	 * chrome, with room left over. Headless Chromium cannot reproduce that chrome,
+	 * so the height is stated here rather than measured.
+	 */
+	test.describe('@iPhone 15', () => {
 		test.use({
-			viewport: { width: 375, height: 667 },
+			viewport: { width: 393, height: 700 },
 			isMobile: true,
 			hasTouch: true,
-			// .disc-flight is display:none under prefers-reduced-motion: reduce, which
-			// would zero every box below and pass each assertion vacuously.
 			reducedMotion: 'no-preference'
 		});
 
-		// The svg grew twice (180px wide, then 248px) without the disc reading any
-		// bigger, because the disc is drawn in the path's coordinate system and
-		// scales with it. Measuring the container would have passed both times, so
-		// measure the disc.
-		test('the disc reads as a frisbee, not a speck', async ({ page }) => {
-			const { discWidth } = await measureFlight(page, 3.5);
-			expect(discWidth).toBeGreaterThanOrEqual(20);
-			expect(discWidth).toBeLessThanOrEqual(30);
+		test('the whole page fits without scrolling', async ({ page }) => {
+			await page.goto('/');
+			await page.waitForLoadState('networkidle');
+			const fit = await page.evaluate(() => ({
+				content: document.documentElement.scrollHeight,
+				viewport: window.innerHeight,
+				footerBottom: document.querySelector('footer')!.getBoundingClientRect().bottom
+			}));
+			// scrollHeight stretches to the viewport, so it alone cannot tell a page
+			// that fits from one that fills exactly; the footer's own position can.
+			expect(fit.content).toBeLessThanOrEqual(fit.viewport);
+			expect(fit.footerBottom).toBeLessThanOrEqual(fit.viewport);
 		});
 
-		// A bigger disc only works if the arc sits in the gap above the headline.
-		// Too low and the disc launches from between KNOW THE and RULES; too high
-		// and the top of the arc disappears under the sticky header.
-		test('the whole arc sits between the header and the headline', async ({ page }) => {
-			const { headroom, gapToHeadline } = await measureFlight(page, 3.5);
-			expect(headroom).toBeGreaterThan(0);
-			// gapToHeadline is measured to the h1's line box; its glyphs start a few
-			// px lower, so a hair of negative here is still clear of the lettering.
-			expect(gapToHeadline).toBeGreaterThanOrEqual(-6);
+		// The arc needs a clear band to read in, and stacking the cards leaves none.
+		// It was shrunk to fit twice before being dropped here instead.
+		test('the flight animation does not render', async ({ page }) => {
+			const { shown } = await measureDisc(page, 3.5);
+			expect(shown).toBe(false);
 		});
 
-		// The disc is full size the moment it leaves the ground — the 0.3s pop-in
-		// has finished by then — so the launch is where it collides, not mid-flight.
-		test('the disc clears the headline at launch', async ({ page }) => {
-			const { discGapToHeadline } = await measureFlight(page, 2.65);
-			expect(discGapToHeadline).toBeGreaterThanOrEqual(-6);
-		});
-
-		/**
-		 * The hero centers its content, so the headline sits lower on a tall phone
-		 * than on a short one. Anchoring the flight to the top of the hero therefore
-		 * produced a gap that drifted with viewport height — a few px on a 667-tall
-		 * screen, nearly 30 on an 874-tall one. Anchoring it to the headline is what
-		 * holds the gap still, and only comparing two heights can show that: either
-		 * height on its own passes under the old anchoring too.
-		 */
-		test('the gap above the headline holds at any viewport height', async ({ page }) => {
-			const short = await measureFlight(page, 3.5);
-			await page.setViewportSize({ width: 375, height: 926 });
-			const tall = await sample(page, 3.5);
-			for (const gap of [short.gapToHeadline, tall.gapToHeadline]) {
-				expect(gap).toBeGreaterThanOrEqual(-6);
-				expect(gap).toBeLessThanOrEqual(12);
-			}
+		test('the hero does not link out to Ask', async ({ page }) => {
+			await page.goto('/');
+			await expect(page.locator('main a[href="/ask"]')).toHaveCount(0);
 		});
 	});
 
 	test.describe('@1280px', () => {
 		test.use({ viewport: { width: 1280, height: 800 }, reducedMotion: 'no-preference' });
 
-		// Guards the mobile scale leaking past its breakpoint — the defect class
-		// that has already shipped twice on this branch.
-		test('desktop keeps its own disc size', async ({ page }) => {
-			const { discWidth } = await measureFlight(page, 3.5);
-			expect(discWidth).toBeGreaterThan(20);
-			expect(discWidth).toBeLessThanOrEqual(35);
+		// Desktop keeps the animation: the hero is two-column there, so the middle
+		// is free. Guards the mobile hide leaking past its breakpoint.
+		test('the flight animation still renders at its own size', async ({ page }) => {
+			const { shown, width } = await measureDisc(page, 3.5);
+			expect(shown).toBe(true);
+			expect(width).toBeGreaterThan(20);
+			expect(width).toBeLessThanOrEqual(35);
 		});
 	});
 });
