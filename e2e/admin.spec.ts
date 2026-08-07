@@ -28,11 +28,22 @@ test.describe('admin access', () => {
 		const uid = (
 			d1Select(`SELECT id FROM user WHERE email = '${ADMIN_EMAIL}'`)[0] as { id: string }
 		).id;
+		// This test asserts a rate computed across every AI answer in range, so it
+		// has to own that set rather than add one row to whatever is already there.
+		// A reused dev server keeps earlier runs' rows (`reuseExistingServer` skips
+		// the D1 wipe), and against a warm database the tile read 73.9%, not 100%.
+		// Safe to clear here: every other fixture in the suite is seeded by the test
+		// that needs it, after this one runs.
+		d1(`DELETE FROM ai_messages`);
+		d1(`DELETE FROM ai_conversations`);
+		// Namespaced ids, for the reason spelled out on the 👎 test below: a reused
+		// dev server keeps earlier runs' rows, and fixed ids collide on INSERT.
+		const base = Date.now();
 		d1(
-			`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-metrics','${uid}','usau-official-2026-27','seed',1,1)`
+			`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-metrics-${base}','${uid}','usau-official-2026-27','seed',1,1)`
 		);
 		d1(
-			`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-a','c-metrics','assistant','ans','complete','down',${Date.now()})`
+			`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-a-${base}','c-metrics-${base}','assistant','ans','complete','down',${base})`
 		);
 		await page.goto('/admin');
 		await expect(page.getByText('Active users').first()).toBeVisible();
@@ -87,30 +98,54 @@ test('admin chart: values appear on hover over a bar, and nowhere else', async (
 
 test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
 	await signInAsAdmin(page);
-	// a DIFFERENT user's conversation with a 👎 assistant message
-	const other = (d1Select(`SELECT id FROM user LIMIT 1`)[0] as { id: string }).id;
+
+	// `base` namespaces every id, title, and timestamp to this run, for the same
+	// reason the paging test below does it. The local D1 is wiped only when
+	// Playwright starts the dev server itself, so a developer who already has one
+	// running keeps every row from earlier runs (`reuseExistingServer`). Fixed ids
+	// collided on INSERT there, and `updated_at` values of 10-13 sorted these rows
+	// below a previous run's 31 paging fixtures — enough to fill the 30-row first
+	// page and push this conversation out of view before it could be asserted on.
+	const base = Date.now();
+	const otherUser = `ai-other-${base}`;
+	const withDown = `c-ai-${base}`;
+	const withoutDown = `c-nodown-${base}`;
+	const downTitle = `stall count question ${base}`;
+	const upTitle = `no-down conversation ${base}`;
+	const question = `what is a stall? ${base}`;
+
+	// A dedicated second account rather than whichever row `SELECT id FROM user
+	// LIMIT 1` happened to return. Unordered, that could pick the signed-in admin,
+	// and the transcript assertion below only means anything if the conversation
+	// belongs to somebody else.
 	d1(
-		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-ai','${other}','usau-official-2026-27','stall count question',10,10)`
+		`INSERT INTO user (id,name,email,email_verified) VALUES ('${otherUser}','Other','other-${base}@example.test',1)`
 	);
 	d1(
-		`INSERT INTO ai_messages (id,conversation_id,role,content,created_at) VALUES ('m-u','c-ai','user','what is a stall?',10)`
+		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('${withDown}','${otherUser}','usau-official-2026-27','${downTitle}',${base},${base})`
 	);
 	d1(
-		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-r','c-ai','assistant','A stall per 15.D.','complete','down',11)`
+		`INSERT INTO ai_messages (id,conversation_id,role,content,created_at) VALUES ('m-u-${base}','${withDown}','user','${question}',${base})`
 	);
 	d1(
-		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('c-nodown','${other}','usau-official-2026-27','no-down conversation',12,12)`
+		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-r-${base}','${withDown}','assistant','A stall per 15.D.','complete','down',${base + 1})`
 	);
 	d1(
-		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-nd','c-nodown','assistant','fine answer','complete','up',13)`
+		`INSERT INTO ai_conversations (id,user_id,ruleset_id,title,created_at,updated_at) VALUES ('${withoutDown}','${otherUser}','usau-official-2026-27','${upTitle}',${base + 2},${base + 2})`
+	);
+	d1(
+		`INSERT INTO ai_messages (id,conversation_id,role,content,status,feedback,created_at) VALUES ('m-nd-${base}','${withoutDown}','assistant','fine answer','complete','up',${base + 3})`
 	);
 
 	await page.goto('/admin/ai?down=1');
-	await expect(page.getByRole('link', { name: 'stall count question' })).toBeVisible();
-	await expect(page.getByRole('link', { name: 'no-down conversation' })).toHaveCount(0);
+	await expect(page.getByRole('link', { name: downTitle })).toBeVisible();
+	await expect(page.getByRole('link', { name: upTitle })).toHaveCount(0);
+	// The row carries the other account's address, so this is an admin reading a
+	// conversation that is not their own — the "cross-user" half of the name.
+	await expect(page.getByText(`other-${base}@example.test`)).toBeVisible();
 
-	await page.getByRole('link', { name: 'stall count question' }).click();
-	await expect(page.getByText('what is a stall?')).toBeVisible();
+	await page.getByRole('link', { name: downTitle }).click();
+	await expect(page.getByText(question)).toBeVisible();
 	await expect(page.getByRole('button', { name: 'Bad answer', pressed: true })).toBeVisible();
 });
 
