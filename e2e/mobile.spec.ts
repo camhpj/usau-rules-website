@@ -283,7 +283,9 @@ test.describe('landing hero', () => {
 			viewport: { width: 393, height: 700 },
 			isMobile: true,
 			hasTouch: true,
-			reducedMotion: 'no-preference'
+			// .disc-flight is display:none under prefers-reduced-motion: reduce, which
+			// would zero every box below and pass each assertion vacuously.
+			contextOptions: { reducedMotion: 'no-preference' }
 		});
 
 		test('the whole page fits without scrolling', async ({ page }) => {
@@ -321,7 +323,10 @@ test.describe('landing hero', () => {
 	});
 
 	test.describe('@1280px', () => {
-		test.use({ viewport: { width: 1280, height: 800 }, reducedMotion: 'no-preference' });
+		test.use({
+			viewport: { width: 1280, height: 800 },
+			contextOptions: { reducedMotion: 'no-preference' }
+		});
 
 		// Desktop keeps the animation: the hero is two-column there, so the middle
 		// is free. Guards the mobile hide leaking past its breakpoint.
