@@ -84,7 +84,7 @@
 				type="button"
 				onclick={copy}
 				aria-label={copied ? 'Copied' : 'Copy'}
-				class="flex h-7 w-7 items-center justify-center rounded text-navy/50 hover:text-navy"
+				class="flex h-11 w-11 items-center justify-center rounded text-navy/50 hover:text-navy"
 			>
 				{#if copied}
 					<svg
@@ -135,7 +135,7 @@
 				aria-pressed={message.feedback === 'up'}
 				disabled={readonly}
 				onclick={() => setFeedback('up')}
-				class="flex h-7 w-7 items-center justify-center rounded {message.feedback === 'up'
+				class="flex h-11 w-11 items-center justify-center rounded {message.feedback === 'up'
 					? 'text-cardinal'
 					: readonly
 						? 'cursor-default text-[#758395]'
@@ -149,7 +149,7 @@
 				aria-pressed={message.feedback === 'down'}
 				disabled={readonly}
 				onclick={() => setFeedback('down')}
-				class="flex h-7 w-7 items-center justify-center rounded {message.feedback === 'down'
+				class="flex h-11 w-11 items-center justify-center rounded {message.feedback === 'down'
 					? 'text-cardinal'
 					: readonly
 						? 'cursor-default text-[#758395]'

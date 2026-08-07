@@ -25,8 +25,8 @@
 	// set `disabled` it stays inert and the rendered look is unchanged.
 	const base = $derived(
 		variant === 'filled'
-			? 'rounded-full bg-cardinal px-6 py-2.5 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110'
-			: 'rounded-full border border-navy/30 px-6 py-2.5 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy'
+			? 'rounded-full bg-cardinal px-6 py-3 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110'
+			: 'rounded-full border border-navy/30 px-6 py-3 text-sm font-semibold tracking-wider text-navy uppercase hover:border-navy'
 	);
 </script>
 

@@ -44,42 +44,54 @@
 	{#if data.conversations.length === 0}
 		<p class="text-navy/60">No conversations.</p>
 	{:else}
-		<table class="w-full text-sm">
-			<thead class="text-left text-xs text-navy/50">
-				<tr
-					><th class="py-1">Title</th><th>User</th><th>Messages</th><th>Feedback</th><th
-						class="text-right">Updated</th
-					></tr
-				>
-			</thead>
-			<tbody>
-				{#each data.conversations as c (c.id)}
-					<tr class="border-t border-navy/5">
-						<td class="py-2"
-							><a class="cursor-pointer text-cardinal hover:underline" href="/admin/ai/{c.id}"
-								>{c.title}</a
-							>{#if c.deletedAt}<span class="ml-2 rounded bg-navy/10 px-1 text-[10px] text-navy/50"
-									>deleted</span
-								>{/if}</td
-						>
-						<td class="text-navy/70">{c.email}</td>
-						<td class="text-navy/70">{c.messages}</td>
-						<td
-							>{#if c.hasDown}<span title="thumbs down" class="inline-flex text-navy/60"
-									><ThumbIcon direction="down" class="block h-4 w-4" /></span
-								>{/if}</td
-						>
-						<td class="text-right text-navy/50">{timeAgo(c.updatedAt)}</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
+		<div class="overflow-x-auto">
+			<table class="w-full min-w-[36rem] table-fixed text-sm">
+				<thead class="text-left text-xs text-navy/50">
+					<tr
+						><th class="py-1">Title</th><th>User</th><th>Messages</th><th>Feedback</th><th
+							class="text-right">Updated</th
+						></tr
+					>
+				</thead>
+				<tbody>
+					{#each data.conversations as c (c.id)}
+						<tr class="border-t border-navy/5">
+							<td class="max-w-0 py-1"
+								><div class="flex pointer-coarse:min-h-11">
+									<a
+										class="flex min-w-0 items-center self-stretch truncate text-cardinal hover:underline"
+										href="/admin/ai/{c.id}">{c.title}</a
+									>{#if c.deletedAt}<span
+											class="ml-2 shrink-0 self-center rounded bg-navy/10 px-1 text-[10px] text-navy/50"
+											>deleted</span
+										>{/if}
+								</div></td
+							>
+							<td class="max-w-0 truncate text-navy/70">{c.email}</td>
+							<td class="text-navy/70">{c.messages}</td>
+							<td
+								>{#if c.hasDown}<span title="thumbs down" class="inline-flex text-navy/60"
+										><ThumbIcon direction="down" class="block h-4 w-4" /></span
+									>{/if}</td
+							>
+							<td class="text-right text-navy/50">{timeAgo(c.updatedAt)}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
 		<div class="mt-3 flex items-center gap-3 text-sm">
 			{#if prevHref}
-				<a class="cursor-pointer text-cardinal" href={prevHref}>Previous</a>
+				<a
+					class="cursor-pointer text-cardinal pointer-coarse:inline-flex pointer-coarse:min-h-11 pointer-coarse:min-w-11 pointer-coarse:items-center pointer-coarse:justify-center"
+					href={prevHref}>Previous</a
+				>
 			{/if}
 			{#if data.hasMore}
-				<a class="cursor-pointer text-cardinal" href={nextHref}>Next</a>
+				<a
+					class="cursor-pointer text-cardinal pointer-coarse:inline-flex pointer-coarse:min-h-11 pointer-coarse:min-w-11 pointer-coarse:items-center pointer-coarse:justify-center"
+					href={nextHref}>Next</a
+				>
 			{/if}
 			<span class="text-navy/50">Page {data.pageNumber}</span>
 		</div>

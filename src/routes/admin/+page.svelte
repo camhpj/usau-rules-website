@@ -1,13 +1,10 @@
 <script lang="ts">
 	import ThumbIcon from '$lib/components/icons/ThumbIcon.svelte';
+	import DailyBarChart from '$lib/components/admin/DailyBarChart.svelte';
 
 	let { data } = $props();
 	const m = $derived(data.metrics);
 	const pct = (r: number) => `${(r * 100).toFixed(1)}%`;
-	function bars(series: { day: string; count: number }[]) {
-		const max = Math.max(1, ...series.map((s) => s.count));
-		return series.map((s) => ({ ...s, h: Math.round((s.count / max) * 100) }));
-	}
 </script>
 
 {#snippet tile(label: string, value: string | number, hint: string = '')}
@@ -19,34 +16,6 @@
 			{#if hint}<div class="mt-0.5 text-[11px] text-navy/40">{hint}</div>{/if}
 		</div>
 		<div class="shrink-0 text-2xl font-semibold text-navy tabular-nums">{value}</div>
-	</div>
-{/snippet}
-
-{#snippet barRow(title: string, series: { day: string; count: number }[])}
-	<div class="rounded-lg border border-navy/10 bg-white p-4">
-		<div class="mb-2 flex items-baseline justify-between">
-			<div class="text-xs font-medium text-navy/70">{title}</div>
-			<div class="text-[11px] text-navy/40">peak {Math.max(0, ...series.map((s) => s.count))}</div>
-		</div>
-		{#if series.some((s) => s.count > 0)}
-			<div class="flex h-16 items-end gap-px border-b border-navy/10">
-				{#each bars(series) as b (b.day)}
-					<div
-						class="flex-1 rounded-t bg-cardinal/70"
-						style="height: {b.count > 0 ? Math.max(b.h, 8) : 0}%"
-						title="{b.day}: {b.count}"
-					></div>
-				{/each}
-			</div>
-			<div class="mt-1 flex justify-between text-[10px] text-navy/40">
-				<span>{series[0]?.day.slice(5)}</span>
-				<span>{series[series.length - 1]?.day.slice(5)}</span>
-			</div>
-		{:else}
-			<div class="flex h-16 items-center justify-center text-xs text-navy/30">
-				No activity in this range
-			</div>
-		{/if}
 	</div>
 {/snippet}
 
@@ -107,8 +76,8 @@
 </section>
 
 <div class="mt-6 grid gap-3 sm:grid-cols-2">
-	{@render barRow(`Daily active users (${m.rangeDays}d)`, m.dailyActive)}
-	{@render barRow(`Daily sign-ups (${m.rangeDays}d)`, m.dailySignups)}
+	<DailyBarChart title="Daily active users ({m.rangeDays}d)" series={m.dailyActive} />
+	<DailyBarChart title="Daily sign-ups ({m.rangeDays}d)" series={m.dailySignups} />
 </div>
 
 {#if m.quizByMode.length}

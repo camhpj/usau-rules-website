@@ -13,7 +13,9 @@ export function isDynamicRoute(pathname: string): boolean {
 		pathname === '/me' ||
 		pathname.startsWith('/me/') ||
 		pathname === '/admin' ||
-		pathname.startsWith('/admin/')
+		pathname.startsWith('/admin/') ||
+		pathname === '/ask' ||
+		pathname.startsWith('/ask/')
 	);
 }
 

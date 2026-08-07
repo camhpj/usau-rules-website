@@ -43,7 +43,7 @@
 	}}
 />
 
-<div class="field-lines flex min-h-screen flex-col bg-navy-deep">
+<div class="field-lines flex min-h-svh flex-col bg-navy-deep">
 	<Nav onSearch={() => (searchOpen = true)} />
 	<main class="flex-1">
 		{@render children()}

@@ -86,7 +86,7 @@
 				<button
 					type="button"
 					onclick={load}
-					class="mt-4 rounded-full border border-navy/30 px-5 py-2 text-xs font-semibold tracking-wider uppercase hover:border-navy"
+					class="mt-4 inline-flex min-h-11 items-center rounded-full border border-navy/30 px-5 py-2 text-xs font-semibold tracking-wider uppercase hover:border-navy"
 				>
 					Try again
 				</button>

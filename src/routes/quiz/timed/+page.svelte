@@ -34,7 +34,7 @@
 		<p class="mt-3 text-sm">
 			<a
 				href="/leaderboard"
-				class="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
+				class="inline-flex min-h-11 items-center text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white"
 			>
 				See the leaderboard →
 			</a>
@@ -52,23 +52,23 @@
 		</button>
 	{:else if run.phase === 'running'}
 		<div
-			class="relative mt-6 flex flex-wrap items-center justify-between gap-y-1 rounded-xl bg-navy px-5 py-3"
+			class="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl bg-navy px-5 py-3"
 		>
 			<p class="font-mono text-3xl font-bold {run.timeLeft <= 10 ? 'text-cardinal' : 'text-white'}">
 				{Math.floor(run.timeLeft / 60)}:{String(run.timeLeft % 60).padStart(2, '0')}
 			</p>
-			<p
-				class="basis-full text-xs font-semibold tracking-wider whitespace-nowrap text-white/70 uppercase sm:basis-auto sm:text-sm"
-			>
-				Streak {run.streak} · Score {run.records.filter((r) => r.correct).length}
-			</p>
 			<button
 				type="button"
 				onclick={() => run.finish()}
-				class="absolute top-1/2 right-5 -translate-y-1/2 rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white sm:static sm:translate-y-0"
+				class="inline-flex min-h-11 items-center rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white sm:order-last"
 			>
 				End run
 			</button>
+			<p
+				class="order-last basis-full text-xs font-semibold tracking-wider whitespace-nowrap text-white/70 uppercase sm:order-none sm:basis-auto sm:text-sm"
+			>
+				Streak {run.streak} · Score {run.records.filter((r) => r.correct).length}
+			</p>
 		</div>
 		<div class="mt-4">
 			<QuestionPlayer
@@ -124,7 +124,8 @@
 							type="button"
 							aria-label="Dismiss"
 							onclick={() => (run.nudgeDismissed = true)}
-							class="ml-1 text-navy/40 hover:text-navy/70">✕</button
+							class="ml-1 inline-flex h-11 w-11 items-center justify-center text-navy/40 hover:text-navy/70"
+							>✕</button
 						>
 					</p>
 				{:else if run.myRank !== null}

@@ -54,7 +54,7 @@
 						<a
 							href="/ask/{convo.id}"
 							aria-current={convo.id === activeId ? 'page' : undefined}
-							class="block rounded-lg px-3 py-2 text-sm text-navy hover:bg-navy/5 {convo.id ===
+							class="block rounded-lg px-3 py-2 text-sm text-navy hover:bg-navy/5 pointer-coarse:pr-14 {convo.id ===
 							activeId
 								? 'bg-navy/10 font-semibold'
 								: ''}"
@@ -66,7 +66,7 @@
 						     trash icon a backdrop; gradient end matches the item's own bg tint. -->
 						<div
 							aria-hidden="true"
-							class="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+							class="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100 pointer-coarse:opacity-100"
 							style="background-image: linear-gradient(to right, transparent 65%, {convo.id ===
 							activeId
 								? 'color-mix(in srgb, var(--color-navy) 10%, var(--color-mist))'
@@ -76,7 +76,7 @@
 							type="button"
 							aria-label="Delete conversation: {convo.title}"
 							onclick={() => remove(convo.id)}
-							class="group/del absolute top-1/2 right-2 -translate-y-1/2 rounded p-1 text-navy opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus:opacity-100 hover:text-cardinal"
+							class="group/del absolute top-1/2 right-2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded text-navy opacity-0 transition-opacity duration-200 group-hover:opacity-100 pointer-coarse:opacity-100 focus:opacity-100 hover:text-cardinal"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@
 								stroke-width="2"
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100"
+								class="h-4 w-4 opacity-40 transition-opacity group-hover/del:opacity-100 pointer-coarse:opacity-70"
 								aria-hidden="true"
 							>
 								<path d="M3 6h18" />

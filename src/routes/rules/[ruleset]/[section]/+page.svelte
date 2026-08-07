@@ -33,7 +33,7 @@
 	><title>{data.section.title} · {data.manifest.shortTitle} · Best Perspective</title></svelte:head
 >
 
-<div class="mx-auto flex max-w-6xl gap-8 px-4 py-8 sm:px-6">
+<div class="mx-auto flex max-w-6xl gap-8 px-4 pt-8 pb-24 sm:px-6 lg:pb-8">
 	<aside
 		class="sticky top-24 hidden max-h-[calc(100vh-8rem)] w-64 shrink-0 self-start overflow-y-auto lg:block"
 	>
@@ -52,7 +52,7 @@
 		{#if quizzable}
 			<a
 				href="/quiz/mastery?section={data.section.slug}"
-				class="mt-4 inline-flex items-center gap-1.5 rounded-full border border-cardinal/50 px-4 py-1.5 text-xs font-semibold tracking-wider text-cardinal uppercase transition-colors hover:bg-cardinal hover:text-white"
+				class="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-full border border-cardinal/50 px-4 py-1.5 text-xs font-semibold tracking-wider text-cardinal uppercase transition-colors hover:bg-cardinal hover:text-white"
 			>
 				Quiz me on this section →
 			</a>
@@ -67,11 +67,11 @@
 
 		<nav class="mt-10 flex justify-between border-t border-mist pt-6 text-sm font-semibold">
 			{#if prev}<a
-					class="text-navy/70 hover:text-cardinal"
+					class="inline-flex min-h-11 items-center text-navy/70 hover:text-cardinal"
 					href="/rules/{data.manifest.id}/{prev.slug}">← {prev.title}</a
 				>{:else}<span></span>{/if}
 			{#if next}<a
-					class="text-navy/70 hover:text-cardinal"
+					class="inline-flex min-h-11 items-center text-navy/70 hover:text-cardinal"
 					href="/rules/{data.manifest.id}/{next.slug}">{next.title} →</a
 				>{/if}
 		</nav>
