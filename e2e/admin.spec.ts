@@ -41,6 +41,50 @@ test.describe('admin access', () => {
 	});
 });
 
+/**
+ * The chart shows a day and count only while the pointer is over a bar. It
+ * carries no standing readout: the y-axis already labels the peak, so a second
+ * copy of it in the corner said nothing new, and swapping that corner between a
+ * peak and a hovered value made a fixed part of the chart appear to change
+ * meaning under the pointer.
+ */
+test('admin chart: values appear on hover over a bar, and nowhere else', async ({ page }) => {
+	await signInAsAdmin(page);
+	// signing in is itself a day of activity, so today's column has a bar while
+	// the days at the far left of the range have none
+	await page.goto('/admin');
+	const row = page.getByTestId('bar-row').first();
+	await expect(row).toBeVisible();
+
+	await expect(page.getByText(/^peak /)).toHaveCount(0);
+	await expect(page.getByTestId('bar-tooltip')).toHaveCount(0);
+
+	const box = (await row.boundingBox())!;
+	const midY = box.y + box.height / 2;
+
+	// today's bar, at the right edge
+	await page.mouse.move(box.x + box.width - 2, midY);
+	const tip = page.getByTestId('bar-tooltip').first();
+	await expect(tip).toBeVisible();
+	await expect(tip).toHaveText(/^\d{2}-\d{2} · [1-9]\d*$/);
+
+	// the tooltip stays inside the plot even at that edge, where centring it on
+	// its bar would otherwise hang it off the card
+	const tipBox = (await tip.boundingBox())!;
+	expect(tipBox.x).toBeGreaterThanOrEqual(box.x - 1);
+	expect(tipBox.x + tipBox.width).toBeLessThanOrEqual(box.x + box.width + 1);
+
+	// a day with no activity draws no bar, so there is nothing to describe there
+	await page.mouse.move(box.x + 2, midY);
+	await expect(page.getByTestId('bar-tooltip')).toHaveCount(0);
+
+	// and leaving the plot clears it rather than stranding a value
+	await page.mouse.move(box.x + box.width - 2, midY);
+	await expect(page.getByTestId('bar-tooltip').first()).toBeVisible();
+	await page.mouse.move(box.x + box.width / 2, box.y - 60);
+	await expect(page.getByTestId('bar-tooltip')).toHaveCount(0);
+});
+
 test('AI review: 👎 filter and cross-user transcript', async ({ page }) => {
 	await signInAsAdmin(page);
 	// a DIFFERENT user's conversation with a 👎 assistant message

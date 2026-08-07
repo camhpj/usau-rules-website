@@ -1,11 +1,16 @@
 <script lang="ts">
 	/**
 	 * A quiet daily bar chart for the admin dashboard: a labelled y-axis (max,
-	 * midpoint, zero) plus a value readout that follows the nearest bar on
-	 * hover or touch. Bars stay plain, non-focusable `div`s — at a 90-day range
-	 * they render a couple of pixels wide, far under any tap-target minimum, so
-	 * the chart tracks pointer position across the whole row instead of trying
-	 * to make each bar its own target.
+	 * midpoint, zero) plus a tooltip that names the day and count of whichever
+	 * bar the pointer is over. Bars stay plain, non-focusable `div`s — at a
+	 * 90-day range they render a couple of pixels wide, far under any tap-target
+	 * minimum, so the chart tracks pointer position across the whole row instead
+	 * of trying to make each bar its own target.
+	 *
+	 * The chart carries no standing readout. The y-axis already labels the peak,
+	 * so a second copy of it in the corner said nothing new, and swapping that
+	 * corner between a peak and a hovered value made a fixed part of the chart
+	 * appear to change meaning under the pointer.
 	 */
 	let { title, series }: { title: string; series: { day: string; count: number }[] } = $props();
 
@@ -17,7 +22,24 @@
 
 	let hoverIndex = $state<number | null>(null);
 	let rowEl: HTMLDivElement | undefined = $state();
-	const hover = $derived(hoverIndex === null ? null : (bars[hoverIndex] ?? null));
+	let rowWidth = $state(0);
+	let tipWidth = $state(0);
+	// A day with no activity draws no bar, so there is nothing under the pointer
+	// to describe. Reporting "· 0" there labelled empty space as if it were a bar.
+	const hover = $derived.by(() => {
+		if (hoverIndex === null) return null;
+		const bar = bars[hoverIndex];
+		return bar && bar.count > 0 ? bar : null;
+	});
+
+	// Centre the tooltip on its bar, then hold it inside the plot: near either
+	// end the bar's centre is closer to the edge than half the tooltip, and an
+	// unclamped tooltip would hang off the card and widen the page.
+	const tipLeft = $derived.by(() => {
+		if (hoverIndex === null || bars.length === 0 || rowWidth === 0) return 0;
+		const centre = ((hoverIndex + 0.5) / bars.length) * rowWidth;
+		return Math.min(Math.max(centre - tipWidth / 2, 0), Math.max(0, rowWidth - tipWidth));
+	});
 
 	function indexFromClientX(clientX: number): number {
 		if (!rowEl || bars.length === 0) return 0;
@@ -51,16 +73,7 @@
 </script>
 
 <div class="rounded-lg border border-navy/10 bg-white p-4">
-	<div class="mb-2 flex items-baseline justify-between gap-2">
-		<div class="text-xs font-medium text-navy/70">{title}</div>
-		<div class="text-[11px] text-navy/40 tabular-nums">
-			{#if hover}
-				{hover.day.slice(5)} · {hover.count}
-			{:else}
-				peak {peak}
-			{/if}
-		</div>
-	</div>
+	<div class="mb-2 text-xs font-medium text-navy/70">{title}</div>
 	{#if hasActivity}
 		<p class="sr-only">
 			{title}, by day from {series[0]?.day} to {series[series.length - 1]?.day}, peak {peak}.
@@ -77,6 +90,8 @@
 			<div class="min-w-0 flex-1">
 				<div
 					bind:this={rowEl}
+					bind:clientWidth={rowWidth}
+					data-testid="bar-row"
 					class="relative flex h-16 touch-none items-end gap-px border-b border-navy/10"
 					aria-hidden="true"
 					onpointermove={trackPointer}
@@ -92,6 +107,16 @@
 							style="height: {b.count > 0 ? Math.max(b.h, 8) : 0}%"
 						></div>
 					{/each}
+					{#if hover}
+						<div
+							bind:clientWidth={tipWidth}
+							data-testid="bar-tooltip"
+							class="pointer-events-none absolute top-0 z-10 rounded bg-navy px-1.5 py-0.5 text-[11px] whitespace-nowrap text-white tabular-nums"
+							style="left: {tipLeft}px"
+						>
+							{hover.day.slice(5)} · {hover.count}
+						</div>
+					{/if}
 				</div>
 				<div class="mt-1 flex justify-between text-[10px] text-navy/40">
 					<span>{series[0]?.day.slice(5)}</span>
