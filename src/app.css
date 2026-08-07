@@ -190,6 +190,17 @@
 		}
 	}
 
+	/* The home page is the one route that must end exactly at the bottom of the
+	   screen rather than flow down it. `main` stays a block element, because as a
+	   flex column the `mx-auto` on a dozen route roots would beat `stretch` and
+	   collapse them to max-content, so opt in only the route that needs it. A
+	   percentage height cannot do this job: `main` is auto-height, so `min-height:
+	   100%` on its child resolves to zero. */
+	main:has(> .home-fill) {
+		display: flex;
+		flex-direction: column;
+	}
+
 	/* pre-hydration auth hint: the inline script in app.html sets data-auth-hint
 	   from localStorage before first paint, so returning signed-out visitors get
 	   the real button instead of the placeholder with zero layout shift */

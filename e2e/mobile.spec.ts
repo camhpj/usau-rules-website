@@ -251,6 +251,33 @@ test.describe('landing hero', () => {
 	 * chrome, with room left over. Headless Chromium cannot reproduce that chrome,
 	 * so the height is stated here rather than measured.
 	 */
+	/**
+	 * Ask is one link styled two ways: a line of copy on desktop, a pill on a
+	 * phone. It has to stay in the flow, because a floating version has nowhere
+	 * to rest — the cards fill the hero and the footer's text runs to within
+	 * 33px of the right edge, so it lands on one or the other at any viewport
+	 * short enough to matter.
+	 */
+	async function measureAsk(page: Page) {
+		await page.goto('/');
+		await page.waitForLoadState('networkidle');
+		return page.evaluate(() => {
+			const all = [...document.querySelectorAll('main a[href="/ask"]')];
+			const shown = all.filter((a) => getComputedStyle(a).display !== 'none');
+			return shown.map((a) => {
+				const cs = getComputedStyle(a);
+				const r = a.getBoundingClientRect();
+				const icon = a.querySelector('svg')!.getBoundingClientRect();
+				return {
+					position: cs.position,
+					height: r.height,
+					border: parseFloat(cs.borderTopWidth),
+					iconToText: icon.height / parseFloat(cs.fontSize)
+				};
+			});
+		});
+	}
+
 	test.describe('@iPhone 15', () => {
 		test.use({
 			viewport: { width: 393, height: 700 },
@@ -280,9 +307,16 @@ test.describe('landing hero', () => {
 			expect(shown).toBe(false);
 		});
 
-		test('the hero does not link out to Ask', async ({ page }) => {
-			await page.goto('/');
-			await expect(page.locator('main a[href="/ask"]')).toHaveCount(0);
+		test('Ask is a pill in the hero, not a floating button', async ({ page }) => {
+			const shown = await measureAsk(page);
+			expect(shown).toHaveLength(1);
+			const [ask] = shown;
+			// in the flow, so there is nothing for it to come to rest on top of
+			expect(ask.position).toBe('static');
+			expect(ask.height).toBeGreaterThanOrEqual(MIN_TARGET);
+			expect(ask.border).toBeGreaterThan(0);
+			// the icon carries the button at this size, so it outsizes its label
+			expect(ask.iconToText).toBeGreaterThan(1.2);
 		});
 	});
 
@@ -296,6 +330,15 @@ test.describe('landing hero', () => {
 			expect(shown).toBe(true);
 			expect(width).toBeGreaterThan(20);
 			expect(width).toBeLessThanOrEqual(35);
+		});
+
+		// Guards the phone's pill outline from following the link to desktop, where
+		// the hero has room for it to read as a plain line of copy.
+		test('Ask reads as a plain line of copy', async ({ page }) => {
+			const shown = await measureAsk(page); // navigates
+			await expect(page.getByRole('link', { name: /ask any question/i })).toBeVisible();
+			expect(shown).toHaveLength(1);
+			expect(shown[0].border).toBe(0);
 		});
 	});
 });
