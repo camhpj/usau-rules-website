@@ -17,20 +17,24 @@
 <svelte:head><title>{data.manifest.shortTitle} · Best Perspective</title></svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<!-- the edition rides at a third of the title's size so the whole heading
-		 still fits on one line on a desktop viewport -->
-	<h1 class="display animate-fade-up text-5xl text-white sm:text-6xl">
-		{data.manifest.title}
-		<span class="text-2xl text-white/60 sm:text-3xl">({data.manifest.edition})</span>
-	</h1>
-	<a
-		href={data.manifest.sourceUrl}
-		target="_blank"
-		rel="noopener noreferrer"
-		class="mt-3 inline-flex min-h-11 items-center gap-1.5 text-sm text-white/60 underline decoration-white/30 underline-offset-2 hover:text-white/85"
-	>
-		Source: {sourceHost} ↗
-	</a>
+	<!-- title, edition, and source each take their own line. Grouping them lets a
+		 single margin set the gap to the first section group. It collapses with
+		 that group's own mt-7, so the wider of the two wins. A plain div, not a
+		 header: the page already has one, and this grouping is only layout. -->
+	<div class="mb-11">
+		<h1 class="display animate-fade-up text-5xl text-white sm:text-6xl">
+			{data.manifest.title}
+			<span class="mt-1.5 block text-2xl text-white/60 sm:text-3xl">{data.manifest.edition}</span>
+		</h1>
+		<a
+			href={data.manifest.sourceUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm text-white/60 underline decoration-white/30 underline-offset-2 hover:text-white/85"
+		>
+			Source: {sourceHost} ↗
+		</a>
+	</div>
 
 	{#each [{ heading: 'Preface', items: preface }, { heading: 'Sections', items: sections }, { heading: 'Appendices', items: appendices }] as group (group.heading)}
 		{#if group.items.length > 0}
