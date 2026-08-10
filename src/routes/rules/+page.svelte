@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Chip from '$lib/components/Chip.svelte';
 	let { data } = $props();
 
 	const preface = $derived(data.manifest.sections.filter((s) => s.kind === 'preface'));
@@ -18,8 +17,12 @@
 <svelte:head><title>{data.manifest.shortTitle} · Best Perspective</title></svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<Chip label={data.manifest.edition} />
-	<h1 class="display mt-3 text-4xl text-white sm:text-5xl">{data.manifest.title}</h1>
+	<!-- the edition rides at a third of the title's size so the whole heading
+		 still fits on one line on a desktop viewport -->
+	<h1 class="display animate-fade-up text-5xl text-white sm:text-6xl">
+		{data.manifest.title}
+		<span class="text-2xl text-white/60 sm:text-3xl">({data.manifest.edition})</span>
+	</h1>
 	<a
 		href={data.manifest.sourceUrl}
 		target="_blank"
@@ -31,10 +34,10 @@
 
 	{#each [{ heading: 'Preface', items: preface }, { heading: 'Sections', items: sections }, { heading: 'Appendices', items: appendices }] as group (group.heading)}
 		{#if group.items.length > 0}
-			<h2 class="eyebrow mt-10 text-white/50">
+			<h2 class="eyebrow mt-7 text-white/50">
 				{group.heading}
 			</h2>
-			<div class="mt-4 grid gap-3 sm:grid-cols-2">
+			<div class="mt-3 grid gap-2 sm:grid-cols-2">
 				{#each group.items as s (s.slug)}
 					<a
 						href="/rules/{data.manifest.id}/{s.slug}"
