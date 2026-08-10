@@ -43,11 +43,21 @@
 						href="/rules/{data.manifest.id}/{s.slug}"
 						class="group flex items-center justify-between gap-3 card card-link p-4"
 					>
-						<span class="min-w-0">
-							{#if s.number}<span class="mr-1.5 font-mono text-sm font-semibold text-cardinal"
-									>{s.number}.</span
-								>{/if}
-							<span class="font-semibold">{s.title}</span>
+						<!-- number and title are flex siblings, not inline ones, so a two-digit
+							 number cannot push the title right and a wrapped title stays aligned
+							 with its own first line. 3ch is a floor rather than a fixed width:
+							 it holds today's widest label ("23.") in the mono face this span
+							 sets, and a longer one would widen the column instead of spilling.
+							 Right-aligned to match TocSidebar. -->
+						<span class="flex min-w-0 items-baseline gap-1.5">
+							{#if s.number}
+								<span
+									class="min-w-[3ch] shrink-0 text-right font-mono text-sm font-semibold text-cardinal"
+								>
+									{s.number}.
+								</span>
+							{/if}
+							<span class="min-w-0 font-semibold">{s.title}</span>
 						</span>
 						<span class="flex shrink-0 items-center gap-3">
 							{#if s.ruleCount > 0}
