@@ -6,7 +6,7 @@
 
 <svelte:head><title>Best Perspective — USA Ultimate Rules</title></svelte:head>
 
-<div class="relative overflow-hidden">
+<div class="home-fill relative flex flex-1 flex-col overflow-hidden">
 	<!-- decorative light pulses along the field grid -->
 	<GridPulses />
 
@@ -28,13 +28,13 @@
 		then a second opacity animate (begin="discFlightAnim.end") holds it solid
 		briefly before fading it out.
 	-->
-	<!-- below sm, cards stack and their opaque background covers the vertically-
-		 centered flight path entirely, hiding the animation; anchor it small and
-		 high (in the gap above the h1) instead. At sm+ cards go two-column and
-		 free up the middle of the hero, so the original centered placement returns. -->
+	<!-- The flight is decorative and needs room: below sm the cards stack and their
+		 opaque background covers the middle of the hero, and the only clear band left
+		 is too short for the arc to read at any useful size. Hide it there rather than
+		 shrink it into a speck, and let the hero fit a phone screen instead. -->
 	<svg
 		aria-hidden="true"
-		class="disc-flight pointer-events-none absolute top-4 left-1/2 w-[48vw] -translate-x-1/2 sm:top-1/2 sm:w-[min(56rem,92vw)] sm:-translate-y-1/2"
+		class="disc-flight pointer-events-none absolute top-1/2 left-1/2 hidden w-[min(56rem,92vw)] -translate-x-1/2 -translate-y-1/2 sm:block"
 		viewBox="0 0 800 400"
 		fill="none"
 	>
@@ -206,37 +206,53 @@
 			</g>
 		</g>
 	</svg>
-
 	<section
-		class="relative mx-auto flex min-h-[calc(100vh-4rem-4.5rem)] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:px-6"
+		class="relative mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-4 py-3 text-center sm:px-6 sm:py-12"
 	>
-		<h1 class="display animate-fade-up mt-5 text-[clamp(3.5rem,8vw,6.5rem)] text-white">
+		<h1 class="display animate-fade-up mt-4 text-[clamp(3rem,8vw,6.5rem)] text-white sm:mt-5">
 			Know the<br /><span class="text-cardinal">Rules.</span>
 		</h1>
-		<p class="animate-fade-up mt-5 mb-3 max-w-xl text-lg text-white/70">
+		<p
+			class="animate-fade-up mt-3 mb-1 max-w-xl text-base text-white/70 sm:mt-5 sm:mb-3 sm:text-lg"
+		>
 			Learn the rules of Ultimate and test your knowledge.
 		</p>
 
-		<div class="mt-4 grid w-full max-w-3xl gap-4 text-left sm:grid-cols-2">
+		<div class="mt-3 grid w-full max-w-3xl gap-2 text-left sm:mt-4 sm:grid-cols-2 sm:gap-4">
 			<PromoCard href="/rules/{DEFAULT_RULESET_ID}">
 				<h2 class="display text-2xl">Explore the rules</h2>
-				<p class="mt-1.5 pr-8 text-sm text-navy/70">
+				<p class="mt-1 pr-8 text-sm text-navy/70 sm:mt-1.5">
 					The whole rule book in a readable and searchable format.
 				</p>
 			</PromoCard>
 			<PromoCard href="/quiz">
 				<h2 class="display text-2xl">Test yourself</h2>
-				<p class="mt-1.5 pr-8 text-sm text-navy/70">
+				<p class="mt-1 pr-8 text-sm text-navy/70 sm:mt-1.5">
 					Quick quizzes, game scenarios, and section mastery grounded with citations.
 				</p>
 			</PromoCard>
 		</div>
 
+		<!-- One link, styled two ways: a line of copy on desktop, where the hero has
+			 room for it, and a pill on a phone, where a bare line of small grey text is
+			 easy to miss under two full-width cards. It stays in the flow rather than
+			 floating, so it cannot come to rest on a card or the footer — between them
+			 those two cover every position a floating button had to choose from. -->
 		<a
 			href="/ask"
-			class="animate-fade-up mt-6 inline-flex items-center gap-2 text-sm text-white/60 hover:text-white"
+			class="animate-fade-up mt-3 inline-flex min-h-11 items-center gap-2 text-sm text-white/70 hover:text-white max-sm:rounded-full max-sm:border max-sm:border-white/20 max-sm:px-4 sm:mt-6 sm:text-white/60"
 		>
-			<span aria-hidden="true" class="text-cardinal">✦</span> Ask any question
+			<!-- sized in em so it tracks the label, and drawn rather than typed: the ✦
+				 glyph centres on font metrics, which left it visibly off-centre. -->
+			<svg
+				aria-hidden="true"
+				class="h-[1.35em] w-[1.35em] shrink-0 text-cardinal"
+				viewBox="0 0 24 24"
+				fill="currentColor"
+			>
+				<path d="M12 1 Q13.2 10.8 23 12 Q13.2 13.2 12 23 Q10.8 13.2 1 12 Q10.8 10.8 12 1 Z" />
+			</svg>
+			Ask any question
 		</a>
 	</section>
 </div>

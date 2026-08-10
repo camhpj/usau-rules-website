@@ -56,6 +56,7 @@
 <span class="text-sm text-navy/70">
 	{prefix}<button
 		type="button"
+		data-inline-target
 		disabled={busy}
 		onclick={() => put({ displayName: suggestion, resolveConflict: true })}
 		class="font-semibold whitespace-nowrap text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal disabled:opacity-40"
@@ -70,7 +71,7 @@
 				maxlength={30}
 				placeholder="Display name"
 				aria-label="Display name"
-				class="w-36 rounded-md border border-mist px-2 py-1 text-xs focus:border-navy/50 focus:outline-none"
+				class="w-44 rounded-md border border-mist px-2 py-1 text-base focus:border-navy/50 focus:outline-none"
 			/>
 			<button
 				type="button"
@@ -94,6 +95,7 @@
 			<span class="font-extrabold text-navy">or</span>
 			<button
 				type="button"
+				data-inline-target
 				disabled={busy}
 				onclick={() => (editing = true)}
 				class="font-semibold text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal disabled:opacity-40"

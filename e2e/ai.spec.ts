@@ -106,7 +106,11 @@ test.describe('ask the rules (chat)', () => {
 		await page.goto('/ask');
 		await page.waitForLoadState('networkidle');
 		await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible();
-		await expect(page.getByRole('textbox')).toHaveCount(0);
+		// Not a page-wide textbox count: the dev-only email/password form
+		// (DevSignInForm.svelte, gated on ALLOW_TEST_SIGNIN) renders its own email
+		// input next to the Google button whenever that flag is on, which it is for
+		// this suite. The real invariant is that the chat message box is absent.
+		await expect(page.getByRole('textbox', { name: 'Your message' })).toHaveCount(0);
 	});
 
 	test('send streams an answer, URL becomes /ask/<id>, sidebar lists it, follow-up appends', async ({

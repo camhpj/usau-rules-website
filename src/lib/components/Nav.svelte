@@ -61,11 +61,17 @@
 	}
 </script>
 
-<header class="sticky top-0 z-40 border-b border-white/10 bg-navy-deep/90 backdrop-blur">
+<header
+	id="site-header"
+	class="sticky top-0 z-40 border-b border-white/10 bg-navy-deep/90 backdrop-blur"
+>
 	<nav
 		class="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-2 px-4 py-1.5 sm:gap-x-4 sm:px-6 sm:py-0"
 	>
-		<a href="/" class="display text-base whitespace-nowrap text-white sm:text-2xl">
+		<a
+			href="/"
+			class="display flex min-h-11 items-center text-base whitespace-nowrap text-white sm:text-2xl"
+		>
 			Best <span class="text-cardinal">Perspective</span>
 		</a>
 		<div class="ml-auto flex items-center gap-2 sm:gap-6">
@@ -73,7 +79,7 @@
 				type="button"
 				onclick={onSearch}
 				aria-label="Search"
-				class="flex items-center gap-2 rounded-full border border-transparent px-1 py-1.5 text-xs font-semibold tracking-wider text-white/70 uppercase hover:border-white/60 hover:text-white sm:border-white/25 sm:px-3.5"
+				class="flex min-h-11 items-center justify-center gap-2 rounded-full border border-transparent px-1 py-1.5 text-xs font-semibold tracking-wider text-white/70 uppercase hover:border-white/60 hover:text-white sm:border-white/25 sm:px-3.5"
 			>
 				<svg
 					aria-hidden="true"
@@ -96,7 +102,8 @@
 				<a
 					href={link.href}
 					aria-current={active ? 'page' : undefined}
-					class="text-[10px] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors sm:text-xs sm:tracking-[0.18em]
+					class="flex min-h-11 items-center text-[10px] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors sm:text-xs sm:tracking-[0.18em]
+						{link.href === '/ask' ? 'px-1' : ''}
 						{active ? 'text-cardinal' : 'text-white/70 hover:text-white'}"
 				>
 					{link.label}
@@ -109,20 +116,24 @@
 					aria-label="Sign in"
 					class={[
 						extraClass,
-						'rounded-full border border-white/25 p-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap text-white/80 uppercase hover:border-white/60 hover:text-white sm:px-4 sm:py-1.5 sm:text-xs'
+						'flex min-h-11 w-8 items-center justify-center sm:w-auto sm:rounded-full sm:border sm:border-white/25 sm:px-4 sm:py-1.5 sm:text-xs sm:font-semibold sm:tracking-wider sm:whitespace-nowrap sm:text-white/80 sm:uppercase sm:hover:border-white/60 sm:hover:text-white'
 					]
 						.filter(Boolean)
 						.join(' ')}
 				>
-					<svg
-						aria-hidden="true"
-						class="h-4 w-4 shrink-0 sm:hidden"
-						viewBox="0 -960 960 960"
-						fill="currentColor"
-						><path
-							d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
-						/></svg
+					<span
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-white/25 text-white/80 hover:border-white/60 hover:text-white sm:contents"
 					>
+						<svg
+							aria-hidden="true"
+							class="h-4 w-4 shrink-0 sm:hidden"
+							viewBox="0 -960 960 960"
+							fill="currentColor"
+							><path
+								d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"
+							/></svg
+						>
+					</span>
 					<span class="hidden sm:inline">Sign in</span>
 				</button>
 			{/snippet}
@@ -136,18 +147,22 @@
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger
 						aria-label="Account menu"
-						class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/25 text-xs font-bold text-white uppercase hover:border-white/60"
+						class="flex h-11 w-8 items-center justify-center"
 					>
-						{#if user.image}
-							<img
-								src={user.image}
-								alt=""
-								referrerpolicy="no-referrer"
-								class="h-full w-full object-cover"
-							/>
-						{:else}
-							{user.name?.[0] ?? '?'}
-						{/if}
+						<span
+							class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/25 text-xs font-bold text-white uppercase hover:border-white/60"
+						>
+							{#if user.image}
+								<img
+									src={user.image}
+									alt=""
+									referrerpolicy="no-referrer"
+									class="h-full w-full object-cover"
+								/>
+							{:else}
+								{user.name?.[0] ?? '?'}
+							{/if}
+						</span>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Portal>
 						<DropdownMenu.Content

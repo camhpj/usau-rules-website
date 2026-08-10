@@ -21,7 +21,8 @@
 		return RANGES.includes(raw) ? raw : 14;
 	});
 
-	const pill = 'rounded-full px-2.5 py-1 text-xs font-medium';
+	const pill =
+		'inline-flex items-center justify-center rounded-full px-2.5 py-1 text-xs font-medium pointer-coarse:min-h-11 pointer-coarse:min-w-11';
 	const pillOn = 'bg-cardinal text-white';
 	const pillOff = 'bg-white/10 text-white/70 hover:bg-white/20';
 </script>
@@ -29,22 +30,26 @@
 <div class="mx-auto max-w-6xl px-4 py-6 sm:px-6">
 	<header class="mb-6">
 		<h1 class="text-xl font-semibold text-white">Admin</h1>
-		<nav class="mt-3 flex items-center gap-4 border-b border-white/15 text-sm">
+		<nav class="mt-3 flex flex-wrap items-center gap-x-4 border-b border-white/15 text-sm">
 			{#each tabs as tab (tab.href)}
 				<a
 					href={tab.href}
-					class="cursor-pointer pb-2 {active(tab.href)
+					class="inline-flex min-h-11 cursor-pointer items-center justify-center pb-2 pointer-coarse:min-w-11 {active(
+						tab.href
+					)
 						? 'border-b-2 border-cardinal font-semibold text-cardinal'
 						: 'text-white/70 hover:text-white'}">{tab.label}</a
 				>
 			{/each}
-			<div class="ml-auto flex items-center gap-2 pb-2">
+			<div class="ml-auto flex w-full items-center justify-end gap-2 pb-2 sm:w-auto">
 				{#if isDashboard}
 					{#each RANGES as r (r)}
 						<a href="/admin?range={r}" class="{pill} {range === r ? pillOn : pillOff}">{r}d</a>
 					{/each}
 				{:else if isAiDetail}
-					<a href="/admin/ai" class="text-xs font-medium text-white/70 hover:text-white"
+					<a
+						href="/admin/ai"
+						class="inline-flex min-h-11 items-center text-xs font-medium text-white/70 hover:text-white"
 						>← Conversations</a
 					>
 				{:else if isAiList}

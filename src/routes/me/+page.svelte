@@ -96,7 +96,7 @@
 			<div class="mt-4 border-t border-mist pt-3">
 				<a
 					href="/leaderboard"
-					class="eyebrow text-navy/50 hover:text-navy"
+					class="eyebrow inline-flex min-h-11 items-center text-navy/50 hover:text-navy"
 					title="See the leaderboard">Leaderboard →</a
 				>
 				<p class="mt-1.5 text-sm text-navy/70">
@@ -105,6 +105,7 @@
 						<span class="whitespace-nowrap">
 							· <button
 								type="button"
+								data-inline-target
 								onclick={startChange}
 								class="text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
 								>change</button
@@ -112,6 +113,7 @@
 							·
 							<button
 								type="button"
+								data-inline-target
 								onclick={() => state.removeName()}
 								class="text-cardinal underline decoration-cardinal/40 underline-offset-2 hover:decoration-cardinal"
 								>remove</button
@@ -128,7 +130,7 @@
 			<div class="mt-auto pt-5">
 				<a
 					href="/quiz/timed"
-					class="block w-full rounded-full bg-cardinal px-5 py-2.5 text-center text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
+					class="flex min-h-11 w-full items-center justify-center rounded-full bg-cardinal px-5 py-2.5 text-center text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
 				>
 					{data.timedBest ? 'Beat it' : 'Run the clock'}
 				</a>
@@ -204,7 +206,7 @@
 					{#each upNext as m (m.sectionSlug)}
 						<a
 							href="/quiz/mastery?section={m.sectionSlug}"
-							class="rounded-full border border-navy/15 px-3 py-1.5 text-sm font-medium text-navy transition-colors hover:border-cardinal hover:text-cardinal"
+							class="inline-flex min-h-11 items-center rounded-full border border-navy/15 px-3 py-1.5 text-sm font-medium text-navy transition-colors hover:border-cardinal hover:text-cardinal"
 						>
 							{m.number}. {m.title}
 						</a>
@@ -213,7 +215,10 @@
 			</div>
 		{/if}
 
-		<a href="/quiz/mastery" class="mt-4 inline-block text-sm text-navy/50 hover:text-cardinal">
+		<a
+			href="/quiz/mastery"
+			class="mt-4 inline-flex min-h-11 items-center text-sm text-navy/50 hover:text-cardinal"
+		>
 			Full mastery grid →
 		</a>
 	</div>
@@ -240,7 +245,7 @@
 						type="button"
 						aria-label="Remove bookmark {label}"
 						onclick={() => state.removeBookmark(mark.rulesetId, mark.ruleId)}
-						class="shrink-0 text-navy/40 hover:text-cardinal"
+						class="flex h-11 w-11 shrink-0 items-center justify-center text-navy/40 hover:text-cardinal"
 					>
 						<svg aria-hidden="true" class="h-4 w-4" viewBox="0 -960 960 960" fill="currentColor">
 							<path

@@ -24,7 +24,7 @@
 		href={data.manifest.sourceUrl}
 		target="_blank"
 		rel="noopener noreferrer"
-		class="mt-3 inline-flex items-center gap-1.5 text-sm text-white/60 underline decoration-white/30 underline-offset-2 hover:text-white/85"
+		class="mt-3 inline-flex min-h-11 items-center gap-1.5 text-sm text-white/60 underline decoration-white/30 underline-offset-2 hover:text-white/85"
 	>
 		Source: {sourceHost} ↗
 	</a>

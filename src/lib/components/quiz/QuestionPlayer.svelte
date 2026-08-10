@@ -141,7 +141,7 @@
 					type="button"
 					disabled={finished}
 					onclick={next}
-					class="mt-4 rounded-full bg-cardinal px-6 py-2 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-50 disabled:hover:brightness-100"
+					class="mt-4 inline-flex min-h-11 items-center rounded-full bg-cardinal px-6 py-2 text-sm font-semibold tracking-wider text-white uppercase hover:brightness-110 disabled:opacity-50 disabled:hover:brightness-100"
 				>
 					{index + 1 >= items.length ? finishLabel : 'Next question'}
 				</button>

@@ -4,9 +4,10 @@
 	import { conversations } from '$lib/ask/conversations.svelte';
 	import { createSessionGate } from '$lib/auth-gate.svelte';
 	import ConversationSidebar from '$lib/components/chat/ConversationSidebar.svelte';
+	import DevSignInForm from '$lib/components/DevSignInForm.svelte';
 	import SignInCard from '$lib/components/SignInCard.svelte';
 
-	let { children }: { children: Snippet } = $props();
+	let { children, data }: { children: Snippet; data: { allowTestSignIn: boolean } } = $props();
 
 	const gate = createSessionGate();
 
@@ -43,11 +44,14 @@
 {:else if !gate.user}
 	<section class="animate-fade-up mx-auto max-w-3xl px-4 py-10 sm:px-6">
 		<SignInCard heading="Sign in to use the ask feature" onclick={() => gate.signIn('/ask')} />
+		{#if data.allowTestSignIn}
+			<DevSignInForm />
+		{/if}
 	</section>
 {:else}
 	<div class="animate-fade-up mx-auto max-w-6xl px-4 py-6 sm:px-6">
 		<div
-			class="flex h-[calc(100dvh-11rem)] w-full flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
+			class="flex h-[calc(100dvh-12.5rem)] w-full flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm"
 		>
 			<!--
 				Shared mobile header band: one physical row for both states, so the left
@@ -60,7 +64,7 @@
 				<button
 					type="button"
 					onclick={() => (drawerOpen = !drawerOpen)}
-					class="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold tracking-wider text-navy/60 uppercase hover:text-navy"
+					class="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold tracking-wider text-navy/60 uppercase hover:text-navy"
 				>
 					{#if drawerOpen}
 						<svg
@@ -97,7 +101,7 @@
 				<a
 					href="/ask"
 					onclick={() => (drawerOpen = false)}
-					class="inline-flex items-center gap-1.5 rounded-full bg-cardinal px-3 py-1.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
+					class="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-cardinal px-3 py-1.5 text-xs font-semibold tracking-wider text-white uppercase hover:brightness-110"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
