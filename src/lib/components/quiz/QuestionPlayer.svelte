@@ -93,7 +93,7 @@
 
 {#if item}
 	<div class="card p-6 sm:p-8">
-		{#if mode !== 'rapid'}
+		{#if mode !== 'rapid' && items.length > 1}
 			<p class="eyebrow text-navy/50">Question {index + 1} of {items.length}</p>
 		{/if}
 		<h2 class="mt-3 text-lg leading-relaxed font-semibold">{item.question.prompt}</h2>

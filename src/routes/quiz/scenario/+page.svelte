@@ -62,8 +62,7 @@
 <svelte:head><title>Scenario mode · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="eyebrow text-cardinal">Scenario mode</p>
-	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Make the call.</h1>
+	<h1 class="display text-4xl text-white sm:text-5xl">Scenarios</h1>
 
 	{#if !gate.sessionReady}
 		<div class="mt-8 h-40 animate-pulse rounded-xl bg-white/10" aria-hidden="true"></div>
@@ -71,16 +70,18 @@
 		<SignInCard heading="Sign in to play scenarios" onclick={() => gate.signIn('/quiz/scenario')} />
 	{:else if phase === 'setup' || phase === 'loading'}
 		<div class="card mt-8 p-6 sm:p-8">
-			<h2 class="eyebrow text-navy/50">Difficulty</h2>
-			<div class="mt-3 flex flex-wrap gap-2">
-				<TogglePill selected={difficulty === null} onclick={() => (difficulty = null)}>
-					Any
-				</TogglePill>
-				{#each DIFFICULTIES as d (d)}
-					<TogglePill selected={difficulty === d} onclick={() => (difficulty = d)}>
-						{d} · {DIFFICULTY_LABELS[d]}
+			<div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+				<h2 class="eyebrow text-navy/50">Difficulty</h2>
+				<div class="flex flex-wrap gap-2">
+					<TogglePill selected={difficulty === null} onclick={() => (difficulty = null)}>
+						Any
 					</TogglePill>
-				{/each}
+					{#each DIFFICULTIES as d (d)}
+						<TogglePill selected={difficulty === d} onclick={() => (difficulty = d)}>
+							{d} · {DIFFICULTY_LABELS[d]}
+						</TogglePill>
+					{/each}
+				</div>
 			</div>
 			{#if errorMessage}
 				<p class="mt-4 text-sm font-semibold text-cardinal" role="alert">{errorMessage}</p>
@@ -88,14 +89,14 @@
 			<div class="mt-8 flex items-center justify-between border-t border-mist pt-5">
 				<p class="text-sm text-navy/60">
 					{#if phase === 'loading'}
-						Dealing a scenario…
+						Generating…
 					{:else if remaining !== null}
 						{remaining} scenario{remaining === 1 ? '' : 's'} left today
 					{:else}
 						Generate a realistic game scenario and make the call.
 					{/if}
 				</p>
-				<Button disabled={phase === 'loading'} onclick={deal}>Deal a scenario</Button>
+				<Button disabled={phase === 'loading'} onclick={deal}>Generate scenario</Button>
 			</div>
 		</div>
 	{:else if phase === 'playing'}

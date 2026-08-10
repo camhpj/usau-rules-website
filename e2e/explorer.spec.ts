@@ -4,13 +4,19 @@ test('landing → explore → read a rule', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByRole('heading', { name: /know the rules/i })).toBeVisible();
 	await page.getByRole('link', { name: /explore the rules/i }).click();
-	await expect(page).toHaveURL(/\/rules\/usau-official-2026-27$/);
+	await expect(page).toHaveURL(/\/rules$/);
 	await page
 		.getByRole('link', { name: /spirit of the game/i })
 		.first()
 		.click();
 	await expect(page.getByRole('heading', { name: /spirit of the game/i })).toBeVisible();
 	await expect(page.locator('[id="2.A"]')).toBeVisible();
+});
+
+test('the per-ruleset table of contents redirects to /rules', async ({ page }) => {
+	await page.goto('/rules/usau-official-2026-27');
+	await expect(page).toHaveURL(/\/rules$/);
+	await expect(page.getByRole('heading', { name: /official rules of ultimate/i })).toBeVisible();
 });
 
 test('cmd+k search jumps to a rule', async ({ page }) => {

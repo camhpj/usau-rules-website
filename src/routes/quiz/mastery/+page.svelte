@@ -81,14 +81,8 @@
 <svelte:head><title>Section mastery · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-	<p class="eyebrow text-cardinal">Section mastery</p>
-
 	{#if phase === 'grid'}
-		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Own the rulebook.</h1>
-		<p class="mt-3 max-w-xl text-white/70">
-			Miss a question and it comes back first next time. Answer 90% of a section's questions
-			correctly to master it.
-		</p>
+		<h1 class="display text-4xl text-white sm:text-5xl">Section mastery</h1>
 		{#if loadingBank}
 			<p class="mt-4 text-sm font-semibold tracking-wider text-white/60 uppercase">
 				Loading questions…
@@ -118,14 +112,14 @@
 			{/each}
 		</div>
 	{:else if phase === 'playing' && active}
-		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">
+		<h1 class="display text-4xl text-white sm:text-5xl">
 			{active.number}. {active.title}
 		</h1>
 		<div class="mt-8">
 			<QuestionPlayer {items} rulesetId={DEFAULT_RULESET_ID} onComplete={complete} />
 		</div>
 	{:else if active}
-		<h1 class="display mt-2 text-4xl text-white sm:text-5xl">
+		<h1 class="display text-4xl text-white sm:text-5xl">
 			{active.number}. {active.title}
 		</h1>
 		<div class="mt-8">

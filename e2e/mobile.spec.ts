@@ -17,7 +17,6 @@ const RULESET = 'usau-official-2026-27';
 const PUBLIC_ROUTES = [
 	'/',
 	'/rules',
-	`/rules/${RULESET}`,
 	`/rules/${RULESET}/15`,
 	'/quiz',
 	'/quiz/quick',

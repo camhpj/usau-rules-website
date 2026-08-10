@@ -27,8 +27,6 @@ Signing in is optional: the rules explorer and all three quiz modes work fully s
 | Search     | [MiniSearch](https://lucaong.github.io/minisearch/) index built at build time, runs client-side |
 | Testing    | Vitest (unit), Playwright (e2e smoke), GitHub Actions CI                                        |
 
-See `docs/superpowers/specs/2026-07-09-best-perspective-design.md` for the full design spec.
-
 ## Getting started
 
 ```bash
@@ -55,12 +53,14 @@ The ingest pipeline (`scripts/ingest/`) does the parsing (`parse.ts`), then tran
 
 To add a new ruleset, add an entry to `RULESETS` in `scripts/ingest/config.ts` and re-run the ingest script.
 
+The UI currently presents one ruleset. `/rules` renders whichever id `DEFAULT_RULESET_ID` names, and `/rules/<id>` redirects there, so a second ruleset would ingest correctly but have no reachable table of contents. Restoring a picker is the work that unblocks it. Section URLs already carry the ruleset id (`/rules/<id>/<section>`), so nothing below the table of contents needs to change.
+
 ## Quiz
 
 The app's second pillar is testing yourself, at `/quiz`. Three modes; progress always lives in `localStorage` first, and syncs to Cloudflare D1 in the background once you're signed in (see [Persistence & auth](#persistence--auth)):
 
 - **Quick quiz** (`/quiz/quick`) — 10 questions drawn from the bank, optionally filtered by section and by difficulty tier (**Rookie**, **Veteran**, **Observer** — `difficulty` 1/2/3 in the question schema).
-- **Section mastery** (`/quiz/mastery`) — work the rulebook section by section; missed questions come back first, and a section is "mastered" once your recent answers there hit ≥90%. Every rule section page has a "Quiz me on this section" shortcut that deep-links here via `?section=<slug>`.
+- **Section mastery** (`/quiz/mastery`) — work the rulebook section by section; missed questions come back first, and a section is "mastered" once every one of your recent answers there is correct — the last 20 count, and you need at least 10 before mastery can trigger. Every rule section page has a "Quiz me on this section" shortcut that deep-links here via `?section=<slug>`.
 - **Timed challenge** (`/quiz/timed`) — five minutes, auto-advancing, tracks your best streak and score.
 
 ### Question bank
@@ -180,7 +180,7 @@ Or connect the repo to [Cloudflare Workers Builds](https://developers.cloudflare
 
 ## Roadmap
 
-Best Perspective ships in four planned phases, each usable on its own; `docs/superpowers/specs/2026-07-09-best-perspective-design.md` has the detail. Items 5 and 6 came after that plan.
+Best Perspective shipped in four planned phases, each usable on its own. Items 5 and 6 came later.
 
 1. [x] **Foundation** _(shipped)_ — scaffold, theme/tokens, ingest pipeline + Official Rules 2026-27 content, rules explorer, landing page, search, e2e coverage.
 2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 213 human-reviewed questions covering all 217 coverage targets across every section.

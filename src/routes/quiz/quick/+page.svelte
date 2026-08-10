@@ -110,8 +110,7 @@
 <svelte:head><title>Quick quiz · Best Perspective</title></svelte:head>
 
 <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-	<p class="eyebrow text-cardinal">Quick quiz</p>
-	<h1 class="display mt-2 text-4xl text-white sm:text-5xl">Ten questions.</h1>
+	<h1 class="display text-4xl text-white sm:text-5xl">Quick quiz</h1>
 
 	{#if phase === 'setup'}
 		<div class="card mt-8 p-6 sm:p-8">
