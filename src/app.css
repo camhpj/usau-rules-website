@@ -136,7 +136,7 @@
 	}
 }
 
-/* ---------- landing motion (see docs/superpowers/specs/2026-07-15-landing-motion-design.md) ---------- */
+/* ---------- landing motion ---------- */
 
 /* entrance fade-up; single quick fade, no per-element stagger */
 @utility animate-fade-up {

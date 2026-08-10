@@ -27,8 +27,6 @@ Signing in is optional: the rules explorer and all three quiz modes work fully s
 | Search     | [MiniSearch](https://lucaong.github.io/minisearch/) index built at build time, runs client-side |
 | Testing    | Vitest (unit), Playwright (e2e smoke), GitHub Actions CI                                        |
 
-See `docs/superpowers/specs/2026-07-09-best-perspective-design.md` for the full design spec.
-
 ## Getting started
 
 ```bash
@@ -182,7 +180,7 @@ Or connect the repo to [Cloudflare Workers Builds](https://developers.cloudflare
 
 ## Roadmap
 
-Best Perspective ships in four planned phases, each usable on its own; `docs/superpowers/specs/2026-07-09-best-perspective-design.md` has the detail. Items 5 and 6 came after that plan.
+Best Perspective shipped in four planned phases, each usable on its own. Items 5 and 6 came later.
 
 1. [x] **Foundation** _(shipped)_ — scaffold, theme/tokens, ingest pipeline + Official Rules 2026-27 content, rules explorer, landing page, search, e2e coverage.
 2. [x] **Quiz** _(shipped)_ — quiz engine, quick/mastery/timed modes, local (no auth) progress, "Quiz me on this section" shortcut, Gemini-assisted seeding script. The committed bank is saturated: 213 human-reviewed questions covering all 217 coverage targets across every section.
