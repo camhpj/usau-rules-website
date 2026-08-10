@@ -1,41 +1,74 @@
 <script lang="ts">
 	import Chip from '$lib/components/Chip.svelte';
 	let { data } = $props();
+
+	const preface = $derived(data.manifest.sections.filter((s) => s.kind === 'preface'));
+	const sections = $derived(data.manifest.sections.filter((s) => s.kind === 'section'));
+	const appendices = $derived(data.manifest.sections.filter((s) => s.kind === 'appendix'));
+
+	const sourceHost = $derived.by(() => {
+		try {
+			return new URL(data.manifest.sourceUrl).host;
+		} catch {
+			return data.manifest.sourceUrl;
+		}
+	});
 </script>
 
-<svelte:head><title>Rulebooks · Best Perspective</title></svelte:head>
+<svelte:head><title>{data.manifest.shortTitle} · Best Perspective</title></svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-	<h1 class="display animate-fade-up text-4xl text-white sm:text-5xl">Rulebooks</h1>
+	<Chip label={data.manifest.edition} />
+	<h1 class="display mt-3 text-4xl text-white sm:text-5xl">{data.manifest.title}</h1>
+	<a
+		href={data.manifest.sourceUrl}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="mt-3 inline-flex min-h-11 items-center gap-1.5 text-sm text-white/60 underline decoration-white/30 underline-offset-2 hover:text-white/85"
+	>
+		Source: {sourceHost} ↗
+	</a>
 
-	<div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-		{#each data.rulesets as ruleset, i (ruleset.id)}
-			{@const ruleCount = ruleset.sections.reduce((sum, s) => sum + s.ruleCount, 0)}
-			<a
-				href="/rules/{ruleset.id}"
-				class="group animate-fade-up relative block card card-link p-6 pr-14"
-			>
-				<Chip label={ruleset.edition} tone="dark" />
-				<h2 class="display mt-4 text-2xl text-navy">{ruleset.shortTitle}</h2>
-				<p class="mt-2 text-sm text-navy/60">
-					{ruleset.sections.length} sections · {ruleCount} rules
-				</p>
-				<span
-					class="absolute top-6 right-6 flex h-8 w-8 items-center justify-center rounded-full bg-cardinal text-white transition-transform group-hover:translate-x-0.5"
-					aria-hidden="true"
-				>
-					<svg
-						width="14"
-						height="14"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.4"
-						stroke-linecap="round"
-						stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg
+	{#each [{ heading: 'Preface', items: preface }, { heading: 'Sections', items: sections }, { heading: 'Appendices', items: appendices }] as group (group.heading)}
+		{#if group.items.length > 0}
+			<h2 class="eyebrow mt-10 text-white/50">
+				{group.heading}
+			</h2>
+			<div class="mt-4 grid gap-3 sm:grid-cols-2">
+				{#each group.items as s (s.slug)}
+					<a
+						href="/rules/{data.manifest.id}/{s.slug}"
+						class="group flex items-center justify-between gap-3 card card-link p-4"
 					>
-				</span>
-			</a>
-		{/each}
-	</div>
+						<span class="min-w-0">
+							{#if s.number}<span class="mr-1.5 font-mono text-sm font-semibold text-cardinal"
+									>{s.number}.</span
+								>{/if}
+							<span class="font-semibold">{s.title}</span>
+						</span>
+						<span class="flex shrink-0 items-center gap-3">
+							{#if s.ruleCount > 0}
+								<span class="text-xs text-navy/50">{s.ruleCount} rules</span>
+							{/if}
+							<span
+								class="flex h-6 w-6 items-center justify-center rounded-full bg-cardinal text-white transition-transform group-hover:translate-x-0.5"
+								aria-hidden="true"
+							>
+								<svg
+									width="11"
+									height="11"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.6"
+									stroke-linecap="round"
+									stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg
+								>
+							</span>
+						</span>
+					</a>
+				{/each}
+			</div>
+		{/if}
+	{/each}
 </div>

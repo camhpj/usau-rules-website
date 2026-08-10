@@ -55,6 +55,8 @@ The ingest pipeline (`scripts/ingest/`) does the parsing (`parse.ts`), then tran
 
 To add a new ruleset, add an entry to `RULESETS` in `scripts/ingest/config.ts` and re-run the ingest script.
 
+The UI currently presents one ruleset. `/rules` renders whichever id `DEFAULT_RULESET_ID` names, and `/rules/<id>` redirects there, so a second ruleset would ingest correctly but have no reachable table of contents. Restoring a picker is the work that unblocks it. Section URLs already carry the ruleset id (`/rules/<id>/<section>`), so nothing below the table of contents needs to change.
+
 ## Quiz
 
 The app's second pillar is testing yourself, at `/quiz`. Three modes; progress always lives in `localStorage` first, and syncs to Cloudflare D1 in the background once you're signed in (see [Persistence & auth](#persistence--auth)):

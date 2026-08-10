@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { DEFAULT_RULESET_ID } from '$lib/content/config';
 	import GridPulses from '$lib/components/GridPulses.svelte';
 	import PromoCard from '$lib/components/PromoCard.svelte';
 </script>
@@ -219,7 +218,7 @@
 		</p>
 
 		<div class="mt-3 grid w-full max-w-3xl gap-2 text-left sm:mt-4 sm:grid-cols-2 sm:gap-4">
-			<PromoCard href="/rules/{DEFAULT_RULESET_ID}">
+			<PromoCard href="/rules">
 				<h2 class="display text-2xl">Explore the rules</h2>
 				<p class="mt-1 pr-8 text-sm text-navy/70 sm:mt-1.5">
 					The whole rule book in a readable and searchable format.
