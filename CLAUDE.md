@@ -43,9 +43,11 @@ Do not append a "Generated with Claude Code" footer, or any similar attribution 
 ## Verifying
 
 ```bash
-npm run check          # svelte-check
-npm run test           # vitest
-npx prettier --check . # formatting
+npm run check
+npm run check:scripts
+npm run check:e2e
+npm run validate:content
+npm run test
+npm run build
+npx prettier --check .
 ```
-
-`.github/workflows/ci.yml` is the full gate. It adds `check:scripts`, `check:e2e`, `validate:content`, `build`, and the Playwright suite.
