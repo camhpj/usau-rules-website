@@ -1,11 +1,11 @@
 /**
  * Every Gemini call goes through this configuration; the model is pinned HERE and
- * nowhere else. Current model is the GA `gemini-3.6-flash`, which supports the same
- * thinkingConfig thinkingLevel values and includeThoughts we rely on. Swapping models
- * is a one-line change (new caches are created automatically because the model is
- * part of the cache key).
+ * nowhere else. Current model is the GA `gemini-3.7-flash`. New caches are created
+ * automatically on a model bump because the model is part of the cache key. 3.7
+ * deprecates the temperature/top_p/top_k sampling params in favor of thinkingConfig's
+ * thinkingLevel (which we already use) — callers must not send temperature.
  */
-export const GEMINI_MODEL = 'gemini-3.6-flash';
+export const GEMINI_MODEL = 'gemini-3.7-flash';
 export const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 
 /** Thinking tokens share this budget; 8k starved answers on think-heavy runs (prod bug 2026-07-13). */

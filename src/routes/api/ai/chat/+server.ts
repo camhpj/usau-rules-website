@@ -163,7 +163,6 @@ export const POST: RequestHandler = async (event) => {
 		priorTurns,
 		taskPrompt: buildAskPrompt(retryTarget ? retryTarget.question : userMessage!),
 		generationConfig: {
-			temperature: 0.3,
 			maxOutputTokens: AI_MAX_OUTPUT_TOKENS,
 			// See the 2026-07-13 owner decision on the old ask endpoint: 'medium' bounds
 			// worst-case thinking-tail latency while staying adaptive.

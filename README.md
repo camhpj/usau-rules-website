@@ -89,7 +89,7 @@ Two AI surfaces, both server-only (the Gemini API key never reaches the client) 
 - **Ask** (`/ask`, `POST /api/ai/chat`) — multi-turn chat over the rulebook; answers cite specific rules. Conversations live in a sidebar (`GET /api/ai/conversations`), open at `/ask/<id>`, support message copy and 👍/👎 feedback (`POST /api/ai/messages/<id>/feedback`), and delete softly (`DELETE /api/ai/conversations/<id>`). Every message sent counts against the daily ask quota; conversations cap at 25 messages.
 - **Scenario quiz** (`/quiz/scenario`, `POST /api/ai/scenario`) — on-demand, freshly generated scenario questions, validated against the rule-id set and the question schema before being served; if generation fails twice it falls back to a bank question instead of erroring.
 
-Every call goes through `src/lib/server/ai/config.ts`, which pins the model (`gemini-3.6-flash`) in one place, and uses an explicit Gemini context cache (1 hour TTL) for each ruleset's `grounding.txt` so the ~46k-token rulebook prefix isn't re-sent (and re-billed) on every request.
+Every call goes through `src/lib/server/ai/config.ts`, which pins the model (`gemini-3.7-flash`) in one place, and uses an explicit Gemini context cache (1 hour TTL) for each ruleset's `grounding.txt` so the ~46k-token rulebook prefix isn't re-sent (and re-billed) on every request.
 
 **Guardrails:**
 

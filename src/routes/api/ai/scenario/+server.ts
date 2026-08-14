@@ -72,7 +72,6 @@ export const POST: RequestHandler = async (event) => {
 		taskPrompt: buildScenarioPrompt(data.difficulty, avoid),
 		generationConfig: {
 			responseMimeType: 'application/json',
-			temperature: 0.9,
 			maxOutputTokens: AI_MAX_OUTPUT_TOKENS
 		}
 	};
