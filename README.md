@@ -93,7 +93,7 @@ Every call goes through `src/lib/server/ai/config.ts`, which pins the model (`ge
 
 **Guardrails:**
 
-- Per-user daily caps: 10 asks/day, 10 scenarios/day.
+- Per-user daily caps: 30 asks/day, 10 scenarios/day.
 - Kill-switch: set `AI_DISABLED=1` to take `/api/ai/*` offline immediately (also returns 503 if `GEMINI_API_KEY` is unset).
 - Sign-in is required for both endpoints — there's no signed-out AI usage.
 
